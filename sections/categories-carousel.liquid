@@ -1,0 +1,199 @@
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div
+  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style"
+  style="{% render 'spacing-style', settings: section.settings %}"
+>
+  <div class="categories-carousel__list">
+    {% for block in section.blocks %}
+      {% liquid
+        assign label = block.settings.label
+        if block.settings.collection != blank and block.settings.collection.title != blank
+          assign label = block.settings.collection.title
+        endif
+
+        assign link_url = '#'
+        if block.settings.collection != blank
+          assign link_url = block.settings.collection.url
+        endif
+
+        assign image = block.settings.image
+        if image == blank and block.settings.collection != blank
+          assign image = block.settings.collection.image
+        endif
+      %}
+      <a
+        href="{{ link_url }}"
+        class="categories-carousel__item"
+        {{ block.shopify_attributes }}
+      >
+        {% if image != blank %}
+          {{
+            image
+            | image_url: width: 180
+            | image_tag:
+              widths: '90,180',
+              sizes: '90px',
+              loading: 'lazy',
+              class: 'categories-carousel__image',
+              alt: label
+          }}
+        {% else %}
+          <div class="categories-carousel__image categories-carousel__image--placeholder">
+            {{ 'collection-1' | placeholder_svg_tag }}
+          </div>
+        {% endif %}
+        <span class="categories-carousel__label">{{ label }}</span>
+      </a>
+    {% endfor %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .categories-carousel__list {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 12px;
+    align-items: center;
+    padding: 20px 16px;
+    scrollbar-width: none;
+
+    @media screen and (min-width: 750px) {
+      gap: 36px;
+      justify-content: center;
+      padding: 0;
+    }
+  }
+
+  .categories-carousel__list::-webkit-scrollbar {
+    display: none;
+  }
+
+  .categories-carousel__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+    text-decoration: none;
+    color: var(--color-foreground);
+  }
+
+  .categories-carousel__image {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: var(--style-border-radius-sm);
+    display: block;
+  }
+
+  .categories-carousel__image--placeholder {
+    background-color: var(--color-background);
+    overflow: hidden;
+  }
+
+  .categories-carousel__image--placeholder svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .categories-carousel__label {
+    font-family: var(--font-body--family);
+    font-size: var(--font-size--3xs);
+    line-height: 1.3;
+    text-align: center;
+    color: var(--color-foreground);
+    white-space: nowrap;
+
+    @media screen and (min-width: 750px) {
+      font-size: var(--font-size--sm);
+      line-height: 1.286;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Categories carousel",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page"
+        },
+        {
+          "value": "full-width",
+          "label": "Full"
+        }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category-item",
+      "name": "Category",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Category"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Categories carousel"
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

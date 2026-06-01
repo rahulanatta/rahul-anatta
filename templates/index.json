@@ -86,6 +86,107 @@
         "padding-block-end": 72
       }
     },
+    "categories_carousel": {
+      "type": "categories-carousel",
+      "blocks": {
+        "cat_supplements": {
+          "type": "category-item",
+          "settings": {
+            "image": "shopify://shop_images/rectangle-15773320-mobile-683029616.png",
+            "label": "Supplements"
+          }
+        },
+        "cat_skincare": {
+          "type": "category-item",
+          "settings": {
+            "image": "shopify://shop_images/rectangle-15773321-mobile-683029619.jpg",
+            "label": "Skincare"
+          }
+        },
+        "cat_beauty": {
+          "type": "category-item",
+          "settings": {
+            "image": "shopify://shop_images/rectangle-15773321-mobile-683029622.jpg",
+            "label": "Beauty"
+          }
+        },
+        "cat_jewelry": {
+          "type": "category-item",
+          "settings": {
+            "image": "shopify://shop_images/rectangle-15773321-mobile-683029625.png",
+            "label": "Jewelry"
+          }
+        },
+        "cat_gut_health": {
+          "type": "category-item",
+          "settings": {
+            "image": "shopify://shop_images/rectangle-15773321-mobile-683029628.jpg",
+            "label": "Gut Health"
+          }
+        },
+        "cat_hygiene": {
+          "type": "category-item",
+          "settings": {
+            "image": "shopify://shop_images/rectangle-15773321-mobile-683029631.png",
+            "label": "Hygiene"
+          }
+        },
+        "cat_anti_aging": {
+          "type": "category-item",
+          "settings": {
+            "image": "shopify://shop_images/rectangle-15773321-mobile-683029634.jpg",
+            "label": "Anti-Aging"
+          }
+        },
+        "cat_energy": {
+          "type": "category-item",
+          "settings": {
+            "image": "shopify://shop_images/rectangle-15773321-mobile-683029637.png",
+            "label": "Energy"
+          }
+        },
+        "cat_recovery": {
+          "type": "category-item",
+          "settings": {
+            "image": "shopify://shop_images/rectangle-15773321-mobile-683029640.png",
+            "label": "Recovery"
+          }
+        },
+        "cat_kids": {
+          "type": "category-item",
+          "settings": {
+            "image": "shopify://shop_images/rectangle-15773321-mobile-683029643.jpg",
+            "label": "Kids"
+          }
+        },
+        "cat_fitness": {
+          "type": "category-item",
+          "settings": {
+            "image": "shopify://shop_images/rectangle-15773321-mobile-683029646.png",
+            "label": "Fitness"
+          }
+        }
+      },
+      "block_order": [
+        "cat_supplements",
+        "cat_skincare",
+        "cat_beauty",
+        "cat_jewelry",
+        "cat_gut_health",
+        "cat_hygiene",
+        "cat_anti_aging",
+        "cat_energy",
+        "cat_recovery",
+        "cat_kids",
+        "cat_fitness"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "section_width": "page-width",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
     "product_list_fa6P9H": {
       "type": "product-list",
       "blocks": {
@@ -301,6 +402,7 @@
   },
   "order": [
     "hero_jVaWmY",
+    "categories_carousel",
     "product_list_fa6P9H",
     "best_sellers_xK7mN2"
   ]
