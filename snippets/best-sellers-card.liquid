@@ -1,0 +1,196 @@
+{% doc %}
+  Best Sellers Product Card
+
+  Renders a product card for the Best Sellers carousel section.
+
+  @param {object} product - Product object (required)
+  @param {string} section_id - The parent section ID
+  @param {boolean} [show_vendor] - Display vendor name (default: true)
+  @param {boolean} [show_reviews] - Display star ratings (default: true)
+  @param {boolean} [show_cashback] - Display cashback info (default: true)
+  @param {boolean} [show_subscribe_button] - Display subscribe button (default: true)
+  @param {string} [subscribe_label] - Subscribe button text (default: 'Subscribe')
+  @param {object} [subscribe_icon] - Subscribe button icon image
+  @param {string} [subscribe_url] - Subscribe button URL
+
+  @example
+  {% render 'best-sellers-card',
+    product: product,
+    section_id: section.id,
+    show_vendor: true,
+    show_reviews: true,
+    show_cashback: true
+  %}
+{% enddoc %}
+
+{% liquid
+  assign product = product | default: empty
+  unless product != empty
+    break
+  endunless
+
+  assign show_vendor = show_vendor | default: true
+  assign show_reviews = show_reviews | default: true
+  assign show_cashback = show_cashback | default: true
+  assign show_subscribe_button = show_subscribe_button | default: true
+  assign subscribe_label = subscribe_label | default: 'Subscribe'
+
+  assign current_variant = product.selected_or_first_available_variant
+  assign cashback_percent = product.metafields.customMA.maxStandardCashbackPercent.value
+%}
+
+<best-sellers-card
+  class="bs-card"
+  data-product-id="{{ product.id }}"
+>
+  <a href="{{ product.url }}" class="bs-card__link" aria-label="{{ product.title }}" tabindex="-1"></a>
+
+  <div class="bs-card__image-wrapper">
+    {% if product.featured_image %}
+      {% liquid
+        assign img = product.featured_image
+        assign sizes_val = '(min-width: 750px) 237px, 161px'
+      %}
+      {{
+        img
+        | image_url: width: img.width
+        | image_tag:
+          sizes: sizes_val,
+          widths: '161,237,322,474',
+          loading: 'lazy',
+          class: 'bs-card__image',
+          alt: img.alt | default: product.title
+      }}
+    {% else %}
+      <div class="bs-card__image-placeholder">
+        {{ 'product-1' | placeholder_svg_tag: 'bs-card__placeholder-svg' }}
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="bs-card__content">
+    <div class="bs-card__info">
+      {% if show_vendor and product.vendor != blank %}
+        <p class="bs-card__vendor">{{ product.vendor }}</p>
+      {% endif %}
+
+      <h3 class="bs-card__title">
+        <a href="{{ product.url }}" class="bs-card__title-link">{{ product.title }}</a>
+      </h3>
+
+      {% if show_reviews %}
+        <div class="bs-card__reviews">
+          <img
+            src="{{ 'stars.svg' | asset_url }}"
+            alt="{{ 'sections.best_sellers.rating_alt' | t }}"
+            class="bs-card__stars"
+            width="68"
+            height="12"
+            loading="lazy"
+          >
+          <span class="bs-card__reviews-text">4.5 {{ 'sections.best_sellers.reviews_count' | t: count: 346 }}</span>
+        </div>
+      {% endif %}
+
+      {%- comment -%} Variant picker — visible on mobile only {%- endcomment -%}
+      {% if product.variants.size > 1 %}
+        <div class="bs-card__variants">
+          <p class="bs-card__variants-label">
+            {{ 'sections.best_sellers.select_option' | t: option_name: product.options_with_values.first.name }}
+          </p>
+          <div class="bs-card__variants-list">
+            {% for variant in product.variants %}
+              <button
+                type="button"
+                class="bs-card__size-btn{% if variant == current_variant %} bs-card__size-btn--selected{% endif %}"
+                data-variant-id="{{ variant.id }}"
+                aria-pressed="{% if variant == current_variant %}true{% else %}false{% endif %}"
+                aria-label="{{ variant.title }}"
+                on:click="/handleVariantSelect"
+                {% unless variant.available %}disabled{% endunless %}
+              >
+                {{ variant.option1 }}
+              </button>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+
+      <div class="bs-card__price-row">
+        <div class="bs-card__price-wrapper">
+          <span class="bs-card__price" ref="priceDisplay">
+            {% render 'format-price', price: current_variant.price %}
+          </span>
+          {% if current_variant.compare_at_price and current_variant.compare_at_price > current_variant.price %}
+            <span class="bs-card__compare-price" ref="comparePriceDisplay">
+              {% render 'format-price', price: current_variant.compare_at_price %}
+            </span>
+          {% else %}
+            <span class="bs-card__compare-price" ref="comparePriceDisplay" style="display: none;"></span>
+          {% endif %}
+        </div>
+
+        {% if show_cashback and cashback_percent %}
+          <div class="bs-card__cashback">
+            <span class="bs-card__cashback-percent">{{ cashback_percent }}%</span>
+            <img
+              src="{{ 'cashback-icon-2.svg' | asset_url }}"
+              alt=""
+              class="bs-card__cashback-icon"
+              width="12"
+              height="12"
+              loading="lazy"
+            >
+            <span class="bs-card__cashback-label">{{ 'sections.best_sellers.cashback' | t }}</span>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="bs-card__actions">
+      <form action="/cart/add" method="post" class="bs-card__add-form" on:submit="/handleAddToCart">
+        <input type="hidden" name="id" value="{{ current_variant.id }}" ref="variantInput">
+        <input type="hidden" name="quantity" value="1">
+        <button type="submit" class="bs-card__add-btn" ref="addButton">
+          {{ 'sections.best_sellers.add_to_cart' | t }}
+        </button>
+      </form>
+
+      {% if show_subscribe_button %}
+        <a
+          href="{{ product.url }}"
+          class="bs-card__subscribe-btn"
+        >
+          <span>{{ subscribe_label }}</span>
+          {% if subscribe_icon %}
+            <img
+              src="{{ subscribe_icon | image_url: width: 20 }}"
+              alt=""
+              class="bs-card__subscribe-icon"
+              width="20"
+              height="19"
+              loading="lazy"
+            >
+          {% endif %}
+        </a>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="bs-card__live-region sr-only" ref="liveRegion" aria-live="polite" role="status"></div>
+
+  <script type="application/json">
+    [
+      {%- for variant in product.variants -%}
+        {
+          "id": {{ variant.id }},
+          "title": {{ variant.title | json }},
+          "price": {{ variant.price }},
+          "compare_at_price": {{ variant.compare_at_price | default: 'null' }},
+          "options": {{ variant.options | json }},
+          "available": {{ variant.available | json }}
+        }{% unless forloop.last %},{% endunless %}
+      {%- endfor -%}
+    ]
+  </script>
+</best-sellers-card>

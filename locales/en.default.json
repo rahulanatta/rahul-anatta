@@ -350,6 +350,18 @@
     "blog_post_date": "Date",
     "blog_post_description": "An excerpt of your blog post's content"
   },
+  "sections": {
+    "best_sellers": {
+      "heading": "Best Sellers",
+      "shop_all": "Shop all",
+      "add_to_cart": "+ Add",
+      "subscribe": "Subscribe",
+      "select_option": "Select {{ option_name }}:",
+      "cashback": "Cashback",
+      "reviews_count": "({{ count }} Reviews)",
+      "rating_alt": "Star rating"
+    }
+  },
   "products": {
     "product": {
       "add_to_cart": "Add to cart",

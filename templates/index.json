@@ -279,10 +279,29 @@
         "padding-block-start": 48,
         "padding-block-end": 48
       }
+    },
+    "best_sellers_xK7mN2": {
+      "type": "best-sellers",
+      "settings": {
+        "collection": "all",
+        "heading": "Best Sellers",
+        "shop_all_label": "Shop all",
+        "show_vendor": true,
+        "show_reviews": true,
+        "show_cashback": true,
+        "show_subscribe_button": true,
+        "subscribe_label": "Subscribe",
+        "subscribe_icon": "shopify://shop_images/subscribe-icon-1-mobile-account-mega-menu-83421267.png",
+        "max_products": 8,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 48,
+        "padding-block-end": 48
+      }
     }
   },
   "order": [
     "hero_jVaWmY",
-    "product_list_fa6P9H"
+    "product_list_fa6P9H",
+    "best_sellers_xK7mN2"
   ]
 }
