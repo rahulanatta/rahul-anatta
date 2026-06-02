@@ -7,7 +7,7 @@
  * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
- {
+{
   "type": "footer",
   "name": "t:names.footer",
   "sections": {
@@ -169,8 +169,8 @@
                 "alignment": "left",
                 "type_preset": "h3",
                 "font": "var(--font-body--family)",
-                "case": "upper",
                 "letter_spacing": "normal",
+                "case": "upper",
                 "color": "var(--color-foreground)",
                 "padding-block-start": 0,
                 "padding-block-end": 0,
@@ -198,12 +198,12 @@
               "type": "email-signup",
               "settings": {
                 "width": "fill",
+                "inherit_color_scheme": true,
                 "border_style": "all",
-                "border_radius": 11,
                 "border_width": 1,
+                "border_radius": 11,
                 "display_type": "arrow",
                 "integrated_button": true,
-                "inherit_color_scheme": true,
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
@@ -215,9 +215,9 @@
               "settings": {
                 "facebook_url": "https://www.facebook.com",
                 "instagram_url": "https://www.instagram.com",
-                "linkedin_url": "https://www.linkedin.com",
+                "youtube_url": "https://www.youtube.com",
                 "twitter_url": "https://www.twitter.com",
-                "youtube_url": "https://www.youtube.com"
+                "linkedin_url": "https://www.linkedin.com"
               }
             }
           },
@@ -243,8 +243,6 @@
     },
     "footer-badges": {
       "type": "footer-badges",
-      "blocks": {},
-      "block_order": [],
       "settings": {
         "section_width": "page-width",
         "color_scheme": "scheme-1",

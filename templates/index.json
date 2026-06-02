@@ -435,6 +435,23 @@
         "padding-block-start": 40,
         "padding-block-end": 40
       }
+    },
+    "product_bundle_8gYwaQ": {
+      "type": "product-bundle",
+      "name": "Product bundle",
+      "settings": {
+        "eyebrow": "Bundle + Save 25%",
+        "heading": "Better together for total balance",
+        "description": "A smart combination that helps optimize energy, metabolism, and overall wellness—working better together than alone.",
+        "button_text": "Add bundle to cart",
+        "discount_percentage": 25,
+        "product_1": "lila-organic-tear-studs-us",
+        "product_2": "lexi-prong-set-v-shaped-ring-duo-us",
+        "section_width": "page-width",
+        "color_scheme": "",
+        "padding-block-start": 48,
+        "padding-block-end": 48
+      }
     }
   },
   "order": [
@@ -442,6 +459,7 @@
     "categories_carousel",
     "product_list_fa6P9H",
     "best_sellers_xK7mN2",
-    "image_text_cta_EGXpPJ"
+    "image_text_cta_EGXpPJ",
+    "product_bundle_8gYwaQ"
   ]
 }
