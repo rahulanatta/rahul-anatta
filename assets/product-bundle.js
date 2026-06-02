@@ -98,14 +98,29 @@ class ProductBundleSection extends Component {
           }, 3000);
         }
       } else {
-        // Success — dispatch CartAddEvent so cart drawer opens
+        // Fetch updated cart to get accurate item_count for cart icon
+        let cart = null;
+        try {
+          const cartResponse = await fetch('/cart.js');
+          cart = await cartResponse.json();
+        } catch (_) {
+          // fallback: item_count won't be exact but drawer still opens
+        }
+
+        // Dispatch CartAddEvent — opens cart drawer (auto-open) and updates cart icon + items
         document.dispatchEvent(
-          new CartAddEvent(undefined, this.id, {
+          new CartAddEvent(cart, this.id, {
             source: 'product-bundle',
-            itemCount: ids.length,
+            itemCount: cart?.item_count ?? ids.length,
             sections: data.sections,
           })
         );
+
+        // Direct fallback: open cart drawer if it hasn't responded to the event
+        const cartDrawer = document.querySelector('cart-drawer-component');
+        if (cartDrawer && typeof cartDrawer.showDialog === 'function') {
+          cartDrawer.showDialog();
+        }
 
         if (btnText) {
           btnText.textContent = 'Added!';

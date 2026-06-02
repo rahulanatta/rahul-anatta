@@ -26,6 +26,7 @@
   style="
     --pb-padding-top: {{ section.settings.padding-block-start }}px;
     --pb-padding-bottom: {{ section.settings.padding-block-end }}px;
+    --pb-padding-inline: {{ section.settings.padding_inline }}px;
   "
 >
   <product-bundle-section
@@ -34,6 +35,7 @@
       data-variant-ids="{{ variant_ids }}"
     {% endif %}
     data-section-id="{{ section.id }}"
+    data-mobile-layout="{{ section.settings.mobile_layout }}"
     id="product-bundle-{{ section.id }}"
   >
     <div class="product-bundle__info">
@@ -182,6 +184,7 @@
     display: grid;
     grid-template-columns: 1fr;
     gap: 32px;
+    padding-inline: var(--pb-padding-inline, 0px);
   }
 
   @media screen and (min-width: 750px) {
@@ -275,8 +278,8 @@
     padding: 14px 32px;
     border-radius: 12px;
     border: none;
-    background-color: rgb(var(--color-foreground));
-    color: rgb(var(--color-background));
+    background-color: #000000;
+    color: #ffffff;
     font-family: var(--font-body--family);
     font-size: 16px;
     font-weight: 600;
@@ -288,16 +291,16 @@
   }
 
   .product-bundle__btn:hover {
-    opacity: 0.85;
+    opacity: 0.8;
   }
 
   .product-bundle__btn:disabled {
-    opacity: 0.5;
+    opacity: 0.45;
     cursor: not-allowed;
   }
 
   .product-bundle__btn:focus-visible {
-    outline: 2px solid rgb(var(--color-foreground));
+    outline: 2px solid #000000;
     outline-offset: 2px;
   }
 
@@ -455,6 +458,25 @@
       transition: none;
     }
   }
+
+  /* Mobile stacked layout */
+  @media screen and (max-width: 749px) {
+    product-bundle-section[data-mobile-layout="stacked"] .product-bundle__products {
+      flex-direction: column;
+      overflow-x: visible;
+    }
+
+    product-bundle-section[data-mobile-layout="stacked"] .product-bundle__card-wrapper {
+      width: 100%;
+    }
+
+    product-bundle-section[data-mobile-layout="stacked"] .product-bundle__separator {
+      height: auto;
+      width: 100%;
+      padding-block-start: 0;
+      justify-content: center;
+    }
+  }
 {% endstylesheet %}
 
 {% schema %}
@@ -526,6 +548,26 @@
         { "value": "full-width", "label": "Full width" }
       ],
       "default": "page-width"
+    },
+    {
+      "type": "range",
+      "id": "padding_inline",
+      "label": "Side padding",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "select",
+      "id": "mobile_layout",
+      "label": "Mobile product layout",
+      "options": [
+        { "value": "carousel", "label": "Carousel (scroll)" },
+        { "value": "stacked", "label": "Stacked (vertical)" }
+      ],
+      "default": "carousel"
     },
     {
       "type": "header",
