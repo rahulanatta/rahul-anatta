@@ -134,6 +134,19 @@
     flex-direction: column;
     gap: var(--gap-md);
     align-self: var(--image-text-cta-content-align, center);
+    padding-inline: var(--page-margin);
+  }
+
+  @media screen and (min-width: 750px) {
+    .image-text-cta__grid--image-left .image-text-cta__content {
+      padding-inline-start: 0;
+      padding-inline-end: var(--page-margin);
+    }
+
+    .image-text-cta__grid--image-right .image-text-cta__content {
+      padding-inline-start: var(--page-margin);
+      padding-inline-end: 0;
+    }
   }
 
   .image-text-cta__heading {
@@ -265,7 +278,7 @@
         { "value": "page-width", "label": "Page width" },
         { "value": "full-width", "label": "Full width" }
       ],
-      "default": "page-width"
+      "default": "full-width"
     },
     {
       "type": "header",
