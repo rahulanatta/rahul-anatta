@@ -275,39 +275,61 @@
           "type": "ingredient",
           "settings": {
             "title": "Vitamin C",
-            "description": "A powerful antioxidant that helps brighten skin and protect against environmental damage."
+            "description": "A powerful antioxidant that boosts the immune system, enhances iron absorption, and promotes collagen production for healthy skin."
           }
         },
         "ingredient_2": {
           "type": "ingredient",
           "settings": {
-            "title": "Hyaluronic Acid",
-            "description": "Deeply hydrates skin by attracting and retaining moisture for a plump, dewy look."
+            "title": "Hydrolysed Collagen",
+            "description": "Supports skin elasticity and hydration, reducing the appearance of fine lines and wrinkles for a youthful glow."
           }
         },
         "ingredient_3": {
           "type": "ingredient",
           "settings": {
-            "title": "Niacinamide",
-            "description": "Helps minimize pores, even out skin tone, and strengthen the skin barrier."
+            "title": "Zinc",
+            "description": "Supports a strong immune system, promotes wound healing, and helps maintain healthy skin."
+          }
+        },
+        "ingredient_4": {
+          "type": "ingredient",
+          "settings": {
+            "title": "Vitamin E",
+            "description": "Is a powerful antioxidant that helps protect cells from damage caused by free radicals. It supports healthy skin by promoting hydration and reducing signs of aging."
+          }
+        },
+        "ingredient_5": {
+          "type": "ingredient",
+          "settings": {
+            "title": "Iron",
+            "description": "Vital for energy production and oxygen transport in the body, it prevents fatigue and supports overall vitality."
+          }
+        },
+        "ingredient_6": {
+          "type": "ingredient",
+          "settings": {
+            "title": "Vitamin A",
+            "description": "Essential for good vision, healthy skin, and a robust immune system, it also supports cell growth and reproduction."
           }
         }
       },
       "block_order": [
         "ingredient_1",
         "ingredient_2",
-        "ingredient_3"
+        "ingredient_3",
+        "ingredient_4",
+        "ingredient_5",
+        "ingredient_6"
       ],
       "settings": {
-        "subheading": "Ingredients",
         "heading": "Key Ingredients",
         "heading_tag": "h2",
-        "heading_size": "h3",
-        "columns": 3,
+        "heading_size": "h2",
         "section_width": "page-width",
-        "color_scheme": "scheme-1",
-        "padding-block-start": 48,
-        "padding-block-end": 48
+        "color_scheme": "scheme-7",
+        "padding-block-start": 60,
+        "padding-block-end": 60
       }
     },
     "product_recommendations_qggXJq": {

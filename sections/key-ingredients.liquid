@@ -1,74 +1,75 @@
 {% liquid
   assign heading_tag = section.settings.heading_tag
   assign heading_size_class = section.settings.heading_size
+  assign half_count = section.blocks.size | divided_by: 2.0 | ceil
 %}
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <div
   class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style key-ingredients"
-  style="
-    {%- render 'spacing-style', settings: section.settings -%}
-    --key-ingredients-columns: {{ section.settings.columns }};
-  "
+  style="{%- render 'spacing-style', settings: section.settings -%}"
 >
   <div class="key-ingredients__inner">
-    {% if section.settings.subheading != blank or section.settings.heading != blank %}
-      <div class="key-ingredients__header">
-        {% if section.settings.subheading != blank %}
-          <p class="key-ingredients__subheading">
-            {{- section.settings.subheading | escape -}}
-          </p>
-        {% endif %}
 
-        {% if section.settings.heading != blank %}
-          <{{ heading_tag }} class="key-ingredients__heading {{ heading_size_class }}">
-            {{- section.settings.heading | escape -}}
-          </{{ heading_tag }}>
-        {% endif %}
-      </div>
+    {% if section.settings.heading != blank %}
+      <{{ heading_tag }} class="key-ingredients__heading {{ heading_size_class }}">
+        {{- section.settings.heading | escape -}}
+      </{{ heading_tag }}>
     {% endif %}
 
-    {% if section.blocks.size > 0 %}
-      <div class="key-ingredients__grid">
+    <div class="key-ingredients__layout">
+
+      <div class="key-ingredients__column key-ingredients__column--left">
         {% for block in section.blocks %}
-          <div class="key-ingredients__card" {{ block.shopify_attributes }}>
-            <div class="key-ingredients__card-media">
-              {% if block.settings.image != blank %}
-                {%- assign sizes_val = '(min-width: 750px) calc((100vw - 160px) / var(--key-ingredients-columns, 3)), 50vw' -%}
-                {{
-                  block.settings.image
-                  | image_url: width: block.settings.image.width
-                  | image_tag:
-                    sizes: sizes_val,
-                    widths: '200,300,400,500,600,700,800',
-                    loading: 'lazy',
-                    class: 'key-ingredients__image',
-                    alt: block.settings.image_alt
-                }}
-              {% else %}
-                {{ 'image' | placeholder_svg_tag: 'key-ingredients__placeholder' }}
+          {% if forloop.index <= half_count %}
+            <div class="key-ingredients__item" {{ block.shopify_attributes }}>
+              {% if block.settings.title != blank %}
+                <h3 class="key-ingredients__item-title">{{ block.settings.title | escape }}</h3>
+              {% endif %}
+              {% if block.settings.description != blank %}
+                <p class="key-ingredients__item-description">{{ block.settings.description | escape }}</p>
               {% endif %}
             </div>
-
-            {% if block.settings.title != blank or block.settings.description != blank %}
-              <div class="key-ingredients__card-content">
-                {% if block.settings.title != blank %}
-                  <h3 class="key-ingredients__card-title">
-                    {{- block.settings.title | escape -}}
-                  </h3>
-                {% endif %}
-
-                {% if block.settings.description != blank %}
-                  <p class="key-ingredients__card-description">
-                    {{- block.settings.description | escape -}}
-                  </p>
-                {% endif %}
-              </div>
-            {% endif %}
-          </div>
+          {% endif %}
         {% endfor %}
       </div>
-    {% endif %}
+
+      <div class="key-ingredients__center">
+        {% if section.settings.center_image != blank %}
+          {%- assign sizes_val = '(min-width: 1200px) 480px, (min-width: 750px) 40vw, 90vw' -%}
+          {{
+            section.settings.center_image
+            | image_url: width: section.settings.center_image.width
+            | image_tag:
+              sizes: sizes_val,
+              widths: '400,600,800,1000',
+              loading: 'lazy',
+              class: 'key-ingredients__circle-img',
+              alt: section.settings.center_image.alt
+          }}
+        {% else %}
+          <div class="key-ingredients__circle-placeholder">
+            {{ 'image' | placeholder_svg_tag: 'key-ingredients__placeholder-svg' }}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="key-ingredients__column key-ingredients__column--right">
+        {% for block in section.blocks %}
+          {% if forloop.index > half_count %}
+            <div class="key-ingredients__item" {{ block.shopify_attributes }}>
+              {% if block.settings.title != blank %}
+                <h3 class="key-ingredients__item-title">{{ block.settings.title | escape }}</h3>
+              {% endif %}
+              {% if block.settings.description != blank %}
+                <p class="key-ingredients__item-description">{{ block.settings.description | escape }}</p>
+              {% endif %}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+    </div>
   </div>
 </div>
 
@@ -76,97 +77,112 @@
   .key-ingredients__inner {
     display: flex;
     flex-direction: column;
-    gap: var(--gap-2xl);
-  }
-
-  .key-ingredients__header {
-    display: flex;
-    flex-direction: column;
-    gap: var(--gap-xs);
-  }
-
-  .key-ingredients__subheading {
-    margin: 0;
-    font-family: var(--font-subheading--family);
-    font-style: var(--font-subheading--style);
-    font-weight: var(--font-subheading--weight);
-    font-size: var(--font-size--sm);
-    line-height: var(--line-height--body-normal);
-    letter-spacing: var(--letter-spacing--body-loose);
-    text-transform: uppercase;
-    color: var(--color-foreground);
+    gap: 56px;
   }
 
   .key-ingredients__heading {
     margin: 0;
+    text-align: center;
     color: var(--color-foreground-heading);
-  }
-
-  .key-ingredients__grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--gap-lg);
-  }
-
-  @media screen and (min-width: 750px) {
-    .key-ingredients__grid {
-      grid-template-columns: repeat(var(--key-ingredients-columns, 3), 1fr);
-      gap: var(--gap-xl);
-    }
-  }
-
-  .key-ingredients__card {
-    display: flex;
-    flex-direction: column;
-    gap: var(--gap-md);
-  }
-
-  .key-ingredients__card-media {
-    position: relative;
-    aspect-ratio: 1 / 1;
-    overflow: hidden;
-    border-radius: var(--style-border-radius-sm);
-  }
-
-  .key-ingredients__image {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .key-ingredients__placeholder {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    background-color: rgb(var(--color-foreground-rgb) / var(--opacity-5-15));
-  }
-
-  .key-ingredients__card-content {
-    display: flex;
-    flex-direction: column;
-    gap: var(--gap-2xs);
-  }
-
-  .key-ingredients__card-title {
-    margin: 0;
     font-family: var(--font-heading--family);
-    font-style: var(--font-heading--style);
     font-weight: var(--font-heading--weight);
-    font-size: var(--font-size--md);
-    line-height: var(--line-height--heading-normal);
-    color: var(--color-foreground-heading);
   }
 
-  .key-ingredients__card-description {
+  .key-ingredients__layout {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+
+  .key-ingredients__column {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .key-ingredients__center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .key-ingredients__circle-img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  .key-ingredients__circle-placeholder {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    background-color: rgb(0 0 0 / 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .key-ingredients__placeholder-svg {
+    width: 60%;
+    height: 60%;
+    opacity: 0.3;
+  }
+
+  .key-ingredients__item {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .key-ingredients__item-title {
     margin: 0;
     font-family: var(--font-body--family);
-    font-style: var(--font-body--style);
-    font-weight: var(--font-body--weight);
-    font-size: var(--font-size--sm);
-    line-height: var(--line-height--body-normal);
+    font-weight: 600;
+    font-size: 0.6875rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-foreground-heading);
+  }
+
+  .key-ingredients__item-description {
+    margin: 0;
+    font-family: var(--font-body--family);
+    font-size: 0.875rem;
+    line-height: 1.65;
     color: var(--color-foreground);
+    text-align: center;
+  }
+
+  @media screen and (max-width: 749px) {
+    .key-ingredients__inner {
+      gap: 36px;
+    }
+
+    .key-ingredients__layout {
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+    }
+
+    .key-ingredients__center {
+      order: -1;
+      max-width: 280px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .key-ingredients__column {
+      gap: 28px;
+    }
+
+    .key-ingredients__item-description {
+      font-size: 0.8125rem;
+    }
   }
 {% endstylesheet %}
 
@@ -181,12 +197,6 @@
     {
       "type": "header",
       "content": "Content"
-    },
-    {
-      "type": "text",
-      "id": "subheading",
-      "label": "Subheading",
-      "default": "Ingredients"
     },
     {
       "type": "text",
@@ -220,20 +230,16 @@
         { "value": "h5", "label": "H5" },
         { "value": "h6", "label": "H6" }
       ],
-      "default": "h3"
+      "default": "h2"
+    },
+    {
+      "type": "image_picker",
+      "id": "center_image",
+      "label": "Center image"
     },
     {
       "type": "header",
       "content": "Layout"
-    },
-    {
-      "type": "range",
-      "id": "columns",
-      "label": "Columns",
-      "min": 2,
-      "max": 6,
-      "step": 1,
-      "default": 3
     },
     {
       "type": "select",
@@ -266,7 +272,7 @@
       "max": 100,
       "step": 1,
       "unit": "px",
-      "default": 40
+      "default": 60
     },
     {
       "type": "range",
@@ -276,7 +282,7 @@
       "max": 100,
       "step": 1,
       "unit": "px",
-      "default": 40
+      "default": 60
     }
   ],
   "blocks": [
@@ -284,16 +290,6 @@
       "type": "ingredient",
       "name": "Ingredient",
       "settings": [
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Image"
-        },
-        {
-          "type": "text",
-          "id": "image_alt",
-          "label": "Image alt text"
-        },
         {
           "type": "text",
           "id": "title",
@@ -309,30 +305,7 @@
   ],
   "presets": [
     {
-      "name": "Key Ingredients",
-      "blocks": [
-        {
-          "type": "ingredient",
-          "settings": {
-            "title": "Vitamin C",
-            "description": "A powerful antioxidant that helps brighten skin and protect against environmental damage."
-          }
-        },
-        {
-          "type": "ingredient",
-          "settings": {
-            "title": "Hyaluronic Acid",
-            "description": "Deeply hydrates skin by attracting and retaining moisture for a plump, dewy look."
-          }
-        },
-        {
-          "type": "ingredient",
-          "settings": {
-            "title": "Niacinamide",
-            "description": "Helps minimize pores, even out skin tone, and strengthen the skin barrier."
-          }
-        }
-      ]
+      "name": "Key Ingredients"
     }
   ]
 }
