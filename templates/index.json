@@ -452,6 +452,67 @@
         "padding-block-start": 48,
         "padding-block-end": 48
       }
+    },
+    "link_cards_grid": {
+      "type": "link-cards-grid",
+      "settings": {
+        "background_image": "shopify://shop_images/frame-535-desktop-210221147.jpg",
+        "background_image_alt": "",
+        "section_width": "full-width",
+        "columns_desktop": 3,
+        "gap": 24,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 48,
+        "padding-block-end": 48,
+        "margin-block-start": 0,
+        "margin-block-end": 0
+      },
+      "blocks": {
+        "card_1": {
+          "type": "link-card",
+          "settings": {
+            "text": "makeup slippage"
+          }
+        },
+        "card_2": {
+          "type": "link-card",
+          "settings": {
+            "text": "dull skin"
+          }
+        },
+        "card_3": {
+          "type": "link-card",
+          "settings": {
+            "text": "redness & rosacea"
+          }
+        },
+        "card_4": {
+          "type": "link-card",
+          "settings": {
+            "text": "dry skin"
+          }
+        },
+        "card_5": {
+          "type": "link-card",
+          "settings": {
+            "text": "color correction"
+          }
+        },
+        "card_6": {
+          "type": "link-card",
+          "settings": {
+            "text": "shop all"
+          }
+        }
+      },
+      "block_order": [
+        "card_1",
+        "card_2",
+        "card_3",
+        "card_4",
+        "card_5",
+        "card_6"
+      ]
     }
   },
   "order": [
@@ -460,6 +521,7 @@
     "product_list_fa6P9H",
     "best_sellers_xK7mN2",
     "image_text_cta_EGXpPJ",
-    "product_bundle_8gYwaQ"
+    "product_bundle_8gYwaQ",
+    "link_cards_grid"
   ]
 }
