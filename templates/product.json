@@ -268,6 +268,48 @@
         "padding-block-end": 0
       }
     },
+    "key_ingredients": {
+      "type": "key-ingredients",
+      "blocks": {
+        "ingredient_1": {
+          "type": "ingredient",
+          "settings": {
+            "title": "Vitamin C",
+            "description": "A powerful antioxidant that helps brighten skin and protect against environmental damage."
+          }
+        },
+        "ingredient_2": {
+          "type": "ingredient",
+          "settings": {
+            "title": "Hyaluronic Acid",
+            "description": "Deeply hydrates skin by attracting and retaining moisture for a plump, dewy look."
+          }
+        },
+        "ingredient_3": {
+          "type": "ingredient",
+          "settings": {
+            "title": "Niacinamide",
+            "description": "Helps minimize pores, even out skin tone, and strengthen the skin barrier."
+          }
+        }
+      },
+      "block_order": [
+        "ingredient_1",
+        "ingredient_2",
+        "ingredient_3"
+      ],
+      "settings": {
+        "subheading": "Ingredients",
+        "heading": "Key Ingredients",
+        "heading_tag": "h2",
+        "heading_size": "h3",
+        "columns": 3,
+        "section_width": "page-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 48,
+        "padding-block-end": 48
+      }
+    },
     "product_recommendations_qggXJq": {
       "type": "product-recommendations",
       "blocks": {
@@ -412,6 +454,7 @@
   },
   "order": [
     "main",
+    "key_ingredients",
     "product_recommendations_qggXJq"
   ]
 }
