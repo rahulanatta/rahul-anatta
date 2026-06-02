@@ -1,0 +1,570 @@
+{% liquid
+  assign product_1 = section.settings.product_1
+  assign product_2 = section.settings.product_2
+  assign discount_percentage = section.settings.discount_percentage | default: 25
+  assign eyebrow = section.settings.eyebrow
+  assign heading = section.settings.heading
+  assign description = section.settings.description
+  assign button_text = section.settings.button_text
+
+  if product_1 != blank and product_2 != blank
+    assign variant_1 = product_1.selected_or_first_available_variant
+    assign variant_2 = product_2.selected_or_first_available_variant
+    assign compare_total = variant_1.price | plus: variant_2.price
+    assign discount_amount = compare_total | times: discount_percentage | divided_by: 100
+    assign bundle_price = compare_total | minus: discount_amount
+    assign variant_ids = variant_1.id | append: ',' | append: variant_2.id
+    assign has_products = true
+  else
+    assign has_products = false
+  endif
+%}
+
+<div
+  id="section-{{ section.id }}"
+  class="product-bundle color-{{ section.settings.color_scheme }}"
+  style="
+    --pb-padding-top: {{ section.settings.padding-block-start }}px;
+    --pb-padding-bottom: {{ section.settings.padding-block-end }}px;
+  "
+>
+  <product-bundle-section
+    class="product-bundle__container page-width"
+    {% if has_products %}
+      data-variant-ids="{{ variant_ids }}"
+    {% endif %}
+    data-section-id="{{ section.id }}"
+    id="product-bundle-{{ section.id }}"
+  >
+    <div class="product-bundle__info">
+      {% if eyebrow != blank %}
+        <p class="product-bundle__eyebrow">{{ eyebrow | escape }}</p>
+      {% endif %}
+
+      {% if heading != blank %}
+        <h2 class="product-bundle__heading">{{ heading | escape }}</h2>
+      {% endif %}
+
+      {% if has_products %}
+        <div class="product-bundle__price-row">
+          <span class="product-bundle__price">{{ bundle_price | money }}</span>
+          <span class="product-bundle__compare-price">{{ compare_total | money }}</span>
+        </div>
+      {% endif %}
+
+      {% if description != blank %}
+        <p class="product-bundle__description">{{ description | escape }}</p>
+      {% endif %}
+
+      {% if has_products %}
+        <button
+          type="button"
+          class="product-bundle__btn"
+          ref="addBundleBtn"
+          on:click="/handleAddBundle"
+          {% unless variant_1.available and variant_2.available %}
+            disabled
+          {% endunless %}
+        >
+          <span ref="btnText">{{ button_text | escape }}</span>
+        </button>
+      {% endif %}
+
+      <div class="visually-hidden" aria-live="polite" role="status" ref="liveRegion"></div>
+    </div>
+
+    <div class="product-bundle__products">
+      {% if has_products %}
+        <div class="product-bundle__card-wrapper">
+          <a href="{{ product_1.url }}" class="product-bundle__card">
+            <div class="product-bundle__card-image">
+              {% if product_1.featured_image != blank %}
+                {%- assign sizes_val = '(min-width: 750px) 280px, 260px' -%}
+                {{
+                  product_1.featured_image
+                  | image_url: width: product_1.featured_image.width
+                  | image_tag:
+                    sizes: sizes_val,
+                    widths: '260,280,520,560',
+                    loading: 'lazy',
+                    class: 'product-bundle__image',
+                    alt: product_1.featured_image.alt
+                }}
+              {% else %}
+                {{ 'product-1' | placeholder_svg_tag: 'product-bundle__placeholder' }}
+              {% endif %}
+            </div>
+            <div class="product-bundle__card-info">
+              <h3 class="product-bundle__card-title">{{ product_1.title | escape }}</h3>
+              {% if product_1.metafields.reviews.rating.value != blank %}
+                <div class="product-bundle__card-rating">
+                  <svg class="product-bundle__star-icon" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                    <path d="M6 0.5L7.76 4.06L11.5 4.61L8.75 7.44L9.52 11.5L6 9.56L2.48 11.5L3.25 7.44L0.5 4.61L4.24 4.06L6 0.5Z" fill="currentColor"/>
+                  </svg>
+                  <span class="product-bundle__card-rating-text">
+                    {{- product_1.metafields.reviews.rating.value | round: 1 }}
+                    {% if product_1.metafields.reviews.rating_count.value != blank %}
+                      ({{ product_1.metafields.reviews.rating_count.value }})
+                    {% endif -%}
+                  </span>
+                </div>
+              {% endif %}
+              {% if product_1.description != blank %}
+                <p class="product-bundle__card-desc">{{ product_1.description | strip_html | truncate: 80 }}</p>
+              {% endif %}
+            </div>
+          </a>
+        </div>
+
+        <div class="product-bundle__separator" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M12 5V19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M5 12H19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+
+        <div class="product-bundle__card-wrapper">
+          <a href="{{ product_2.url }}" class="product-bundle__card">
+            <div class="product-bundle__card-image">
+              {% if product_2.featured_image != blank %}
+                {%- assign sizes_val_2 = '(min-width: 750px) 280px, 260px' -%}
+                {{
+                  product_2.featured_image
+                  | image_url: width: product_2.featured_image.width
+                  | image_tag:
+                    sizes: sizes_val_2,
+                    widths: '260,280,520,560',
+                    loading: 'lazy',
+                    class: 'product-bundle__image',
+                    alt: product_2.featured_image.alt
+                }}
+              {% else %}
+                {{ 'product-2' | placeholder_svg_tag: 'product-bundle__placeholder' }}
+              {% endif %}
+            </div>
+            <div class="product-bundle__card-info">
+              <h3 class="product-bundle__card-title">{{ product_2.title | escape }}</h3>
+              {% if product_2.metafields.reviews.rating.value != blank %}
+                <div class="product-bundle__card-rating">
+                  <svg class="product-bundle__star-icon" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                    <path d="M6 0.5L7.76 4.06L11.5 4.61L8.75 7.44L9.52 11.5L6 9.56L2.48 11.5L3.25 7.44L0.5 4.61L4.24 4.06L6 0.5Z" fill="currentColor"/>
+                  </svg>
+                  <span class="product-bundle__card-rating-text">
+                    {{- product_2.metafields.reviews.rating.value | round: 1 }}
+                    {% if product_2.metafields.reviews.rating_count.value != blank %}
+                      ({{ product_2.metafields.reviews.rating_count.value }})
+                    {% endif -%}
+                  </span>
+                </div>
+              {% endif %}
+              {% if product_2.description != blank %}
+                <p class="product-bundle__card-desc">{{ product_2.description | strip_html | truncate: 80 }}</p>
+              {% endif %}
+            </div>
+          </a>
+        </div>
+      {% else %}
+        <p class="product-bundle__empty">Select two products to create a bundle.</p>
+      {% endif %}
+    </div>
+  </product-bundle-section>
+</div>
+
+<script src="{{ 'product-bundle.js' | asset_url }}" type="module"></script>
+
+{% stylesheet %}
+  .product-bundle {
+    padding-block-start: var(--pb-padding-top, 48px);
+    padding-block-end: var(--pb-padding-bottom, 48px);
+  }
+
+  .product-bundle__container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .product-bundle__container {
+      grid-template-columns: 1fr 1.4fr;
+      gap: 64px;
+      align-items: start;
+    }
+  }
+
+  /* Info column */
+  .product-bundle__info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  @media screen and (min-width: 750px) {
+    .product-bundle__info {
+      padding-block-start: 24px;
+      gap: 24px;
+    }
+  }
+
+  .product-bundle__eyebrow {
+    font-family: var(--font-body--family);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    text-transform: uppercase;
+    color: rgb(var(--color-foreground));
+    margin: 0;
+  }
+
+  .product-bundle__heading {
+    font-family: var(--font-heading--family);
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 1.1;
+    color: rgb(var(--color-foreground));
+    margin: 0;
+    max-width: 420px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .product-bundle__heading {
+      font-size: 44px;
+    }
+  }
+
+  .product-bundle__price-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .product-bundle__price {
+    font-family: var(--font-body--family);
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1;
+    color: rgb(var(--color-foreground));
+  }
+
+  .product-bundle__compare-price {
+    font-family: var(--font-body--family);
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1;
+    text-decoration: line-through;
+    opacity: 0.4;
+    color: rgb(var(--color-foreground));
+  }
+
+  .product-bundle__description {
+    font-family: var(--font-body--family);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.3;
+    opacity: 0.5;
+    color: rgb(var(--color-foreground));
+    margin: 0;
+    max-width: 380px;
+  }
+
+  .product-bundle__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 32px;
+    border-radius: 12px;
+    border: none;
+    background-color: rgb(var(--color-foreground));
+    color: rgb(var(--color-background));
+    font-family: var(--font-body--family);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.16px;
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+    white-space: nowrap;
+  }
+
+  .product-bundle__btn:hover {
+    opacity: 0.85;
+  }
+
+  .product-bundle__btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .product-bundle__btn:focus-visible {
+    outline: 2px solid rgb(var(--color-foreground));
+    outline-offset: 2px;
+  }
+
+  /* Products column */
+  .product-bundle__products {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .product-bundle__products::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media screen and (min-width: 750px) {
+    .product-bundle__products {
+      overflow-x: visible;
+    }
+  }
+
+  /* Card wrapper */
+  .product-bundle__card-wrapper {
+    flex-shrink: 0;
+    width: 260px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .product-bundle__card-wrapper {
+      width: auto;
+      flex: 1;
+      min-width: 0;
+    }
+  }
+
+  /* Product card */
+  .product-bundle__card {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .product-bundle__card:hover .product-bundle__card-title {
+    text-decoration: underline;
+  }
+
+  .product-bundle__card-image {
+    background-color: #F8F8F8;
+    border-radius: 14px;
+    overflow: hidden;
+    aspect-ratio: 260 / 311;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .product-bundle__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .product-bundle__placeholder {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 32px;
+  }
+
+  .product-bundle__card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .product-bundle__card-title {
+    font-family: var(--font-body--family);
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.3;
+    color: rgb(var(--color-foreground));
+    margin: 0;
+  }
+
+  .product-bundle__card-rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .product-bundle__star-icon {
+    color: rgb(var(--color-foreground));
+  }
+
+  .product-bundle__card-rating-text {
+    font-family: var(--font-body--family);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 16px;
+    color: rgb(var(--color-foreground));
+  }
+
+  .product-bundle__card-desc {
+    font-family: var(--font-body--family);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.3;
+    opacity: 0.5;
+    color: rgb(var(--color-foreground));
+    margin: 0;
+  }
+
+  /* Plus separator */
+  .product-bundle__separator {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    align-self: stretch;
+    color: rgb(var(--color-foreground));
+  }
+
+  @media screen and (min-width: 750px) {
+    .product-bundle__separator {
+      height: auto;
+      align-self: auto;
+      padding-block-start: 140px;
+    }
+  }
+
+  /* Mobile: separator aligns with image area */
+  @media screen and (max-width: 749px) {
+    .product-bundle__separator {
+      height: 311px;
+    }
+  }
+
+  /* Empty state */
+  .product-bundle__empty {
+    font-family: var(--font-body--family);
+    font-size: var(--font-size--sm);
+    color: rgb(var(--color-foreground));
+    opacity: 0.5;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .product-bundle__btn {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Product bundle",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Bundle + Save 25%"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Better together for total balance"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "A smart combination that helps optimize energy, metabolism, and overall wellness—working better together than alone."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Add bundle to cart"
+    },
+    {
+      "type": "number",
+      "id": "discount_percentage",
+      "label": "Discount percentage",
+      "default": 25
+    },
+    {
+      "type": "header",
+      "content": "Products"
+    },
+    {
+      "type": "product",
+      "id": "product_1",
+      "label": "Product 1"
+    },
+    {
+      "type": "product",
+      "id": "product_2",
+      "label": "Product 2"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 48
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product bundle"
+    }
+  ]
+}
+{% endschema %}
