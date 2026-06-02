@@ -107,6 +107,11 @@
     margin: 0;
     overflow: hidden;
     border-radius: var(--style-border-radius-sm);
+    aspect-ratio: 4 / 3;
+
+    @media screen and (min-width: 750px) {
+      aspect-ratio: auto;
+    }
   }
 
   .image-text-cta__image {
@@ -124,19 +129,11 @@
     background-color: rgb(var(--color-foreground-rgb) / var(--opacity-5-15));
   }
 
-  .image-text-cta__media {
-    aspect-ratio: 4 / 3;
-
-    @media screen and (min-width: 750px) {
-      aspect-ratio: auto;
-    }
-  }
-
   .image-text-cta__content {
     display: flex;
     flex-direction: column;
     gap: var(--gap-md);
-    justify-content: var(--image-text-cta-content-align, center);
+    align-self: var(--image-text-cta-content-align, center);
   }
 
   .image-text-cta__heading {
@@ -254,9 +251,9 @@
       "id": "content_vertical_alignment",
       "label": "Content alignment",
       "options": [
-        { "value": "flex-start", "label": "Top" },
+        { "value": "start", "label": "Top" },
         { "value": "center", "label": "Center" },
-        { "value": "flex-end", "label": "Bottom" }
+        { "value": "end", "label": "Bottom" }
       ],
       "default": "center"
     },
