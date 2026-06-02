@@ -7,7 +7,7 @@
  * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
- {
+{
   "sections": {
     "hero_jVaWmY": {
       "type": "hero",
@@ -62,6 +62,10 @@
       "settings": {
         "media_type_1": "image",
         "media_type_2": "image",
+        "stack_media_on_mobile": false,
+        "custom_mobile_media": false,
+        "media_type_1_mobile": "image",
+        "media_type_2_mobile": "image",
         "link": "",
         "open_in_new_tab": false,
         "content_direction": "column",
@@ -92,6 +96,7 @@
         "cat_supplements": {
           "type": "category-item",
           "settings": {
+            "collection": "",
             "image": "shopify://shop_images/rectangle-15773320-mobile-683029616.png",
             "label": "Supplements"
           }
@@ -99,6 +104,7 @@
         "cat_skincare": {
           "type": "category-item",
           "settings": {
+            "collection": "",
             "image": "shopify://shop_images/rectangle-15773321-mobile-683029619.jpg",
             "label": "Skincare"
           }
@@ -106,6 +112,7 @@
         "cat_beauty": {
           "type": "category-item",
           "settings": {
+            "collection": "",
             "image": "shopify://shop_images/rectangle-15773321-mobile-683029622.jpg",
             "label": "Beauty"
           }
@@ -113,6 +120,7 @@
         "cat_jewelry": {
           "type": "category-item",
           "settings": {
+            "collection": "",
             "image": "shopify://shop_images/rectangle-15773321-mobile-683029625.png",
             "label": "Jewelry"
           }
@@ -120,6 +128,7 @@
         "cat_gut_health": {
           "type": "category-item",
           "settings": {
+            "collection": "",
             "image": "shopify://shop_images/rectangle-15773321-mobile-683029628.jpg",
             "label": "Gut Health"
           }
@@ -127,6 +136,7 @@
         "cat_hygiene": {
           "type": "category-item",
           "settings": {
+            "collection": "",
             "image": "shopify://shop_images/rectangle-15773321-mobile-683029631.png",
             "label": "Hygiene"
           }
@@ -134,6 +144,7 @@
         "cat_anti_aging": {
           "type": "category-item",
           "settings": {
+            "collection": "",
             "image": "shopify://shop_images/rectangle-15773321-mobile-683029634.jpg",
             "label": "Anti-Aging"
           }
@@ -141,6 +152,7 @@
         "cat_energy": {
           "type": "category-item",
           "settings": {
+            "collection": "",
             "image": "shopify://shop_images/rectangle-15773321-mobile-683029637.png",
             "label": "Energy"
           }
@@ -148,6 +160,7 @@
         "cat_recovery": {
           "type": "category-item",
           "settings": {
+            "collection": "",
             "image": "shopify://shop_images/rectangle-15773321-mobile-683029640.png",
             "label": "Recovery"
           }
@@ -155,6 +168,7 @@
         "cat_kids": {
           "type": "category-item",
           "settings": {
+            "collection": "",
             "image": "shopify://shop_images/rectangle-15773321-mobile-683029643.jpg",
             "label": "Kids"
           }
@@ -162,6 +176,7 @@
         "cat_fitness": {
           "type": "category-item",
           "settings": {
+            "collection": "",
             "image": "shopify://shop_images/rectangle-15773321-mobile-683029646.png",
             "label": "Fitness"
           }
@@ -387,6 +402,7 @@
         "collection": "all",
         "heading": "Best Sellers",
         "shop_all_label": "Shop all",
+        "shop_all_url": "",
         "show_vendor": true,
         "show_reviews": true,
         "show_cashback": true,
@@ -398,12 +414,34 @@
         "padding-block-start": 48,
         "padding-block-end": 48
       }
+    },
+    "image_text_cta_EGXpPJ": {
+      "type": "image-text-cta",
+      "name": "Image text CTA",
+      "settings": {
+        "image": "shopify://shop_images/rectangle-15773321-mobile-683029643.jpg",
+        "image_alt": "",
+        "heading": "Start your own marketamerica store today",
+        "heading_tag": "h3",
+        "heading_size": "h3",
+        "body_text": "<p>MarketAmerica is a family-owned and operated 31-year-old business, supporting thousands of entrepreneurs and go-getters worldwide who have earned over $6 billion in commissions.</p>",
+        "button_text": "Shop Now",
+        "button_link": "shopify://collections/all",
+        "button_style": "primary",
+        "image_position": "left",
+        "content_vertical_alignment": "center",
+        "section_width": "page-width",
+        "color_scheme": "",
+        "padding-block-start": 40,
+        "padding-block-end": 40
+      }
     }
   },
   "order": [
     "hero_jVaWmY",
     "categories_carousel",
     "product_list_fa6P9H",
-    "best_sellers_xK7mN2"
+    "best_sellers_xK7mN2",
+    "image_text_cta_EGXpPJ"
   ]
 }
