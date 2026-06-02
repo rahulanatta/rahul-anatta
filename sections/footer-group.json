@@ -171,6 +171,17 @@
         "padding-block-end": 36
       }
     },
+    "localization": {
+      "type": "footer-localization",
+      "settings": {
+        "show_country": true,
+        "show_language": true,
+        "section_width": "page-width",
+        "color_scheme": "scheme-5",
+        "padding-block-start": 12,
+        "padding-block-end": 12
+      }
+    },
     "utilities": {
       "type": "footer-utilities",
       "settings": {
@@ -217,6 +228,7 @@
   },
   "order": [
     "footer",
+    "localization",
     "utilities"
   ]
 }
