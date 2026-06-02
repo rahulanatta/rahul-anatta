@@ -9,6 +9,75 @@
  */
  {
   "sections": {
+    "categories-carousel": {
+      "type": "categories-carousel",
+      "blocks": {
+        "cat_best_sellers": {
+          "type": "category-item",
+          "settings": {
+            "label": "Best Sellers"
+          }
+        },
+        "cat_necklaces": {
+          "type": "category-item",
+          "settings": {
+            "label": "Necklaces"
+          }
+        },
+        "cat_earrings": {
+          "type": "category-item",
+          "settings": {
+            "label": "Earrings"
+          }
+        },
+        "cat_bracelets": {
+          "type": "category-item",
+          "settings": {
+            "label": "Bracelets"
+          }
+        },
+        "cat_rings": {
+          "type": "category-item",
+          "settings": {
+            "label": "Rings"
+          }
+        },
+        "cat_collections": {
+          "type": "category-item",
+          "settings": {
+            "label": "Collections"
+          }
+        },
+        "cat_accessories": {
+          "type": "category-item",
+          "settings": {
+            "label": "Accessories"
+          }
+        },
+        "cat_new": {
+          "type": "category-item",
+          "settings": {
+            "label": "New"
+          }
+        }
+      },
+      "block_order": [
+        "cat_best_sellers",
+        "cat_necklaces",
+        "cat_earrings",
+        "cat_bracelets",
+        "cat_rings",
+        "cat_collections",
+        "cat_accessories",
+        "cat_new"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "section_width": "page-width",
+        "padding-block-start": 8,
+        "padding-block-end": 8
+      }
+    },
     "section": {
       "type": "section",
       "blocks": {
@@ -94,8 +163,8 @@
         "overlay_color": "#00000026",
         "overlay_style": "solid",
         "gradient_direction": "to top",
-        "padding-block-start": 48,
-        "padding-block-end": 48
+        "padding-block-start": 0,
+        "padding-block-end": 0
       }
     },
     "main": {
@@ -156,6 +225,12 @@
               },
               "blocks": {}
             },
+            "brand_liquid": {
+              "type": "custom-liquid",
+              "settings": {
+                "custom_liquid": "{% render 'plp-brand-label', product: closest.product %}"
+              }
+            },
             "product_title_4nY4eT": {
               "type": "product-title",
               "name": "t:names.product_title",
@@ -174,12 +249,40 @@
                 "background": false,
                 "background_color": "#00000026",
                 "corner_radius": 0,
-                "padding-block-start": 4,
+                "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
               },
               "blocks": {}
+            },
+            "review_stars": {
+              "type": "review",
+              "settings": {
+                "stars_style": "shaded",
+                "show_number": true,
+                "rating_color": "foreground",
+                "type_preset": "paragraph",
+                "width": "100%",
+                "alignment": "left"
+              }
+            },
+            "swatches": {
+              "type": "swatches",
+              "name": "t:names.swatches",
+              "settings": {
+                "product_swatches_alignment": "flex-start",
+                "product_swatches_padding_top": 4,
+                "product_swatches_padding_bottom": 0,
+                "product_swatches_padding_left": 0,
+                "product_swatches_padding_right": 0
+              }
+            },
+            "variant_info_liquid": {
+              "type": "custom-liquid",
+              "settings": {
+                "custom_liquid": "{% render 'plp-variant-info', product: closest.product %}"
+              }
             },
             "price_EzJzMm": {
               "type": "price",
@@ -203,30 +306,44 @@
               },
               "blocks": {}
             },
-            "swatches": {
-              "type": "swatches",
-              "name": "t:names.swatches",
+            "cashback_liquid": {
+              "type": "custom-liquid",
               "settings": {
-                "product_swatches_alignment": "flex-start",
-                "product_swatches_padding_top": 4,
-                "product_swatches_padding_bottom": 0,
-                "product_swatches_padding_left": 0,
-                "product_swatches_padding_right": 0
+                "custom_liquid": "{% render 'plp-cashback-badge', product: closest.product %}"
+              }
+            },
+            "buy_buttons_cta": {
+              "type": "buy-buttons",
+              "settings": {
+                "stacking": false,
+                "show_pickup_availability": false,
+                "gift_card_form": false,
+                "padding-block-start": 4,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
               }
             }
           },
           "block_order": [
             "card-gallery",
+            "brand_liquid",
             "product_title_4nY4eT",
+            "review_stars",
+            "swatches",
+            "variant_info_liquid",
             "price_EzJzMm",
-            "swatches"
+            "cashback_liquid",
+            "buy_buttons_cta"
           ]
         }
       },
       "settings": {
         "layout_type": "grid",
-        "product_card_size": "medium",
+        "product_card_size": "small",
         "mobile_product_card_size": "small",
+        "enable_infinite_scroll": false,
+        "products_per_page": 24,
         "product_grid_width": "centered",
         "full_width_on_mobile": true,
         "columns_gap_horizontal": 16,
@@ -240,6 +357,7 @@
     }
   },
   "order": [
+    "categories-carousel",
     "section",
     "main"
   ]

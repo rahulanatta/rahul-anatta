@@ -1,0 +1,294 @@
+{% liquid
+  assign background_image = section.settings.background_image
+%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div
+  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style link-cards-grid"
+  style="
+    {%- render 'spacing-style', settings: section.settings -%}
+    --link-cards-grid-gap: {{ section.settings.gap }}px;
+    --link-cards-grid-columns: {{ section.settings.columns_desktop }};
+    --link-cards-grid-card-radius: 16px;
+    --link-cards-grid-margin-block-start: {{ section.settings.margin-block-start }}px;
+    --link-cards-grid-margin-block-end: {{ section.settings.margin-block-end }}px;
+  "
+>
+  {% if background_image != blank %}
+    <div class="link-cards-grid__bg-image-wrapper">
+      {%- assign sizes_val = '100vw' -%}
+      {{
+        background_image
+        | image_url: width: background_image.width
+        | image_tag:
+          sizes: sizes_val,
+          widths: '375,750,1100,1500,1780,2000',
+          loading: 'lazy',
+          class: 'link-cards-grid__bg-image',
+          alt: section.settings.background_image_alt
+      }}
+    </div>
+  {% endif %}
+
+  <div class="link-cards-grid__container">
+    {% for block in section.blocks %}
+      <a
+        href="{{ block.settings.url | default: '#' }}"
+        class="link-cards-grid__card"
+        {{ block.shopify_attributes }}
+      >
+        <span class="link-cards-grid__text">{{ block.settings.text }}</span>
+        <span class="link-cards-grid__arrow" aria-hidden="true">&rarr;</span>
+      </a>
+    {% endfor %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .link-cards-grid {
+    position: relative;
+    overflow: hidden;
+    margin-block-start: var(--link-cards-grid-margin-block-start, 0px);
+    margin-block-end: var(--link-cards-grid-margin-block-end, 0px);
+  }
+
+  .link-cards-grid__bg-image-wrapper {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .link-cards-grid__bg-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .link-cards-grid__container {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--link-cards-grid-gap, 24px);
+    padding-inline: 24px;
+
+    @media screen and (min-width: 750px) {
+      grid-template-columns: repeat(var(--link-cards-grid-columns, 3), 1fr);
+      padding-inline: 0;
+    }
+  }
+
+  .link-cards-grid__card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid #DBDBDB;
+    border-radius: var(--link-cards-grid-card-radius, 16px);
+    padding: 32px 30px 32px 28px;
+    text-decoration: none;
+    color: var(--color-foreground);
+    transition: background-color var(--animation-speed-slow, 0.2s) ease;
+
+    &:hover {
+      background-color: rgb(245, 245, 245);
+    }
+  }
+
+  .link-cards-grid__text {
+    font-family: var(--font-body--family);
+    font-size: var(--font-size--md);
+    font-weight: 400;
+    line-height: 1.33;
+    text-transform: lowercase;
+    color: var(--color-foreground);
+  }
+
+  .link-cards-grid__arrow {
+    font-size: var(--font-size--xl);
+    line-height: 1;
+    color: var(--color-foreground);
+    flex-shrink: 0;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Link Cards Grid",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background image"
+    },
+    {
+      "type": "text",
+      "id": "background_image_alt",
+      "label": "Background image alt text"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page"
+        },
+        {
+          "value": "full-width",
+          "label": "Full"
+        }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns (desktop)",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Gap",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Padding top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "margin-block-start",
+      "label": "Margin top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin-block-end",
+      "label": "Margin bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "link-card",
+      "name": "Link Card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Link Cards Grid",
+      "blocks": [
+        {
+          "type": "link-card",
+          "settings": {
+            "text": "makeup slippage"
+          }
+        },
+        {
+          "type": "link-card",
+          "settings": {
+            "text": "dull skin"
+          }
+        },
+        {
+          "type": "link-card",
+          "settings": {
+            "text": "redness & rosacea"
+          }
+        },
+        {
+          "type": "link-card",
+          "settings": {
+            "text": "dry skin"
+          }
+        },
+        {
+          "type": "link-card",
+          "settings": {
+            "text": "color correction"
+          }
+        },
+        {
+          "type": "link-card",
+          "settings": {
+            "text": "shop all"
+          }
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}
