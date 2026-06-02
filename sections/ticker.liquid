@@ -1,0 +1,396 @@
+<script
+  src="{{ 'marquee.js' | asset_url }}"
+  type="module"
+  fetchpriority="low"
+></script>
+
+{% liquid
+  assign gap = section.settings.gap
+  assign bg_color = section.settings.background_color
+  assign text_color = section.settings.text_color
+  assign icon_size = section.settings.icon_size
+  assign show_gradient = section.settings.show_gradient
+  assign gradient_color = section.settings.gradient_color
+  assign gradient_direction = section.settings.gradient_direction
+  assign speed = section.settings.speed
+%}
+
+<div
+  class="ticker"
+  style="
+    --ticker-text-color: {{ text_color }};
+    --ticker-icon-size: {{ icon_size }}px;
+    --ticker-font-size: 20px;
+    {% if show_gradient %}
+      background: linear-gradient({{ gradient_direction }}, {{ bg_color }}, {{ gradient_color }});
+    {% else %}
+      background-color: {{ bg_color }};
+    {% endif %}
+  "
+>
+  <marquee-component
+    class="ticker__marquee section section--{{ section.settings.section_width }} spacing-style gap-style"
+    style="
+      {%- render 'spacing-style', settings: section.settings %};
+      {% render 'gap-style', value: gap, name: 'ticker-gap' %}
+      --marquee-direction: {{ section.settings.movement_direction }};
+    "
+    data-speed-factor="{{ speed }}"
+    data-movement-direction="{{ section.settings.movement_direction }}"
+  >
+    <div
+      class="marquee__wrapper"
+      ref="wrapper"
+    >
+      <div
+        class="marquee__content"
+        ref="content"
+      >
+        <div
+          class="marquee__repeated-items"
+          ref="marqueeItems[]"
+        >
+          {% for block in section.blocks %}
+            <div class="ticker__item" {{ block.shopify_attributes }}>
+              <div class="ticker__icon-wrapper">
+                {% render 'icon-or-image',
+                  icon: block.settings.icon,
+                  image_upload: block.settings.custom_icon,
+                  width: 16,
+                  class_name: 'ticker__icon'
+                %}
+              </div>
+              <span class="ticker__text">{{ block.settings.text }}</span>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </marquee-component>
+</div>
+
+{% stylesheet %}
+  .ticker {
+    overflow: hidden;
+  }
+
+  .ticker__marquee {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .ticker__marquee .marquee__wrapper {
+    display: flex;
+    gap: var(--ticker-gap);
+    width: fit-content;
+    white-space: nowrap;
+  }
+
+  .ticker__marquee .marquee__content {
+    min-width: max-content;
+    display: flex;
+    gap: var(--ticker-gap);
+  }
+
+  .ticker__marquee .marquee__repeated-items {
+    min-width: max-content;
+    display: flex;
+    gap: var(--ticker-gap);
+    align-items: center;
+    justify-content: center;
+  }
+
+  @keyframes marquee-motion {
+    to {
+      transform: translate3d(calc(-50% - (var(--ticker-gap) / 2)), 0, 0);
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .ticker__marquee:not([data-disabled]) .marquee__wrapper {
+      animation: marquee-motion var(--marquee-speed) linear infinite var(--marquee-direction);
+    }
+  }
+
+  .ticker__item {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    white-space: nowrap;
+  }
+
+  .ticker__icon-wrapper {
+    width: var(--ticker-icon-size, 32px);
+    height: var(--ticker-icon-size, 32px);
+    border-radius: 50%;
+    border: 2px solid var(--ticker-text-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: 6px;
+  }
+
+  .ticker__icon-wrapper svg {
+    color: var(--ticker-text-color);
+    fill: var(--ticker-text-color);
+  }
+
+  .ticker__icon-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .ticker__text {
+    font-size: var(--ticker-font-size, 20px);
+    line-height: 26px;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--ticker-text-color);
+    font-family: var(--font-body--family);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Ticker",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "blocks": [
+    {
+      "type": "ticker-item",
+      "name": "Ticker item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "none", "label": "None" },
+            { "value": "apple", "label": "Apple" },
+            { "value": "arrow", "label": "Arrow" },
+            { "value": "banana", "label": "Banana" },
+            { "value": "bottle", "label": "Bottle" },
+            { "value": "box", "label": "Box" },
+            { "value": "carrot", "label": "Carrot" },
+            { "value": "chat_bubble", "label": "Chat bubble" },
+            { "value": "check_box", "label": "Checkbox" },
+            { "value": "clipboard", "label": "Clipboard" },
+            { "value": "dairy", "label": "Dairy" },
+            { "value": "dairy_free", "label": "Dairy free" },
+            { "value": "dryer", "label": "Dryer" },
+            { "value": "eye", "label": "Eye" },
+            { "value": "fire", "label": "Fire" },
+            { "value": "gluten_free", "label": "Gluten free" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "iron", "label": "Iron" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "leather", "label": "Leather" },
+            { "value": "lightning_bolt", "label": "Lightning bolt" },
+            { "value": "lipstick", "label": "Lipstick" },
+            { "value": "lock", "label": "Lock" },
+            { "value": "map_pin", "label": "Map pin" },
+            { "value": "nut_free", "label": "Nut free" },
+            { "value": "pants", "label": "Pants" },
+            { "value": "paw_print", "label": "Paw print" },
+            { "value": "pepper", "label": "Pepper" },
+            { "value": "perfume", "label": "Perfume" },
+            { "value": "plane", "label": "Plane" },
+            { "value": "plant", "label": "Plant" },
+            { "value": "price_tag", "label": "Price tag" },
+            { "value": "question_mark", "label": "Question mark" },
+            { "value": "recycle", "label": "Recycle" },
+            { "value": "return", "label": "Return" },
+            { "value": "ruler", "label": "Ruler" },
+            { "value": "serving_dish", "label": "Serving dish" },
+            { "value": "shirt", "label": "Shirt" },
+            { "value": "shoe", "label": "Shoe" },
+            { "value": "silhouette", "label": "Silhouette" },
+            { "value": "snowflake", "label": "Snowflake" },
+            { "value": "star", "label": "Star" },
+            { "value": "stopwatch", "label": "Stopwatch" },
+            { "value": "truck", "label": "Truck" },
+            { "value": "washing", "label": "Washing" }
+          ],
+          "default": "check_box"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_icon",
+          "label": "Custom icon"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "select",
+      "id": "movement_direction",
+      "label": "Direction",
+      "options": [
+        { "value": "reverse", "label": "Forward" },
+        { "value": "normal", "label": "Reverse" }
+      ],
+      "default": "normal"
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "Speed",
+      "min": 5,
+      "max": 100,
+      "step": 5,
+      "default": 25
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ],
+      "default": "full-width"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Gap",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "label": "Icon size",
+      "min": 16,
+      "max": 64,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#B7A882"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_gradient",
+      "label": "Show gradient",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "gradient_color",
+      "label": "Gradient color",
+      "default": "#96875F",
+      "visible_if": "{{ section.settings.show_gradient }}"
+    },
+    {
+      "type": "select",
+      "id": "gradient_direction",
+      "label": "Gradient direction",
+      "options": [
+        { "value": "to right", "label": "To right" },
+        { "value": "to left", "label": "To left" },
+        { "value": "to bottom", "label": "To bottom" },
+        { "value": "to top", "label": "To top" }
+      ],
+      "default": "to right",
+      "visible_if": "{{ section.settings.show_gradient }}"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    }
+  ],
+  "presets": [
+    {
+      "name": "Ticker",
+      "category": "t:categories.text",
+      "blocks": {
+        "item_1": {
+          "type": "ticker-item",
+          "settings": {
+            "text": "Clinically proven",
+            "icon": "check_box"
+          }
+        },
+        "item_2": {
+          "type": "ticker-item",
+          "settings": {
+            "text": "Third Party Tested",
+            "icon": "check_box"
+          }
+        },
+        "item_3": {
+          "type": "ticker-item",
+          "settings": {
+            "text": "No Refrigeration Needed",
+            "icon": "check_box"
+          }
+        },
+        "item_4": {
+          "type": "ticker-item",
+          "settings": {
+            "text": "30-day money back guarantee",
+            "icon": "check_box"
+          }
+        }
+      },
+      "block_order": ["item_1", "item_2", "item_3", "item_4"]
+    }
+  ]
+}
+{% endschema %}
