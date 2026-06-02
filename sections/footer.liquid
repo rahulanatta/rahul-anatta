@@ -2,43 +2,9 @@
 <div
   class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
 >
-  {% liquid
-    assign total_blocks = section.blocks.size
-
-    # Grid layout calculations
-    assign grid_columns = total_blocks | at_most: 4
-
-    # Calculate last row counts using modulo arithmetic
-    # last_row_count = (total_blocks - 1) % N + 1
-    assign last_row_count = total_blocks | minus: 1 | modulo: 4 | plus: 1
-    assign tablet_last_row_count = total_blocks | minus: 1 | modulo: 2 | plus: 1
-
-    # Check if there are orphaned elements (single item in last row)
-    assign has_isolated_grid_item_desktop = false
-    assign has_isolated_grid_item_tablet = false
-
-    if total_blocks > 4 and last_row_count == 1
-      assign has_isolated_grid_item_desktop = true
-    endif
-
-    if total_blocks == 5
-      assign has_isolated_grid_item_tablet = true
-    endif
-  %}
   <div
-    class="
-      footer-content
-      spacing-style
-      {% if has_isolated_grid_item_desktop %}footer-content--isolated-grid-item-desktop{% endif %}
-      {% if has_isolated_grid_item_tablet %}footer-content--isolated-grid-item-tablet{% endif %}
-    "
-    style="
-      {%  render 'spacing-style', settings: section.settings %}
-      --footer-gap: {{ section.settings.gap }}px;
-      --grid-columns: {{ grid_columns }};
-      --last-row-count: {{ last_row_count }};
-      --tablet-last-row-count: {{ tablet_last_row_count }};
-    "
+    class="footer-content spacing-style"
+    style="{% render 'spacing-style', settings: section.settings %}"
   >
     {% content_for 'blocks' %}
   </div>
@@ -48,43 +14,134 @@
   .footer-content {
     contain: content;
     content-visibility: auto;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--footer-gap);
-    align-items: start;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    align-items: stretch;
   }
 
+  /* Nav column headings — uppercase bold per design */
   .footer-content .menu__heading__default {
-    font-weight: var(--font-heading--weight);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 14px;
+    line-height: 1.3;
+    color: var(--color-foreground);
   }
 
-  @media screen and (min-width: 750px) and (max-width: 989px) {
+  /* Social icons — 40×40 rounded squares with light bg */
+  .footer-content .social-icons__icon-wrapper {
+    width: 40px;
+    height: 40px;
+    background-color: #f7f7f7;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .footer-content .social-icons__icon-wrapper a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: var(--color-foreground);
+  }
+
+  .footer-content .social-icons__icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .footer-content .social-icons__wrapper {
+    gap: 12px;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+  }
+
+  /* Email signup styling */
+  .footer-content .email-signup__input-group {
+    border-color: rgba(33, 30, 36, 0.15) !important;
+    background-color: #fff;
+  }
+
+  /* Logo — hidden on desktop, visible on mobile inside connect group */
+  .footer-connect-logo {
+    display: none;
+    justify-content: center;
+    width: 100%;
+    padding-block-end: 8px;
+  }
+
+  /* CONNECT heading — visible on desktop only */
+  .footer-connect-heading {
+    display: block;
+  }
+
+  @media screen and (max-width: 749px) {
+    /* Mobile: stack nav group then connect group */
     .footer-content {
-      grid-template-columns: repeat(min(var(--grid-columns), 3), 1fr);
-      grid-auto-flow: row;
+      gap: 24px;
     }
 
-    .footer-content[style*='--grid-columns: 4'] {
-      grid-template-columns: repeat(2, 1fr);
+    /* Connect group: center-aligned on mobile */
+    .footer-content > .group-block:last-child .group-block-content {
+      align-items: center;
+      text-align: center;
     }
 
-    .footer-content--isolated-grid-item-tablet > :last-child {
-      grid-column: 1 / -1;
+    .footer-content > .group-block:last-child .social-icons__wrapper {
+      justify-content: center;
+    }
+
+    /* Show logo on mobile */
+    .footer-connect-logo {
+      display: flex;
+    }
+
+    /* Hide CONNECT heading on mobile */
+    .footer-connect-heading {
+      display: none;
+    }
+
+    /* Email input centered on mobile */
+    .footer-content > .group-block:last-child .email-signup-block {
+      width: 100%;
     }
   }
 
-  @media screen and (min-width: 990px) {
+  @media screen and (min-width: 750px) {
     .footer-content {
-      grid-template-columns: repeat(var(--grid-columns), 1fr);
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 60px;
     }
 
-    /* Single item centered */
-    .footer-content[style*='--grid-columns: 1'] {
-      justify-items: center;
+    /* Nav group — takes all available space */
+    .footer-content > .group-block:first-child {
+      flex: 1;
+      min-width: 0;
     }
 
-    .footer-content--isolated-grid-item-desktop > :last-child {
-      grid-column: 1 / -1;
+    /* Connect group — right side, fixed width */
+    .footer-content > .group-block:last-child {
+      flex-shrink: 0;
+      width: 295px;
+    }
+
+    /* Nav group: menus side-by-side */
+    .footer-content > .group-block:first-child .layout-panel-flex--row {
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    /* Each menu column at equal width */
+    .footer-content > .group-block:first-child .menu {
+      min-width: 100px;
     }
   }
 {% endstylesheet %}
@@ -94,48 +151,20 @@
   "name": "t:names.footer",
   "class": "section-wrapper",
   "blocks": [
-    {
-      "type": "_divider"
-    },
-    {
-      "type": "@app"
-    },
-    {
-      "type": "button"
-    },
-    {
-      "type": "follow-on-shop"
-    },
-    {
-      "type": "group"
-    },
-    {
-      "type": "icon"
-    },
-    {
-      "type": "image"
-    },
-    {
-      "type": "menu"
-    },
-    {
-      "type": "payment-icons"
-    },
-    {
-      "type": "text"
-    },
-    {
-      "type": "logo"
-    },
-    {
-      "type": "jumbo-text"
-    },
-    {
-      "type": "social-links"
-    },
-    {
-      "type": "email-signup"
-    }
+    { "type": "_divider" },
+    { "type": "@app" },
+    { "type": "button" },
+    { "type": "follow-on-shop" },
+    { "type": "group" },
+    { "type": "icon" },
+    { "type": "image" },
+    { "type": "menu" },
+    { "type": "payment-icons" },
+    { "type": "text" },
+    { "type": "logo" },
+    { "type": "jumbo-text" },
+    { "type": "social-links" },
+    { "type": "email-signup" }
   ],
   "enabled_on": {
     "groups": ["footer"]
@@ -146,26 +175,10 @@
       "id": "section_width",
       "label": "t:settings.width",
       "options": [
-        {
-          "value": "page-width",
-          "label": "t:options.page"
-        },
-        {
-          "value": "full-width",
-          "label": "t:options.full"
-        }
+        { "value": "page-width", "label": "t:options.page" },
+        { "value": "full-width", "label": "t:options.full" }
       ],
       "default": "page-width"
-    },
-    {
-      "type": "range",
-      "id": "gap",
-      "label": "t:settings.gap",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 0
     },
     {
       "type": "color_scheme",
@@ -185,7 +198,7 @@
       "max": 100,
       "step": 1,
       "unit": "px",
-      "default": 20
+      "default": 48
     },
     {
       "type": "range",
@@ -195,61 +208,13 @@
       "max": 100,
       "step": 1,
       "unit": "px",
-      "default": 20
+      "default": 40
     }
   ],
   "presets": [
     {
       "name": "t:names.footer",
-      "category": "t:categories.footer",
-      "settings": {
-        "gap": 20,
-        "color_scheme": "scheme-1",
-        "padding-block-start": 36,
-        "padding-block-end": 36
-      },
-      "blocks": {
-        "newsletter-group": {
-          "type": "group",
-          "settings": {
-            "content_direction": "column",
-            "vertical_on_mobile": true,
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "center",
-            "gap": 6,
-            "width": "fill",
-            "inherit_color_scheme": true
-          },
-          "blocks": {
-            "newsletter-heading": {
-              "type": "text",
-              "settings": {
-                "text": "t:html_defaults.join_our_email_list",
-                "width": "100%",
-                "alignment": "left",
-                "type_preset": "h3"
-              }
-            },
-            "newsletter-text": {
-              "type": "text",
-              "settings": {
-                "text": "t:html_defaults.get_exclusive_deals_and_early_access_to_new_products",
-                "width": "100%",
-                "alignment": "left",
-                "type_preset": "rte"
-              }
-            }
-          },
-          "block_order": ["newsletter-heading", "newsletter-text"]
-        },
-        "newsletter-form": {
-          "type": "email-signup",
-          "settings": {
-            "width": "fill"
-          }
-        }
-      },
-      "block_order": ["newsletter-group", "newsletter-form"]
+      "category": "t:categories.footer"
     }
   ]
 }

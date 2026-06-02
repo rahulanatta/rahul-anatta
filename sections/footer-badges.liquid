@@ -1,0 +1,140 @@
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div
+  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
+  {{ section.shopify_attributes }}
+>
+  {% if section.blocks.size > 0 %}
+    <div class="footer-badges spacing-style" style="{% render 'spacing-style', settings: section.settings %}">
+      <div class="footer-badges__row">
+        {% for block in section.blocks %}
+          {% if block.settings.image != blank %}
+            <div class="footer-badges__item" {{ block.shopify_attributes }}>
+              {{ block.settings.image
+                | image_url: width: 160
+                | image_tag:
+                  width: block.settings.image.width,
+                  height: block.settings.image.height,
+                  loading: 'lazy',
+                  alt: block.settings.alt_text,
+                  class: 'footer-badges__img'
+              }}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+{% stylesheet %}
+  .footer-badges {
+    border-block-start: 1px solid var(--color-border);
+  }
+
+  .footer-badges__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding-block: 24px;
+  }
+
+  .footer-badges__item {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  .footer-badges__img {
+    max-height: 74px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  @media screen and (max-width: 749px) {
+    .footer-badges__img {
+      max-height: 48px;
+    }
+
+    .footer-badges__row {
+      gap: 8px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Award Badges",
+  "tag": "div",
+  "class": "footer-badges-wrapper",
+  "enabled_on": {
+    "groups": ["footer"]
+  },
+  "blocks": [
+    {
+      "type": "badge",
+      "name": "Badge",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Badge image"
+        },
+        {
+          "type": "text",
+          "id": "alt_text",
+          "label": "Alt text"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Award Badges"
+    }
+  ]
+}
+{% endschema %}
