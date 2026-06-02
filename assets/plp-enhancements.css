@@ -1,0 +1,164 @@
+/* ==========================================================================
+   PLP Enhancements
+   Shared CSS for collection page redesign: brand labels, cashback badges,
+   variant info, promo banners, CTA overrides, and 5-column grid.
+   ========================================================================== */
+
+/* 5-column desktop grid override for small card size */
+@media screen and (min-width: 750px) {
+  .product-grid.product-grid--grid[data-product-card-size="small"] {
+    --product-grid-columns-desktop: repeat(5, 1fr);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Brand Label
+   -------------------------------------------------------------------------- */
+.plp-brand-label {
+  display: block;
+  font-family: var(--font-body--family);
+  font-size: var(--font-size--3xs);
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-foreground);
+  opacity: 0.7;
+  padding-block-start: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   Cashback Badge
+   -------------------------------------------------------------------------- */
+.plp-cashback-badge {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-3xs, 4px);
+  font-family: var(--font-body--family);
+  font-size: var(--font-size--3xs);
+  line-height: 1.4;
+  color: var(--color-primary);
+  padding-block-start: 2px;
+}
+
+.plp-cashback-badge__icon {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.85em;
+}
+
+.plp-cashback-badge__icon svg {
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+}
+
+/* --------------------------------------------------------------------------
+   Variant Info
+   -------------------------------------------------------------------------- */
+.plp-variant-info {
+  display: block;
+  font-family: var(--font-body--family);
+  font-size: var(--font-size--3xs);
+  font-style: italic;
+  line-height: 1.4;
+  color: var(--color-foreground);
+  opacity: 0.6;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* --------------------------------------------------------------------------
+   Promo Banner (interstitial between product rows)
+   -------------------------------------------------------------------------- */
+.plp-promo-banner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 80px;
+  padding: var(--padding-md, 24px) var(--padding-lg, 32px);
+  border-radius: var(--style-border-radius-sm, 4px);
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--color-foreground);
+
+  @media screen and (min-width: 750px) {
+    min-height: 120px;
+    padding: var(--padding-lg, 32px) var(--padding-xl, 48px);
+  }
+}
+
+.plp-promo-banner__media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.plp-promo-banner__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.2) 100%);
+  z-index: 1;
+}
+
+.plp-promo-banner__content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-3xs, 4px);
+}
+
+.plp-promo-banner__heading {
+  font-family: var(--font-heading--family, var(--font-body--family));
+  font-size: var(--font-size--lg, 1.25rem);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+  margin: 0;
+
+  @media screen and (min-width: 750px) {
+    font-size: var(--font-size--xl, 1.5rem);
+  }
+}
+
+.plp-promo-banner__subheading {
+  font-family: var(--font-body--family);
+  font-size: var(--font-size--3xs, 0.75rem);
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0;
+
+  @media screen and (min-width: 750px) {
+    font-size: var(--font-size--xs, 0.875rem);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Product Grid Promo Banner Spanning
+   -------------------------------------------------------------------------- */
+.product-grid__promo-banner {
+  grid-column: 1 / -1;
+  list-style: none;
+}
+
+/* --------------------------------------------------------------------------
+   Buy-Buttons CTA Override in Product Card Context
+   -------------------------------------------------------------------------- */
+.product-grid .buy-buttons-block .product-form-buttons {
+  flex-direction: column;
+}
+
+.product-grid .buy-buttons-block .button {
+  font-size: var(--font-size--3xs, 0.75rem);
+  padding: 6px 12px;
+  min-height: unset;
+  width: 100%;
+}

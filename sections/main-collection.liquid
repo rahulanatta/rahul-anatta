@@ -1,3 +1,4 @@
+{{ 'plp-enhancements.css' | asset_url | stylesheet_tag }}
 <script
   src="{{ 'results-list.js' | asset_url }}"
   type="module"
@@ -60,6 +61,28 @@
             {% content_for 'block', type: '_product-card', id: 'product-card', closest.product: product %}
             {% # theme-check-enable %}
           </li>
+          {% if section.settings.enable_promo_banner_1 and forloop.index == section.settings.promo_banner_1_position %}
+            <li class="product-grid__promo-banner">
+              {% render 'plp-promo-banner',
+                image: section.settings.promo_banner_1_image,
+                heading: section.settings.promo_banner_1_heading,
+                subheading: section.settings.promo_banner_1_subheading,
+                link: section.settings.promo_banner_1_link,
+                color_scheme: section.settings.promo_banner_1_color_scheme
+              %}
+            </li>
+          {% endif %}
+          {% if section.settings.enable_promo_banner_2 and forloop.index == section.settings.promo_banner_2_position %}
+            <li class="product-grid__promo-banner">
+              {% render 'plp-promo-banner',
+                image: section.settings.promo_banner_2_image,
+                heading: section.settings.promo_banner_2_heading,
+                subheading: section.settings.promo_banner_2_subheading,
+                link: section.settings.promo_banner_2_link,
+                color_scheme: section.settings.promo_banner_2_color_scheme
+              %}
+            </li>
+          {% endif %}
         {% endfor %}
       {% endcapture %}
 
@@ -250,6 +273,102 @@
       "step": 1,
       "unit": "px",
       "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Promotional banners"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_promo_banner_1",
+      "label": "Enable banner 1",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "promo_banner_1_image",
+      "label": "Banner 1 image",
+      "visible_if": "{{ section.settings.enable_promo_banner_1 }}"
+    },
+    {
+      "type": "text",
+      "id": "promo_banner_1_heading",
+      "label": "Banner 1 heading",
+      "default": "Shop the Brand",
+      "visible_if": "{{ section.settings.enable_promo_banner_1 }}"
+    },
+    {
+      "type": "text",
+      "id": "promo_banner_1_subheading",
+      "label": "Banner 1 subheading",
+      "default": "Shop New Arrivals today",
+      "visible_if": "{{ section.settings.enable_promo_banner_1 }}"
+    },
+    {
+      "type": "url",
+      "id": "promo_banner_1_link",
+      "label": "Banner 1 link",
+      "visible_if": "{{ section.settings.enable_promo_banner_1 }}"
+    },
+    {
+      "type": "number",
+      "id": "promo_banner_1_position",
+      "label": "Banner 1 after product #",
+      "default": 10,
+      "visible_if": "{{ section.settings.enable_promo_banner_1 }}"
+    },
+    {
+      "type": "color_scheme",
+      "id": "promo_banner_1_color_scheme",
+      "label": "Banner 1 color scheme",
+      "default": "scheme-5",
+      "visible_if": "{{ section.settings.enable_promo_banner_1 }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_promo_banner_2",
+      "label": "Enable banner 2",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "promo_banner_2_image",
+      "label": "Banner 2 image",
+      "visible_if": "{{ section.settings.enable_promo_banner_2 }}"
+    },
+    {
+      "type": "text",
+      "id": "promo_banner_2_heading",
+      "label": "Banner 2 heading",
+      "default": "Shop the Brand",
+      "visible_if": "{{ section.settings.enable_promo_banner_2 }}"
+    },
+    {
+      "type": "text",
+      "id": "promo_banner_2_subheading",
+      "label": "Banner 2 subheading",
+      "default": "Shop New Arrivals today",
+      "visible_if": "{{ section.settings.enable_promo_banner_2 }}"
+    },
+    {
+      "type": "url",
+      "id": "promo_banner_2_link",
+      "label": "Banner 2 link",
+      "visible_if": "{{ section.settings.enable_promo_banner_2 }}"
+    },
+    {
+      "type": "number",
+      "id": "promo_banner_2_position",
+      "label": "Banner 2 after product #",
+      "default": 20,
+      "visible_if": "{{ section.settings.enable_promo_banner_2 }}"
+    },
+    {
+      "type": "color_scheme",
+      "id": "promo_banner_2_color_scheme",
+      "label": "Banner 2 color scheme",
+      "default": "scheme-5",
+      "visible_if": "{{ section.settings.enable_promo_banner_2 }}"
     }
   ],
   "presets": []

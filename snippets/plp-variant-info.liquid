@@ -1,0 +1,31 @@
+{%- doc -%}
+  PLP Variant Info
+
+  Renders the first product option name and its default variant value.
+  Only renders if the product has options and the first option is not 'Title'.
+
+  @param {object} product - Product object (required)
+
+  @example
+    {% render 'plp-variant-info', product: product %}
+{%- enddoc -%}
+
+{% liquid
+  assign product = product | default: empty
+  unless product != empty
+    break
+  endunless
+
+  assign first_option = product.options.first
+  if first_option == blank or first_option == 'Title'
+    break
+  endif
+
+  assign variant = product.selected_or_first_available_variant
+  assign first_value = variant.option1
+  if first_value == blank
+    break
+  endif
+%}
+
+<span class="plp-variant-info">{{ first_option }}: {{ first_value }}</span>

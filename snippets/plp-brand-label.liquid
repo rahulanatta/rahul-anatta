@@ -1,0 +1,24 @@
+{%- doc -%}
+  PLP Brand Label
+
+  Renders the product brand name from the customMA.brand metafield.
+
+  @param {object} product - Product object (required)
+
+  @example
+    {% render 'plp-brand-label', product: product %}
+{%- enddoc -%}
+
+{% liquid
+  assign product = product | default: empty
+  unless product != empty
+    break
+  endunless
+
+  assign brand = product.metafields.customMA.brand.value
+  if brand == blank
+    break
+  endif
+%}
+
+<span class="plp-brand-label">{{ brand }}</span>

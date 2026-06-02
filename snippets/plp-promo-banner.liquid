@@ -1,0 +1,62 @@
+{%- doc -%}
+  PLP Promo Banner
+
+  Full-width interstitial promotional banner for injection between product grid rows.
+
+  @param {object} [image] - Image object for background
+  @param {string} [heading] - Banner heading text
+  @param {string} [subheading] - Banner subheading text
+  @param {string} [link] - Optional URL to wrap the banner in a link
+  @param {string} [color_scheme] - Color scheme ID
+
+  @example
+    {% render 'plp-promo-banner',
+      image: section.settings.promo_banner_1_image,
+      heading: section.settings.promo_banner_1_heading,
+      subheading: section.settings.promo_banner_1_subheading,
+      link: section.settings.promo_banner_1_link,
+      color_scheme: section.settings.promo_banner_1_color_scheme
+    %}
+{%- enddoc -%}
+
+{% liquid
+  assign heading = heading | default: ''
+  assign subheading = subheading | default: ''
+  assign color_scheme = color_scheme | default: 'scheme-5'
+
+  if heading == blank and subheading == blank
+    break
+  endif
+
+  assign tag = 'div'
+  if link != blank
+    assign tag = 'a'
+  endif
+%}
+
+<{{ tag }}
+  class="plp-promo-banner color-{{ color_scheme }}"
+  {% if tag == 'a' %}href="{{ link }}"{% endif %}
+>
+  {% if image != blank %}
+    {{
+      image
+      | image_url: width: 1600
+      | image_tag:
+        widths: '600,900,1200,1600',
+        sizes: '100vw',
+        loading: 'lazy',
+        class: 'plp-promo-banner__media',
+        alt: heading
+    }}
+  {% endif %}
+  <div class="plp-promo-banner__overlay"></div>
+  <div class="plp-promo-banner__content">
+    {% if heading != blank %}
+      <p class="plp-promo-banner__heading">{{ heading }}</p>
+    {% endif %}
+    {% if subheading != blank %}
+      <p class="plp-promo-banner__subheading">{{ subheading }}</p>
+    {% endif %}
+  </div>
+</{{ tag }}>

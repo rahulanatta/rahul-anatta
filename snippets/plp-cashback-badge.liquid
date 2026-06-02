@@ -1,0 +1,37 @@
+{%- doc -%}
+  PLP Cashback Badge
+
+  Renders a cashback percentage badge from the customMA.maxStandardCashbackPercent metafield.
+
+  @param {object} product - Product object (required)
+
+  @example
+    {% render 'plp-cashback-badge', product: product %}
+{%- enddoc -%}
+
+{% liquid
+  assign product = product | default: empty
+  unless product != empty
+    break
+  endunless
+
+  assign cashback_value = product.metafields.customMA.maxStandardCashbackPercent.value
+  if cashback_value == blank
+    break
+  endif
+
+  assign cashback_number = cashback_value | plus: 0
+  if cashback_number <= 0
+    break
+  endif
+%}
+
+<div class="plp-cashback-badge">
+  <span>{{ cashback_value }}%</span>
+  <span class="plp-cashback-badge__icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+      <path d="M13.65 2.35a8 8 0 1 0 .96 10.29.5.5 0 0 0-.78-.63 7 7 0 1 1-.84-9.01L11.5 4.5H15V1l-1.35 1.35z"/>
+    </svg>
+  </span>
+  <span>Cashback</span>
+</div>
