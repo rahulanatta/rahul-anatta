@@ -368,11 +368,11 @@
       "settings": {
         "heading": "Sharper Mind. Steadier Energy. Stronger Body",
         "heading_tag": "h2",
-        "background_color": "#1BB7C4",
-        "text_color": "#FFFFFF",
-        "divider_color": "#FFFFFF",
         "columns": 3,
         "section_width": "page-width",
+        "background_color": "#1bb7c4",
+        "text_color": "#ffffff",
+        "divider_color": "#ffffff",
         "padding-block-start": 80,
         "padding-block-end": 80
       }
@@ -569,6 +569,71 @@
         "padding-inline-start": 0,
         "padding-inline-end": 0
       }
+    },
+    "comparison_chart_RVtEmU": {
+      "type": "comparison-chart",
+      "blocks": {
+        "feature_row_mFrc7Q": {
+          "type": "feature-row",
+          "settings": {
+            "feature_text": "Targeted, Purpose-Driven Ingredients",
+            "column_1_status": "check",
+            "column_2_status": "check",
+            "column_3_status": "cross"
+          }
+        },
+        "feature_row_LkGYCA": {
+          "type": "feature-row",
+          "settings": {
+            "feature_text": "Stripped of Unnecessary Fillers",
+            "column_1_status": "check",
+            "column_2_status": "check",
+            "column_3_status": "cross"
+          }
+        },
+        "feature_row_VpGb34": {
+          "type": "feature-row",
+          "settings": {
+            "feature_text": "Premium Countertop Aesthetic",
+            "column_1_status": "check",
+            "column_2_status": "cross",
+            "column_3_status": "cross"
+          }
+        },
+        "feature_row_wHracT": {
+          "type": "feature-row",
+          "settings": {
+            "feature_text": "Frictionless Auto-Delivery",
+            "column_1_status": "check",
+            "column_2_status": "cross",
+            "column_3_status": "cross"
+          }
+        }
+      },
+      "block_order": [
+        "feature_row_mFrc7Q",
+        "feature_row_LkGYCA",
+        "feature_row_VpGb34",
+        "feature_row_wHracT"
+      ],
+      "name": "Comparison chart",
+      "settings": {
+        "heading": "Us Vs. Them",
+        "heading_tag": "h2",
+        "columns_count": "2",
+        "column_1_name": "The Usuals™",
+        "column_1_image": "shopify://shop_images/935461732-1-page-2-21065080.png",
+        "column_1_highlighted": true,
+        "column_2_name": "Generic Brands",
+        "column_2_image": "shopify://shop_images/ellipse-83-desktop-567318681.png",
+        "column_2_highlighted": false,
+        "column_3_name": "",
+        "column_3_highlighted": false,
+        "section_width": "page-width",
+        "color_scheme": "",
+        "padding-block-start": 60,
+        "padding-block-end": 60
+      }
     }
   },
   "order": [
@@ -576,6 +641,7 @@
     "key_ingredients",
     "scientific_results",
     "product_recommendations_qggXJq",
-    "product_features_hTqxaG"
+    "product_features_hTqxaG",
+    "comparison_chart_RVtEmU"
   ]
 }
