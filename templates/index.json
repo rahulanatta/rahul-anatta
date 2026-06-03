@@ -16,7 +16,7 @@
           "type": "text",
           "name": "t:names.heading",
           "settings": {
-            "text": "<p>Browse our latest products</p>",
+            "text": "<p><em>Don't shop-- This is a test store</em></p>",
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
@@ -31,10 +31,10 @@
             "background": false,
             "background_color": "#00000026",
             "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
+            "padding-block-start": 28,
+            "padding-block-end": 20,
+            "padding-inline-start": 20,
+            "padding-inline-end": 14
           },
           "blocks": {}
         },
@@ -42,10 +42,10 @@
           "type": "button",
           "name": "t:names.button",
           "settings": {
-            "label": "Shop all",
+            "label": "Go to Live store",
             "link": "shopify://collections/all",
-            "open_in_new_tab": false,
-            "style_class": "button-secondary",
+            "open_in_new_tab": true,
+            "style_class": "button",
             "width": "fit-content",
             "custom_width": 100,
             "width_mobile": "fit-content",
@@ -60,8 +60,9 @@
       ],
       "name": "t:names.hero",
       "settings": {
-        "media_type_1": "image",
+        "media_type_1": "video",
         "image_1": "shopify://shop_images/rectangle-15773321-mobile-683029640.png",
+        "video_1": "shopify://files/videos/static-hero-desktop.mp4",
         "media_type_2": "image",
         "stack_media_on_mobile": false,
         "custom_mobile_media": false,
@@ -121,8 +122,8 @@
         "cat_jewelry": {
           "type": "category-item",
           "settings": {
-            "collection": "",
-            "image": "shopify://shop_images/rectangle-15773321-mobile-683029625.png",
+            "collection": "frontpage",
+            "image": "shopify://shop_images/b12e2bbfc09b3fc28ed16c207a4be47f5a34f715_LEXI_G_On_Model.jpg",
             "label": "Jewelry"
           }
         },
@@ -209,6 +210,60 @@
         "section_width": "full-width",
         "padding-block-start": 23,
         "padding-block-end": 38
+      }
+    },
+    "ticker_CcLaXA": {
+      "type": "ticker",
+      "blocks": {
+        "ticker_item_VrdWpF": {
+          "type": "ticker-item",
+          "settings": {
+            "text": "Clinically proven",
+            "icon": "check_box"
+          }
+        },
+        "ticker_item_ta3VK7": {
+          "type": "ticker-item",
+          "settings": {
+            "text": "Third Party Tested",
+            "icon": "check_box"
+          }
+        },
+        "ticker_item_j8fhYx": {
+          "type": "ticker-item",
+          "settings": {
+            "text": "No Refrigeration Needed",
+            "icon": "check_box"
+          }
+        },
+        "ticker_item_gcE9if": {
+          "type": "ticker-item",
+          "settings": {
+            "text": "30-day money back guarantee",
+            "icon": "check_box"
+          }
+        }
+      },
+      "block_order": [
+        "ticker_item_VrdWpF",
+        "ticker_item_ta3VK7",
+        "ticker_item_j8fhYx",
+        "ticker_item_gcE9if"
+      ],
+      "name": "Ticker",
+      "settings": {
+        "movement_direction": "normal",
+        "speed": 10,
+        "section_width": "full-width",
+        "gap": 48,
+        "icon_size": 32,
+        "background_color": "#333028",
+        "show_gradient": true,
+        "gradient_color": "#dfdfdf",
+        "gradient_direction": "to right",
+        "text_color": "#FFFFFF",
+        "padding-block-start": 24,
+        "padding-block-end": 24
       }
     },
     "product_list_fa6P9H": {
@@ -776,6 +831,7 @@
   "order": [
     "hero_jVaWmY",
     "categories_carousel",
+    "ticker_CcLaXA",
     "product_list_fa6P9H",
     "best_sellers_xK7mN2",
     "image_text_cta_EGXpPJ",

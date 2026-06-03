@@ -75,6 +75,7 @@
             },
             "menu_brands": {
               "type": "menu",
+              "disabled": true,
               "settings": {
                 "menu": "shop",
                 "heading": "Our Brands",
@@ -95,6 +96,7 @@
             },
             "menu_company": {
               "type": "menu",
+              "disabled": true,
               "settings": {
                 "menu": "shop",
                 "heading": "Company",
@@ -115,6 +117,7 @@
             },
             "menu_support": {
               "type": "menu",
+              "disabled": true,
               "settings": {
                 "menu": "",
                 "heading": "Support",
@@ -135,6 +138,7 @@
             },
             "menu_account": {
               "type": "menu",
+              "disabled": true,
               "settings": {
                 "menu": "",
                 "heading": "Account",
