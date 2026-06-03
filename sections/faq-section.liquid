@@ -1,0 +1,392 @@
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div
+  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style faq-section"
+  style="
+    --faq-heading-font-size: {{ section.settings.heading_font_size }}px;
+    --faq-heading-line-height: {{ section.settings.heading_line_height }}px;
+    --faq-question-font-size: {{ section.settings.question_font_size }}px;
+    --faq-question-line-height: {{ section.settings.question_line_height }}px;
+    --faq-answer-font-size: {{ section.settings.answer_font_size }}px;
+    --faq-answer-line-height: {{ section.settings.answer_line_height }}px;
+    --faq-max-content-width: {{ section.settings.max_content_width }}px;
+    {%- render 'spacing-style', settings: section.settings -%}
+  "
+>
+  <div class="faq-section__inner">
+    {% if section.settings.heading != blank %}
+      <{{ section.settings.heading_tag }} class="faq-section__heading">
+        {{- section.settings.heading | escape -}}
+      </{{ section.settings.heading_tag }}>
+    {% endif %}
+
+    <div class="faq-section__accordion">
+      {% for block in section.blocks %}
+        {% capture accordion_children %}
+          <details
+            class="faq-section__details"
+            {% if block.settings.open_by_default %}open{% endif %}
+            {{ block.shopify_attributes }}
+          >
+            <summary class="faq-section__summary">
+              <span class="faq-section__question">{{ block.settings.question | escape }}</span>
+              <span class="faq-section__icon faq-section__icon--plus" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3.125 10H16.875" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M10 3.125V16.875" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              <span class="faq-section__icon faq-section__icon--minus" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3.125 10H16.875" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            </summary>
+            <div class="details-content">
+              <div class="faq-section__answer">
+                {{ block.settings.answer }}
+              </div>
+            </div>
+          </details>
+        {% endcapture %}
+        {% render 'accordion-custom-component',
+          children: accordion_children,
+          open_by_default_on_desktop: block.settings.open_by_default,
+          open_by_default_on_mobile: block.settings.open_by_default
+        %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .faq-section__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+
+  .faq-section__heading {
+    margin: 0;
+    text-align: center;
+    font-family: var(--font-heading--family);
+    font-weight: 500;
+    font-size: var(--faq-heading-font-size, 32px);
+    line-height: var(--faq-heading-line-height, 42px);
+    letter-spacing: -0.8px;
+    color: var(--color-foreground);
+  }
+
+  .faq-section__accordion {
+    width: 100%;
+    max-width: var(--faq-max-content-width, 1000px);
+  }
+
+  .faq-section__details {
+    border-bottom: 1px solid #E9E9E9;
+  }
+
+  .faq-section__summary {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding-block: 20px;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .faq-section__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-section__summary:focus-visible {
+    outline: 2px solid var(--color-foreground);
+    outline-offset: 2px;
+  }
+
+  .faq-section__question {
+    flex: 1;
+    font-family: var(--font-heading--family);
+    font-weight: 500;
+    font-size: var(--faq-question-font-size, 22px);
+    line-height: var(--faq-question-line-height, 32px);
+    letter-spacing: -0.44px;
+    color: var(--color-foreground);
+  }
+
+  .faq-section__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    color: var(--color-foreground);
+  }
+
+  .faq-section__icon--minus {
+    display: none;
+  }
+
+  .faq-section__details[open] .faq-section__icon--plus {
+    display: none;
+  }
+
+  .faq-section__details[open] .faq-section__icon--minus {
+    display: flex;
+  }
+
+  .faq-section__answer {
+    padding-block-end: 20px;
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: var(--faq-answer-font-size, 16px);
+    line-height: var(--faq-answer-line-height, 26px);
+    color: var(--color-foreground);
+  }
+
+  .faq-section__answer p {
+    margin: 0;
+  }
+
+  @media screen and (max-width: 749px) {
+    .faq-section__inner {
+      gap: 24px;
+    }
+
+    .faq-section__heading {
+      font-size: 24px;
+      line-height: 31px;
+      letter-spacing: 0;
+    }
+
+    .faq-section__summary {
+      gap: 8px;
+    }
+
+    .faq-section__question {
+      font-size: 18px;
+      line-height: 24px;
+      letter-spacing: 0;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "FAQ",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "FAQs"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading tag",
+      "options": [
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" },
+        { "value": "h6", "label": "H6" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "number",
+      "id": "heading_font_size",
+      "label": "Heading font size",
+      "default": 32,
+      "info": "Recommended: 24–40"
+    },
+    {
+      "type": "number",
+      "id": "heading_line_height",
+      "label": "Heading line height",
+      "default": 42,
+      "info": "Recommended: 30–50"
+    },
+    {
+      "type": "number",
+      "id": "question_font_size",
+      "label": "Question font size",
+      "default": 22,
+      "info": "Recommended: 16–28"
+    },
+    {
+      "type": "number",
+      "id": "question_line_height",
+      "label": "Question line height",
+      "default": 32,
+      "info": "Recommended: 22–38"
+    },
+    {
+      "type": "number",
+      "id": "answer_font_size",
+      "label": "Answer font size",
+      "default": 16,
+      "info": "Recommended: 14–20"
+    },
+    {
+      "type": "number",
+      "id": "answer_line_height",
+      "label": "Answer line height",
+      "default": 26,
+      "info": "Recommended: 20–32"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "number",
+      "id": "max_content_width",
+      "label": "Max content width",
+      "default": 1000,
+      "info": "In pixels"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Left padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Right padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq-item",
+      "name": "FAQ item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "Question text here"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Answer text here</p>"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_by_default",
+          "label": "Open by default",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ",
+      "category": "t:categories.text",
+      "blocks": {
+        "item_1": {
+          "type": "faq-item",
+          "settings": {
+            "question": "How often should I use Lumiere de Vie® NAD Crème?",
+            "answer": "<p>Shipping typically takes 5-7 business days within the United States. For international orders, shipping can take 10-15 business days, depending on the destination and customs processing times. You will receive a tracking number once your order has shipped so you can monitor its progress.</p>",
+            "open_by_default": true
+          }
+        },
+        "item_2": {
+          "type": "faq-item",
+          "settings": {
+            "question": "How is myristyl nicotinate beneficial for skin?",
+            "answer": "<p>Answer text here</p>"
+          }
+        },
+        "item_3": {
+          "type": "faq-item",
+          "settings": {
+            "question": "What skin types can use Lumière de Vie NAD Crème?",
+            "answer": "<p>Answer text here</p>"
+          }
+        },
+        "item_4": {
+          "type": "faq-item",
+          "settings": {
+            "question": "Can Lumière de Vie NAD Crème be layered with other skincare products?",
+            "answer": "<p>Answer text here</p>"
+          }
+        }
+      },
+      "block_order": ["item_1", "item_2", "item_3", "item_4"]
+    }
+  ]
+}
+{% endschema %}
