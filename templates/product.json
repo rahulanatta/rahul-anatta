@@ -335,6 +335,48 @@
         "padding-block-end": 60
       }
     },
+    "scientific_results": {
+      "type": "scientific-results",
+      "blocks": {
+        "result_1": {
+          "type": "result-item",
+          "settings": {
+            "stat_value": "95%",
+            "description": "of the body's creatine is used by the skeletal muscle during exercise. Evidence shows that creatine can support lean muscle mass and strength gains when combines with resistance training."
+          }
+        },
+        "result_2": {
+          "type": "result-item",
+          "settings": {
+            "stat_value": "2%",
+            "description": "Although the brain makes up just 2% of body mass, it uses about 20% of resting energy. Creatine provides benefits for cognitive performance and a reduction of mental fatigue."
+          }
+        },
+        "result_3": {
+          "type": "result-item",
+          "settings": {
+            "stat_value": "5G",
+            "description": "Prime Creatine is formulated with 5 grams of highly bioavailable creatine monophydrate, the most studied and substantiated form. Its bioavailability allows it to reach the brain, where it helps regenerate adenosine triophosphate (ATP), the brain's energy currency."
+          }
+        }
+      },
+      "block_order": [
+        "result_1",
+        "result_2",
+        "result_3"
+      ],
+      "settings": {
+        "heading": "Sharper Mind. Steadier Energy. Stronger Body",
+        "heading_tag": "h2",
+        "background_color": "#1BB7C4",
+        "text_color": "#FFFFFF",
+        "divider_color": "#FFFFFF",
+        "columns": 3,
+        "section_width": "page-width",
+        "padding-block-start": 80,
+        "padding-block-end": 80
+      }
+    },
     "product_recommendations_qggXJq": {
       "type": "product-recommendations",
       "blocks": {
@@ -532,6 +574,7 @@
   "order": [
     "main",
     "key_ingredients",
+    "scientific_results",
     "product_recommendations_qggXJq",
     "product_features_hTqxaG"
   ]
