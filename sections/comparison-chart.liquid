@@ -1,0 +1,534 @@
+{% liquid
+  assign columns_count = section.settings.columns_count | plus: 0
+  assign heading_tag = section.settings.heading_tag
+%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div
+  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style comparison-chart"
+  style="{%- render 'spacing-style', settings: section.settings -%}"
+>
+  <div class="comparison-chart__scroll-wrapper">
+    <div class="comparison-chart__grid comparison-chart__grid--cols-{{ columns_count }}">
+
+      {%- comment -%} Header row {%- endcomment -%}
+      <div class="comparison-chart__heading-cell">
+        {% if section.settings.heading != blank %}
+          <{{ heading_tag }} class="comparison-chart__heading">
+            {{- section.settings.heading | escape -}}
+          </{{ heading_tag }}>
+        {% endif %}
+      </div>
+
+      {%- comment -%} Column 1 header {%- endcomment -%}
+      <div class="comparison-chart__col-header{% if section.settings.column_1_highlighted %} comparison-chart__col-header--highlighted{% else %} comparison-chart__cell--bg comparison-chart__cell--bg-top{% endif %}">
+        {% if section.settings.column_1_image != blank %}
+          <div class="comparison-chart__col-image-wrap">
+            {{
+              section.settings.column_1_image
+              | image_url: width: 182
+              | image_tag:
+                loading: 'lazy',
+                class: 'comparison-chart__col-img',
+                alt: section.settings.column_1_name
+            }}
+          </div>
+        {% endif %}
+        {% if section.settings.column_1_name != blank %}
+          <span class="comparison-chart__col-name">{{ section.settings.column_1_name | escape }}</span>
+        {% endif %}
+      </div>
+
+      {%- comment -%} Column 2 header {%- endcomment -%}
+      <div class="comparison-chart__col-header{% if section.settings.column_2_highlighted %} comparison-chart__col-header--highlighted{% else %} comparison-chart__cell--bg comparison-chart__cell--bg-top{% endif %}">
+        {% if section.settings.column_2_image != blank %}
+          <div class="comparison-chart__col-image-wrap">
+            {{
+              section.settings.column_2_image
+              | image_url: width: 182
+              | image_tag:
+                loading: 'lazy',
+                class: 'comparison-chart__col-img',
+                alt: section.settings.column_2_name
+            }}
+          </div>
+        {% endif %}
+        {% if section.settings.column_2_name != blank %}
+          <span class="comparison-chart__col-name">{{ section.settings.column_2_name | escape }}</span>
+        {% endif %}
+      </div>
+
+      {%- comment -%} Column 3 header (conditional) {%- endcomment -%}
+      {% if columns_count == 3 %}
+        <div class="comparison-chart__col-header{% if section.settings.column_3_highlighted %} comparison-chart__col-header--highlighted{% else %} comparison-chart__cell--bg comparison-chart__cell--bg-top{% endif %}">
+          {% if section.settings.column_3_image != blank %}
+            <div class="comparison-chart__col-image-wrap">
+              {{
+                section.settings.column_3_image
+                | image_url: width: 182
+                | image_tag:
+                  loading: 'lazy',
+                  class: 'comparison-chart__col-img',
+                  alt: section.settings.column_3_name
+              }}
+            </div>
+          {% endif %}
+          {% if section.settings.column_3_name != blank %}
+            <span class="comparison-chart__col-name">{{ section.settings.column_3_name | escape }}</span>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {%- comment -%} Feature rows {%- endcomment -%}
+      {% for block in section.blocks %}
+        <div class="comparison-chart__row-text" {{ block.shopify_attributes }}>
+          {{ block.settings.feature_text | escape }}
+        </div>
+
+        <div class="comparison-chart__row-icon{% unless section.settings.column_1_highlighted %} comparison-chart__cell--bg{% if forloop.last %} comparison-chart__cell--bg-bottom{% endif %}{% endunless %}">
+          {% if block.settings.column_1_status == 'check' %}
+            <img src="{{ 'check-circle-2.svg' | asset_url }}" alt="Yes" width="32" height="32" class="comparison-chart__icon comparison-chart__icon--check" loading="lazy">
+          {% else %}
+            <img src="{{ 'block-2.svg' | asset_url }}" alt="No" width="32" height="32" class="comparison-chart__icon comparison-chart__icon--cross" loading="lazy">
+          {% endif %}
+        </div>
+
+        <div class="comparison-chart__row-icon{% unless section.settings.column_2_highlighted %} comparison-chart__cell--bg{% if forloop.last %} comparison-chart__cell--bg-bottom{% endif %}{% endunless %}">
+          {% if block.settings.column_2_status == 'check' %}
+            <img src="{{ 'check-circle-2.svg' | asset_url }}" alt="Yes" width="32" height="32" class="comparison-chart__icon comparison-chart__icon--check" loading="lazy">
+          {% else %}
+            <img src="{{ 'block-2.svg' | asset_url }}" alt="No" width="32" height="32" class="comparison-chart__icon comparison-chart__icon--cross" loading="lazy">
+          {% endif %}
+        </div>
+
+        {% if columns_count == 3 %}
+          <div class="comparison-chart__row-icon{% unless section.settings.column_3_highlighted %} comparison-chart__cell--bg{% if forloop.last %} comparison-chart__cell--bg-bottom{% endif %}{% endunless %}">
+            {% if block.settings.column_3_status == 'check' %}
+              <img src="{{ 'check-circle-2.svg' | asset_url }}" alt="Yes" width="32" height="32" class="comparison-chart__icon comparison-chart__icon--check" loading="lazy">
+            {% else %}
+              <img src="{{ 'block-2.svg' | asset_url }}" alt="No" width="32" height="32" class="comparison-chart__icon comparison-chart__icon--cross" loading="lazy">
+            {% endif %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .comparison-chart__scroll-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .comparison-chart__grid {
+    display: grid;
+    row-gap: 0;
+    column-gap: 0;
+  }
+
+  .comparison-chart__grid--cols-2 {
+    grid-template-columns: 1.5fr 1fr 1fr;
+  }
+
+  .comparison-chart__grid--cols-3 {
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  }
+
+  /* Heading cell */
+  .comparison-chart__heading-cell {
+    display: flex;
+    align-items: center;
+    padding-block-end: 24px;
+    border-bottom: 1px solid rgb(0 0 0 / 0.1);
+  }
+
+  .comparison-chart__heading {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-weight: 500;
+    font-size: 40px;
+    line-height: 52px;
+    color: var(--color-foreground);
+  }
+
+  /* Column headers */
+  .comparison-chart__col-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 16px 24px;
+    border-bottom: 1px solid rgb(0 0 0 / 0.1);
+  }
+
+  .comparison-chart__col-image-wrap {
+    width: 91px;
+    height: 91px;
+    border-radius: 50%;
+    border: 1px solid #E3E3E3;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .comparison-chart__col-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  .comparison-chart__col-name {
+    font-family: var(--font-body--family);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 18px;
+    text-align: center;
+    color: var(--color-foreground);
+  }
+
+  .comparison-chart__col-header--highlighted .comparison-chart__col-name {
+    font-family: var(--font-heading--family);
+    font-weight: 800;
+    font-size: 20px;
+    line-height: 27px;
+    text-transform: uppercase;
+  }
+
+  /* Feature row — text cell */
+  .comparison-chart__row-text {
+    display: flex;
+    align-items: center;
+    padding: 20px 16px 20px 0;
+    border-bottom: 1px solid rgb(0 0 0 / 0.1);
+    font-family: var(--font-body--family);
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 20px;
+    color: var(--color-foreground);
+  }
+
+  /* Feature row — icon cell */
+  .comparison-chart__row-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 16px;
+    border-bottom: 1px solid rgb(0 0 0 / 0.1);
+  }
+
+  .comparison-chart__icon {
+    display: block;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+  }
+
+  .comparison-chart__icon--cross {
+    opacity: 0.5;
+  }
+
+  /* Non-highlighted column background */
+  .comparison-chart__cell--bg {
+    background-color: #F8F8F8;
+  }
+
+  .comparison-chart__cell--bg-top {
+    border-radius: 20px 20px 0 0;
+  }
+
+  .comparison-chart__cell--bg-bottom {
+    border-radius: 0 0 20px 20px;
+  }
+
+  /* Mobile */
+  @media screen and (max-width: 749px) {
+    .comparison-chart__grid {
+      min-width: 600px;
+    }
+
+    .comparison-chart__heading {
+      font-size: 28px;
+      line-height: 36px;
+    }
+
+    .comparison-chart__row-text {
+      font-size: 14px;
+      line-height: 18px;
+      padding: 16px 12px 16px 0;
+    }
+
+    .comparison-chart__row-icon {
+      padding: 16px 12px;
+    }
+
+    .comparison-chart__col-header {
+      padding: 12px 12px 20px;
+    }
+
+    .comparison-chart__col-image-wrap {
+      width: 64px;
+      height: 64px;
+    }
+
+    .comparison-chart__col-name {
+      font-size: 13px;
+      line-height: 16px;
+    }
+
+    .comparison-chart__col-header--highlighted .comparison-chart__col-name {
+      font-size: 15px;
+      line-height: 20px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .comparison-chart__scroll-wrapper {
+      scroll-behavior: auto;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Comparison chart",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Us Vs. Them"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading tag",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" },
+        { "value": "h6", "label": "H6" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "select",
+      "id": "columns_count",
+      "label": "Columns",
+      "options": [
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "header",
+      "content": "Column 1"
+    },
+    {
+      "type": "text",
+      "id": "column_1_name",
+      "label": "Name",
+      "default": "The Usuals™"
+    },
+    {
+      "type": "image_picker",
+      "id": "column_1_image",
+      "label": "Image"
+    },
+    {
+      "type": "checkbox",
+      "id": "column_1_highlighted",
+      "label": "Highlighted",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Column 2"
+    },
+    {
+      "type": "text",
+      "id": "column_2_name",
+      "label": "Name",
+      "default": "Generic Brands"
+    },
+    {
+      "type": "image_picker",
+      "id": "column_2_image",
+      "label": "Image"
+    },
+    {
+      "type": "checkbox",
+      "id": "column_2_highlighted",
+      "label": "Highlighted",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Column 3"
+    },
+    {
+      "type": "text",
+      "id": "column_3_name",
+      "label": "Name",
+      "visible_if": "{{ section.settings.columns_count == '3' }}"
+    },
+    {
+      "type": "image_picker",
+      "id": "column_3_image",
+      "label": "Image",
+      "visible_if": "{{ section.settings.columns_count == '3' }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "column_3_highlighted",
+      "label": "Highlighted",
+      "default": false,
+      "visible_if": "{{ section.settings.columns_count == '3' }}"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature-row",
+      "name": "Feature row",
+      "settings": [
+        {
+          "type": "text",
+          "id": "feature_text",
+          "label": "Feature text"
+        },
+        {
+          "type": "select",
+          "id": "column_1_status",
+          "label": "Column 1 status",
+          "options": [
+            { "value": "check", "label": "Check" },
+            { "value": "cross", "label": "Cross" }
+          ],
+          "default": "check"
+        },
+        {
+          "type": "select",
+          "id": "column_2_status",
+          "label": "Column 2 status",
+          "options": [
+            { "value": "check", "label": "Check" },
+            { "value": "cross", "label": "Cross" }
+          ],
+          "default": "cross"
+        },
+        {
+          "type": "select",
+          "id": "column_3_status",
+          "label": "Column 3 status",
+          "options": [
+            { "value": "check", "label": "Check" },
+            { "value": "cross", "label": "Cross" }
+          ],
+          "default": "cross",
+          "visible_if": "{{ section.settings.columns_count == '3' }}"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Comparison chart",
+      "category": "t:categories.text",
+      "blocks": {
+        "row_1": {
+          "type": "feature-row",
+          "settings": {
+            "feature_text": "Targeted, Purpose-Driven Ingredients",
+            "column_1_status": "check",
+            "column_2_status": "cross"
+          }
+        },
+        "row_2": {
+          "type": "feature-row",
+          "settings": {
+            "feature_text": "Stripped of Unnecessary Fillers",
+            "column_1_status": "check",
+            "column_2_status": "cross"
+          }
+        },
+        "row_3": {
+          "type": "feature-row",
+          "settings": {
+            "feature_text": "Premium Countertop Aesthetic",
+            "column_1_status": "check",
+            "column_2_status": "cross"
+          }
+        },
+        "row_4": {
+          "type": "feature-row",
+          "settings": {
+            "feature_text": "Frictionless Auto-Delivery",
+            "column_1_status": "check",
+            "column_2_status": "cross"
+          }
+        }
+      },
+      "block_order": ["row_1", "row_2", "row_3", "row_4"]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,271 @@
+{% liquid
+  assign section_width = section.settings.section_width
+  assign heading_tag = section.settings.heading_tag
+%}
+
+<div
+  class="scientific-results"
+  style="
+    background-color: {{ section.settings.background_color }};
+    --scientific-results-text-color: {{ section.settings.text_color }};
+    --scientific-results-divider-color: {{ section.settings.divider_color }};
+    --scientific-results-columns: {{ section.settings.columns }};
+  "
+>
+  <div
+    class="scientific-results__inner section section--{{ section_width }} spacing-style"
+    style="{% render 'spacing-style', settings: section.settings %}"
+  >
+    {% if section.settings.heading != blank %}
+      <{{ heading_tag }} class="scientific-results__heading">
+        {{ section.settings.heading | escape }}
+      </{{ heading_tag }}>
+    {% endif %}
+
+    {% if section.blocks.size > 0 %}
+      <div class="scientific-results__grid">
+        {% for block in section.blocks %}
+          <div class="scientific-results__item" {{ block.shopify_attributes }}>
+            {% if block.settings.stat_value != blank %}
+              <p class="scientific-results__stat">{{ block.settings.stat_value | escape }}</p>
+            {% endif %}
+            <div class="scientific-results__item-body">
+              {% if block.settings.description != blank %}
+                <p class="scientific-results__description">{{ block.settings.description | escape }}</p>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .scientific-results__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 64px;
+    align-items: center;
+  }
+
+  .scientific-results__heading {
+    font-family: var(--font-body--family);
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 38px;
+    letter-spacing: 0;
+    text-align: center;
+    color: var(--scientific-results-text-color);
+    margin: 0;
+    width: 100%;
+  }
+
+  .scientific-results__grid {
+    display: grid;
+    grid-template-columns: repeat(var(--scientific-results-columns, 3), 1fr);
+    gap: 32px;
+    width: 100%;
+  }
+
+  .scientific-results__item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .scientific-results__stat {
+    font-family: var(--font-body--family);
+    font-size: 48px;
+    font-weight: 300;
+    line-height: 62px;
+    text-transform: uppercase;
+    color: var(--scientific-results-text-color);
+    margin: 0;
+  }
+
+  .scientific-results__item-body {
+    border-top: 1px solid var(--scientific-results-divider-color);
+    padding-top: 8px;
+  }
+
+  .scientific-results__description {
+    font-family: var(--font-body--family);
+    font-size: 17px;
+    line-height: 24px;
+    font-weight: 400;
+    color: var(--scientific-results-text-color);
+    margin: 0;
+  }
+
+  @media screen and (max-width: 749px) {
+    .scientific-results__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .scientific-results__heading {
+      font-size: 24px;
+      line-height: 30px;
+    }
+
+    .scientific-results__stat {
+      font-size: 36px;
+      line-height: 48px;
+    }
+
+    .scientific-results__inner {
+      gap: 40px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Scientific Results",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "blocks": [
+    {
+      "type": "result-item",
+      "name": "Result item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "stat_value",
+          "label": "Stat value"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Sharper Mind. Steadier Energy. Stronger Body"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading tag",
+      "options": [
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" },
+        { "value": "h6", "label": "H6" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Columns",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#1BB7C4"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "Divider color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scientific Results",
+      "category": "t:categories.text",
+      "blocks": {
+        "item_1": {
+          "type": "result-item",
+          "settings": {
+            "stat_value": "95%",
+            "description": "of the body's creatine is used by the skeletal muscle during exercise. Evidence shows that creatine can support lean muscle mass and strength gains when combines with resistance training."
+          }
+        },
+        "item_2": {
+          "type": "result-item",
+          "settings": {
+            "stat_value": "2%",
+            "description": "Although the brain makes up just 2% of body mass, it uses about 20% of resting energy. Creatine provides benefits for cognitive performance and a reduction of mental fatigue."
+          }
+        },
+        "item_3": {
+          "type": "result-item",
+          "settings": {
+            "stat_value": "5G",
+            "description": "Prime Creatine is formulated with 5 grams of highly bioavailable creatine monophydrate, the most studied and substantiated form. Its bioavailability allows it to reach the brain, where it helps regenerate adenosine triophosphate (ATP), the brain's energy currency."
+          }
+        }
+      },
+      "block_order": ["item_1", "item_2", "item_3"]
+    }
+  ]
+}
+{% endschema %}
