@@ -634,6 +634,68 @@
         "padding-block-start": 60,
         "padding-block-end": 60
       }
+    },
+    "product_categories": {
+      "type": "product-categories",
+      "blocks": {
+        "category_1": {
+          "type": "category-item",
+          "settings": {
+            "label": "CLEANSE & TONE",
+            "image": "shopify://shop_images/rectangle-2608-desktop-1-design-569818560.png"
+          }
+        },
+        "category_2": {
+          "type": "category-item",
+          "settings": {
+            "label": "TREAT"
+          }
+        },
+        "category_3": {
+          "type": "category-item",
+          "settings": {
+            "label": "MOISTURIZE & MASK",
+            "image": "shopify://shop_images/rectangle-2608-desktop-1-design-569818566.jpg"
+          }
+        },
+        "category_4": {
+          "type": "category-item",
+          "settings": {
+            "label": "BODY",
+            "image": "shopify://shop_images/rectangle-2608-desktop-1-design-569818569.png"
+          }
+        },
+        "category_5": {
+          "type": "category-item",
+          "settings": {
+            "label": "MEN",
+            "image": "shopify://shop_images/rectangle-2608-desktop-1-design-569818572.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "category_1",
+        "category_2",
+        "category_3",
+        "category_4",
+        "category_5"
+      ],
+      "settings": {
+        "section_width": "page-width",
+        "gap": 20,
+        "item_gap": 16,
+        "image_border_radius": 16,
+        "label_font_size": 24,
+        "label_line_height": 31,
+        "label_font_size_mobile": 18,
+        "label_line_height_mobile": 23,
+        "text_transform": "uppercase",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 64,
+        "padding-block-end": 64,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
+      }
     }
   },
   "order": [
@@ -642,6 +704,7 @@
     "scientific_results",
     "product_recommendations_qggXJq",
     "product_features_hTqxaG",
-    "comparison_chart_RVtEmU"
+    "comparison_chart_RVtEmU",
+    "product_categories"
   ]
 }

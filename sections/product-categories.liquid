@@ -1,0 +1,328 @@
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div
+  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style product-categories"
+  style="
+    {%- render 'spacing-style', settings: section.settings -%}
+    --product-categories-gap: {{ section.settings.gap }}px;
+    --product-categories-item-gap: {{ section.settings.item_gap }}px;
+    --product-categories-border-radius: {{ section.settings.image_border_radius }}px;
+    --product-categories-font-size: {{ section.settings.label_font_size }}px;
+    --product-categories-line-height: {{ section.settings.label_line_height }}px;
+    --product-categories-font-size-mobile: {{ section.settings.label_font_size_mobile }}px;
+    --product-categories-line-height-mobile: {{ section.settings.label_line_height_mobile }}px;
+    --product-categories-text-transform: {{ section.settings.text_transform }};
+  "
+>
+  <div class="product-categories__grid">
+    {% for block in section.blocks %}
+      {% liquid
+        assign label = block.settings.label
+        if block.settings.collection != blank and block.settings.collection.title != blank
+          assign label = block.settings.collection.title
+        endif
+
+        assign link_url = '#'
+        if block.settings.collection != blank
+          assign link_url = block.settings.collection.url
+        endif
+
+        assign image = block.settings.image
+        if image == blank and block.settings.collection != blank
+          assign image = block.settings.collection.image
+        endif
+      %}
+      <a
+        href="{{ link_url }}"
+        class="product-categories__item"
+        {{ block.shopify_attributes }}
+      >
+        {% if image != blank %}
+          {%- assign sizes_val = '(min-width: 750px) 265px, calc(50vw - 24px)' -%}
+          {{
+            image
+            | image_url: width: image.width
+            | image_tag:
+              widths: '171,265,342,530',
+              sizes: sizes_val,
+              loading: 'lazy',
+              class: 'product-categories__image',
+              alt: label
+          }}
+        {% else %}
+          <div class="product-categories__image product-categories__image--placeholder">
+            {{ 'collection-1' | placeholder_svg_tag }}
+          </div>
+        {% endif %}
+        <span class="product-categories__label">{{ label }}</span>
+      </a>
+    {% endfor %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .product-categories__grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--product-categories-item-gap, 16px);
+    row-gap: var(--product-categories-gap, 20px);
+    justify-content: center;
+    padding-inline: 16px;
+
+    @media screen and (min-width: 750px) {
+      flex-wrap: nowrap;
+      gap: var(--product-categories-gap, 20px);
+      padding-inline: 0;
+    }
+  }
+
+  .product-categories__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    flex: 0 0 calc(50% - var(--product-categories-item-gap, 16px) / 2);
+    text-decoration: none;
+    color: var(--color-foreground);
+
+    @media screen and (min-width: 750px) {
+      flex: 0 0 auto;
+      gap: 16px;
+    }
+  }
+
+  .product-categories__image {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: var(--product-categories-border-radius, 16px);
+    display: block;
+
+    @media screen and (min-width: 750px) {
+      width: 265px;
+    }
+  }
+
+  .product-categories__image--placeholder {
+    background-color: var(--color-background);
+    overflow: hidden;
+  }
+
+  .product-categories__image--placeholder svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .product-categories__label {
+    font-family: var(--font-body--family);
+    font-size: var(--product-categories-font-size-mobile, 18px);
+    line-height: var(--product-categories-line-height-mobile, 23px);
+    text-align: center;
+    text-transform: var(--product-categories-text-transform, uppercase);
+    color: var(--color-foreground);
+
+    @media screen and (min-width: 750px) {
+      font-size: var(--product-categories-font-size, 24px);
+      line-height: var(--product-categories-line-height, 31px);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Product categories",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Gap",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "item_gap",
+      "label": "Mobile column gap",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "label_font_size",
+      "label": "Font size",
+      "min": 10,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "label_line_height",
+      "label": "Line height",
+      "min": 10,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "default": 31
+    },
+    {
+      "type": "range",
+      "id": "label_font_size_mobile",
+      "label": "Font size (mobile)",
+      "min": 10,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "label_line_height_mobile",
+      "label": "Line height (mobile)",
+      "min": 10,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "default": 23
+    },
+    {
+      "type": "select",
+      "id": "text_transform",
+      "label": "Text transform",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "uppercase", "label": "Uppercase" },
+        { "value": "lowercase", "label": "Lowercase" },
+        { "value": "capitalize", "label": "Capitalize" }
+      ],
+      "default": "uppercase"
+    },
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Left padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Right padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category-item",
+      "name": "Category",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Category"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product categories",
+      "category": "t:categories.collection"
+    }
+  ]
+}
+{% endschema %}
