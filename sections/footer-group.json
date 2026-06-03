@@ -76,7 +76,7 @@
             "menu_brands": {
               "type": "menu",
               "settings": {
-                "menu": "",
+                "menu": "shop",
                 "heading": "Our Brands",
                 "menu_spacing": 16,
                 "show_as_accordion": true,
@@ -96,7 +96,7 @@
             "menu_company": {
               "type": "menu",
               "settings": {
-                "menu": "",
+                "menu": "shop",
                 "heading": "Company",
                 "menu_spacing": 16,
                 "show_as_accordion": true,

@@ -641,35 +641,40 @@
         "category_1": {
           "type": "category-item",
           "settings": {
-            "label": "CLEANSE & TONE",
-            "image": "shopify://shop_images/rectangle-2608-desktop-1-design-569818560.png"
+            "collection": "",
+            "image": "shopify://shop_images/rectangle-2608-desktop-1-design-569818560.png",
+            "label": "CLEANSE & TONE"
           }
         },
         "category_2": {
           "type": "category-item",
           "settings": {
+            "collection": "",
             "label": "TREAT"
           }
         },
         "category_3": {
           "type": "category-item",
           "settings": {
-            "label": "MOISTURIZE & MASK",
-            "image": "shopify://shop_images/rectangle-2608-desktop-1-design-569818566.jpg"
+            "collection": "",
+            "image": "shopify://shop_images/rectangle-2608-desktop-1-design-569818566.jpg",
+            "label": "MOISTURIZE & MASK"
           }
         },
         "category_4": {
           "type": "category-item",
           "settings": {
-            "label": "BODY",
-            "image": "shopify://shop_images/rectangle-2608-desktop-1-design-569818569.png"
+            "collection": "",
+            "image": "shopify://shop_images/rectangle-2608-desktop-1-design-569818569.png",
+            "label": "BODY"
           }
         },
         "category_5": {
           "type": "category-item",
           "settings": {
-            "label": "MEN",
-            "image": "shopify://shop_images/rectangle-2608-desktop-1-design-569818572.jpg"
+            "collection": "",
+            "image": "shopify://shop_images/rectangle-2608-desktop-1-design-569818572.jpg",
+            "label": "MEN"
           }
         }
       },
@@ -696,6 +701,67 @@
         "padding-inline-start": 0,
         "padding-inline-end": 0
       }
+    },
+    "faq_section_3hehKj": {
+      "type": "faq-section",
+      "blocks": {
+        "faq_item_7T3HWB": {
+          "type": "faq-item",
+          "settings": {
+            "question": "How often should I use Lumiere de Vie® NAD Crème?",
+            "answer": "<p>Shipping typically takes 5-7 business days within the United States. For international orders, shipping can take 10-15 business days, depending on the destination and customs processing times. You will receive a tracking number once your order has shipped so you can monitor its progress.</p>",
+            "open_by_default": true
+          }
+        },
+        "faq_item_pxnpKK": {
+          "type": "faq-item",
+          "settings": {
+            "question": "How is myristyl nicotinate beneficial for skin?",
+            "answer": "<p>Answer text here</p>",
+            "open_by_default": false
+          }
+        },
+        "faq_item_YtRNWH": {
+          "type": "faq-item",
+          "settings": {
+            "question": "What skin types can use Lumière de Vie NAD Crème?",
+            "answer": "<p>Answer text here</p>",
+            "open_by_default": false
+          }
+        },
+        "faq_item_m7t6gw": {
+          "type": "faq-item",
+          "settings": {
+            "question": "Can Lumière de Vie NAD Crème be layered with other skincare products?",
+            "answer": "<p>Answer text here</p>",
+            "open_by_default": false
+          }
+        }
+      },
+      "block_order": [
+        "faq_item_7T3HWB",
+        "faq_item_pxnpKK",
+        "faq_item_YtRNWH",
+        "faq_item_m7t6gw"
+      ],
+      "name": "FAQ",
+      "settings": {
+        "heading": "FAQs",
+        "heading_tag": "h2",
+        "heading_font_size": 32,
+        "heading_line_height": 42,
+        "question_font_size": 22,
+        "question_line_height": 32,
+        "answer_font_size": 16,
+        "answer_line_height": 26,
+        "max_content_width": 1000,
+        "section_width": "page-width",
+        "color_scheme": "",
+        "padding-block-start": 80,
+        "padding-block-end": 80,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
+      }
     }
   },
   "order": [
@@ -705,6 +771,7 @@
     "product_recommendations_qggXJq",
     "product_features_hTqxaG",
     "comparison_chart_RVtEmU",
-    "product_categories"
+    "product_categories",
+    "faq_section_3hehKj"
   ]
 }

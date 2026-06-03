@@ -446,11 +446,11 @@
         "description": "A smart combination that helps optimize energy, metabolism, and overall wellness—working better together than alone.",
         "button_text": "Add bundle to cart",
         "discount_percentage": 25,
-        "product_1": "lila-organic-tear-studs-us",
+        "product_1": "dev-motives®-satin-lip",
         "product_2": "lexi-prong-set-v-shaped-ring-duo-us",
         "section_width": "page-width",
         "padding_inline": 20,
-        "mobile_layout": "carousel",
+        "mobile_layout": "stacked",
         "color_scheme": "",
         "padding-block-start": 48,
         "padding-block-end": 48
