@@ -61,6 +61,7 @@
       "name": "t:names.hero",
       "settings": {
         "media_type_1": "image",
+        "image_1": "shopify://shop_images/rectangle-15773321-mobile-683029640.png",
         "media_type_2": "image",
         "stack_media_on_mobile": false,
         "custom_mobile_media": false,
@@ -197,9 +198,9 @@
       ],
       "settings": {
         "color_scheme": "scheme-1",
-        "section_width": "page-width",
-        "padding-block-start": 0,
-        "padding-block-end": 0
+        "section_width": "full-width",
+        "padding-block-start": 23,
+        "padding-block-end": 38
       }
     },
     "product_list_fa6P9H": {
@@ -448,6 +449,8 @@
         "product_1": "lila-organic-tear-studs-us",
         "product_2": "lexi-prong-set-v-shaped-ring-duo-us",
         "section_width": "page-width",
+        "padding_inline": 20,
+        "mobile_layout": "carousel",
         "color_scheme": "",
         "padding-block-start": 48,
         "padding-block-end": 48
@@ -455,53 +458,47 @@
     },
     "link_cards_grid": {
       "type": "link-cards-grid",
-      "settings": {
-        "background_image": "shopify://shop_images/frame-535-desktop-210221147.jpg",
-        "background_image_alt": "",
-        "section_width": "full-width",
-        "columns_desktop": 3,
-        "gap": 24,
-        "color_scheme": "scheme-1",
-        "padding-block-start": 48,
-        "padding-block-end": 48,
-        "margin-block-start": 0,
-        "margin-block-end": 0
-      },
       "blocks": {
         "card_1": {
           "type": "link-card",
           "settings": {
-            "text": "makeup slippage"
+            "text": "makeup slippage",
+            "url": ""
           }
         },
         "card_2": {
           "type": "link-card",
           "settings": {
-            "text": "dull skin"
+            "text": "dull skin",
+            "url": ""
           }
         },
         "card_3": {
           "type": "link-card",
           "settings": {
-            "text": "redness & rosacea"
+            "text": "redness & rosacea",
+            "url": ""
           }
         },
         "card_4": {
           "type": "link-card",
           "settings": {
-            "text": "dry skin"
+            "text": "dry skin",
+            "url": ""
           }
         },
         "card_5": {
           "type": "link-card",
           "settings": {
-            "text": "color correction"
+            "text": "color correction",
+            "url": ""
           }
         },
         "card_6": {
           "type": "link-card",
           "settings": {
-            "text": "shop all"
+            "text": "shop all",
+            "url": ""
           }
         }
       },
@@ -512,7 +509,85 @@
         "card_4",
         "card_5",
         "card_6"
-      ]
+      ],
+      "settings": {
+        "background_image": "shopify://shop_images/frame-535-desktop-210221147.jpg",
+        "background_image_alt": "",
+        "section_width": "full-width",
+        "columns_desktop": 3,
+        "gap": 24,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 48,
+        "padding-block-end": 48,
+        "margin-block-start": 16,
+        "margin-block-end": 16
+      }
+    },
+    "key_ingredients_4dCH7E": {
+      "type": "key-ingredients",
+      "blocks": {
+        "ingredient_EDVe4E": {
+          "type": "ingredient",
+          "settings": {
+            "title": "Sky",
+            "description": "This is sky"
+          }
+        },
+        "ingredient_gLAyta": {
+          "type": "ingredient",
+          "settings": {
+            "title": "Earth",
+            "description": "This is earth"
+          }
+        },
+        "ingredient_P6nFjL": {
+          "type": "ingredient",
+          "settings": {
+            "title": "Land",
+            "description": "This is land"
+          }
+        },
+        "ingredient_FygYb3": {
+          "type": "ingredient",
+          "settings": {
+            "title": "Air",
+            "description": "This is air"
+          }
+        },
+        "ingredient_y4ULqU": {
+          "type": "ingredient",
+          "settings": {
+            "title": "Fire",
+            "description": "The is fire"
+          }
+        },
+        "ingredient_CJ4TaD": {
+          "type": "ingredient",
+          "settings": {
+            "title": "Water",
+            "description": "This is a water droplet"
+          }
+        }
+      },
+      "block_order": [
+        "ingredient_EDVe4E",
+        "ingredient_gLAyta",
+        "ingredient_P6nFjL",
+        "ingredient_FygYb3",
+        "ingredient_y4ULqU",
+        "ingredient_CJ4TaD"
+      ],
+      "name": "Key Ingredients",
+      "settings": {
+        "heading": "Key Ingredients",
+        "heading_tag": "h2",
+        "heading_size": "h2",
+        "center_image": "shopify://shop_images/rectangle-15773321-mobile-683029634.jpg",
+        "section_width": "page-width",
+        "color_scheme": "scheme-58084d4c-a86e-4d0a-855e-a0966e5043f7",
+        "padding-block-start": 30,
+        "padding-block-end": 43
+      }
     }
   },
   "order": [
@@ -522,6 +597,7 @@
     "best_sellers_xK7mN2",
     "image_text_cta_EGXpPJ",
     "product_bundle_8gYwaQ",
-    "link_cards_grid"
+    "link_cards_grid",
+    "key_ingredients_4dCH7E"
   ]
 }
