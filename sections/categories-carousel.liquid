@@ -26,22 +26,24 @@
         class="categories-carousel__item"
         {{ block.shopify_attributes }}
       >
-        {% if image != blank %}
-          {{
-            image
-            | image_url: width: 180
-            | image_tag:
-              widths: '90,180',
-              sizes: '90px',
-              loading: 'lazy',
-              class: 'categories-carousel__image',
-              alt: label
-          }}
-        {% else %}
-          <div class="categories-carousel__image categories-carousel__image--placeholder">
-            {{ 'collection-1' | placeholder_svg_tag }}
-          </div>
-        {% endif %}
+        <div class="categories-carousel__image-wrap">
+          {% if image != blank %}
+            {{
+              image
+              | image_url: width: 180
+              | image_tag:
+                widths: '90,180',
+                sizes: '90px',
+                loading: 'lazy',
+                class: 'categories-carousel__image',
+                alt: label
+            }}
+          {% else %}
+            <div class="categories-carousel__image categories-carousel__image--placeholder">
+              {{ 'collection-1' | placeholder_svg_tag }}
+            </div>
+          {% endif %}
+        </div>
         <span class="categories-carousel__label">{{ label }}</span>
       </a>
     {% endfor %}
@@ -79,12 +81,25 @@
     color: var(--color-foreground);
   }
 
+  .categories-carousel__image-wrap {
+    width: 90px;
+    height: 90px;
+    border-radius: var(--style-border-radius-sm);
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
   .categories-carousel__image {
     width: 90px;
     height: 90px;
     object-fit: cover;
     border-radius: var(--style-border-radius-sm);
     display: block;
+    transition: transform 0.35s ease;
+  }
+
+  .categories-carousel__item:hover .categories-carousel__image {
+    transform: scale(1.12);
   }
 
   .categories-carousel__image--placeholder {
