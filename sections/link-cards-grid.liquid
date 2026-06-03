@@ -12,6 +12,7 @@
     --link-cards-grid-card-radius: 16px;
     --link-cards-grid-margin-block-start: {{ section.settings.margin-block-start }}px;
     --link-cards-grid-margin-block-end: {{ section.settings.margin-block-end }}px;
+    {% if section.settings.card_width > 0 %}--link-cards-grid-card-width: {{ section.settings.card_width }}px;{% endif %}
   "
 >
   {% if background_image != blank %}
@@ -83,6 +84,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    max-width: var(--link-cards-grid-card-width, none);
     background-color: rgb(255, 255, 255);
     border: 1px solid #DBDBDB;
     border-radius: var(--link-cards-grid-card-radius, 16px);
@@ -169,6 +171,13 @@
       "step": 2,
       "unit": "px",
       "default": 24
+    },
+    {
+      "type": "number",
+      "id": "card_width",
+      "label": "Card width (px)",
+      "info": "Set a max width for each card. 0 = full column width.",
+      "default": 0
     },
     {
       "type": "header",
