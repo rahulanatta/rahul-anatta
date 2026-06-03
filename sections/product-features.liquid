@@ -1,0 +1,262 @@
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div
+  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style product-features"
+  style="{%- render 'spacing-style', settings: section.settings -%}"
+>
+  <div class="product-features__grid">
+    {% for block in section.blocks %}
+      <div class="product-features__item" {{ block.shopify_attributes }}>
+        <div class="product-features__icon">
+          {% if block.settings.icon != blank %}
+            {{
+              block.settings.icon
+              | image_url: width: 80
+              | image_tag:
+                widths: '40,80',
+                sizes: '40px',
+                loading: 'lazy',
+                class: 'product-features__icon-img',
+                alt: block.settings.title
+            }}
+          {% else %}
+            <div class="product-features__icon-placeholder">
+              {{ 'image' | placeholder_svg_tag: 'product-features__placeholder-svg' }}
+            </div>
+          {% endif %}
+        </div>
+        <div class="product-features__text-group">
+          {% if block.settings.title != blank %}
+            <h3 class="product-features__title">{{ block.settings.title | escape }}</h3>
+          {% endif %}
+          {% if block.settings.body_text != blank %}
+            <p class="product-features__body">{{ block.settings.body_text | escape }}</p>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .product-features__grid {
+    display: flex;
+    flex-direction: row;
+    gap: 32px;
+    justify-content: flex-end;
+  }
+
+  .product-features__item {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    flex: 1;
+  }
+
+  .product-features__icon {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+  }
+
+  .product-features__icon-img {
+    display: block;
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+  }
+
+  .product-features__icon-placeholder {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgb(0 0 0 / 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .product-features__placeholder-svg {
+    width: 60%;
+    height: 60%;
+    opacity: 0.3;
+  }
+
+  .product-features__text-group {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .product-features__title {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 18px;
+    color: var(--color-foreground);
+  }
+
+  .product-features__body {
+    margin: 0;
+    font-family: var(--font-body--family);
+    font-size: 16px;
+    line-height: 21px;
+    color: var(--color-foreground);
+    opacity: 0.5;
+  }
+
+  @media screen and (max-width: 749px) {
+    .product-features__grid {
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .product-features__text-group {
+      align-items: flex-start;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Product Features",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Left padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Right padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature-item",
+      "name": "Feature item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Good Manufacturing Practices"
+        },
+        {
+          "type": "textarea",
+          "id": "body_text",
+          "label": "Body text",
+          "default": "Designed to support the immune network as a whole."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Features",
+      "category": "t:categories.text",
+      "blocks": {
+        "item_1": {
+          "type": "feature-item",
+          "settings": {
+            "title": "Good Manufacturing Practices",
+            "body_text": "Designed to support the immune network as a whole."
+          }
+        },
+        "item_2": {
+          "type": "feature-item",
+          "settings": {
+            "title": "Non Detectable GMO",
+            "body_text": "Formulated to align with healthy inflammatory and stress responses."
+          }
+        },
+        "item_3": {
+          "type": "feature-item",
+          "settings": {
+            "title": "Vegan",
+            "body_text": "Formulated to align with healthy inflammatory and stress responses."
+          }
+        },
+        "item_4": {
+          "type": "feature-item",
+          "settings": {
+            "title": "Dairy Free",
+            "body_text": "Designed to support the immune network as a whole."
+          }
+        }
+      },
+      "block_order": ["item_1", "item_2", "item_3", "item_4"]
+    }
+  ]
+}
+{% endschema %}
