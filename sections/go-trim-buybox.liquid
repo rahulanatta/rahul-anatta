@@ -106,8 +106,9 @@
       </div>
 
       {%- comment -%} Subtitle {%- endcomment -%}
-      {% if section.settings.subtitle != blank %}
-        <p class="go-trim-buybox__subtitle">{{ section.settings.subtitle }}</p>
+      {%- assign buybox_subtitle = product.metafields.custom.product_short_description.value | default: section.settings.subtitle -%}
+      {% if buybox_subtitle != blank %}
+        <p class="go-trim-buybox__subtitle">{{ buybox_subtitle }}</p>
       {% endif %}
 
       {%- comment -%} Purchase options + form {%- endcomment -%}
