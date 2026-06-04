@@ -954,6 +954,51 @@
         "padding-inline-start": 0,
         "padding-inline-end": 0
       }
+    },
+    "testimonial_before_after": {
+      "type": "testimonial-before-after",
+      "blocks": {
+        "icon_1": {
+          "type": "icon-image",
+          "settings": {
+            "image": "shopify://shop_images/screenshot-2025-11-24-at-2-14-56-pm-desktop-173716749.png"
+          }
+        },
+        "icon_2": {
+          "type": "icon-image",
+          "settings": {
+            "image": "shopify://shop_images/screenshot-2025-11-24-at-2-15-01-pm-desktop-173716750.png"
+          }
+        },
+        "icon_3": {
+          "type": "icon-image",
+          "settings": {
+            "image": "shopify://shop_images/screenshot-2025-11-24-at-2-14-52-pm-desktop-173716751.png"
+          }
+        }
+      },
+      "block_order": [
+        "icon_1",
+        "icon_2",
+        "icon_3"
+      ],
+      "settings": {
+        "heading": "Hear From Real GoTrim Users",
+        "heading_tag": "h2",
+        "before_image": "shopify://shop_images/d2d269f72c0c1b8b29e25b47c2851d5bbd2477e7-pants-janie2-1-desktop-173716739.jpg",
+        "after_image": "shopify://shop_images/d2d269f72c0c1b8b29e25b47c2851d5bbd2477e7-pants-janie2-1-desktop-173716739.jpg",
+        "before_label": "before",
+        "after_label": "after 2 months",
+        "title": "I can fit in size 2 again!",
+        "body_text": "“I started taking GoTrim Thin around the middle of March 2025. By the middle of May I had lost almost 17 pounds. Now I am a full 20 pounds down and it isn’t even June 1. My waist was 29, now it’s 25.5(26) inches. My hips used to be 39 inches now they are at 36.5. I can fit in size 2 again!!!!! My inner thighs even shrunk from 23 to 21 inches. I love this product!”",
+        "disclaimer": "Jeanie G., UnFranchise Owner\n\n*Individuals following the GoTrim® Lifestyle System as part of a healthy diet and exercise program can expect to lose 1-2 pounds per week.",
+        "section_width": "page-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 60,
+        "padding-block-end": 60,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
+      }
     }
   },
   "order": [
@@ -961,6 +1006,7 @@
     "main",
     "ticker",
     "key_ingredients",
+    "testimonial_before_after",
     "ingredient_highlight",
     "image_description",
     "scientific_results",
