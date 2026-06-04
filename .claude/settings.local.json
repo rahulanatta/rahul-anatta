@@ -1,5 +1,14 @@
 {
   "attribution": {
     "commit": ""
+  },
+  "permissions": {
+    "allow": [
+      "mcp__claude_ai_Shopify__graphql_schema",
+      "mcp__claude_ai_Shopify__search_products",
+      "mcp__claude_ai_Shopify__create-product",
+      "mcp__claude_ai_Shopify__validate_graphql_codeblocks",
+      "mcp__claude_ai_Shopify__graphql_mutation"
+    ]
   }
 }
