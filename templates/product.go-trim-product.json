@@ -457,6 +457,22 @@
         "padding-block-end": 60
       }
     },
+    "ingredient_highlight": {
+      "type": "ingredient-highlight",
+      "settings": {
+        "description": "<p>With each supplement is scientifically-developed to target different weight loss struggles.</p>",
+        "font_size": 38,
+        "line_height": 54,
+        "text_alignment": "center",
+        "section_width": "page-width",
+        "image_max_width": 400,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 60,
+        "padding-block-end": 60,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
+      }
+    },
     "image_description": {
       "type": "image-description",
       "settings": {
@@ -945,6 +961,7 @@
     "main",
     "ticker",
     "key_ingredients",
+    "ingredient_highlight",
     "image_description",
     "scientific_results",
     "reviews_carousel",
