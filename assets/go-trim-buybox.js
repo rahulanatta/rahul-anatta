@@ -55,12 +55,27 @@ class GoTrimBuyboxComponent extends HTMLElement {
         if (action === 'select-frequency') this._handleFrequencySelect(actionTarget);
         if (action === 'open-supplement-drawer') this._openSupplementDrawer();
         if (action === 'close-supplement-drawer') this._closeSupplementDrawer();
+        if (action === 'zoom-prev') { this._navigateZoom(-1); return; }
+        if (action === 'zoom-next') { this._navigateZoom(1); return; }
+        if (action === 'close-zoom-dialog') { this._closeZoomDialog(); return; }
+        if (action === 'select-zoom-thumb') {
+          const idx = parseInt(actionTarget.dataset.zoomIndex, 10);
+          if (!isNaN(idx)) this._selectZoomThumbnail(idx);
+          return;
+        }
         return;
       }
 
       const variantCard = e.target.closest('.go-trim-buybox__variant-card');
       if (variantCard) {
         this._handleVariantSelect(variantCard);
+        return;
+      }
+
+      const mediaItem = e.target.closest('.go-trim-buybox__media-item[data-media-index]');
+      if (mediaItem) {
+        const idx = parseInt(mediaItem.dataset.mediaIndex, 10);
+        if (!isNaN(idx)) this._openZoomDialog(idx);
       }
     });
 
@@ -93,6 +108,39 @@ class GoTrimBuyboxComponent extends HTMLElement {
         e.preventDefault();
         this._closeSupplementDrawer();
       });
+    }
+
+    // Zoom dialog events
+    const zoomDialog = this.querySelector('.go-trim-buybox__zoom-dialog');
+    if (zoomDialog) {
+      zoomDialog.addEventListener('click', (e) => {
+        if (e.target === zoomDialog) this._closeZoomDialog();
+      });
+
+      zoomDialog.addEventListener('cancel', (e) => {
+        e.preventDefault();
+        this._closeZoomDialog();
+      });
+
+      zoomDialog.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') { e.preventDefault(); this._navigateZoom(-1); }
+        if (e.key === 'ArrowRight') { e.preventDefault(); this._navigateZoom(1); }
+      });
+
+      // Touch/swipe support for mobile
+      const zoomImageContainer = zoomDialog.querySelector('.go-trim-buybox__zoom-image-container');
+      if (zoomImageContainer) {
+        let touchStartX = 0;
+        zoomImageContainer.addEventListener('touchstart', (e) => {
+          touchStartX = e.changedTouches[0].clientX;
+        }, { passive: true });
+        zoomImageContainer.addEventListener('touchend', (e) => {
+          const delta = e.changedTouches[0].clientX - touchStartX;
+          if (Math.abs(delta) > 50) {
+            this._navigateZoom(delta > 0 ? -1 : 1);
+          }
+        }, { passive: true });
+      }
     }
   }
 
@@ -489,6 +537,138 @@ class GoTrimBuyboxComponent extends HTMLElement {
         }
         this._isClosingOthers = false;
       });
+    }
+  }
+
+  // ── Zoom dialog ──────────────────────────────────────────────
+
+  /**
+   * Builds an array of image data objects from the media grid for the zoom carousel.
+   * Called once on first open, then cached for subsequent interactions.
+   */
+  _buildZoomMediaData() {
+    if (this._zoomMediaData) return;
+    this._zoomMediaData = [];
+    const items = this.querySelectorAll('.go-trim-buybox__media-item[data-media-index]');
+    for (const item of items) {
+      const img = item.querySelector('.go-trim-buybox__media-img');
+      if (!img) continue;
+
+      const baseSrc = img.src;
+      const makeUrl = (w) => {
+        if (baseSrc.includes('width=')) {
+          return baseSrc.replace(/([&?])width=\d+/, '$1width=' + w);
+        }
+        const separator = baseSrc.includes('?') ? '&' : '?';
+        return baseSrc + separator + 'width=' + w;
+      };
+
+      this._zoomMediaData.push({
+        src: makeUrl(1328),
+        srcset: makeUrl(1328) + ' 1328w, ' + makeUrl(664) + ' 664w',
+        alt: img.alt || '',
+      });
+    }
+  }
+
+  /**
+   * Opens the zoom dialog at the given image index.
+   * @param {number} index - Zero-based index into image-only media
+   */
+  _openZoomDialog(index) {
+    const dialog = this.querySelector('.go-trim-buybox__zoom-dialog');
+    if (!dialog || dialog.open) return;
+
+    this._buildZoomMediaData();
+    if (!this._zoomMediaData || !this._zoomMediaData.length) return;
+
+    this._zoomIndex = index;
+    this._updateZoomView();
+
+    document.body.style.overflow = 'hidden';
+    dialog.showModal();
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        dialog.classList.add('is-open');
+      });
+    });
+  }
+
+  /**
+   * Closes the zoom dialog with a fade-out transition.
+   * Follows the same pattern as _closeSupplementDrawer.
+   */
+  _closeZoomDialog() {
+    const dialog = this.querySelector('.go-trim-buybox__zoom-dialog');
+    if (!dialog || !dialog.open) return;
+
+    dialog.classList.remove('is-open');
+
+    const cleanup = () => {
+      dialog.close();
+      document.body.style.overflow = '';
+    };
+
+    dialog.addEventListener('transitionend', cleanup, { once: true });
+
+    const fallback = setTimeout(() => {
+      dialog.removeEventListener('transitionend', cleanup);
+      if (dialog.open) cleanup();
+    }, 400);
+
+    dialog.addEventListener('transitionend', () => clearTimeout(fallback), { once: true });
+  }
+
+  /**
+   * Navigates the zoom carousel by a delta (+1 for next, -1 for prev).
+   * Wraps around at boundaries.
+   * @param {number} delta - Direction to navigate
+   */
+  _navigateZoom(delta) {
+    if (!this._zoomMediaData || !this._zoomMediaData.length) return;
+    const total = this._zoomMediaData.length;
+    this._zoomIndex = ((this._zoomIndex + delta) % total + total) % total;
+    this._updateZoomView();
+  }
+
+  /**
+   * Selects a specific thumbnail index in the zoom carousel.
+   * @param {number} index - Zero-based index to select
+   */
+  _selectZoomThumbnail(index) {
+    if (!this._zoomMediaData || index < 0 || index >= this._zoomMediaData.length) return;
+    this._zoomIndex = index;
+    this._updateZoomView();
+  }
+
+  /**
+   * Updates the zoom dialog's main image and thumbnail active states
+   * to reflect the current _zoomIndex.
+   */
+  _updateZoomView() {
+    if (!this._zoomMediaData || !this._zoomMediaData.length) return;
+
+    const data = this._zoomMediaData[this._zoomIndex];
+    if (!data) return;
+
+    const mainImg = this.querySelector('[data-zoom-image]');
+    if (mainImg) {
+      mainImg.src = data.src;
+      if (data.srcset) mainImg.srcset = data.srcset;
+      mainImg.sizes = '(min-width: 750px) 664px, calc(100vw - 40px)';
+      mainImg.alt = data.alt;
+    }
+
+    const thumbs = this.querySelectorAll('.go-trim-buybox__zoom-thumb');
+    for (const thumb of thumbs) {
+      const idx = parseInt(thumb.dataset.zoomIndex, 10);
+      thumb.classList.toggle('is-active', idx === this._zoomIndex);
+    }
+
+    const activeThumb = this.querySelector('.go-trim-buybox__zoom-thumb.is-active');
+    if (activeThumb) {
+      activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
     }
   }
 }
