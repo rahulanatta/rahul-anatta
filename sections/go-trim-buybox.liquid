@@ -1,0 +1,1131 @@
+<script type="application/ld+json">
+  {{ product | structured_data }}
+</script>
+
+{% liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign compare_at_price = current_variant.compare_at_price
+  assign price = current_variant.price
+
+  assign has_selling_plans = false
+  if product.selling_plan_groups.size > 0
+    assign has_selling_plans = true
+    assign first_group = product.selling_plan_groups[0]
+    assign first_plan = first_group.selling_plans[0]
+    assign first_allocation = current_variant.selling_plan_allocations | where: 'selling_plan_id', first_plan.id | first
+  endif
+%}
+
+<go-trim-buybox-component>
+  <div class="section-background color-{{ section.settings.color_scheme }}"></div>
+  <div
+    class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style go-trim-buybox"
+    style="{%- render 'spacing-style', settings: section.settings -%} --buybox-gap: {{ section.settings.gap }}px; --media-gap: {{ section.settings.media_gap }}px; --media-radius: {{ section.settings.media_border_radius }}px;"
+  >
+
+    {%- comment -%} Left column: Product media grid {%- endcomment -%}
+    <div class="go-trim-buybox__media">
+      {% for media in product.media %}
+        <div class="go-trim-buybox__media-item">
+          {% if media.media_type == 'image' %}
+            {%- assign sizes_val = '(min-width: 750px) 400px, calc(50vw - 20px)' -%}
+            {{
+              media
+              | image_url: width: media.width
+              | image_tag:
+                sizes: sizes_val,
+                widths: '200,300,400,500,600,800',
+                loading: 'lazy',
+                class: 'go-trim-buybox__media-img',
+                alt: media.alt
+            }}
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+
+    {%- comment -%} Right column: Buy box details {%- endcomment -%}
+    <div class="go-trim-buybox__details">
+
+      {%- comment -%} Product title {%- endcomment -%}
+      <h1 class="go-trim-buybox__title">{{ product.title | escape }}</h1>
+
+      {%- comment -%} Star reviews {%- endcomment -%}
+      {% if section.settings.show_reviews %}
+        <div class="go-trim-buybox__reviews">
+          <img
+            src="{{ 'stars.svg' | asset_url }}"
+            alt="Star rating"
+            width="78"
+            height="14"
+            loading="lazy"
+          >
+          <span class="go-trim-buybox__reviews-text">{{ section.settings.reviews_text }}</span>
+        </div>
+      {% endif %}
+
+      {%- comment -%} Price row {%- endcomment -%}
+      <div class="go-trim-buybox__price-row">
+        <div class="go-trim-buybox__price-info">
+          <div class="go-trim-buybox__price-main">
+            <span class="go-trim-buybox__price" data-active-price>{{ price | money }}</span>
+            {% if compare_at_price > price %}
+              <span class="go-trim-buybox__compare-price" data-compare-price>
+                <s>{{ compare_at_price | money }}</s>
+              </span>
+            {% endif %}
+          </div>
+
+          {%- comment -%} Installments {%- endcomment -%}
+          {% if section.settings.show_installments %}
+            <div class="go-trim-buybox__installments">
+              {% liquid
+                assign installment_price = price | divided_by: 4
+              %}
+              <span>or 4 payments of {{ installment_price | money }} with</span>
+              <img
+                src="{{ 'image-82-desktop-120115871.png' | asset_url }}"
+                alt="Afterpay"
+                width="59"
+                height="15"
+                loading="lazy"
+                class="go-trim-buybox__afterpay-logo"
+              >
+              <span class="go-trim-buybox__info-icon">
+                {{ 'info-circle.svg' | inline_asset_content }}
+              </span>
+            </div>
+          {% endif %}
+        </div>
+
+        {% if section.settings.show_wishlist %}
+          <button type="button" class="go-trim-buybox__wishlist" aria-label="Add to wishlist">
+            {{ 'heart.svg' | inline_asset_content }}
+          </button>
+        {% endif %}
+      </div>
+
+      {%- comment -%} Subtitle {%- endcomment -%}
+      {% if section.settings.subtitle != blank %}
+        <p class="go-trim-buybox__subtitle">{{ section.settings.subtitle }}</p>
+      {% endif %}
+
+      {%- comment -%} Purchase options + form {%- endcomment -%}
+      <product-form-component
+        data-section-id="{{ section.id }}"
+        data-product-id="{{ product.id }}"
+        on:submit="/handleSubmit"
+      >
+        <form method="post" action="/cart/add" accept-charset="UTF-8" enctype="multipart/form-data">
+          <input type="hidden" name="form_type" value="product">
+          <input type="hidden" name="utf8" value="✓">
+          <input type="hidden" name="id" value="{{ current_variant.id }}" ref="variantId">
+          <input type="hidden" name="selling_plan" value="">
+
+          <div class="go-trim-buybox__purchase-options">
+            {%- comment -%} One-time purchase card {%- endcomment -%}
+            <label class="go-trim-buybox__option-card is-selected" data-option="onetime">
+              <input
+                type="radio"
+                name="purchase_option"
+                value="onetime"
+                checked
+                class="go-trim-buybox__radio-input"
+              >
+              <span class="go-trim-buybox__option-header">
+                <span class="go-trim-buybox__option-title">One-time purchase</span>
+                <span class="go-trim-buybox__option-price">{{ price | money }}</span>
+              </span>
+            </label>
+
+            {%- comment -%} Subscription card {%- endcomment -%}
+            {% if has_selling_plans %}
+              <label class="go-trim-buybox__option-card go-trim-buybox__option-card--subscription" data-option="subscription">
+                <input
+                  type="radio"
+                  name="purchase_option"
+                  value="subscription"
+                  class="go-trim-buybox__radio-input"
+                >
+                <span class="go-trim-buybox__option-header">
+                  <span class="go-trim-buybox__option-title-wrap">
+                    <span class="go-trim-buybox__option-title">Monthly Delivery</span>
+                    <span class="go-trim-buybox__best-value-badge">Best value</span>
+                  </span>
+                  {% if first_allocation %}
+                    <span class="go-trim-buybox__option-price">{{ first_allocation.per_delivery_price | money }}</span>
+                  {% endif %}
+                </span>
+
+                {%- comment -%} Subscription benefits {%- endcomment -%}
+                <div class="go-trim-buybox__subscription-benefits-list" data-subscription-details>
+                  <div class="go-trim-buybox__sub-benefit">
+                    <span class="go-trim-buybox__check-icon">{{ 'check-2.svg' | inline_asset_content }}</span>
+                    <span>Save 10% off every subscription order</span>
+                  </div>
+                  <div class="go-trim-buybox__sub-benefit">
+                    <span class="go-trim-buybox__check-icon">{{ 'check-2.svg' | inline_asset_content }}</span>
+                    <span>Easily Pause, Skip, or Cancel anytime</span>
+                  </div>
+                  <div class="go-trim-buybox__sub-benefit">
+                    <span class="go-trim-buybox__check-icon">{{ 'check-2.svg' | inline_asset_content }}</span>
+                    <span>Earn cashback to use on future purchases</span>
+                  </div>
+                  <div class="go-trim-buybox__sub-benefit">
+                    <span class="go-trim-buybox__paid-icon">{{ 'paid.svg' | inline_asset_content }}</span>
+                    <span>$0.88 Cashback</span>
+                  </div>
+                  <div class="go-trim-buybox__sub-benefit go-trim-buybox__sub-benefit--code">
+                    <span>code: {{ product.variants.first.sku | default: '13009' }}</span>
+                  </div>
+
+                  {%- comment -%} Delivery frequency selector {%- endcomment -%}
+                  <div class="go-trim-buybox__frequency">
+                    <span class="go-trim-buybox__frequency-label">Delivered every:</span>
+                    <div class="go-trim-buybox__frequency-pills">
+                      {% for plan in first_group.selling_plans %}
+                        <button
+                          type="button"
+                          class="go-trim-buybox__frequency-pill{% if forloop.first %} is-active{% endif %}"
+                          data-action="select-frequency"
+                          data-plan-id="{{ plan.id }}"
+                          {% if current_variant.selling_plan_allocations.size > 0 %}
+                            {% assign plan_alloc = current_variant.selling_plan_allocations | where: 'selling_plan_id', plan.id | first %}
+                            {% if plan_alloc %}
+                              data-price="{{ plan_alloc.per_delivery_price | money }}"
+                            {% endif %}
+                          {% endif %}
+                        >
+                          {{ plan.name | remove: 'Delivery every ' | remove: 'Every ' }}
+                        </button>
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+              </label>
+            {% endif %}
+          </div>
+
+          {%- comment -%} Quantity + CTA row {%- endcomment -%}
+          <div class="go-trim-buybox__actions">
+            <div class="go-trim-buybox__quantity">
+              <button type="button" class="go-trim-buybox__qty-btn" data-action="quantity-minus" aria-label="Decrease quantity">-</button>
+              <input
+                type="number"
+                name="quantity"
+                value="1"
+                min="1"
+                data-quantity-input
+                class="go-trim-buybox__qty-input"
+                aria-label="Quantity"
+              >
+              <button type="button" class="go-trim-buybox__qty-btn" data-action="quantity-plus" aria-label="Increase quantity">+</button>
+            </div>
+
+            <button type="submit" class="go-trim-buybox__cta-btn">
+              <span data-cta-text>Add to Cart</span>
+            </button>
+          </div>
+
+          <div ref="liveRegion" class="visually-hidden" role="status" aria-live="polite" aria-atomic="true"></div>
+        </form>
+      </product-form-component>
+
+      {%- comment -%} Accordion section {%- endcomment -%}
+      {% assign accordion_blocks = section.blocks | where: 'type', 'accordion-item' %}
+      {% if accordion_blocks.size > 0 %}
+        <div class="go-trim-buybox__accordions">
+          {% for block in accordion_blocks %}
+            <details
+              class="go-trim-buybox__accordion"
+              {{ block.shopify_attributes }}
+              {% if block.settings.open_by_default %}open{% endif %}
+            >
+              <summary class="go-trim-buybox__accordion-summary">
+                <span class="go-trim-buybox__accordion-title">{{ block.settings.title }}</span>
+                <span class="go-trim-buybox__accordion-icon go-trim-buybox__accordion-icon--open">
+                  {{ 'chevron-up.svg' | inline_asset_content }}
+                </span>
+                <span class="go-trim-buybox__accordion-icon go-trim-buybox__accordion-icon--closed">
+                  {{ 'chevron-down.svg' | inline_asset_content }}
+                </span>
+              </summary>
+              <div class="go-trim-buybox__accordion-content">
+                {{ block.settings.content }}
+              </div>
+            </details>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {%- comment -%} Subscription benefits box {%- endcomment -%}
+      {% assign benefit_blocks = section.blocks | where: 'type', 'benefit-item' %}
+      {% if section.settings.show_subscription_benefits and benefit_blocks.size > 0 %}
+        <div class="go-trim-buybox__benefits-box">
+          {% if section.settings.subscription_benefits_heading != blank %}
+            <h3 class="go-trim-buybox__benefits-heading">{{ section.settings.subscription_benefits_heading }}</h3>
+          {% endif %}
+          <div class="go-trim-buybox__benefits-list">
+            {% for block in benefit_blocks %}
+              <div class="go-trim-buybox__benefit-row" {{ block.shopify_attributes }}>
+                {% if block.settings.icon != blank %}
+                  <img
+                    src="{{ block.settings.icon | image_url: width: 40 }}"
+                    alt=""
+                    width="20"
+                    height="20"
+                    loading="lazy"
+                    class="go-trim-buybox__benefit-icon"
+                  >
+                {% endif %}
+                <span class="go-trim-buybox__benefit-text">{{ block.settings.text }}</span>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+
+      {%- comment -%} Supplement label link {%- endcomment -%}
+      {% if section.settings.supplement_label_text != blank %}
+        <a
+          href="{{ section.settings.supplement_label_url | default: '#' }}"
+          class="go-trim-buybox__supplement-link"
+        >
+          {{ section.settings.supplement_label_text }}
+        </a>
+      {% endif %}
+
+    </div>
+  </div>
+
+  {%- comment -%} Selling plan data for JS {%- endcomment -%}
+  {% if has_selling_plans %}
+    <script type="application/json" data-selling-plans>
+      {
+        "default_plan_id": "{{ first_plan.id }}",
+        "onetime_price_formatted": "{{ price | money | strip_html }}",
+        "subscription_price_formatted": "{% if first_allocation %}{{ first_allocation.per_delivery_price | money | strip_html }}{% else %}{{ price | money | strip_html }}{% endif %}",
+        "plans": [
+          {%- for plan in first_group.selling_plans -%}
+            {
+              "id": "{{ plan.id }}",
+              "name": "{{ plan.name | escape }}"
+              {%- assign alloc = current_variant.selling_plan_allocations | where: 'selling_plan_id', plan.id | first -%}
+              {%- if alloc -%}
+                ,"price_formatted": "{{ alloc.per_delivery_price | money | strip_html }}"
+              {%- endif -%}
+            }{% unless forloop.last %},{% endunless %}
+          {%- endfor -%}
+        ]
+      }
+    </script>
+  {% endif %}
+</go-trim-buybox-component>
+
+<script src="{{ 'go-trim-buybox.js' | asset_url }}" defer="defer"></script>
+
+{% stylesheet %}
+  .go-trim-buybox {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--buybox-gap, 64px);
+    align-items: start;
+
+    @media screen and (min-width: 750px) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  /* Media grid */
+  .go-trim-buybox__media {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--media-gap, 8px);
+  }
+
+  .go-trim-buybox__media-item {
+    overflow: hidden;
+    border-radius: var(--media-radius, 16px);
+  }
+
+  .go-trim-buybox__media-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+
+  /* Details column */
+  .go-trim-buybox__details {
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+  }
+
+  /* Title */
+  .go-trim-buybox__title {
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 48px;
+    margin: 0;
+    color: var(--color-foreground);
+  }
+
+  /* Reviews */
+  .go-trim-buybox__reviews {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .go-trim-buybox__reviews-text {
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    color: var(--color-foreground);
+  }
+
+  /* Price row */
+  .go-trim-buybox__price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .go-trim-buybox__price-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .go-trim-buybox__price-main {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .go-trim-buybox__price {
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 31px;
+    color: var(--color-foreground);
+  }
+
+  .go-trim-buybox__compare-price {
+    font-family: var(--font-body--family);
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 16px;
+    color: #6C6C6C;
+
+    s {
+      text-decoration: line-through;
+    }
+  }
+
+  /* Installments */
+  .go-trim-buybox__installments {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--font-body--family);
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 19px;
+    color: var(--color-foreground);
+  }
+
+  .go-trim-buybox__afterpay-logo {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .go-trim-buybox__info-icon {
+    display: inline-flex;
+    align-items: center;
+    width: 16px;
+    height: 16px;
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  /* Wishlist button */
+  .go-trim-buybox__wishlist {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    border-radius: 50%;
+    flex-shrink: 0;
+
+    svg {
+      width: 32px;
+      height: 32px;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-foreground);
+      outline-offset: 2px;
+    }
+  }
+
+  /* Subtitle */
+  .go-trim-buybox__subtitle {
+    font-family: var(--font-body--family);
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 19px;
+    color: #000000;
+    margin: 0;
+  }
+
+  /* Purchase options */
+  .go-trim-buybox__purchase-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-block: 24px;
+  }
+
+  .go-trim-buybox__option-card {
+    display: block;
+    position: relative;
+    border: 1px solid #C8C8C8;
+    border-radius: 20px;
+    padding: 16px 20px;
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+
+    &.is-selected {
+      border-color: #616161;
+    }
+  }
+
+  .go-trim-buybox__radio-input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+  }
+
+  .go-trim-buybox__option-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .go-trim-buybox__option-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .go-trim-buybox__option-title {
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 29px;
+    color: #000000;
+  }
+
+  .go-trim-buybox__option-price {
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 29px;
+    text-align: end;
+    color: #000000;
+  }
+
+  /* Best value badge */
+  .go-trim-buybox__best-value-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #E3FCB8;
+    border-radius: 4px;
+    padding: 2px 10px;
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 17px;
+    color: #000000;
+  }
+
+  /* Subscription benefits inside card */
+  .go-trim-buybox__subscription-benefits-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-block-start: 12px;
+  }
+
+  .go-trim-buybox__sub-benefit {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-body--family);
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 29px;
+    color: #000000;
+  }
+
+  .go-trim-buybox__sub-benefit--code {
+    font-size: 12px;
+    line-height: 19px;
+  }
+
+  .go-trim-buybox__check-icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      width: 15px;
+      height: 11px;
+    }
+  }
+
+  .go-trim-buybox__paid-icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    width: 19px;
+    height: 19px;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  /* Frequency selector */
+  .go-trim-buybox__frequency {
+    padding-block-start: 13px;
+    padding-inline-start: 22px;
+  }
+
+  .go-trim-buybox__frequency-label {
+    display: block;
+    font-family: var(--font-body--family);
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 16px;
+    color: #141414;
+    margin-block-end: 6px;
+  }
+
+  .go-trim-buybox__frequency-pills {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .go-trim-buybox__frequency-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 12px;
+    border: 1px solid #C8C8C8;
+    border-radius: 8px;
+    background: none;
+    font-family: var(--font-body--family);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    color: var(--color-foreground);
+    cursor: pointer;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
+
+    &.is-active {
+      border-color: #141414;
+      background-color: #141414;
+      color: #ffffff;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-foreground);
+      outline-offset: 2px;
+    }
+  }
+
+  /* Actions row */
+  .go-trim-buybox__actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .go-trim-buybox__quantity {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    border: 1px solid #ACACAC;
+    border-radius: 12px;
+    padding: 6px 16px;
+    height: 46px;
+    flex-shrink: 0;
+    min-width: 110px;
+  }
+
+  .go-trim-buybox__qty-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 1;
+    color: #141414;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 2px solid var(--color-foreground);
+      outline-offset: 2px;
+    }
+  }
+
+  .go-trim-buybox__qty-input {
+    width: 30px;
+    text-align: center;
+    border: none;
+    background: none;
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 23px;
+    color: #141414;
+    -moz-appearance: textfield;
+    appearance: textfield;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
+
+  .go-trim-buybox__cta-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    height: 45px;
+    border-radius: 12px;
+    background-color: #141414;
+    color: #ffffff;
+    border: none;
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 23px;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+
+    &:hover {
+      background-color: #333333;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-foreground);
+      outline-offset: 2px;
+    }
+  }
+
+  /* Accordions */
+  .go-trim-buybox__accordions {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .go-trim-buybox__accordion {
+    border-bottom: 1px solid #DFDFDF;
+    padding-block-end: 20px;
+
+    &[open] {
+      padding-block-start: 20px;
+    }
+
+    &[open] .go-trim-buybox__accordion-icon--open {
+      display: inline-flex;
+    }
+
+    &[open] .go-trim-buybox__accordion-icon--closed {
+      display: none;
+    }
+  }
+
+  .go-trim-buybox__accordion-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    list-style: none;
+    gap: 16px;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &::marker {
+      display: none;
+      content: '';
+    }
+  }
+
+  .go-trim-buybox__accordion-title {
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 23px;
+    color: var(--color-foreground);
+  }
+
+  .go-trim-buybox__accordion-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  .go-trim-buybox__accordion-icon--open {
+    display: none;
+  }
+
+  .go-trim-buybox__accordion-icon--closed {
+    display: inline-flex;
+  }
+
+  .go-trim-buybox__accordion-content {
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--color-foreground);
+    padding-block-start: 16px;
+  }
+
+  /* Subscription benefits box */
+  .go-trim-buybox__benefits-box {
+    background-color: #F9F9F9;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .go-trim-buybox__benefits-heading {
+    font-family: var(--font-body--family);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 21px;
+    color: var(--color-foreground);
+    margin: 0;
+  }
+
+  .go-trim-buybox__benefits-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .go-trim-buybox__benefit-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .go-trim-buybox__benefit-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+
+  .go-trim-buybox__benefit-text {
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+    color: var(--color-foreground);
+  }
+
+  /* Supplement label link */
+  .go-trim-buybox__supplement-link {
+    display: block;
+    text-align: center;
+    text-decoration: underline;
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--color-foreground);
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-foreground);
+      outline-offset: 2px;
+    }
+  }
+
+  /* Mobile stacking */
+  @media screen and (max-width: 749px) {
+    .go-trim-buybox__title {
+      font-size: 24px;
+      line-height: 36px;
+    }
+
+    .go-trim-buybox__details {
+      gap: 24px;
+    }
+
+    .go-trim-buybox__actions {
+      flex-direction: column;
+    }
+
+    .go-trim-buybox__quantity {
+      width: 100%;
+    }
+
+    .go-trim-buybox__cta-btn {
+      width: 100%;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Go Trim Buybox",
+  "tag": "section",
+  "blocks": [
+    {
+      "type": "accordion-item",
+      "name": "Accordion item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Accordion title"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content",
+          "default": "<p>Accordion content goes here.</p>"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_by_default",
+          "label": "Open by default",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "benefit-item",
+      "name": "Benefit item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Benefit text"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "International Weight Loss Bestseller"
+    },
+    {
+      "type": "text",
+      "id": "reviews_text",
+      "label": "Reviews text",
+      "default": "4.5 (346 Reviews)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_reviews",
+      "label": "Show reviews",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_installments",
+      "label": "Show installments",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_wishlist",
+      "label": "Show wishlist",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_subscription_benefits",
+      "label": "Show benefits box",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "subscription_benefits_heading",
+      "label": "Benefits heading",
+      "default": "Your subscription includes:"
+    },
+    {
+      "type": "text",
+      "id": "supplement_label_text",
+      "label": "Supplement link text",
+      "default": "View Supplement Label & Facts"
+    },
+    {
+      "type": "url",
+      "id": "supplement_label_url",
+      "label": "Supplement link URL"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "number",
+      "id": "gap",
+      "label": "Column gap (px)",
+      "default": 64
+    },
+    {
+      "type": "number",
+      "id": "media_gap",
+      "label": "Media gap (px)",
+      "default": 8
+    },
+    {
+      "type": "number",
+      "id": "media_border_radius",
+      "label": "Media border radius (px)",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 64,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Left padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 64,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Right padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 64,
+      "unit": "px"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Go Trim Buybox",
+      "category": "Product"
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}
