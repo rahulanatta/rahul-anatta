@@ -1,70 +1,54 @@
 {% liquid
-  assign slide_blocks = section.blocks | where: 'type', 'slide'
-  assign timeline_blocks = section.blocks | where: 'type', 'timeline-step'
-  assign heading_tag = section.settings.timeline_heading_tag | default: 'h2'
+  assign image_blocks = section.blocks | where: 'type', 'image-slide'
+  assign timeline_blocks = section.blocks | where: 'type', 'timeline-phase'
 %}
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <div
-  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style"
-  style="{% render 'spacing-style', settings: section.settings %} --hero-timeline-aspect-ratio: {{ section.settings.image_aspect_ratio }};"
+  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style hero-timeline"
+  style="
+    {%- render 'spacing-style', settings: section.settings -%}
+    --ht-desktop-gap: {{ section.settings.desktop_gap }}px;
+    --ht-content-gap: {{ section.settings.content_gap }}px;
+    --ht-image-radius: {{ section.settings.image_border_radius }}px;
+    --ht-badge-bg: {{ section.settings.badge_background }};
+  "
 >
-  {% comment %} Image Carousel {% endcomment %}
-  {% if slide_blocks.size > 0 %}
-    <hero-timeline-carousel
-      class="hero-timeline__carousel"
-      data-autoplay="{{ section.settings.autoplay }}"
-      data-autoplay-speed="{{ section.settings.autoplay_speed }}"
-    >
-      <div class="hero-timeline__viewport">
-        <div class="hero-timeline__track" ref="track">
-          {% for block in slide_blocks %}
-            <div
-              class="hero-timeline__slide"
-              ref="slides[]"
-              {{ block.shopify_attributes }}
-            >
-              {% if block.settings.image != blank %}
-                {% liquid
-                  assign sizes_val = '(min-width: 1200px) 1200px, 100vw'
-                %}
-                {{
-                  block.settings.image
-                  | image_url: width: block.settings.image.width
-                  | image_tag:
-                    sizes: sizes_val,
-                    widths: '375,550,750,1100,1500,1780,2000',
-                    loading: 'lazy',
-                    class: 'hero-timeline__image',
-                    alt: block.settings.image.alt
-                }}
-              {% else %}
-                <div class="hero-timeline__placeholder">
-                  {{ 'lifestyle-1' | placeholder_svg_tag }}
-                </div>
-              {% endif %}
+  <div class="hero-timeline__layout">
 
-              {% if block.settings.overlay_heading != blank or block.settings.overlay_subheading != blank %}
-                <div class="hero-timeline__overlay">
-                  {% if block.settings.overlay_heading != blank %}
-                    <p class="hero-timeline__overlay-heading">{{ block.settings.overlay_heading }}</p>
-                  {% endif %}
-                  {% if block.settings.overlay_subheading != blank %}
-                    <p class="hero-timeline__overlay-subheading">{{ block.settings.overlay_subheading }}</p>
-                  {% endif %}
-                </div>
-              {% endif %}
-            </div>
-          {% endfor %}
-        </div>
+    {%- comment -%} Image Carousel {%- endcomment -%}
+    <hero-timeline-carousel class="hero-timeline__carousel">
+      <div class="hero-timeline__track" data-carousel-track>
+        {% for block in image_blocks %}
+          <div class="hero-timeline__slide" {{ block.shopify_attributes }}>
+            {% if block.settings.image != blank %}
+              {%- assign sizes_val = '(min-width: 750px) 40vw, 80vw' -%}
+              {{
+                block.settings.image
+                | image_url: width: block.settings.image.width
+                | image_tag:
+                  sizes: sizes_val,
+                  widths: '375,550,750,1100,1500',
+                  loading: 'lazy',
+                  class: 'hero-timeline__image',
+                  alt: block.settings.image.alt
+              }}
+            {% else %}
+              <div class="hero-timeline__placeholder">
+                {{ 'image' | placeholder_svg_tag: 'hero-timeline__placeholder-svg' }}
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
 
-        {% if section.settings.show_arrows and slide_blocks.size > 1 %}
+      {% if section.settings.show_arrows and image_blocks.size > 1 %}
+        <div class="hero-timeline__arrows">
           <button
             type="button"
             class="hero-timeline__arrow hero-timeline__arrow--prev"
-            ref="prevButton"
+            data-carousel-prev
             aria-label="Previous slide"
-            on:click="/handlePrev"
             disabled
           >
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
@@ -74,199 +58,150 @@
           <button
             type="button"
             class="hero-timeline__arrow hero-timeline__arrow--next"
-            ref="nextButton"
+            data-carousel-next
             aria-label="Next slide"
-            on:click="/handleNext"
           >
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
               <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </button>
-        {% endif %}
-      </div>
-
-      {% if slide_blocks.size > 1 %}
-        <div class="hero-timeline__dots">
-          {% for block in slide_blocks %}
-            <button
-              type="button"
-              class="hero-timeline__dot{% if forloop.first %} hero-timeline__dot--active{% endif %}"
-              ref="dots[]"
-              data-index="{{ forloop.index0 }}"
-              aria-label="Go to slide {{ forloop.index }}"
-              aria-current="{% if forloop.first %}true{% else %}false{% endif %}"
-              on:click="/handleDotClick"
-            ></button>
-          {% endfor %}
         </div>
       {% endif %}
     </hero-timeline-carousel>
-  {% endif %}
 
-  {% comment %} Timeline {% endcomment %}
-  {% if timeline_blocks.size > 0 %}
-    <div class="hero-timeline__timeline">
-      {% if section.settings.timeline_heading != blank %}
-        <{{ heading_tag }} class="hero-timeline__timeline-heading">
-          {{ section.settings.timeline_heading }}
-        </{{ heading_tag }}>
+    {%- comment -%} Content: Heading + Timeline {%- endcomment -%}
+    <div class="hero-timeline__content">
+      {% if section.settings.heading != blank %}
+        <{{ section.settings.heading_tag }} class="hero-timeline__heading">
+          {{- section.settings.heading | escape -}}
+        </{{ section.settings.heading_tag }}>
       {% endif %}
 
-      <div class="hero-timeline__steps">
-        {% for block in timeline_blocks %}
-          <div
-            class="hero-timeline__step"
-            {{ block.shopify_attributes }}
-          >
-            <div class="hero-timeline__step-indicator">
-              {% if block.settings.icon != blank %}
-                <div class="hero-timeline__step-icon">
-                  {{
-                    block.settings.icon
-                    | image_url: width: 48
-                    | image_tag:
-                      widths: '24,48',
-                      sizes: '24px',
-                      loading: 'lazy',
-                      alt: block.settings.title
-                  }}
+      {% if timeline_blocks.size > 0 %}
+        <div class="hero-timeline__timeline">
+          {% for block in timeline_blocks %}
+            <div
+              class="hero-timeline__phase{% if forloop.last %} hero-timeline__phase--last{% endif %}"
+              {{ block.shopify_attributes }}
+            >
+              <div class="hero-timeline__phase-marker">
+                <span class="hero-timeline__dot"></span>
+              </div>
+              <div class="hero-timeline__phase-body">
+                <div class="hero-timeline__phase-header">
+                  {% if block.settings.badge_text != blank %}
+                    <span class="hero-timeline__badge">
+                      {{- block.settings.badge_text | escape -}}
+                    </span>
+                  {% endif %}
+                  {% if block.settings.phase_title != blank %}
+                    <span class="hero-timeline__phase-title">
+                      {{- block.settings.phase_title | escape -}}
+                    </span>
+                  {% endif %}
                 </div>
-              {% else %}
-                <span class="hero-timeline__step-number">{{ forloop.index }}</span>
-              {% endif %}
+                {% if block.settings.description != blank %}
+                  <div class="hero-timeline__phase-description rte">
+                    {{ block.settings.description }}
+                  </div>
+                {% endif %}
+              </div>
             </div>
-            <div class="hero-timeline__step-content">
-              {% if block.settings.title != blank %}
-                <h3 class="hero-timeline__step-title">{{ block.settings.title }}</h3>
-              {% endif %}
-              {% if block.settings.description != blank %}
-                <p class="hero-timeline__step-description">{{ block.settings.description }}</p>
-              {% endif %}
-            </div>
-          </div>
-        {% endfor %}
-      </div>
+          {% endfor %}
+        </div>
+      {% endif %}
     </div>
-  {% endif %}
+
+  </div>
 </div>
 
-<script src="{{ 'hero-timeline.js' | asset_url }}" type="module"></script>
+<script src="{{ 'hero-timeline-carousel.js' | asset_url }}" type="module"></script>
 
 {% stylesheet %}
-  /* Carousel */
-  .hero-timeline__carousel {
-    display: block;
-    width: 100%;
+  /* ============================================================
+     Hero with Timeline Section
+     ============================================================ */
+
+  .hero-timeline__layout {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
   }
 
-  .hero-timeline__viewport {
+  /* ---- Carousel ---- */
+
+  .hero-timeline__carousel {
     position: relative;
-    overflow: hidden;
-    border-radius: var(--style-border-radius-sm, 8px);
+    flex-shrink: 0;
   }
 
   .hero-timeline__track {
     display: flex;
-    transition: transform 0.4s ease;
-    will-change: transform;
+    gap: 24px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .hero-timeline__track::-webkit-scrollbar {
+    display: none;
   }
 
   .hero-timeline__slide {
-    position: relative;
-    flex: 0 0 100%;
-    width: 100%;
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    overflow: hidden;
+    border-radius: var(--ht-image-radius, 30px);
+    min-width: 65vw;
+    height: 400px;
   }
 
   .hero-timeline__image {
     display: block;
     width: 100%;
-    height: auto;
+    height: 100%;
     object-fit: cover;
-    aspect-ratio: var(--hero-timeline-aspect-ratio, 16 / 9);
   }
 
   .hero-timeline__placeholder {
     width: 100%;
-    aspect-ratio: var(--hero-timeline-aspect-ratio, 16 / 9);
-    background-color: rgb(var(--color-background));
+    height: 100%;
+    min-height: 300px;
+    background-color: rgb(0 0 0 / 0.06);
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
-
-    & svg {
-      width: 100%;
-      height: 100%;
-    }
   }
 
-  /* Overlay text */
-  .hero-timeline__overlay {
-    position: absolute;
-    inset-block-end: 0;
-    inset-inline-start: 0;
-    inset-inline-end: 0;
-    padding: 24px;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, transparent 100%);
-    color: #ffffff;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .hero-timeline__overlay-heading {
-    font-family: var(--font-heading--family);
-    font-size: var(--font-size--2xl);
-    font-weight: 600;
-    line-height: 1.2;
-    margin: 0;
-
-    @media screen and (min-width: 750px) {
-      font-size: var(--font-size--4xl);
-    }
-  }
-
-  .hero-timeline__overlay-subheading {
-    font-family: var(--font-body--family);
-    font-size: var(--font-size--sm);
-    font-weight: 400;
-    line-height: 1.5;
-    margin: 0;
-
-    @media screen and (min-width: 750px) {
-      font-size: var(--font-size--md);
-    }
+  .hero-timeline__placeholder-svg {
+    width: 50%;
+    height: 50%;
+    opacity: 0.3;
   }
 
   /* Arrows */
+
+  .hero-timeline__arrows {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+    justify-content: center;
+  }
+
   .hero-timeline__arrow {
-    position: absolute;
-    inset-block-start: 50%;
-    transform: translateY(-50%);
     display: flex;
     align-items: center;
     justify-content: center;
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    background: rgba(255, 255, 255, 0.85);
-    color: #000000;
+    border: 1px solid var(--color-border, rgb(0 0 0 / 0.1));
+    background: var(--color-background, #fff);
+    color: var(--color-foreground, #141414);
     cursor: pointer;
-    transition: opacity 0.15s ease, background-color 0.15s ease;
-    z-index: 2;
-  }
-
-  .hero-timeline__arrow--prev {
-    inset-inline-start: 12px;
-  }
-
-  .hero-timeline__arrow--next {
-    inset-inline-end: 12px;
-  }
-
-  .hero-timeline__arrow:hover {
-    background: rgba(255, 255, 255, 1);
+    transition: opacity 0.15s ease;
+    padding: 0;
   }
 
   .hero-timeline__arrow:disabled {
@@ -274,188 +209,195 @@
     cursor: default;
   }
 
+  .hero-timeline__arrow:not(:disabled):hover {
+    border-color: var(--color-foreground, #141414);
+  }
+
   .hero-timeline__arrow:focus-visible {
-    outline: 2px solid rgb(var(--color-foreground));
+    outline: 2px solid var(--color-foreground, #141414);
     outline-offset: 2px;
   }
 
-  /* Dots */
-  .hero-timeline__dots {
+  /* ---- Content ---- */
+
+  .hero-timeline__content {
     display: flex;
-    justify-content: center;
-    gap: 8px;
-    padding-block-start: 16px;
+    flex-direction: column;
+    gap: var(--ht-content-gap, 40px);
   }
 
-  .hero-timeline__dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    border: 1px solid rgb(var(--color-foreground) / 0.3);
-    background: transparent;
-    cursor: pointer;
-    padding: 0;
-    transition: background-color 0.2s ease;
+  .hero-timeline__heading {
+    margin: 0;
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 1.5rem;
+    line-height: 1.3;
+    color: var(--color-foreground, #141414);
   }
 
-  .hero-timeline__dot--active {
-    background: rgb(var(--color-foreground));
-    border-color: rgb(var(--color-foreground));
-  }
+  /* ---- Timeline ---- */
 
-  .hero-timeline__dot:focus-visible {
-    outline: 2px solid rgb(var(--color-foreground));
-    outline-offset: 2px;
-  }
-
-  /* Timeline */
   .hero-timeline__timeline {
     display: flex;
     flex-direction: column;
     gap: 32px;
-    padding-block-start: 48px;
+    overflow: visible;
   }
 
-  .hero-timeline__timeline-heading {
-    font-family: var(--font-heading--family);
-    font-size: var(--font-size--2xl);
-    font-weight: 600;
-    line-height: 1.3;
-    margin: 0;
-    color: rgb(var(--color-foreground));
-    text-align: center;
-
-    @media screen and (min-width: 750px) {
-      font-size: var(--font-size--4xl);
-    }
+  .hero-timeline__phase {
+    display: grid;
+    grid-template-columns: 17px 1fr;
+    column-gap: 16px;
   }
 
-  .hero-timeline__steps {
+  .hero-timeline__phase-marker {
     display: flex;
     flex-direction: column;
-    gap: 24px;
-
-    @media screen and (min-width: 750px) {
-      flex-direction: row;
-      gap: 0;
-    }
-  }
-
-  .hero-timeline__step {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 16px;
-    flex: 1;
-    position: relative;
-
-    @media screen and (min-width: 750px) {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      gap: 20px;
-    }
-  }
-
-  /* Connector line between steps (desktop) */
-  @media screen and (min-width: 750px) {
-    .hero-timeline__step:not(:last-child)::after {
-      content: '';
-      position: absolute;
-      inset-block-start: 20px;
-      inset-inline-start: calc(50% + 24px);
-      width: calc(100% - 48px);
-      height: 2px;
-      background-color: rgb(var(--color-foreground) / 0.2);
-    }
-  }
-
-  /* Connector line between steps (mobile) */
-  @media screen and (max-width: 749px) {
-    .hero-timeline__step:not(:last-child)::after {
-      content: '';
-      position: absolute;
-      inset-inline-start: 19px;
-      inset-block-start: 44px;
-      width: 2px;
-      height: calc(100% - 20px);
-      background-color: rgb(var(--color-foreground) / 0.2);
-    }
-  }
-
-  .hero-timeline__step-indicator {
-    display: flex;
     align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    min-width: 40px;
+    position: relative;
+  }
+
+  .hero-timeline__dot {
+    width: 17px;
+    height: 17px;
     border-radius: 50%;
-    border: 2px solid rgb(var(--color-foreground));
-    background: rgb(var(--color-background));
+    background-color: var(--color-foreground, #141414);
+    flex-shrink: 0;
+    margin-top: 6px;
     position: relative;
     z-index: 1;
   }
 
-  .hero-timeline__step-number {
-    font-family: var(--font-heading--family);
-    font-size: var(--font-size--md);
-    font-weight: 600;
-    line-height: 1;
-    color: rgb(var(--color-foreground));
+  /* Connecting line between dots */
+  .hero-timeline__phase:not(.hero-timeline__phase--last) .hero-timeline__phase-marker::after {
+    content: '';
+    position: absolute;
+    top: 23px;
+    bottom: -38px;
+    left: 50%;
+    width: 2px;
+    transform: translateX(-50%);
+    background-color: var(--color-foreground, #141414);
   }
 
-  .hero-timeline__step-icon {
-    width: 24px;
-    height: 24px;
-
-    & img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-  }
-
-  .hero-timeline__step-content {
+  .hero-timeline__phase-body {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 12px;
   }
 
-  .hero-timeline__step-title {
-    font-family: var(--font-heading--family);
-    font-size: var(--font-size--md);
-    font-weight: 600;
-    line-height: 1.3;
-    margin: 0;
-    color: rgb(var(--color-foreground));
+  .hero-timeline__phase-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
 
-    @media screen and (min-width: 750px) {
-      font-size: var(--font-size--lg);
+  .hero-timeline__badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 16px;
+    border-radius: 32px;
+    background-color: var(--ht-badge-bg, #81AE9A);
+    color: #fff;
+    font-family: var(--font-body--family);
+    font-weight: 500;
+    font-size: 1rem;
+    line-height: 1.3125;
+    white-space: nowrap;
+  }
+
+  .hero-timeline__phase-title {
+    font-family: var(--font-body--family);
+    font-weight: 500;
+    font-size: 1.25rem;
+    line-height: 1.3;
+    color: var(--color-foreground, #141414);
+  }
+
+  .hero-timeline__phase-description {
+    font-family: var(--font-body--family);
+    font-weight: 300;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--color-foreground, #141414);
+  }
+
+  .hero-timeline__phase-description ul {
+    margin: 0;
+    padding-inline-start: 1.2em;
+    list-style-type: disc;
+  }
+
+  .hero-timeline__phase-description li {
+    margin-bottom: 8px;
+  }
+
+  .hero-timeline__phase-description li:last-child {
+    margin-bottom: 0;
+  }
+
+  /* ---- Desktop layout ---- */
+
+  @media screen and (min-width: 750px) {
+    .hero-timeline__layout {
+      flex-direction: row;
+      align-items: center;
+      gap: var(--ht-desktop-gap, 80px);
+    }
+
+    .hero-timeline__carousel {
+      flex: 1 1 55%;
+      min-width: 0;
+    }
+
+    .hero-timeline__slide {
+      min-width: unset;
+      height: 546px;
+    }
+
+    .hero-timeline__image {
+      width: auto;
+      height: 100%;
+    }
+
+    .hero-timeline__content {
+      flex: 1 1 45%;
+      min-width: 0;
+    }
+
+    .hero-timeline__heading {
+      font-size: 2rem;
+      line-height: 42px;
     }
   }
 
-  .hero-timeline__step-description {
-    font-family: var(--font-body--family);
-    font-size: var(--font-size--sm);
-    font-weight: 400;
-    line-height: 1.5;
-    margin: 0;
-    color: rgb(var(--color-foreground) / 0.75);
+  /* ---- Mobile adjustments ---- */
 
-    @media screen and (min-width: 750px) {
-      font-size: var(--font-size--md);
+  @media screen and (max-width: 749px) {
+    .hero-timeline__heading {
+      font-size: 1.5rem;
+      line-height: 1.3;
+    }
+
+    .hero-timeline__badge {
+      font-size: 0.875rem;
+      padding: 3px 12px;
+    }
+
+    .hero-timeline__phase-title {
+      font-size: 1.125rem;
+    }
+
+    .hero-timeline__phase-description {
+      font-size: 0.875rem;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .hero-timeline__track {
-      transition: none;
-    }
-
-    .hero-timeline__arrow,
-    .hero-timeline__dot {
-      transition: none;
+      scroll-behavior: auto;
     }
   }
 {% endstylesheet %}
@@ -464,6 +406,9 @@
 {
   "name": "Hero with timeline",
   "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
   "settings": [
     {
       "type": "header",
@@ -471,26 +416,20 @@
     },
     {
       "type": "text",
-      "id": "timeline_heading",
-      "label": "Timeline heading",
-      "default": "How It Works"
+      "id": "heading",
+      "label": "Heading",
+      "default": "30 Day Jump Start Kit"
     },
     {
       "type": "select",
-      "id": "timeline_heading_tag",
-      "label": "Timeline heading tag",
+      "id": "heading_tag",
+      "label": "Heading tag",
       "options": [
         { "value": "h2", "label": "H2" },
         { "value": "h3", "label": "H3" },
-        { "value": "h4", "label": "H4" },
-        { "value": "h5", "label": "H5" },
-        { "value": "h6", "label": "H6" }
+        { "value": "h4", "label": "H4" }
       ],
       "default": "h2"
-    },
-    {
-      "type": "header",
-      "content": "Carousel"
     },
     {
       "type": "checkbox",
@@ -499,45 +438,56 @@
       "default": true
     },
     {
-      "type": "checkbox",
-      "id": "autoplay",
-      "label": "Autoplay",
-      "default": false
+      "type": "header",
+      "content": "Style"
     },
     {
       "type": "range",
-      "id": "autoplay_speed",
-      "label": "Autoplay speed",
-      "min": 3,
-      "max": 10,
-      "step": 1,
-      "default": 5,
-      "unit": "s"
+      "id": "image_border_radius",
+      "label": "Image border radius",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 30
     },
     {
-      "type": "select",
-      "id": "image_aspect_ratio",
-      "label": "Image aspect ratio",
-      "options": [
-        { "value": "16/9", "label": "16:9" },
-        { "value": "4/3", "label": "4:3" },
-        { "value": "3/2", "label": "3:2" },
-        { "value": "21/9", "label": "21:9" },
-        { "value": "1/1", "label": "1:1" }
-      ],
-      "default": "16/9"
+      "type": "color",
+      "id": "badge_background",
+      "label": "Badge background",
+      "default": "#81AE9A"
     },
     {
       "type": "header",
       "content": "Layout"
     },
     {
+      "type": "range",
+      "id": "desktop_gap",
+      "label": "Desktop gap",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "content_gap",
+      "label": "Content gap",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
       "type": "select",
       "id": "section_width",
-      "label": "Width",
+      "label": "Section width",
       "options": [
-        { "value": "page-width", "label": "Page" },
-        { "value": "full-width", "label": "Full" }
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
       ],
       "default": "page-width"
     },
@@ -548,8 +498,7 @@
     {
       "type": "color_scheme",
       "id": "color_scheme",
-      "label": "Color scheme",
-      "default": "scheme-1"
+      "label": "Color scheme"
     },
     {
       "type": "header",
@@ -562,8 +511,8 @@
       "min": 0,
       "max": 100,
       "step": 1,
-      "default": 40,
-      "unit": "px"
+      "unit": "px",
+      "default": 80
     },
     {
       "type": "range",
@@ -572,8 +521,8 @@
       "min": 0,
       "max": 100,
       "step": 1,
-      "default": 40,
-      "unit": "px"
+      "unit": "px",
+      "default": 80
     },
     {
       "type": "range",
@@ -582,8 +531,8 @@
       "min": 0,
       "max": 100,
       "step": 1,
-      "default": 0,
-      "unit": "px"
+      "unit": "px",
+      "default": 64
     },
     {
       "type": "range",
@@ -592,52 +541,40 @@
       "min": 0,
       "max": 100,
       "step": 1,
-      "default": 0,
-      "unit": "px"
+      "unit": "px",
+      "default": 64
     }
   ],
   "blocks": [
     {
-      "type": "slide",
-      "name": "Slide",
+      "type": "image-slide",
+      "name": "Image slide",
       "settings": [
         {
           "type": "image_picker",
           "id": "image",
           "label": "Image"
-        },
-        {
-          "type": "text",
-          "id": "overlay_heading",
-          "label": "Overlay heading"
-        },
-        {
-          "type": "text",
-          "id": "overlay_subheading",
-          "label": "Overlay subheading"
         }
       ]
     },
     {
-      "type": "timeline-step",
-      "name": "Timeline step",
+      "type": "timeline-phase",
+      "name": "Timeline phase",
       "settings": [
         {
           "type": "text",
-          "id": "title",
-          "label": "Title",
-          "default": "Step"
+          "id": "badge_text",
+          "label": "Badge text"
         },
         {
-          "type": "textarea",
+          "type": "text",
+          "id": "phase_title",
+          "label": "Phase title"
+        },
+        {
+          "type": "richtext",
           "id": "description",
-          "label": "Description",
-          "default": "Describe this step of the process."
-        },
-        {
-          "type": "image_picker",
-          "id": "icon",
-          "label": "Icon"
+          "label": "Description"
         }
       ]
     }
@@ -645,55 +582,31 @@
   "presets": [
     {
       "name": "Hero with timeline",
-      "category": "custom",
       "blocks": [
         {
-          "type": "slide",
+          "type": "image-slide"
+        },
+        {
+          "type": "image-slide"
+        },
+        {
+          "type": "timeline-phase",
           "settings": {
-            "overlay_heading": "Welcome",
-            "overlay_subheading": "Discover the difference"
+            "badge_text": "7 Days",
+            "phase_title": "Detox Phase",
+            "description": "<ul><li>This supplement uses nutrients, herbs and botanicals to mildly purge, detoxify and purify the digestive system.</li></ul>"
           }
         },
         {
-          "type": "slide",
+          "type": "timeline-phase",
           "settings": {
-            "overlay_heading": "Quality Ingredients",
-            "overlay_subheading": "Backed by science"
-          }
-        },
-        {
-          "type": "slide",
-          "settings": {
-            "overlay_heading": "Real Results",
-            "overlay_subheading": "See the transformation"
-          }
-        },
-        {
-          "type": "timeline-step",
-          "settings": {
-            "title": "Choose Your Product",
-            "description": "Browse our range and find the perfect fit for your needs."
-          }
-        },
-        {
-          "type": "timeline-step",
-          "settings": {
-            "title": "Follow the Routine",
-            "description": "Use as directed for best results. Consistency is key."
-          }
-        },
-        {
-          "type": "timeline-step",
-          "settings": {
-            "title": "See the Results",
-            "description": "Experience visible improvements backed by clinical research."
+            "badge_text": "Days 8 - 30",
+            "phase_title": "Fat Burning Phase",
+            "description": "<ul><li>The shakes provide additional protein to fuel your body and keep those hunger pangs at bay.</li></ul>"
           }
         }
       ]
     }
-  ],
-  "disabled_on": {
-    "groups": ["header", "footer"]
-  }
+  ]
 }
 {% endschema %}

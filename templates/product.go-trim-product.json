@@ -13,69 +13,54 @@
       "type": "hero-timeline",
       "blocks": {
         "slide_1": {
-          "type": "slide",
+          "type": "image-slide",
           "settings": {
-            "overlay_heading": "Welcome",
-            "overlay_subheading": "Discover the difference"
+            "image": "shopify://shop_images/4-5-desktop-154518367.jpg"
           }
         },
         "slide_2": {
-          "type": "slide",
+          "type": "image-slide",
           "settings": {
-            "overlay_heading": "Quality Ingredients",
-            "overlay_subheading": "Backed by science"
+            "image": "shopify://shop_images/1-2-desktop-154518368.jpg"
           }
         },
-        "slide_3": {
-          "type": "slide",
+        "phase_1": {
+          "type": "timeline-phase",
           "settings": {
-            "overlay_heading": "Real Results",
-            "overlay_subheading": "See the transformation"
+            "badge_text": "7 Days",
+            "phase_title": "Detox Phase",
+            "description": "<ul><li>This supplement uses nutrients, herbs and botanicals to mildly purge, detoxify and purify the digestive system.</li><li>Inhibit the amount of starchy carbohydrates being absorbed by the body and promotes a feeling of fullness.</li></ul>"
           }
         },
-        "step_1": {
-          "type": "timeline-step",
+        "phase_2": {
+          "type": "timeline-phase",
           "settings": {
-            "title": "Choose Your Product",
-            "description": "Browse our range and find the perfect fit for your needs."
-          }
-        },
-        "step_2": {
-          "type": "timeline-step",
-          "settings": {
-            "title": "Follow the Routine",
-            "description": "Use as directed for best results. Consistency is key."
-          }
-        },
-        "step_3": {
-          "type": "timeline-step",
-          "settings": {
-            "title": "See the Results",
-            "description": "Experience visible improvements backed by clinical research."
+            "badge_text": "Days 8 - 30",
+            "phase_title": "Fat Burning Phase",
+            "description": "<ul><li>The shakes provide additional protein to fuel your body and keep those hunger pangs at bay.</li></ul>"
           }
         }
       },
       "block_order": [
         "slide_1",
         "slide_2",
-        "slide_3",
-        "step_1",
-        "step_2",
-        "step_3"
+        "phase_1",
+        "phase_2"
       ],
       "settings": {
-        "timeline_heading": "How It Works",
-        "timeline_heading_tag": "h2",
+        "heading": "30 Day Jump Start Kit",
+        "heading_tag": "h2",
         "show_arrows": true,
-        "autoplay": false,
-        "autoplay_speed": 5,
-        "image_aspect_ratio": "16/9",
+        "image_border_radius": 30,
+        "badge_background": "#81AE9A",
+        "desktop_gap": 80,
+        "content_gap": 40,
         "section_width": "page-width",
         "color_scheme": "scheme-1",
-        "padding-block-start": 0,
-        "padding-block-end": 60,
-        "padding-inline-start": 0,
-        "padding-inline-end": 0
+        "padding-block-start": 80,
+        "padding-block-end": 80,
+        "padding-inline-start": 64,
+        "padding-inline-end": 64
       }
     },
     "main": {
@@ -879,9 +864,9 @@
     }
   },
   "order": [
-    "hero_timeline",
     "main",
     "ticker",
+    "hero_timeline",
     "benefits_strip",
     "key_ingredients",
     "testimonial_before_after",
