@@ -120,16 +120,15 @@
           <input type="hidden" name="form_type" value="product">
           <input type="hidden" name="utf8" value="✓">
           <input type="hidden" name="id" value="{{ current_variant.id }}" ref="variantId">
-          <input type="hidden" name="selling_plan" value="">
+          <input type="hidden" name="selling_plan" value="{{ first_plan.id }}">
 
           <div class="go-trim-buybox__purchase-options">
             {%- comment -%} One-time purchase card {%- endcomment -%}
-            <label class="go-trim-buybox__option-card is-selected" data-option="onetime">
+            <label class="go-trim-buybox__option-card" data-option="onetime">
               <input
                 type="radio"
                 name="purchase_option"
                 value="onetime"
-                checked
                 class="go-trim-buybox__radio-input"
               >
               <span class="go-trim-buybox__option-header">
@@ -140,11 +139,12 @@
 
             {%- comment -%} Subscription card {%- endcomment -%}
             {% if has_selling_plans %}
-              <label class="go-trim-buybox__option-card go-trim-buybox__option-card--subscription" data-option="subscription">
+              <label class="go-trim-buybox__option-card go-trim-buybox__option-card--subscription is-selected" data-option="subscription">
                 <input
                   type="radio"
                   name="purchase_option"
                   value="subscription"
+                  checked
                   class="go-trim-buybox__radio-input"
                 >
                 <span class="go-trim-buybox__option-header">
@@ -223,7 +223,7 @@
             </div>
 
             <button type="submit" class="go-trim-buybox__cta-btn">
-              <span data-cta-text>Add to Cart</span>
+              <span data-cta-text>Subscribe</span>
             </button>
           </div>
 
@@ -344,7 +344,7 @@
     align-items: start;
 
     @media screen and (min-width: 750px) {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1.42fr 1fr;
     }
   }
 
@@ -353,6 +353,21 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: var(--media-gap, 8px);
+
+    @media screen and (min-width: 750px) {
+      position: sticky;
+      top: var(--sticky-header-offset, 0);
+      align-self: start;
+      max-height: 100vh;
+      overflow-y: auto;
+      scroll-behavior: smooth;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
   }
 
   .go-trim-buybox__media-item {

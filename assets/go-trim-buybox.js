@@ -51,6 +51,13 @@ class GoTrimBuyboxComponent extends HTMLElement {
     const checkedRadio = this.querySelector('input[name="purchase_option"]:checked');
     if (checkedRadio) {
       this._handlePurchaseOptionChange(checkedRadio.value);
+    } else if (this._sellingPlanData) {
+      // Default to subscription when selling plans exist but no radio is checked
+      const subRadio = this.querySelector('input[name="purchase_option"][value="subscription"]');
+      if (subRadio) {
+        subRadio.checked = true;
+        this._handlePurchaseOptionChange('subscription');
+      }
     }
   }
 
