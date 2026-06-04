@@ -297,15 +297,40 @@
         </div>
       {% endif %}
 
-      {%- comment -%} Supplement label link {%- endcomment -%}
+      {%- comment -%} Supplement label button (opens drawer) {%- endcomment -%}
       {% if section.settings.supplement_label_text != blank %}
-        <a
-          href="{{ section.settings.supplement_label_url | default: '#' }}"
+        <button
+          type="button"
+          data-action="open-supplement-drawer"
           class="go-trim-buybox__supplement-link"
         >
           {{ section.settings.supplement_label_text }}
-        </a>
+        </button>
       {% endif %}
+
+      {%- comment -%} Supplement facts drawer {%- endcomment -%}
+      <dialog class="go-trim-buybox__supplement-drawer dialog-modal dialog-drawer dialog-drawer--right" aria-labelledby="supplement-drawer-title-{{ section.id }}">
+        <div class="go-trim-buybox__supplement-drawer-header">
+          <h2 id="supplement-drawer-title-{{ section.id }}" class="go-trim-buybox__supplement-drawer-title">Supplement Facts</h2>
+          <button type="button" data-action="close-supplement-drawer" class="go-trim-buybox__supplement-drawer-close" aria-label="Close">
+            {{ 'x.svg' | inline_asset_content }}
+          </button>
+        </div>
+        <div class="go-trim-buybox__supplement-drawer-content">
+          {%- if product.metafields.custom.supplement_facts.value != blank -%}
+            {{
+              product.metafields.custom.supplement_facts.value
+              | image_url: width: 664
+              | image_tag:
+                class: 'go-trim-buybox__supplement-image',
+                alt: product.title,
+                loading: 'lazy'
+            }}
+          {%- else -%}
+            <p class="go-trim-buybox__supplement-empty">No supplement facts available.</p>
+          {%- endif -%}
+        </div>
+      </dialog>
 
     </div>
   </div>
@@ -348,8 +373,9 @@
     }
   }
 
-  /* Media grid */
+  /* Media grid — grid-column:auto overrides .section--page-width > * { grid-column: 2 } */
   .go-trim-buybox__media {
+    grid-column: auto;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: var(--media-gap, 8px);
@@ -383,8 +409,9 @@
     object-fit: cover;
   }
 
-  /* Details column */
+  /* Details column — grid-column:auto overrides .section--page-width > * { grid-column: 2 } */
   .go-trim-buybox__details {
+    grid-column: auto;
     display: flex;
     flex-direction: column;
     gap: 35px;
@@ -907,9 +934,10 @@
     color: var(--color-foreground);
   }
 
-  /* Supplement label link */
+  /* Supplement label button */
   .go-trim-buybox__supplement-link {
     display: block;
+    width: 100%;
     text-align: center;
     text-decoration: underline;
     font-family: var(--font-body--family);
@@ -917,6 +945,10 @@
     font-size: 16px;
     line-height: 24px;
     color: var(--color-foreground);
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
 
     &:hover {
       opacity: 0.8;
@@ -926,6 +958,98 @@
       outline: 2px solid var(--color-foreground);
       outline-offset: 2px;
     }
+  }
+
+  /* Supplement facts drawer */
+  .go-trim-buybox__supplement-drawer {
+    width: 480px;
+    max-width: 100vw;
+    max-height: 100dvh;
+    height: 100dvh;
+    background: #FFFFFF;
+    padding: 0;
+    margin: 0;
+    margin-inline-start: auto;
+    border: none;
+    box-shadow: var(--shadow-popover);
+
+    @media screen and (max-width: 749px) {
+      width: 100vw;
+    }
+  }
+
+  .go-trim-buybox__supplement-drawer[open] {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .go-trim-buybox__supplement-drawer::backdrop {
+    background: rgb(var(--backdrop-color-rgb) / var(--backdrop-opacity));
+  }
+
+  .go-trim-buybox__supplement-drawer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    border-bottom: 1px solid #D3D3D3;
+    flex-shrink: 0;
+  }
+
+  .go-trim-buybox__supplement-drawer-title {
+    font-family: var(--font-body--family);
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 23px;
+    color: #141414;
+    margin: 0;
+  }
+
+  .go-trim-buybox__supplement-drawer-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    flex-shrink: 0;
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-foreground);
+      outline-offset: 2px;
+    }
+  }
+
+  .go-trim-buybox__supplement-drawer-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .go-trim-buybox__supplement-image {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .go-trim-buybox__supplement-empty {
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #6C6C6C;
+    margin: 0;
+    text-align: center;
   }
 
   /* Mobile stacking */
