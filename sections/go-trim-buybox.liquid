@@ -120,25 +120,25 @@
           <input type="hidden" name="form_type" value="product">
           <input type="hidden" name="utf8" value="✓">
           <input type="hidden" name="id" value="{{ current_variant.id }}" ref="variantId">
-          <input type="hidden" name="selling_plan" value="{{ first_plan.id }}">
+          {% if has_selling_plans %}
+            <input type="hidden" name="selling_plan" value="{{ first_plan.id }}">
 
-          <div class="go-trim-buybox__purchase-options">
-            {%- comment -%} One-time purchase card {%- endcomment -%}
-            <label class="go-trim-buybox__option-card" data-option="onetime">
-              <input
-                type="radio"
-                name="purchase_option"
-                value="onetime"
-                class="go-trim-buybox__radio-input"
-              >
-              <span class="go-trim-buybox__option-header">
-                <span class="go-trim-buybox__option-title">One-time purchase</span>
-                <span class="go-trim-buybox__option-price">{{ price | money }}</span>
-              </span>
-            </label>
+            <div class="go-trim-buybox__purchase-options">
+              {%- comment -%} One-time purchase card {%- endcomment -%}
+              <label class="go-trim-buybox__option-card" data-option="onetime">
+                <input
+                  type="radio"
+                  name="purchase_option"
+                  value="onetime"
+                  class="go-trim-buybox__radio-input"
+                >
+                <span class="go-trim-buybox__option-header">
+                  <span class="go-trim-buybox__option-title">One-time purchase</span>
+                  <span class="go-trim-buybox__option-price">{{ price | money }}</span>
+                </span>
+              </label>
 
-            {%- comment -%} Subscription card {%- endcomment -%}
-            {% if has_selling_plans %}
+              {%- comment -%} Subscription card {%- endcomment -%}
               <label class="go-trim-buybox__option-card go-trim-buybox__option-card--subscription is-selected" data-option="subscription">
                 <input
                   type="radio"
@@ -156,10 +156,9 @@
                     <span class="go-trim-buybox__option-price">{{ first_allocation.per_delivery_price | money }}</span>
                   {% endif %}
                 </span>
-
               </label>
-            {% endif %}
-          </div>
+            </div>
+          {% endif %}
 
           {%- comment -%} Quantity + CTA row {%- endcomment -%}
           <div class="go-trim-buybox__actions">
@@ -178,7 +177,7 @@
             </div>
 
             <button type="submit" class="go-trim-buybox__cta-btn">
-              <span data-cta-text>Subscribe</span>
+              <span data-cta-text>{% if has_selling_plans %}Subscribe{% else %}Add to Cart{% endif %}</span>
             </button>
           </div>
 
