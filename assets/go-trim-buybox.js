@@ -22,6 +22,7 @@ class GoTrimBuyboxComponent extends HTMLElement {
     this._bindEvents();
     this._initState();
     this._initVariantFromUrl();
+    this._bindAccordionExclusive();
   }
 
   _parseSellingPlanData() {
@@ -447,6 +448,47 @@ class GoTrimBuyboxComponent extends HTMLElement {
     const priceDisplay = this.querySelector('[data-active-price]');
     if (priceDisplay && pill.dataset.price) {
       priceDisplay.textContent = pill.dataset.price;
+    }
+  }
+
+  /**
+   * Binds exclusive (single-open) behavior to accordion `<details>` elements
+   * inside `.go-trim-buybox__accordions`. When one item opens, all siblings
+   * are closed. Uses a re-entrancy guard to prevent infinite toggle loops
+   * caused by programmatically removing the `open` attribute.
+   */
+  _bindAccordionExclusive() {
+    const accordions = this.querySelectorAll('.go-trim-buybox__accordions > .go-trim-buybox__accordion');
+    if (!accordions.length) return;
+
+    this._isClosingOthers = false;
+
+    // Initial pass: if multiple <details> have `open`, keep only the first
+    let foundOpen = false;
+    for (const details of accordions) {
+      if (details.open) {
+        if (foundOpen) {
+          details.open = false;
+        } else {
+          foundOpen = true;
+        }
+      }
+    }
+
+    // Attach toggle listeners for exclusive behavior
+    for (const details of accordions) {
+      details.addEventListener('toggle', () => {
+        if (this._isClosingOthers) return;
+        if (!details.open) return;
+
+        this._isClosingOthers = true;
+        for (const sibling of accordions) {
+          if (sibling !== details && sibling.open) {
+            sibling.open = false;
+          }
+        }
+        this._isClosingOthers = false;
+      });
     }
   }
 }
