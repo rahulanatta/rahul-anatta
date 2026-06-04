@@ -37,6 +37,8 @@ class GoTrimBuyboxComponent extends HTMLElement {
       if (action === 'quantity-minus') this._handleQuantityChange(-1);
       if (action === 'quantity-plus') this._handleQuantityChange(1);
       if (action === 'select-frequency') this._handleFrequencySelect(target);
+      if (action === 'open-supplement-drawer') this._openSupplementDrawer();
+      if (action === 'close-supplement-drawer') this._closeSupplementDrawer();
     });
 
     this.addEventListener('change', (e) => {
@@ -45,6 +47,17 @@ class GoTrimBuyboxComponent extends HTMLElement {
         this._handlePurchaseOptionChange(target.value);
       }
     });
+
+    const dialog = this.querySelector('.go-trim-buybox__supplement-drawer');
+    if (dialog) {
+      dialog.addEventListener('click', (e) => {
+        if (e.target === dialog) this._closeSupplementDrawer();
+      });
+
+      dialog.addEventListener('close', () => {
+        document.body.style.overflow = '';
+      });
+    }
   }
 
   _initState() {
@@ -111,6 +124,38 @@ class GoTrimBuyboxComponent extends HTMLElement {
       }
       if (comparePriceDisplay) comparePriceDisplay.style.display = '';
     }
+  }
+
+  _openSupplementDrawer() {
+    const dialog = this.querySelector('.go-trim-buybox__supplement-drawer');
+    if (!dialog) return;
+    document.body.style.overflow = 'hidden';
+    dialog.showModal();
+  }
+
+  _closeSupplementDrawer() {
+    const dialog = this.querySelector('.go-trim-buybox__supplement-drawer');
+    if (!dialog || !dialog.open) return;
+
+    dialog.classList.add('dialog-closing');
+
+    const cleanup = () => {
+      dialog.classList.remove('dialog-closing');
+      dialog.close();
+      document.body.style.overflow = '';
+    };
+
+    const onAnimEnd = () => {
+      clearTimeout(fallback);
+      cleanup();
+    };
+
+    dialog.addEventListener('animationend', onAnimEnd, { once: true });
+
+    const fallback = setTimeout(() => {
+      dialog.removeEventListener('animationend', onAnimEnd);
+      cleanup();
+    }, 300);
   }
 
   _handleFrequencySelect(pill) {
