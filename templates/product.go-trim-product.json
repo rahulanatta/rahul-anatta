@@ -9,60 +9,6 @@
  */
 {
   "sections": {
-    "hero_timeline": {
-      "type": "hero-timeline",
-      "blocks": {
-        "slide_1": {
-          "type": "image-slide",
-          "settings": {
-            "image": "shopify://shop_images/4-5-desktop-154518367.jpg"
-          }
-        },
-        "slide_2": {
-          "type": "image-slide",
-          "settings": {
-            "image": "shopify://shop_images/1-2-desktop-154518368.jpg"
-          }
-        },
-        "phase_1": {
-          "type": "timeline-phase",
-          "settings": {
-            "badge_text": "7 Days",
-            "phase_title": "Detox Phase",
-            "description": "<ul><li>This supplement uses nutrients, herbs and botanicals to mildly purge, detoxify and purify the digestive system.</li><li>Inhibit the amount of starchy carbohydrates being absorbed by the body and promotes a feeling of fullness.</li></ul>"
-          }
-        },
-        "phase_2": {
-          "type": "timeline-phase",
-          "settings": {
-            "badge_text": "Days 8 - 30",
-            "phase_title": "Fat Burning Phase",
-            "description": "<ul><li>The shakes provide additional protein to fuel your body and keep those hunger pangs at bay.</li></ul>"
-          }
-        }
-      },
-      "block_order": [
-        "slide_1",
-        "slide_2",
-        "phase_1",
-        "phase_2"
-      ],
-      "settings": {
-        "heading": "30 Day Jump Start Kit",
-        "heading_tag": "h2",
-        "show_arrows": true,
-        "image_border_radius": 30,
-        "badge_background": "#81AE9A",
-        "desktop_gap": 80,
-        "content_gap": 40,
-        "section_width": "page-width",
-        "color_scheme": "scheme-1",
-        "padding-block-start": 80,
-        "padding-block-end": 80,
-        "padding-inline-start": 64,
-        "padding-inline-end": 64
-      }
-    },
     "main": {
       "type": "go-trim-buybox",
       "blocks": {
@@ -121,18 +67,19 @@
         "benefit_rewards"
       ],
       "settings": {
+        "subtitle": "International Weight Loss Bestseller",
+        "reviews_text": "4.5 (346 Reviews)",
+        "show_reviews": true,
+        "show_installments": false,
+        "show_wishlist": false,
+        "show_subscription_benefits": true,
+        "subscription_benefits_heading": "Your subscription includes:",
+        "supplement_label_text": "View Supplement Label & Facts",
+        "supplement_label_url": "",
         "section_width": "page-width",
         "gap": 64,
         "media_gap": 8,
         "media_border_radius": 16,
-        "subtitle": "International Weight Loss Bestseller",
-        "reviews_text": "4.5 (346 Reviews)",
-        "show_reviews": true,
-        "show_installments": true,
-        "show_wishlist": true,
-        "show_subscription_benefits": true,
-        "subscription_benefits_heading": "Your subscription includes:",
-        "supplement_label_text": "View Supplement Label & Facts",
         "color_scheme": "scheme-1",
         "padding-block-start": 0,
         "padding-block-end": 64,
@@ -184,13 +131,69 @@
         "section_width": "full-width",
         "gap": 48,
         "icon_size": 32,
-        "background_color": "#81AE9A",
+        "background_color": "#81ae9a",
         "show_gradient": false,
-        "text_color": "#FFFFFF",
+        "gradient_color": "#96875f",
+        "gradient_direction": "to right",
+        "text_color": "#ffffff",
         "padding-block-start": 24,
         "padding-block-end": 24,
         "padding-inline-start": 0,
         "padding-inline-end": 0
+      }
+    },
+    "hero_timeline": {
+      "type": "hero-timeline",
+      "blocks": {
+        "slide_1": {
+          "type": "image-slide",
+          "settings": {
+            "image": "shopify://shop_images/4-5-desktop-154518367.jpg"
+          }
+        },
+        "slide_2": {
+          "type": "image-slide",
+          "settings": {
+            "image": "shopify://shop_images/1-2-desktop-154518368.jpg"
+          }
+        },
+        "phase_1": {
+          "type": "timeline-phase",
+          "settings": {
+            "badge_text": "7 Days",
+            "phase_title": "Detox Phase",
+            "description": "<ul><li>This supplement uses nutrients, herbs and botanicals to mildly purge, detoxify and purify the digestive system.</li><li>Inhibit the amount of starchy carbohydrates being absorbed by the body and promotes a feeling of fullness.</li></ul>"
+          }
+        },
+        "phase_2": {
+          "type": "timeline-phase",
+          "settings": {
+            "badge_text": "Days 8 - 30",
+            "phase_title": "Fat Burning Phase",
+            "description": "<ul><li>The shakes provide additional protein to fuel your body and keep those hunger pangs at bay.</li></ul>"
+          }
+        }
+      },
+      "block_order": [
+        "slide_1",
+        "slide_2",
+        "phase_1",
+        "phase_2"
+      ],
+      "settings": {
+        "heading": "30 Day Jump Start Kit",
+        "heading_tag": "h2",
+        "show_arrows": true,
+        "image_border_radius": 30,
+        "badge_background": "#81ae9a",
+        "desktop_gap": 80,
+        "content_gap": 40,
+        "section_width": "page-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 80,
+        "padding-block-end": 80,
+        "padding-inline-start": 64,
+        "padding-inline-end": 64
       }
     },
     "benefits_strip": {
@@ -199,37 +202,43 @@
         "benefit_1": {
           "type": "benefit-item",
           "settings": {
-            "text": "Burn Fat, Keep Muscle"
+            "text": "Burn Fat, Keep Muscle",
+            "url": ""
           }
         },
         "benefit_2": {
           "type": "benefit-item",
           "settings": {
-            "text": "Curb cravings and hunger"
+            "text": "Curb cravings and hunger",
+            "url": ""
           }
         },
         "benefit_3": {
           "type": "benefit-item",
           "settings": {
-            "text": "Reduce stress"
+            "text": "Reduce stress",
+            "url": ""
           }
         },
         "benefit_4": {
           "type": "benefit-item",
           "settings": {
-            "text": "Boost metabolism"
+            "text": "Boost metabolism",
+            "url": ""
           }
         },
         "benefit_5": {
           "type": "benefit-item",
           "settings": {
-            "text": "Big taste, slim waist"
+            "text": "Big taste, slim waist",
+            "url": ""
           }
         },
         "benefit_6": {
           "type": "benefit-item",
           "settings": {
-            "text": "shop all"
+            "text": "shop all",
+            "url": ""
           }
         }
       },
@@ -248,7 +257,7 @@
         "row_gap": 16,
         "text_transform": "lowercase",
         "pill_border_radius": 31,
-        "pill_border_color": "#DBDBDB",
+        "pill_border_color": "#dbdbdb",
         "separator_size": 31,
         "color_scheme": "scheme-1",
         "padding-block-start": 40,
@@ -322,9 +331,55 @@
         "padding-block-end": 60
       }
     },
+    "testimonial_before_after": {
+      "type": "testimonial-before-after",
+      "blocks": {
+        "icon_1": {
+          "type": "icon-image",
+          "settings": {
+            "image": "shopify://shop_images/screenshot-2025-11-24-at-2-14-56-pm-desktop-173716749.png"
+          }
+        },
+        "icon_2": {
+          "type": "icon-image",
+          "settings": {
+            "image": "shopify://shop_images/screenshot-2025-11-24-at-2-15-01-pm-desktop-173716750.png"
+          }
+        },
+        "icon_3": {
+          "type": "icon-image",
+          "settings": {
+            "image": "shopify://shop_images/screenshot-2025-11-24-at-2-14-52-pm-desktop-173716751.png"
+          }
+        }
+      },
+      "block_order": [
+        "icon_1",
+        "icon_2",
+        "icon_3"
+      ],
+      "settings": {
+        "heading": "Hear From Real GoTrim Users",
+        "heading_tag": "h2",
+        "before_image": "shopify://shop_images/d2d269f72c0c1b8b29e25b47c2851d5bbd2477e7-pants-janie2-1-desktop-173716739.jpg",
+        "after_image": "shopify://shop_images/d2d269f72c0c1b8b29e25b47c2851d5bbd2477e7-pants-janie2-1-desktop-173716739.jpg",
+        "before_label": "before",
+        "after_label": "after 2 months",
+        "title": "I can fit in size 2 again!",
+        "body_text": "“I started taking GoTrim Thin around the middle of March 2025. By the middle of May I had lost almost 17 pounds. Now I am a full 20 pounds down and it isn’t even June 1. My waist was 29, now it’s 25.5(26) inches. My hips used to be 39 inches now they are at 36.5. I can fit in size 2 again!!!!! My inner thighs even shrunk from 23 to 21 inches. I love this product!”",
+        "disclaimer": "Jeanie G., UnFranchise Owner\n\n*Individuals following the GoTrim® Lifestyle System as part of a healthy diet and exercise program can expect to lose 1-2 pounds per week.",
+        "section_width": "page-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 60,
+        "padding-block-end": 60,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
+      }
+    },
     "ingredient_highlight": {
       "type": "ingredient-highlight",
       "settings": {
+        "badge_background_color": "#004750",
         "description": "<p>With each supplement is scientifically-developed to target different weight loss struggles.</p>",
         "font_size": 38,
         "line_height": 54,
@@ -816,51 +871,6 @@
         "color_scheme": "",
         "padding-block-start": 80,
         "padding-block-end": 80,
-        "padding-inline-start": 0,
-        "padding-inline-end": 0
-      }
-    },
-    "testimonial_before_after": {
-      "type": "testimonial-before-after",
-      "blocks": {
-        "icon_1": {
-          "type": "icon-image",
-          "settings": {
-            "image": "shopify://shop_images/screenshot-2025-11-24-at-2-14-56-pm-desktop-173716749.png"
-          }
-        },
-        "icon_2": {
-          "type": "icon-image",
-          "settings": {
-            "image": "shopify://shop_images/screenshot-2025-11-24-at-2-15-01-pm-desktop-173716750.png"
-          }
-        },
-        "icon_3": {
-          "type": "icon-image",
-          "settings": {
-            "image": "shopify://shop_images/screenshot-2025-11-24-at-2-14-52-pm-desktop-173716751.png"
-          }
-        }
-      },
-      "block_order": [
-        "icon_1",
-        "icon_2",
-        "icon_3"
-      ],
-      "settings": {
-        "heading": "Hear From Real GoTrim Users",
-        "heading_tag": "h2",
-        "before_image": "shopify://shop_images/d2d269f72c0c1b8b29e25b47c2851d5bbd2477e7-pants-janie2-1-desktop-173716739.jpg",
-        "after_image": "shopify://shop_images/d2d269f72c0c1b8b29e25b47c2851d5bbd2477e7-pants-janie2-1-desktop-173716739.jpg",
-        "before_label": "before",
-        "after_label": "after 2 months",
-        "title": "I can fit in size 2 again!",
-        "body_text": "“I started taking GoTrim Thin around the middle of March 2025. By the middle of May I had lost almost 17 pounds. Now I am a full 20 pounds down and it isn’t even June 1. My waist was 29, now it’s 25.5(26) inches. My hips used to be 39 inches now they are at 36.5. I can fit in size 2 again!!!!! My inner thighs even shrunk from 23 to 21 inches. I love this product!”",
-        "disclaimer": "Jeanie G., UnFranchise Owner\n\n*Individuals following the GoTrim® Lifestyle System as part of a healthy diet and exercise program can expect to lose 1-2 pounds per week.",
-        "section_width": "page-width",
-        "color_scheme": "scheme-1",
-        "padding-block-start": 60,
-        "padding-block-end": 60,
         "padding-inline-start": 0,
         "padding-inline-end": 0
       }
