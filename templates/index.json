@@ -261,7 +261,7 @@
         "show_gradient": true,
         "gradient_color": "#dfdfdf",
         "gradient_direction": "to right",
-        "text_color": "#FFFFFF",
+        "text_color": "#ffffff",
         "padding-block-start": 24,
         "padding-block-end": 24
       }
@@ -581,6 +581,7 @@
         "section_width": "full-width",
         "columns_desktop": 3,
         "gap": 44,
+        "card_width": 0,
         "color_scheme": "scheme-7",
         "padding-block-start": 48,
         "padding-block-end": 48,
@@ -588,6 +589,71 @@
         "padding-inline-end": 10,
         "margin-block-start": 16,
         "margin-block-end": 16
+      }
+    },
+    "key_ingredients_ebwyMQ": {
+      "type": "key-ingredients",
+      "blocks": {
+        "ingredient_J93zep": {
+          "type": "ingredient",
+          "settings": {
+            "title": "Vitamin C",
+            "description": "A powerful antioxidant that boosts the immune system, enhances iron absorption, and promotes collagen production for healthy skin."
+          }
+        },
+        "ingredient_hfeEDf": {
+          "type": "ingredient",
+          "settings": {
+            "title": "Hydrolysed Collagen",
+            "description": "Supports skin elasticity and hydration, reducing the appearance of fine lines and wrinkles for a youthful glow."
+          }
+        },
+        "ingredient_XU9gyJ": {
+          "type": "ingredient",
+          "settings": {
+            "title": "Zinc",
+            "description": "Supports a strong immune system, promotes wound healing, and helps maintain healthy skin."
+          }
+        },
+        "ingredient_6QLMmC": {
+          "type": "ingredient",
+          "settings": {
+            "title": "Vitamin E",
+            "description": "Is a powerful antioxidant that helps protect cells from damage caused by free radicals. It supports healthy skin by promoting hydration and reducing signs of aging."
+          }
+        },
+        "ingredient_z866Rp": {
+          "type": "ingredient",
+          "settings": {
+            "title": "Iron",
+            "description": "Vital for energy production and oxygen transport in the body, it prevents fatigue and supports overall vitality."
+          }
+        },
+        "ingredient_xcMAcz": {
+          "type": "ingredient",
+          "settings": {
+            "title": "Vitamin A",
+            "description": "Essential for good vision, healthy skin, and a robust immune system, it also supports cell growth and reproduction."
+          }
+        }
+      },
+      "block_order": [
+        "ingredient_J93zep",
+        "ingredient_hfeEDf",
+        "ingredient_XU9gyJ",
+        "ingredient_6QLMmC",
+        "ingredient_z866Rp",
+        "ingredient_xcMAcz"
+      ],
+      "settings": {
+        "heading": "Key Ingredients",
+        "heading_tag": "h2",
+        "heading_size": "h2",
+        "center_image": "shopify://shop_images/rectangle-15773321-mobile-683029619.jpg",
+        "section_width": "page-width",
+        "color_scheme": "scheme-7",
+        "padding-block-start": 60,
+        "padding-block-end": 60
       }
     },
     "key_ingredients_4dCH7E": {
@@ -656,71 +722,6 @@
         "padding-block-end": 43
       }
     },
-    "key_ingredients_ebwyMQ": {
-      "type": "key-ingredients",
-      "blocks": {
-        "ingredient_J93zep": {
-          "type": "ingredient",
-          "settings": {
-            "title": "Vitamin C",
-            "description": "A powerful antioxidant that boosts the immune system, enhances iron absorption, and promotes collagen production for healthy skin."
-          }
-        },
-        "ingredient_hfeEDf": {
-          "type": "ingredient",
-          "settings": {
-            "title": "Hydrolysed Collagen",
-            "description": "Supports skin elasticity and hydration, reducing the appearance of fine lines and wrinkles for a youthful glow."
-          }
-        },
-        "ingredient_XU9gyJ": {
-          "type": "ingredient",
-          "settings": {
-            "title": "Zinc",
-            "description": "Supports a strong immune system, promotes wound healing, and helps maintain healthy skin."
-          }
-        },
-        "ingredient_6QLMmC": {
-          "type": "ingredient",
-          "settings": {
-            "title": "Vitamin E",
-            "description": "Is a powerful antioxidant that helps protect cells from damage caused by free radicals. It supports healthy skin by promoting hydration and reducing signs of aging."
-          }
-        },
-        "ingredient_z866Rp": {
-          "type": "ingredient",
-          "settings": {
-            "title": "Iron",
-            "description": "Vital for energy production and oxygen transport in the body, it prevents fatigue and supports overall vitality."
-          }
-        },
-        "ingredient_xcMAcz": {
-          "type": "ingredient",
-          "settings": {
-            "title": "Vitamin A",
-            "description": "Essential for good vision, healthy skin, and a robust immune system, it also supports cell growth and reproduction."
-          }
-        }
-      },
-      "block_order": [
-        "ingredient_J93zep",
-        "ingredient_hfeEDf",
-        "ingredient_XU9gyJ",
-        "ingredient_6QLMmC",
-        "ingredient_z866Rp",
-        "ingredient_xcMAcz"
-      ],
-      "settings": {
-        "heading": "Key Ingredients",
-        "heading_tag": "h2",
-        "heading_size": "h2",
-        "center_image": "shopify://shop_images/rectangle-15773321-mobile-683029619.jpg",
-        "section_width": "page-width",
-        "color_scheme": "scheme-7",
-        "padding-block-start": 60,
-        "padding-block-end": 60
-      }
-    },
     "comparison_chart_8wTca8": {
       "type": "comparison-chart",
       "blocks": {
@@ -784,6 +785,70 @@
         "padding-block-end": 60
       }
     },
+    "product_categories_h8hn6x": {
+      "type": "product-categories",
+      "blocks": {
+        "category_item_kTXiRC": {
+          "type": "category-item",
+          "settings": {
+            "collection": "frontpage",
+            "label": "Category"
+          }
+        },
+        "category_item_xxaQE3": {
+          "type": "category-item",
+          "settings": {
+            "collection": "treat-copy",
+            "label": "Category"
+          }
+        },
+        "category_item_8wqVdC": {
+          "type": "category-item",
+          "settings": {
+            "collection": "cleanse-tone-copy",
+            "label": "Category"
+          }
+        },
+        "category_item_AJLy7H": {
+          "type": "category-item",
+          "settings": {
+            "collection": "moisurize-mask-copy-1",
+            "label": "Category"
+          }
+        },
+        "category_item_x4EXVG": {
+          "type": "category-item",
+          "settings": {
+            "collection": "best-seller-copy",
+            "label": "Category"
+          }
+        }
+      },
+      "block_order": [
+        "category_item_kTXiRC",
+        "category_item_xxaQE3",
+        "category_item_8wqVdC",
+        "category_item_AJLy7H",
+        "category_item_x4EXVG"
+      ],
+      "name": "Product categories",
+      "settings": {
+        "section_width": "page-width",
+        "gap": 20,
+        "item_gap": 16,
+        "image_border_radius": 16,
+        "label_font_size": 24,
+        "label_line_height": 31,
+        "label_font_size_mobile": 18,
+        "label_line_height_mobile": 23,
+        "text_transform": "uppercase",
+        "color_scheme": "",
+        "padding-block-start": 64,
+        "padding-block-end": 64,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
+      }
+    },
     "scientific_results_wXaUDK": {
       "type": "scientific-results",
       "blocks": {
@@ -821,8 +886,8 @@
         "columns": 3,
         "section_width": "page-width",
         "background_color": "#38576c",
-        "text_color": "#FFFFFF",
-        "divider_color": "#FFFFFF",
+        "text_color": "#ffffff",
+        "divider_color": "#ffffff",
         "padding-block-start": 80,
         "padding-block-end": 80
       }
@@ -837,9 +902,10 @@
     "image_text_cta_EGXpPJ",
     "product_bundle_8gYwaQ",
     "link_cards_grid",
-    "key_ingredients_4dCH7E",
     "key_ingredients_ebwyMQ",
+    "key_ingredients_4dCH7E",
     "comparison_chart_8wTca8",
+    "product_categories_h8hn6x",
     "scientific_results_wXaUDK"
   ]
 }
