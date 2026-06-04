@@ -1,0 +1,481 @@
+{% liquid
+  assign heading_tag = section.settings.heading_tag
+%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div
+  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style testimonial-before-after"
+  style="{%- render 'spacing-style', settings: section.settings -%}"
+>
+  <div class="testimonial-before-after__inner">
+
+    {% if section.settings.heading != blank %}
+      <{{ heading_tag }} class="testimonial-before-after__heading">
+        {{- section.settings.heading | escape -}}
+      </{{ heading_tag }}>
+    {% endif %}
+
+    <div class="testimonial-before-after__row">
+
+      <div class="testimonial-before-after__images">
+        <div class="testimonial-before-after__image-wrap testimonial-before-after__image-wrap--before">
+          {% if section.settings.before_image != blank %}
+            {{
+              section.settings.before_image
+              | image_url: width: section.settings.before_image.width
+              | image_tag:
+                sizes: '(min-width: 750px) 25vw, 45vw',
+                widths: '300,400,500,600,800',
+                loading: 'lazy',
+                class: 'testimonial-before-after__img',
+                alt: section.settings.before_image.alt
+            }}
+          {% else %}
+            <div class="testimonial-before-after__placeholder">
+              {{ 'image' | placeholder_svg_tag: 'testimonial-before-after__placeholder-svg' }}
+            </div>
+          {% endif %}
+          {% if section.settings.before_label != blank %}
+            <span class="testimonial-before-after__pill">
+              {{ section.settings.before_label | escape }}
+            </span>
+          {% endif %}
+        </div>
+
+        <div class="testimonial-before-after__image-wrap testimonial-before-after__image-wrap--after">
+          {% if section.settings.after_image != blank %}
+            {{
+              section.settings.after_image
+              | image_url: width: section.settings.after_image.width
+              | image_tag:
+                sizes: '(min-width: 750px) 25vw, 45vw',
+                widths: '300,400,500,600,800',
+                loading: 'lazy',
+                class: 'testimonial-before-after__img',
+                alt: section.settings.after_image.alt
+            }}
+          {% else %}
+            <div class="testimonial-before-after__placeholder">
+              {{ 'image' | placeholder_svg_tag: 'testimonial-before-after__placeholder-svg' }}
+            </div>
+          {% endif %}
+          {% if section.settings.after_label != blank %}
+            <span class="testimonial-before-after__pill">
+              {{ section.settings.after_label | escape }}
+            </span>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="testimonial-before-after__content">
+
+        {% if section.blocks.size > 0 %}
+          <div class="testimonial-before-after__icons">
+            {% for block in section.blocks %}
+              {% if block.settings.image != blank %}
+                <div class="testimonial-before-after__icon{% if forloop.index == 2 %} testimonial-before-after__icon--bordered{% endif %}" {{ block.shopify_attributes }}>
+                  {{
+                    block.settings.image
+                    | image_url: width: 120
+                    | image_tag:
+                      widths: '55,110',
+                      sizes: '55px',
+                      loading: 'lazy',
+                      class: 'testimonial-before-after__icon-img',
+                      alt: block.settings.image.alt
+                  }}
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        {% if section.settings.title != blank %}
+          <p class="testimonial-before-after__title">
+            {{ section.settings.title | escape }}
+          </p>
+        {% endif %}
+
+        {% if section.settings.body_text != blank %}
+          <p class="testimonial-before-after__body">
+            {{ section.settings.body_text | escape }}
+          </p>
+        {% endif %}
+
+        {% if section.settings.disclaimer != blank %}
+          <p class="testimonial-before-after__disclaimer">
+            {{ section.settings.disclaimer | newline_to_br }}
+          </p>
+        {% endif %}
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .testimonial-before-after__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .testimonial-before-after__heading {
+    margin: 0;
+    text-align: center;
+    color: var(--color-foreground-heading);
+    font-family: var(--font-heading--family);
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 42px;
+  }
+
+  .testimonial-before-after__row {
+    display: flex;
+    flex-direction: row;
+    gap: 48px;
+    align-items: center;
+  }
+
+  .testimonial-before-after__images {
+    display: flex;
+    flex-direction: row;
+    gap: 0;
+    flex-shrink: 0;
+    width: 50%;
+  }
+
+  .testimonial-before-after__image-wrap {
+    position: relative;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  .testimonial-before-after__image-wrap--before {
+    border-radius: 30px 0 0 30px;
+  }
+
+  .testimonial-before-after__image-wrap--after {
+    border-radius: 0 30px 30px 0;
+  }
+
+  .testimonial-before-after__img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 384 / 519;
+    object-fit: cover;
+  }
+
+  .testimonial-before-after__placeholder {
+    width: 100%;
+    aspect-ratio: 384 / 519;
+    background-color: rgb(0 0 0 / 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .testimonial-before-after__placeholder-svg {
+    width: 50%;
+    height: 50%;
+    opacity: 0.3;
+  }
+
+  .testimonial-before-after__pill {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding-inline: 12px;
+    padding-block: 6px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    box-shadow:
+      inset 1px 1px 5px rgba(255, 255, 255, 0.13),
+      inset 2px 2px 9px rgba(255, 255, 255, 0.13),
+      -2px -2px 12px -8px rgba(0, 0, 0, 0.15),
+      -11px -10px 48px -12px rgba(0, 0, 0, 0.15);
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 31px;
+    color: #ffffff;
+  }
+
+  .testimonial-before-after__content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .testimonial-before-after__icons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .testimonial-before-after__icon {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .testimonial-before-after__icon + .testimonial-before-after__icon {
+    margin-inline-start: -10px;
+  }
+
+  .testimonial-before-after__icon--bordered {
+    box-shadow: 0 0 0 2px #000000;
+  }
+
+  .testimonial-before-after__icon-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  .testimonial-before-after__title {
+    margin: 0;
+    font-family: var(--font-body--family);
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 39px;
+    color: var(--color-foreground-heading);
+  }
+
+  .testimonial-before-after__body {
+    margin: 0;
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 22px;
+    color: var(--color-foreground);
+  }
+
+  .testimonial-before-after__disclaimer {
+    margin: 0;
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 27px;
+    color: var(--color-foreground);
+  }
+
+  @media screen and (max-width: 749px) {
+    .testimonial-before-after__heading {
+      font-size: 24px;
+      line-height: 32px;
+    }
+
+    .testimonial-before-after__row {
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .testimonial-before-after__images {
+      width: 100%;
+    }
+
+    .testimonial-before-after__img {
+      aspect-ratio: 384 / 450;
+    }
+
+    .testimonial-before-after__pill {
+      font-size: 18px;
+      line-height: 24px;
+      padding-inline: 10px;
+      padding-block: 5px;
+      bottom: 12px;
+      left: 12px;
+    }
+
+    .testimonial-before-after__title {
+      font-size: 24px;
+      line-height: 32px;
+    }
+
+    .testimonial-before-after__body {
+      font-size: 15px;
+      line-height: 20px;
+    }
+
+    .testimonial-before-after__disclaimer {
+      font-size: 16px;
+      line-height: 24px;
+    }
+
+    .testimonial-before-after__icon {
+      width: 45px;
+      height: 45px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Testimonial before & after",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Hear From Real GoTrim Users"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading tag",
+      "options": [
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "image_picker",
+      "id": "before_image",
+      "label": "Before image"
+    },
+    {
+      "type": "image_picker",
+      "id": "after_image",
+      "label": "After image"
+    },
+    {
+      "type": "text",
+      "id": "before_label",
+      "label": "Before label",
+      "default": "before"
+    },
+    {
+      "type": "text",
+      "id": "after_label",
+      "label": "After label",
+      "default": "after 2 months"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "I can fit in size 2 again!"
+    },
+    {
+      "type": "textarea",
+      "id": "body_text",
+      "label": "Body text"
+    },
+    {
+      "type": "textarea",
+      "id": "disclaimer",
+      "label": "Disclaimer"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Left padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Right padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "icon-image",
+      "name": "Icon image",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonial before & after",
+      "category": "t:categories.text"
+    }
+  ]
+}
+{% endschema %}

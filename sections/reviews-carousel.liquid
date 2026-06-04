@@ -1,0 +1,414 @@
+{% liquid
+  assign section_width = section.settings.section_width
+%}
+
+<div class="reviews-carousel-background color-{{ section.settings.color_scheme }}"></div>
+<div
+  class="section section--{{ section_width }} color-{{ section.settings.color_scheme }} spacing-style reviews-carousel"
+  style="{% render 'spacing-style', settings: section.settings %}"
+>
+  {% if section.blocks.size > 0 %}
+    <reviews-carousel class="reviews-carousel__wrapper">
+      <div class="reviews-carousel__content">
+        <div class="reviews-carousel__track" ref="track">
+          {% for block in section.blocks %}
+            <div class="reviews-carousel__slide" {{ block.shopify_attributes }}>
+              <div class="reviews-carousel__stars">
+                {% if block.settings.stars_image != blank %}
+                  <img
+                    src="{{ block.settings.stars_image | image_url: width: 232 }}"
+                    alt="Star rating"
+                    width="116"
+                    height="20"
+                    loading="lazy"
+                  >
+                {% else %}
+                  <img
+                    src="{{ 'frame-1618873265.svg' | asset_url }}"
+                    alt="Star rating"
+                    width="116"
+                    height="20"
+                    loading="lazy"
+                  >
+                {% endif %}
+              </div>
+
+              {% if block.settings.review_text != blank %}
+                <p class="reviews-carousel__text">{{ block.settings.review_text | escape }}</p>
+              {% endif %}
+
+              <div class="reviews-carousel__reviewer">
+                {% if block.settings.reviewer_image != blank %}
+                  <img
+                    class="reviews-carousel__reviewer-image"
+                    src="{{ block.settings.reviewer_image | image_url: width: 80 }}"
+                    alt="{{ block.settings.reviewer_name | escape }}"
+                    width="40"
+                    height="40"
+                    loading="lazy"
+                  >
+                {% endif %}
+                {% if block.settings.reviewer_name != blank %}
+                  <span class="reviews-carousel__reviewer-name">{{ block.settings.reviewer_name | escape }}</span>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+        <div class="reviews-carousel__nav">
+          <button
+            type="button"
+            class="reviews-carousel__nav-btn reviews-carousel__nav-btn--prev"
+            ref="prevButton"
+            aria-label="Previous review"
+            on:click="/handlePrev"
+            disabled
+          >
+            <img src="{{ 'frame-1618873268.svg' | asset_url }}" alt="" width="32" height="32" aria-hidden="true">
+          </button>
+
+          <div class="reviews-carousel__dots">
+            {% for block in section.blocks %}
+              <span
+                class="reviews-carousel__dot{% if forloop.first %} reviews-carousel__dot--active{% endif %}"
+                aria-hidden="true"
+              ></span>
+            {% endfor %}
+          </div>
+
+          <button
+            type="button"
+            class="reviews-carousel__nav-btn reviews-carousel__nav-btn--next"
+            ref="nextButton"
+            aria-label="Next review"
+            on:click="/handleNext"
+          >
+            <img src="{{ 'frame-1618873269.svg' | asset_url }}" alt="" width="32" height="32" aria-hidden="true">
+          </button>
+        </div>
+      </div>
+    </reviews-carousel>
+  {% endif %}
+</div>
+
+<script src="{{ 'reviews-carousel.js' | asset_url }}" type="module"></script>
+
+{% stylesheet %}
+  .reviews-carousel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .reviews-carousel__wrapper {
+    display: block;
+    width: 100%;
+    max-width: 1504px;
+    border-radius: 16px;
+  }
+
+  .reviews-carousel__content {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    align-items: center;
+    padding: 39px 24px 80px 24px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .reviews-carousel__content {
+      padding: 24px 16px 40px 16px;
+      gap: 24px;
+    }
+  }
+
+  .reviews-carousel__track {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+  }
+
+  .reviews-carousel__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .reviews-carousel__slide {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    min-width: 100%;
+    scroll-snap-align: start;
+  }
+
+  .reviews-carousel__stars {
+    display: flex;
+    justify-content: center;
+  }
+
+  .reviews-carousel__stars img {
+    display: block;
+    width: 116px;
+    height: 20px;
+  }
+
+  .reviews-carousel__text {
+    font-family: var(--font-body--family);
+    font-size: var(--font-size--2xl);
+    font-weight: 500;
+    line-height: 31px;
+    letter-spacing: 0;
+    text-align: center;
+    color: #141414;
+    margin: 0;
+    max-width: 622px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .reviews-carousel__text {
+      font-size: var(--font-size--lg);
+      line-height: 26px;
+    }
+  }
+
+  .reviews-carousel__reviewer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .reviews-carousel__reviewer-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .reviews-carousel__reviewer-name {
+    font-family: var(--font-body--family);
+    font-size: var(--font-size--md);
+    font-weight: 500;
+    line-height: 21px;
+    letter-spacing: 0;
+    text-align: center;
+    color: #141414;
+  }
+
+  .reviews-carousel__nav {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .reviews-carousel__nav-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border-radius: 32px;
+    background: transparent;
+    cursor: pointer;
+    transition: opacity var(--animation-speed) ease;
+    border: none;
+  }
+
+  .reviews-carousel__nav-btn--prev {
+    border: 1px solid #828282;
+  }
+
+  .reviews-carousel__nav-btn--next {
+    border: 1px solid #141414;
+  }
+
+  .reviews-carousel__nav-btn img {
+    display: block;
+    width: 32px;
+    height: 32px;
+  }
+
+  .reviews-carousel__nav-btn:disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+
+  .reviews-carousel__nav-btn:focus-visible {
+    outline: 2px solid #141414;
+    outline-offset: 2px;
+  }
+
+  .reviews-carousel__dots {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .reviews-carousel__dot {
+    display: block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #C9C9C9;
+    transition: background-color var(--animation-speed) ease;
+  }
+
+  .reviews-carousel__dot--active {
+    background-color: #000000;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reviews-carousel__track {
+      scroll-behavior: auto;
+    }
+
+    .reviews-carousel__nav-btn,
+    .reviews-carousel__dot {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Reviews carousel",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Padding top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Padding left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 16,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Padding right",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 16,
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review-card",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "stars_image",
+          "label": "Stars image"
+        },
+        {
+          "type": "textarea",
+          "id": "review_text",
+          "label": "Review text",
+          "default": "This product is amazing! Highly recommended."
+        },
+        {
+          "type": "text",
+          "id": "reviewer_name",
+          "label": "Reviewer name",
+          "default": "-Customer"
+        },
+        {
+          "type": "image_picker",
+          "id": "reviewer_image",
+          "label": "Reviewer image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Reviews carousel",
+      "category": "t:categories.text",
+      "blocks": [
+        {
+          "type": "review-card",
+          "settings": {
+            "review_text": "Love the colors. Creamy, moisturizing and the color stays. Especially love the lid. It's magnetic.",
+            "reviewer_name": "-Nancy W"
+          }
+        },
+        {
+          "type": "review-card",
+          "settings": {
+            "review_text": "Great quality and fast shipping. I've been using this for a month and love the results!",
+            "reviewer_name": "-Sarah M"
+          }
+        },
+        {
+          "type": "review-card",
+          "settings": {
+            "review_text": "Exceeded my expectations. The texture is perfect and it works wonders on my skin.",
+            "reviewer_name": "-James K"
+          }
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

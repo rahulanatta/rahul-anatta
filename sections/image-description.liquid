@@ -1,0 +1,172 @@
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div
+  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style image-description"
+  style="{%- render 'spacing-style', settings: section.settings -%}"
+>
+  <div class="image-description__wrapper">
+    {% if section.settings.image != blank %}
+      <div class="image-description__media" style="max-width: {{ section.settings.image_max_width }}px;">
+        {%- assign sizes_val = '(min-width: 750px) ' | append: section.settings.image_max_width | append: 'px, 100vw' -%}
+        {{
+          section.settings.image
+          | image_url: width: section.settings.image.width
+          | image_tag:
+            sizes: sizes_val,
+            widths: '375,500,750,1000',
+            loading: 'lazy',
+            class: 'image-description__img',
+            alt: section.settings.image.alt
+        }}
+      </div>
+    {% endif %}
+
+    {% if section.settings.description != blank %}
+      <p class="image-description__text">{{ section.settings.description | escape }}</p>
+    {% endif %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .image-description__wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .image-description__media {
+    width: 100%;
+  }
+
+  .image-description__img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .image-description__text {
+    margin: 0;
+    font-family: var(--font-body--family);
+    font-size: 24px;
+    line-height: 31px;
+    font-weight: 500;
+    text-align: center;
+    color: var(--color-foreground);
+  }
+
+  @media screen and (max-width: 749px) {
+    .image-description__media {
+      max-width: 100% !important;
+    }
+
+    .image-description__text {
+      font-size: 18px;
+      line-height: 24px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Image description",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "number",
+      "id": "image_max_width",
+      "label": "Image max width",
+      "default": 500
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Left padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Right padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image description"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,267 @@
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div
+  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style ingredient-highlight"
+  style="{%- render 'spacing-style', settings: section.settings -%}"
+>
+  <div class="ingredient-highlight__wrapper">
+    {% if section.settings.image != blank %}
+      <div class="ingredient-highlight__image-wrapper" style="max-width: {{ section.settings.image_max_width }}px;">
+        {%- assign sizes_val = '(min-width: 750px) ' | append: section.settings.image_max_width | append: 'px, 90vw' -%}
+        {{
+          section.settings.image
+          | image_url: width: section.settings.image.width
+          | image_tag:
+            sizes: sizes_val,
+            widths: '375,500,750,1000',
+            loading: 'lazy',
+            class: 'ingredient-highlight__img',
+            alt: section.settings.image.alt
+        }}
+
+        {% if section.settings.badge_icon != blank %}
+          <div class="ingredient-highlight__badge" style="background-color: {{ section.settings.badge_background_color }};">
+            {{
+              section.settings.badge_icon
+              | image_url: width: 224
+              | image_tag:
+                widths: '112,224',
+                sizes: '112px',
+                loading: 'lazy',
+                class: 'ingredient-highlight__badge-icon',
+                alt: section.settings.badge_icon.alt
+            }}
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% if section.settings.description != blank %}
+      <div
+        class="ingredient-highlight__description"
+        style="
+          --ingredient-highlight-font-size: {{ section.settings.font_size }}px;
+          --ingredient-highlight-line-height: {{ section.settings.line_height }}px;
+          text-align: {{ section.settings.text_alignment }};
+        "
+      >
+        {{ section.settings.description }}
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .ingredient-highlight__wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .ingredient-highlight__image-wrapper {
+    position: relative;
+    width: 100%;
+  }
+
+  .ingredient-highlight__img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .ingredient-highlight__badge {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 30px;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ingredient-highlight__badge-icon {
+    display: block;
+    width: 112px;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .ingredient-highlight__description {
+    margin: 0;
+    font-family: var(--font-body--family);
+    font-weight: 300;
+    font-size: var(--ingredient-highlight-font-size, 38px);
+    line-height: var(--ingredient-highlight-line-height, 54px);
+    color: var(--color-foreground);
+  }
+
+  .ingredient-highlight__description p {
+    margin: 0;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ingredient-highlight__image-wrapper {
+      max-width: 90vw !important;
+    }
+
+    .ingredient-highlight__description {
+      font-size: calc(var(--ingredient-highlight-font-size, 38px) * 0.6);
+      line-height: calc(var(--ingredient-highlight-line-height, 54px) * 0.6);
+    }
+
+    .ingredient-highlight__badge-icon {
+      width: 80px;
+    }
+
+    .ingredient-highlight__badge {
+      padding: 6px 12px;
+      bottom: -14px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Ingredient highlight",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_icon",
+      "label": "Badge icon"
+    },
+    {
+      "type": "color",
+      "id": "badge_background_color",
+      "label": "Badge background",
+      "default": "#004750"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>With each supplement is scientifically-developed to target different weight loss struggles.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "number",
+      "id": "font_size",
+      "label": "Font size",
+      "default": 38
+    },
+    {
+      "type": "number",
+      "id": "line_height",
+      "label": "Line height",
+      "default": 54
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "number",
+      "id": "image_max_width",
+      "label": "Image max width",
+      "default": 400
+    },
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Left padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Right padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Ingredient highlight",
+      "category": "t:categories.product"
+    }
+  ]
+}
+{% endschema %}

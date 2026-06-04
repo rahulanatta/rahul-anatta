@@ -9,6 +9,75 @@
  */
 {
   "sections": {
+    "hero_timeline": {
+      "type": "hero-timeline",
+      "blocks": {
+        "slide_1": {
+          "type": "slide",
+          "settings": {
+            "overlay_heading": "Welcome",
+            "overlay_subheading": "Discover the difference"
+          }
+        },
+        "slide_2": {
+          "type": "slide",
+          "settings": {
+            "overlay_heading": "Quality Ingredients",
+            "overlay_subheading": "Backed by science"
+          }
+        },
+        "slide_3": {
+          "type": "slide",
+          "settings": {
+            "overlay_heading": "Real Results",
+            "overlay_subheading": "See the transformation"
+          }
+        },
+        "step_1": {
+          "type": "timeline-step",
+          "settings": {
+            "title": "Choose Your Product",
+            "description": "Browse our range and find the perfect fit for your needs."
+          }
+        },
+        "step_2": {
+          "type": "timeline-step",
+          "settings": {
+            "title": "Follow the Routine",
+            "description": "Use as directed for best results. Consistency is key."
+          }
+        },
+        "step_3": {
+          "type": "timeline-step",
+          "settings": {
+            "title": "See the Results",
+            "description": "Experience visible improvements backed by clinical research."
+          }
+        }
+      },
+      "block_order": [
+        "slide_1",
+        "slide_2",
+        "slide_3",
+        "step_1",
+        "step_2",
+        "step_3"
+      ],
+      "settings": {
+        "timeline_heading": "How It Works",
+        "timeline_heading_tag": "h2",
+        "show_arrows": true,
+        "autoplay": false,
+        "autoplay_speed": 5,
+        "image_aspect_ratio": "16/9",
+        "section_width": "page-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 0,
+        "padding-block-end": 60,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
+      }
+    },
     "main": {
       "type": "product-information",
       "blocks": {
@@ -388,6 +457,20 @@
         "padding-block-end": 60
       }
     },
+    "image_description": {
+      "type": "image-description",
+      "settings": {
+        "image": "shopify://shop_images/spendolor-slim2-1-desktop-120817447.jpg",
+        "image_max_width": 500,
+        "description": "Slendacor®† – proprietary blend containing horseradish tree leaf (Moringa alerifera), Murraya koenigii leaf extract (curry leaves), turmeric rhizome (Curcuma longa) 900 mg",
+        "section_width": "page-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 40,
+        "padding-block-end": 80,
+        "padding-inline-start": 40,
+        "padding-inline-end": 40
+      }
+    },
     "scientific_results": {
       "type": "scientific-results",
       "blocks": {
@@ -428,6 +511,46 @@
         "divider_color": "#ffffff",
         "padding-block-start": 80,
         "padding-block-end": 80
+      }
+    },
+    "reviews_carousel": {
+      "type": "reviews-carousel",
+      "blocks": {
+        "review_1": {
+          "type": "review-card",
+          "settings": {
+            "review_text": "Love the colors. Creamy, moisturizing and the color stays. Especially love the lid. It's magnetic.",
+            "reviewer_name": "-Nancy W",
+            "reviewer_image": "shopify://shop_images/ellipse-70-desktop-120116129.png"
+          }
+        },
+        "review_2": {
+          "type": "review-card",
+          "settings": {
+            "review_text": "Great quality and fast shipping. I've been using this for a month and love the results!",
+            "reviewer_name": "-Sarah M"
+          }
+        },
+        "review_3": {
+          "type": "review-card",
+          "settings": {
+            "review_text": "Exceeded my expectations. The texture is perfect and it works wonders on my skin.",
+            "reviewer_name": "-James K"
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "section_width": "page-width",
+        "padding-block-start": 0,
+        "padding-block-end": 0,
+        "padding-inline-start": 16,
+        "padding-inline-end": 16
       }
     },
     "product_recommendations_qggXJq": {
@@ -818,10 +941,13 @@
     }
   },
   "order": [
+    "hero_timeline",
     "main",
     "ticker",
     "key_ingredients",
+    "image_description",
     "scientific_results",
+    "reviews_carousel",
     "product_recommendations_qggXJq",
     "product_features_hTqxaG",
     "comparison_chart_RVtEmU",
