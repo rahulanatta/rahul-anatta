@@ -137,34 +137,38 @@ class GoTrimBuyboxComponent extends HTMLElement {
 
   _openSupplementDrawer() {
     const dialog = this.querySelector('.go-trim-buybox__supplement-drawer');
-    if (!dialog) return;
+    if (!dialog || dialog.open) return;
     document.body.style.overflow = 'hidden';
     dialog.showModal();
+    // Double rAF ensures showModal() has rendered before the transition starts
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        dialog.classList.add('is-open');
+      });
+    });
   }
 
   _closeSupplementDrawer() {
     const dialog = this.querySelector('.go-trim-buybox__supplement-drawer');
     if (!dialog || !dialog.open) return;
 
-    dialog.classList.add('dialog-closing');
+    dialog.classList.remove('is-open');
 
     const cleanup = () => {
-      dialog.classList.remove('dialog-closing');
       dialog.close();
       document.body.style.overflow = '';
     };
 
-    const onAnimEnd = () => {
-      clearTimeout(fallback);
-      cleanup();
-    };
+    dialog.addEventListener('transitionend', cleanup, { once: true });
 
-    dialog.addEventListener('animationend', onAnimEnd, { once: true });
-
+    // Fallback in case transitionend doesn't fire (e.g. reduced-motion)
     const fallback = setTimeout(() => {
-      dialog.removeEventListener('animationend', onAnimEnd);
-      cleanup();
-    }, 300);
+      dialog.removeEventListener('transitionend', cleanup);
+      if (dialog.open) cleanup();
+    }, 400);
+
+    // If transitionend fires, clear the fallback
+    dialog.addEventListener('transitionend', () => clearTimeout(fallback), { once: true });
   }
 
   _handleFrequencySelect(pill) {
