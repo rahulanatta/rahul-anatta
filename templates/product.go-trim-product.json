@@ -392,6 +392,70 @@
         "padding-inline-end": 0
       }
     },
+    "benefits_strip": {
+      "type": "product-benefits-strip",
+      "blocks": {
+        "benefit_1": {
+          "type": "benefit-item",
+          "settings": {
+            "text": "Burn Fat, Keep Muscle"
+          }
+        },
+        "benefit_2": {
+          "type": "benefit-item",
+          "settings": {
+            "text": "Curb cravings and hunger"
+          }
+        },
+        "benefit_3": {
+          "type": "benefit-item",
+          "settings": {
+            "text": "Reduce stress"
+          }
+        },
+        "benefit_4": {
+          "type": "benefit-item",
+          "settings": {
+            "text": "Boost metabolism"
+          }
+        },
+        "benefit_5": {
+          "type": "benefit-item",
+          "settings": {
+            "text": "Big taste, slim waist"
+          }
+        },
+        "benefit_6": {
+          "type": "benefit-item",
+          "settings": {
+            "text": "shop all"
+          }
+        }
+      },
+      "block_order": [
+        "benefit_1",
+        "benefit_2",
+        "benefit_3",
+        "benefit_4",
+        "benefit_5",
+        "benefit_6"
+      ],
+      "settings": {
+        "separator_icon": "→",
+        "section_width": "page-width",
+        "gap": 16,
+        "row_gap": 16,
+        "text_transform": "lowercase",
+        "pill_border_radius": 31,
+        "pill_border_color": "#DBDBDB",
+        "separator_size": 31,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 40,
+        "padding-block-end": 40,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
+      }
+    },
     "key_ingredients": {
       "type": "key-ingredients",
       "blocks": {
@@ -1005,6 +1069,7 @@
     "hero_timeline",
     "main",
     "ticker",
+    "benefits_strip",
     "key_ingredients",
     "testimonial_before_after",
     "ingredient_highlight",

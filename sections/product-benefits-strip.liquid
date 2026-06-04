@@ -1,0 +1,310 @@
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div
+  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style product-benefits-strip"
+  style="
+    {%- render 'spacing-style', settings: section.settings -%}
+    --pbs-pill-border-color: {{ section.settings.pill_border_color }};
+    --pbs-pill-border-radius: {{ section.settings.pill_border_radius }}px;
+    --pbs-gap: {{ section.settings.gap }}px;
+    --pbs-row-gap: {{ section.settings.row_gap }}px;
+    --pbs-text-transform: {{ section.settings.text_transform }};
+    --pbs-separator-size: {{ section.settings.separator_size }}px;
+  "
+>
+  <div class="product-benefits-strip__items">
+    {% for block in section.blocks %}
+      {% if block.settings.url != blank %}
+        <a href="{{ block.settings.url }}" class="product-benefits-strip__pill" {{ block.shopify_attributes }}>
+          <span class="product-benefits-strip__pill-text">{{ block.settings.text | escape }}</span>
+        </a>
+      {% else %}
+        <div class="product-benefits-strip__pill" {{ block.shopify_attributes }}>
+          <span class="product-benefits-strip__pill-text">{{ block.settings.text | escape }}</span>
+        </div>
+      {% endif %}
+
+      {% unless forloop.last %}
+        <span class="product-benefits-strip__separator" aria-hidden="true">{{ section.settings.separator_icon }}</span>
+      {% endunless %}
+    {% endfor %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .product-benefits-strip__items {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: var(--pbs-row-gap) var(--pbs-gap);
+  }
+
+  .product-benefits-strip__pill {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 28px 40px;
+    border: 1px solid var(--pbs-pill-border-color);
+    border-radius: var(--pbs-pill-border-radius);
+    text-decoration: none;
+    color: var(--color-foreground);
+    transition: border-color var(--animation-speed-slow) ease;
+  }
+
+  a.product-benefits-strip__pill:hover {
+    border-color: var(--color-foreground);
+  }
+
+  .product-benefits-strip__pill-text {
+    font-family: var(--font-body--family);
+    font-size: 21px;
+    line-height: 28px;
+    text-transform: var(--pbs-text-transform);
+    color: var(--color-foreground);
+  }
+
+  .product-benefits-strip__separator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-body--family);
+    font-size: var(--pbs-separator-size);
+    line-height: 1;
+    color: var(--color-foreground);
+    flex-shrink: 0;
+    user-select: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .product-benefits-strip__items {
+      gap: 12px 10px;
+    }
+
+    .product-benefits-strip__pill {
+      padding: 16px 24px;
+    }
+
+    .product-benefits-strip__pill-text {
+      font-size: 16px;
+      line-height: 22px;
+    }
+
+    .product-benefits-strip__separator {
+      font-size: 20px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Product Benefits Strip",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "separator_icon",
+      "label": "Separator icon",
+      "default": "→"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Column gap",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "row_gap",
+      "label": "Row gap",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "text_transform",
+      "label": "Text transform",
+      "options": [
+        { "value": "lowercase", "label": "Lowercase" },
+        { "value": "uppercase", "label": "Uppercase" },
+        { "value": "none", "label": "None" }
+      ],
+      "default": "lowercase"
+    },
+    {
+      "type": "header",
+      "content": "Pill styling"
+    },
+    {
+      "type": "range",
+      "id": "pill_border_radius",
+      "label": "Pill border radius",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 31
+    },
+    {
+      "type": "color",
+      "id": "pill_border_color",
+      "label": "Pill border color",
+      "default": "#DBDBDB"
+    },
+    {
+      "type": "range",
+      "id": "separator_size",
+      "label": "Separator size",
+      "min": 12,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 31
+    },
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Left padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Right padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit-item",
+      "name": "Benefit item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Benefit text"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Benefits Strip",
+      "category": "t:categories.text",
+      "blocks": {
+        "item_1": {
+          "type": "benefit-item",
+          "settings": {
+            "text": "Burn Fat, Keep Muscle"
+          }
+        },
+        "item_2": {
+          "type": "benefit-item",
+          "settings": {
+            "text": "Curb cravings and hunger"
+          }
+        },
+        "item_3": {
+          "type": "benefit-item",
+          "settings": {
+            "text": "Reduce stress"
+          }
+        },
+        "item_4": {
+          "type": "benefit-item",
+          "settings": {
+            "text": "Boost metabolism"
+          }
+        },
+        "item_5": {
+          "type": "benefit-item",
+          "settings": {
+            "text": "Big taste, slim waist"
+          }
+        },
+        "item_6": {
+          "type": "benefit-item",
+          "settings": {
+            "text": "shop all"
+          }
+        }
+      },
+      "block_order": ["item_1", "item_2", "item_3", "item_4", "item_5", "item_6"]
+    }
+  ]
+}
+{% endschema %}
