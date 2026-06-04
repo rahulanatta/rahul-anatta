@@ -26,7 +26,14 @@
     {%- comment -%} Left column: Product media grid {%- endcomment -%}
     <div class="go-trim-buybox__media">
       {% for media in product.media %}
-        <div class="go-trim-buybox__media-item">
+        <div class="go-trim-buybox__media-item"
+          {%- for variant in product.variants -%}
+            {%- if variant.featured_media.id == media.id -%}
+              {{ ' ' }}data-variant-id="{{ variant.id }}"
+              {%- break -%}
+            {%- endif -%}
+          {%- endfor -%}
+        >
           {% if media.media_type == 'image' %}
             {%- assign sizes_val = '(min-width: 750px) 400px, calc(50vw - 20px)' -%}
             {{
@@ -69,11 +76,9 @@
         <div class="go-trim-buybox__price-info">
           <div class="go-trim-buybox__price-main">
             <span class="go-trim-buybox__price" data-active-price>{{ price | money }}</span>
-            {% if compare_at_price > price %}
-              <span class="go-trim-buybox__compare-price" data-compare-price>
-                <s>{{ compare_at_price | money }}</s>
-              </span>
-            {% endif %}
+            <span class="go-trim-buybox__compare-price" data-compare-price{% unless compare_at_price > price %} style="display: none;"{% endunless %}>
+              <s>{% if compare_at_price %}{{ compare_at_price | money }}{% endif %}</s>
+            </span>
           </div>
 
           {%- comment -%} Installments {%- endcomment -%}
@@ -111,11 +116,35 @@
         <p class="go-trim-buybox__subtitle">{{ buybox_subtitle }}</p>
       {% endif %}
 
+      {%- comment -%} Variant picker {%- endcomment -%}
+      {% if product.variants.size > 1 %}
+        <div class="go-trim-buybox__variants">
+          {% for variant in product.variants %}
+            {%- assign variant_image = variant.featured_image | default: product.featured_image -%}
+            <button type="button"
+              class="go-trim-buybox__variant-card{% if variant.id == current_variant.id %} is-selected{% endif %}"
+              data-variant-id="{{ variant.id }}"
+            >
+              {% if variant_image %}
+                <img
+                  src="{{ variant_image | image_url: width: 160 }}"
+                  alt="{{ variant.title | escape }}"
+                  width="72"
+                  height="72"
+                  loading="lazy"
+                  class="go-trim-buybox__variant-img"
+                >
+              {% endif %}
+              <span class="go-trim-buybox__variant-name">{{ variant.title | escape }}</span>
+            </button>
+          {% endfor %}
+        </div>
+      {% endif %}
+
       {%- comment -%} Purchase options + form {%- endcomment -%}
       <product-form-component
         data-section-id="{{ section.id }}"
         data-product-id="{{ product.id }}"
-        on:submit="/handleSubmit"
       >
         <form method="post" action="/cart/add" accept-charset="UTF-8" enctype="multipart/form-data">
           <input type="hidden" name="form_type" value="product">
@@ -289,6 +318,37 @@
 
     </div>
   </div>
+
+  {%- comment -%} Variant data for JS {%- endcomment -%}
+  <script type="application/json" data-variants>
+    [
+      {%- for variant in product.variants -%}
+        {
+          "id": {{ variant.id }},
+          "title": {{ variant.title | json }},
+          "available": {{ variant.available }},
+          "price_formatted": {{ variant.price | money | strip_html | json }},
+          "price_raw": {{ variant.price }},
+          "compare_at_price_formatted": {% if variant.compare_at_price %}{{ variant.compare_at_price | money | strip_html | json }}{% else %}null{% endif %},
+          "compare_at_price_raw": {{ variant.compare_at_price | default: 0 }},
+          "featured_image": {
+            "src": {% if variant.featured_image %}{{ variant.featured_image | image_url: width: 800 | json }}{% elsif product.featured_image %}{{ product.featured_image | image_url: width: 800 | json }}{% else %}null{% endif %},
+            "alt": {% if variant.featured_image %}{{ variant.featured_image.alt | default: '' | json }}{% else %}{{ product.featured_image.alt | default: '' | json }}{% endif %}
+          },
+          "featured_media_id": {% if variant.featured_media %}{{ variant.featured_media.id }}{% else %}null{% endif %},
+          "selling_plan_allocations": [
+            {%- for alloc in variant.selling_plan_allocations -%}
+              {
+                "selling_plan_id": {{ alloc.selling_plan_id }},
+                "per_delivery_price_formatted": {{ alloc.per_delivery_price | money | strip_html | json }},
+                "per_delivery_price_raw": {{ alloc.per_delivery_price }}
+              }{% unless forloop.last %},{% endunless %}
+            {%- endfor -%}
+          ]
+        }{% unless forloop.last %},{% endunless %}
+      {%- endfor -%}
+    ]
+  </script>
 
   {%- comment -%} Selling plan data for JS {%- endcomment -%}
   {% if has_selling_plans %}
@@ -505,6 +565,59 @@
     line-height: 19px;
     color: #000000;
     margin: 0;
+  }
+
+  /* Variant picker */
+  .go-trim-buybox__variants {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .go-trim-buybox__variant-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid #C8C8C8;
+    border-radius: 12px;
+    padding: 8px;
+    cursor: pointer;
+    flex-shrink: 0;
+    min-width: 90px;
+    background: none;
+    transition: border-color 0.15s ease;
+
+    &.is-selected {
+      border-color: #616161;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-foreground);
+      outline-offset: 2px;
+    }
+  }
+
+  .go-trim-buybox__variant-img {
+    width: 72px;
+    height: 72px;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+
+  .go-trim-buybox__variant-name {
+    font-family: var(--font-body--family);
+    font-size: 13px;
+    line-height: 17px;
+    text-align: center;
+    color: var(--color-foreground);
   }
 
   /* Purchase options */
@@ -926,6 +1039,10 @@
 
   /* Mobile stacking */
   @media screen and (max-width: 749px) {
+    .go-trim-buybox__variant-card {
+      min-width: 80px;
+    }
+
     .go-trim-buybox__title {
       font-size: 24px;
       line-height: 36px;
