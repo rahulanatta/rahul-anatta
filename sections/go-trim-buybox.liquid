@@ -226,7 +226,7 @@
 
       {%- comment -%} Subscription benefits box {%- endcomment -%}
       {% assign benefit_blocks = section.blocks | where: 'type', 'benefit-item' %}
-      {% if section.settings.show_subscription_benefits and benefit_blocks.size > 0 %}
+      {% if has_selling_plans and section.settings.show_subscription_benefits and benefit_blocks.size > 0 %}
         <div class="go-trim-buybox__benefits-box">
           {% if section.settings.subscription_benefits_heading != blank %}
             <h3 class="go-trim-buybox__benefits-heading">{{ section.settings.subscription_benefits_heading }}</h3>
@@ -368,7 +368,22 @@
     grid-column: auto;
     display: flex;
     flex-direction: column;
-    gap: 35px;
+    gap: 16px;
+  }
+
+  /* Section-break spacing: extra margin on major logical groups so they
+     visually separate from the tighter title/reviews/price/subtitle cluster.
+     Total gap before each = 16px (flex gap) + 8px (margin) = 24px. */
+  .go-trim-buybox__details > product-form-component {
+    margin-top: 8px;
+  }
+
+  .go-trim-buybox__accordions {
+    margin-top: 8px;
+  }
+
+  .go-trim-buybox__benefits-box {
+    margin-top: 8px;
   }
 
   /* Title */
@@ -931,7 +946,13 @@
     }
 
     .go-trim-buybox__details {
-      gap: 24px;
+      gap: 12px;
+    }
+
+    .go-trim-buybox__details > product-form-component,
+    .go-trim-buybox__accordions,
+    .go-trim-buybox__benefits-box {
+      margin-top: 4px;
     }
 
     .go-trim-buybox__actions {
