@@ -264,7 +264,7 @@
       {% endif %}
 
       {%- comment -%} Supplement facts drawer {%- endcomment -%}
-      <dialog class="go-trim-buybox__supplement-drawer dialog-modal dialog-drawer dialog-drawer--right" aria-labelledby="supplement-drawer-title-{{ section.id }}">
+      <dialog class="go-trim-buybox__supplement-drawer" aria-labelledby="supplement-drawer-title-{{ section.id }}">
         <div class="go-trim-buybox__supplement-drawer-header">
           <h2 id="supplement-drawer-title-{{ section.id }}" class="go-trim-buybox__supplement-drawer-title">Supplement Facts</h2>
           <button type="button" data-action="close-supplement-drawer" class="go-trim-buybox__supplement-drawer-close" aria-label="Close">
@@ -787,10 +787,11 @@
     color: var(--color-foreground);
   }
 
-  /* Supplement label button */
+  /* Supplement label button — fit-content so only the text is clickable */
   .go-trim-buybox__supplement-link {
     display: block;
-    width: 100%;
+    width: fit-content;
+    margin-inline: auto;
     text-align: center;
     text-decoration: underline;
     font-family: var(--font-body--family);
@@ -800,7 +801,7 @@
     color: var(--color-foreground);
     background: none;
     border: none;
-    padding: 0;
+    padding: 4px 8px;
     cursor: pointer;
 
     &:hover {
@@ -813,31 +814,43 @@
     }
   }
 
-  /* Supplement facts drawer */
+  /* Supplement facts drawer — custom slide-from-right animation, no base-theme dialog classes */
   .go-trim-buybox__supplement-drawer {
+    /* Closed: off-screen to the right — browser default display:none is fine, JS uses showModal() */
+  }
+
+  .go-trim-buybox__supplement-drawer[open] {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: auto;
+    bottom: 0;
     width: 480px;
     max-width: 100vw;
-    max-height: 100dvh;
     height: 100dvh;
-    background: #FFFFFF;
-    padding: 0;
     margin: 0;
-    margin-inline-start: auto;
+    padding: 0;
     border: none;
-    box-shadow: var(--shadow-popover);
+    background: #FFFFFF;
+    box-shadow: -4px 0 24px rgba(0, 0, 0, 0.12);
+
+    /* Start off-screen; JS adds .is-open to slide in */
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 
     @media screen and (max-width: 749px) {
       width: 100vw;
     }
   }
 
-  .go-trim-buybox__supplement-drawer[open] {
-    display: flex;
-    flex-direction: column;
+  .go-trim-buybox__supplement-drawer[open].is-open {
+    transform: translateX(0);
   }
 
   .go-trim-buybox__supplement-drawer::backdrop {
-    background: rgb(var(--backdrop-color-rgb) / var(--backdrop-opacity));
+    background: rgba(0, 0, 0, 0.4);
   }
 
   .go-trim-buybox__supplement-drawer-header {

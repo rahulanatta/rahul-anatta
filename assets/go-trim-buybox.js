@@ -50,12 +50,21 @@ class GoTrimBuyboxComponent extends HTMLElement {
 
     const dialog = this.querySelector('.go-trim-buybox__supplement-drawer');
     if (dialog) {
+      // Close when clicking on the backdrop (outside the drawer panel)
       dialog.addEventListener('click', (e) => {
-        if (e.target === dialog) this._closeSupplementDrawer();
+        const rect = dialog.getBoundingClientRect();
+        const isOutside =
+          e.clientX < rect.left ||
+          e.clientX > rect.right ||
+          e.clientY < rect.top ||
+          e.clientY > rect.bottom;
+        if (isOutside) this._closeSupplementDrawer();
       });
 
-      dialog.addEventListener('close', () => {
-        document.body.style.overflow = '';
+      // ESC key: browser fires 'close' event directly — clean up body scroll lock
+      dialog.addEventListener('cancel', (e) => {
+        e.preventDefault();
+        this._closeSupplementDrawer();
       });
     }
   }
