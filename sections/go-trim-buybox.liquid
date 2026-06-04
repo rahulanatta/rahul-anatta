@@ -251,7 +251,19 @@
                 </span>
               </summary>
               <div class="go-trim-buybox__accordion-content">
-                {{ block.settings.content }}
+                {%- if block.settings.metafield_key != blank -%}
+                  {%- assign mf_parts = block.settings.metafield_key | split: '.' -%}
+                  {%- assign mf_ns = mf_parts[0] -%}
+                  {%- assign mf_key = mf_parts[1] -%}
+                  {%- assign mf = product.metafields[mf_ns][mf_key] -%}
+                  {%- if mf != blank -%}
+                    {{ mf | metafield_tag }}
+                  {%- else -%}
+                    {{ block.settings.content }}
+                  {%- endif -%}
+                {%- else -%}
+                  {{ block.settings.content }}
+                {%- endif -%}
               </div>
             </details>
           {% endfor %}
@@ -942,9 +954,15 @@
           "default": "Accordion title"
         },
         {
+          "type": "text",
+          "id": "metafield_key",
+          "label": "Metafield source",
+          "info": "e.g. custom.benefits — reads from the product metafield. Overrides static content below when set."
+        },
+        {
           "type": "richtext",
           "id": "content",
-          "label": "Content",
+          "label": "Content (fallback)",
           "default": "<p>Accordion content goes here.</p>"
         },
         {

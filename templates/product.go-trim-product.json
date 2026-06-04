@@ -70,6 +70,7 @@
           "type": "accordion-item",
           "settings": {
             "title": "Benefits",
+            "metafield_key": "custom.benefits",
             "content": "<p>Promotes reduced fat for a lower BMI<br/>Assists your metabolism<br/>Won't compromise muscle mass<br/>Helps keep your cholesterol and glucose levels on track</p>",
             "open_by_default": true
           }
@@ -78,6 +79,7 @@
           "type": "accordion-item",
           "settings": {
             "title": "How to use",
+            "metafield_key": "custom.how_to_use",
             "content": "<p>Take as directed on the product label.</p>",
             "open_by_default": false
           }
@@ -86,6 +88,7 @@
           "type": "accordion-item",
           "settings": {
             "title": "Ingredients",
+            "metafield_key": "custom.ingredients",
             "content": "<p>See supplement label for full ingredient details.</p>",
             "open_by_default": false
           }
