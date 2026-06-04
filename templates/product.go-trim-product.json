@@ -270,6 +270,59 @@
         "padding-block-end": 0
       }
     },
+    "ticker": {
+      "type": "ticker",
+      "blocks": {
+        "item_1": {
+          "type": "ticker-item",
+          "settings": {
+            "text": "Clinically proven",
+            "icon": "check_box"
+          }
+        },
+        "item_2": {
+          "type": "ticker-item",
+          "settings": {
+            "text": "Third Party Tested",
+            "icon": "check_box"
+          }
+        },
+        "item_3": {
+          "type": "ticker-item",
+          "settings": {
+            "text": "No Refrigeration Needed",
+            "icon": "check_box"
+          }
+        },
+        "item_4": {
+          "type": "ticker-item",
+          "settings": {
+            "text": "30-day money back guarantee",
+            "icon": "check_box"
+          }
+        }
+      },
+      "block_order": [
+        "item_1",
+        "item_2",
+        "item_3",
+        "item_4"
+      ],
+      "settings": {
+        "movement_direction": "normal",
+        "speed": 25,
+        "section_width": "full-width",
+        "gap": 48,
+        "icon_size": 32,
+        "background_color": "#81AE9A",
+        "show_gradient": false,
+        "text_color": "#FFFFFF",
+        "padding-block-start": 24,
+        "padding-block-end": 24,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
+      }
+    },
     "key_ingredients": {
       "type": "key-ingredients",
       "blocks": {
@@ -766,6 +819,7 @@
   },
   "order": [
     "main",
+    "ticker",
     "key_ingredients",
     "scientific_results",
     "product_recommendations_qggXJq",
