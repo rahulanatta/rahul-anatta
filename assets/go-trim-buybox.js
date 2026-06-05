@@ -23,6 +23,7 @@ class GoTrimBuyboxComponent extends HTMLElement {
     this._initState();
     this._initVariantFromUrl();
     this._bindAccordionExclusive();
+    this._initMobileCarousel();
   }
 
   _parseSellingPlanData() {
@@ -61,6 +62,10 @@ class GoTrimBuyboxComponent extends HTMLElement {
         if (action === 'select-zoom-thumb') {
           const idx = parseInt(actionTarget.dataset.zoomIndex, 10);
           if (!isNaN(idx)) this._selectZoomThumbnail(idx);
+          return;
+        }
+        if (action === 'carousel-dot') {
+          this._handleCarouselDot(actionTarget);
           return;
         }
         return;
@@ -538,6 +543,119 @@ class GoTrimBuyboxComponent extends HTMLElement {
         this._isClosingOthers = false;
       });
     }
+  }
+
+  // ── Mobile carousel ──────────────────────────────────────────
+
+  /**
+   * Initializes mobile carousel behavior gated by matchMedia.
+   * On ≤1023px: sets up IntersectionObserver for dot tracking.
+   * On ≥1024px: tears down carousel state.
+   */
+  _initMobileCarousel() {
+    this._carouselMql = window.matchMedia('(max-width: 1023px)');
+    this._carouselActive = false;
+    this._carouselObserver = null;
+
+    const handleChange = (mql) => {
+      if (mql.matches) {
+        this._activateCarousel();
+      } else {
+        this._deactivateCarousel();
+      }
+    };
+
+    // Initial check
+    handleChange(this._carouselMql);
+
+    // Listen for viewport changes (resize, orientation)
+    this._carouselMql.addEventListener('change', handleChange);
+    this._carouselMqlHandler = handleChange;
+  }
+
+  /**
+   * Activates carousel: attaches IntersectionObserver on media items
+   * to update active dot indicator.
+   */
+  _activateCarousel() {
+    if (this._carouselActive) return;
+    this._carouselActive = true;
+
+    const mediaContainer = this.querySelector('.go-trim-buybox__media');
+    const items = mediaContainer ? mediaContainer.querySelectorAll('.go-trim-buybox__media-item') : [];
+    if (!mediaContainer || items.length <= 1) return;
+
+    this._carouselObserver = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            const index = Array.from(items).indexOf(entry.target);
+            if (index >= 0) this._updateCarouselDots(index);
+          }
+        }
+      },
+      {
+        root: mediaContainer,
+        threshold: 0.5,
+      }
+    );
+
+    for (const item of items) {
+      this._carouselObserver.observe(item);
+    }
+  }
+
+  /**
+   * Deactivates carousel: disconnects observer and resets dot state.
+   */
+  _deactivateCarousel() {
+    if (!this._carouselActive) return;
+    this._carouselActive = false;
+
+    if (this._carouselObserver) {
+      this._carouselObserver.disconnect();
+      this._carouselObserver = null;
+    }
+
+    // Reset scroll position for desktop grid view
+    const mediaContainer = this.querySelector('.go-trim-buybox__media');
+    if (mediaContainer) mediaContainer.scrollLeft = 0;
+
+    // Reset dots to first active
+    const dots = this.querySelectorAll('.go-trim-buybox__carousel-dot');
+    for (const dot of dots) {
+      dot.classList.toggle('is-active', dot.dataset.dotIndex === '0');
+    }
+  }
+
+  /**
+   * Updates the active state on carousel dots.
+   * @param {number} activeIndex - Zero-based index of the active slide
+   */
+  _updateCarouselDots(activeIndex) {
+    const dots = this.querySelectorAll('.go-trim-buybox__carousel-dot');
+    for (const dot of dots) {
+      const idx = parseInt(dot.dataset.dotIndex, 10);
+      dot.classList.toggle('is-active', idx === activeIndex);
+    }
+  }
+
+  /**
+   * Handles carousel dot click: scrolls to the corresponding image.
+   * @param {HTMLElement} dotEl - The clicked dot button element
+   */
+  _handleCarouselDot(dotEl) {
+    const index = parseInt(dotEl.dataset.dotIndex, 10);
+    if (isNaN(index)) return;
+
+    const mediaContainer = this.querySelector('.go-trim-buybox__media');
+    if (!mediaContainer) return;
+
+    const containerWidth = mediaContainer.offsetWidth;
+    mediaContainer.scrollTo({
+      left: index * containerWidth,
+      behavior: 'smooth',
+    });
   }
 
   // ── Zoom dialog ──────────────────────────────────────────────

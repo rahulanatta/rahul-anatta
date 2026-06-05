@@ -37,7 +37,7 @@
           {%- endfor -%}
         >
           {% if media.media_type == 'image' %}
-            {%- assign sizes_val = '(min-width: 750px) 400px, calc(50vw - 20px)' -%}
+            {%- assign sizes_val = '(min-width: 1024px) 400px, 100vw' -%}
             {{
               media
               | image_url: width: media.width
@@ -55,6 +55,21 @@
         {% endif %}
       {% endfor %}
     </div>
+
+    {%- comment -%} Mobile carousel dot indicators {%- endcomment -%}
+    {% if product.media.size > 1 %}
+      <div class="go-trim-buybox__carousel-dots">
+        {% for media in product.media %}
+          <button
+            type="button"
+            class="go-trim-buybox__carousel-dot{% if forloop.first %} is-active{% endif %}"
+            data-action="carousel-dot"
+            data-dot-index="{{ forloop.index0 }}"
+            aria-label="Go to image {{ forloop.index }}"
+          ></button>
+        {% endfor %}
+      </div>
+    {% endif %}
 
     {%- comment -%} Right column: Buy box details {%- endcomment -%}
     <div class="go-trim-buybox__details">
@@ -431,7 +446,7 @@
     gap: var(--buybox-gap, 64px);
     align-items: start;
 
-    @media screen and (min-width: 750px) {
+    @media screen and (min-width: 1024px) {
       grid-template-columns: 1.42fr 1fr;
     }
   }
@@ -443,7 +458,7 @@
     grid-template-columns: 1fr 1fr;
     gap: var(--media-gap, 8px);
 
-    @media screen and (min-width: 750px) {
+    @media screen and (min-width: 1024px) {
       position: sticky;
       top: var(--sticky-header-offset, 0);
       align-self: start;
@@ -474,6 +489,63 @@
     height: auto;
     aspect-ratio: 1 / 1;
     object-fit: cover;
+  }
+
+  /* Mobile carousel: single-image scroll-snap */
+  @media screen and (max-width: 1023px) {
+    .go-trim-buybox__media {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      grid-template-columns: unset;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    .go-trim-buybox__media-item {
+      flex: 0 0 100%;
+      scroll-snap-align: start;
+    }
+  }
+
+  /* Carousel dot indicators */
+  .go-trim-buybox__carousel-dots {
+    grid-column: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-block-start: 12px;
+  }
+
+  .go-trim-buybox__carousel-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: none;
+    padding: 0;
+    background: #C8C8C8;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+
+    &.is-active {
+      background: #141414;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-foreground);
+      outline-offset: 2px;
+    }
+  }
+
+  @media screen and (min-width: 1024px) {
+    .go-trim-buybox__carousel-dots {
+      display: none;
+    }
   }
 
   /* Details column — grid-column:auto overrides .section--page-width > * { grid-column: 2 } */
@@ -1291,7 +1363,7 @@
   }
 
   /* Mobile stacking */
-  @media screen and (max-width: 749px) {
+  @media screen and (max-width: 1023px) {
     .go-trim-buybox__variant-card {
       min-width: 80px;
     }
