@@ -68,6 +68,10 @@ class GoTrimBuyboxComponent extends HTMLElement {
           this._handleCarouselDot(actionTarget);
           return;
         }
+        if (action === 'gallery-thumb') {
+          this._handleGalleryThumbClick(actionTarget);
+          return;
+        }
         return;
       }
 
@@ -626,6 +630,12 @@ class GoTrimBuyboxComponent extends HTMLElement {
     for (const dot of dots) {
       dot.classList.toggle('is-active', dot.dataset.dotIndex === '0');
     }
+
+    // Reset gallery thumbnails to first active
+    const thumbs = this.querySelectorAll('.go-trim-buybox__gallery-thumb');
+    for (const thumb of thumbs) {
+      thumb.classList.toggle('is-active', thumb.dataset.thumbIndex === '0');
+    }
   }
 
   /**
@@ -638,6 +648,7 @@ class GoTrimBuyboxComponent extends HTMLElement {
       const idx = parseInt(dot.dataset.dotIndex, 10);
       dot.classList.toggle('is-active', idx === activeIndex);
     }
+    this._updateGalleryThumbs(activeIndex);
   }
 
   /**
@@ -651,11 +662,48 @@ class GoTrimBuyboxComponent extends HTMLElement {
     const mediaContainer = this.querySelector('.go-trim-buybox__media');
     if (!mediaContainer) return;
 
-    const containerWidth = mediaContainer.offsetWidth;
-    mediaContainer.scrollTo({
-      left: index * containerWidth,
-      behavior: 'smooth',
-    });
+    const items = mediaContainer.querySelectorAll('.go-trim-buybox__media-item');
+    if (items[index]) {
+      items[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+    }
+  }
+
+  /**
+   * Updates the active state on gallery thumbnails.
+   * @param {number} activeIndex - Zero-based index of the active slide
+   */
+  _updateGalleryThumbs(activeIndex) {
+    const thumbs = this.querySelectorAll('.go-trim-buybox__gallery-thumb');
+    for (const thumb of thumbs) {
+      const idx = parseInt(thumb.dataset.thumbIndex, 10);
+      thumb.classList.toggle('is-active', idx === activeIndex);
+    }
+
+    // Scroll active thumb into view
+    const activeThumb = this.querySelector('.go-trim-buybox__gallery-thumb.is-active');
+    if (activeThumb) {
+      activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
+  }
+
+  /**
+   * Handles gallery thumbnail click: scrolls carousel to the corresponding image.
+   * @param {HTMLElement} thumbEl - The clicked thumbnail button element
+   */
+  _handleGalleryThumbClick(thumbEl) {
+    const index = parseInt(thumbEl.dataset.thumbIndex, 10);
+    if (isNaN(index)) return;
+
+    const mediaContainer = this.querySelector('.go-trim-buybox__media');
+    if (!mediaContainer) return;
+
+    const items = mediaContainer.querySelectorAll('.go-trim-buybox__media-item');
+    if (items[index]) {
+      items[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+    }
+
+    this._updateCarouselDots(index);
+    this._updateGalleryThumbs(index);
   }
 
   // ── Zoom dialog ──────────────────────────────────────────────

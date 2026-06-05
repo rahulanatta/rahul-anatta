@@ -23,7 +23,8 @@
     style="{%- render 'spacing-style', settings: section.settings -%} --buybox-gap: {{ section.settings.gap }}px; --media-gap: {{ section.settings.media_gap }}px; --media-radius: {{ section.settings.media_border_radius }}px;"
   >
 
-    {%- comment -%} Left column: Product media grid {%- endcomment -%}
+    {%- comment -%} Left column: Product media gallery {%- endcomment -%}
+    <div class="go-trim-buybox__gallery">
     <div class="go-trim-buybox__media">
       {% assign zoom_image_index = 0 %}
       {% for media in product.media %}
@@ -71,6 +72,31 @@
       </div>
     {% endif %}
 
+    {%- comment -%} Mobile gallery thumbnails {%- endcomment -%}
+    {% if product.media.size > 1 %}
+      <div class="go-trim-buybox__gallery-thumbs">
+        {% for media in product.media %}
+          <button
+            type="button"
+            class="go-trim-buybox__gallery-thumb{% if forloop.first %} is-active{% endif %}"
+            data-action="gallery-thumb"
+            data-thumb-index="{{ forloop.index0 }}"
+            aria-label="Go to image {{ forloop.index }}"
+          >
+            <img
+              src="{{ media | image_url: width: 160 }}"
+              alt="{{ media.alt | escape }}"
+              width="64"
+              height="64"
+              loading="lazy"
+              class="go-trim-buybox__gallery-thumb-img"
+            >
+          </button>
+        {% endfor %}
+      </div>
+    {% endif %}
+    </div>
+
     {%- comment -%} Right column: Buy box details {%- endcomment -%}
     <div class="go-trim-buybox__details">
 
@@ -89,6 +115,15 @@
           >
           <span class="go-trim-buybox__reviews-text">{{ section.settings.reviews_text }}</span>
         </div>
+      {% endif %}
+
+      {%- comment -%} Brand {%- endcomment -%}
+      <span class="go-trim-buybox__brand">{{ product.vendor }}</span>
+
+      {%- comment -%} Subtitle {%- endcomment -%}
+      {%- assign buybox_subtitle = product.metafields.custom.product_short_description.value | default: section.settings.subtitle -%}
+      {% if buybox_subtitle != blank %}
+        <p class="go-trim-buybox__subtitle">{{ buybox_subtitle }}</p>
       {% endif %}
 
       {%- comment -%} Price row {%- endcomment -%}
@@ -129,12 +164,6 @@
           </button>
         {% endif %}
       </div>
-
-      {%- comment -%} Subtitle {%- endcomment -%}
-      {%- assign buybox_subtitle = product.metafields.custom.product_short_description.value | default: section.settings.subtitle -%}
-      {% if buybox_subtitle != blank %}
-        <p class="go-trim-buybox__subtitle">{{ buybox_subtitle }}</p>
-      {% endif %}
 
       {%- comment -%} Variant picker {%- endcomment -%}
       {% if product.variants.size > 1 %}
@@ -206,6 +235,30 @@
                     <span class="go-trim-buybox__option-price">{{ first_allocation.per_delivery_price | money }}</span>
                   {% endif %}
                 </span>
+
+                {%- comment -%} Savings display {%- endcomment -%}
+                {% if first_allocation and price > first_allocation.per_delivery_price %}
+                  {%- assign savings_amount = price | minus: first_allocation.per_delivery_price -%}
+                  <span class="go-trim-buybox__savings">Save {{ savings_amount | money }} per delivery</span>
+                {% endif %}
+
+                {%- comment -%} Frequency pills {%- endcomment -%}
+                {% if first_group.selling_plans.size > 1 %}
+                  <div class="go-trim-buybox__frequency-pills" data-subscription-details>
+                    {% for plan in first_group.selling_plans %}
+                      {%- assign plan_alloc = current_variant.selling_plan_allocations | where: 'selling_plan_id', plan.id | first -%}
+                      <button
+                        type="button"
+                        class="go-trim-buybox__frequency-pill{% if forloop.first %} is-active{% endif %}"
+                        data-action="select-frequency"
+                        data-plan-id="{{ plan.id }}"
+                        data-price="{% if plan_alloc %}{{ plan_alloc.per_delivery_price | money }}{% endif %}"
+                      >
+                        {{ plan.name }}
+                      </button>
+                    {% endfor %}
+                  </div>
+                {% endif %}
               </label>
             </div>
           {% endif %}
@@ -451,12 +504,9 @@
     }
   }
 
-  /* Media grid — grid-column:auto overrides .section--page-width > * { grid-column: 2 } */
-  .go-trim-buybox__media {
+  /* Gallery wrapper — grid-column:auto overrides .section--page-width > * { grid-column: 2 } */
+  .go-trim-buybox__gallery {
     grid-column: auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--media-gap, 8px);
 
     @media screen and (min-width: 1024px) {
       position: sticky;
@@ -472,6 +522,13 @@
         display: none;
       }
     }
+  }
+
+  /* Media grid */
+  .go-trim-buybox__media {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--media-gap, 8px);
   }
 
   .go-trim-buybox__media-item {
@@ -491,8 +548,12 @@
     object-fit: cover;
   }
 
-  /* Mobile carousel: single-image scroll-snap */
+  /* Mobile carousel: peek-carousel with overlaid dots */
   @media screen and (max-width: 1023px) {
+    .go-trim-buybox__gallery {
+      position: relative;
+    }
+
     .go-trim-buybox__media {
       display: flex;
       overflow-x: auto;
@@ -500,6 +561,8 @@
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
       grid-template-columns: unset;
+      padding-left: 16px;
+      gap: 12px;
 
       &::-webkit-scrollbar {
         display: none;
@@ -507,14 +570,28 @@
     }
 
     .go-trim-buybox__media-item {
-      flex: 0 0 100%;
+      flex: 0 0 calc(100% - 16px);
       scroll-snap-align: start;
+    }
+
+    .go-trim-buybox__carousel-dots {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      margin-block-start: 0;
+      gap: 6px;
+      z-index: 2;
+    }
+
+    .go-trim-buybox__carousel-dot {
+      width: 6px;
+      height: 6px;
     }
   }
 
   /* Carousel dot indicators */
   .go-trim-buybox__carousel-dots {
-    grid-column: auto;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -681,6 +758,64 @@
     }
   }
 
+  /* Gallery thumbnails — mobile only */
+  .go-trim-buybox__gallery-thumbs {
+    display: none;
+
+    @media screen and (max-width: 1023px) {
+      display: flex;
+      gap: 8px;
+      padding-left: 16px;
+      overflow-x: auto;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+      margin-block-start: 12px;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+  }
+
+  .go-trim-buybox__gallery-thumb {
+    width: 64px;
+    height: 64px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    padding: 0;
+    border: 1px solid transparent;
+    background: none;
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+
+    &.is-active {
+      border-color: #000000;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-foreground);
+      outline-offset: 2px;
+    }
+  }
+
+  .go-trim-buybox__gallery-thumb-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Brand */
+  .go-trim-buybox__brand {
+    display: block;
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    color: #141414;
+  }
+
   /* Subtitle */
   .go-trim-buybox__subtitle {
     font-family: var(--font-body--family);
@@ -816,6 +951,53 @@
     font-size: 13px;
     line-height: 17px;
     color: #000000;
+  }
+
+  /* Savings display */
+  .go-trim-buybox__savings {
+    display: block;
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 17px;
+    color: #4CAF50;
+    margin-block-start: 4px;
+  }
+
+  /* Frequency pills */
+  .go-trim-buybox__frequency-pills {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-block-start: 12px;
+  }
+
+  .go-trim-buybox__frequency-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 14px;
+    border: 1px solid #C8C8C8;
+    border-radius: 20px;
+    background: none;
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 17px;
+    color: #000000;
+    cursor: pointer;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
+
+    &.is-active {
+      border-color: #141414;
+      background-color: #141414;
+      color: #ffffff;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-foreground);
+      outline-offset: 2px;
+    }
   }
 
   /* Actions row */
@@ -989,6 +1171,7 @@
   /* Subscription benefits box */
   .go-trim-buybox__benefits-box {
     background-color: #F9F9F9;
+    border-radius: 6px;
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -1364,29 +1547,80 @@
 
   /* Mobile stacking */
   @media screen and (max-width: 1023px) {
+    .go-trim-buybox {
+      padding: 16px 0 0 0 !important;
+    }
+
     .go-trim-buybox__variant-card {
       min-width: 80px;
     }
 
     .go-trim-buybox__title {
       font-size: 24px;
-      line-height: 36px;
+      line-height: 31px;
     }
 
     .go-trim-buybox__details {
-      gap: 24px;
+      gap: 0;
+      padding: 0 16px;
+    }
+
+    .go-trim-buybox__reviews {
+      margin-block-start: 2px;
+    }
+
+    .go-trim-buybox__brand {
+      margin-block-start: 2px;
+    }
+
+    .go-trim-buybox__subtitle {
+      margin-block-start: 12px;
+      border-bottom: 1px solid #E4E4E4;
+      padding: 6px 0;
+      text-align: center;
+    }
+
+    .go-trim-buybox__price-row {
+      margin-block-start: 16px;
+    }
+
+    .go-trim-buybox__purchase-options {
+      margin-block-start: 16px;
+      padding-block: 0;
     }
 
     .go-trim-buybox__actions {
-      flex-direction: column;
+      margin-block-start: 16px;
     }
 
     .go-trim-buybox__quantity {
-      width: 100%;
+      width: 94px;
+      min-width: 94px;
+      height: 42px;
+      gap: 8px;
     }
 
     .go-trim-buybox__cta-btn {
-      width: 100%;
+      flex: 1;
+      height: 42px;
+      font-size: 16px;
+      line-height: 21px;
+    }
+
+    .go-trim-buybox__accordions {
+      margin-block-start: 24px;
+    }
+
+    .go-trim-buybox__benefits-box {
+      margin-block-start: 24px;
+    }
+
+    .go-trim-buybox__option-card {
+      padding: 12px 16px;
+    }
+
+    .go-trim-buybox__option-card--subscription {
+      padding: 8px 16px 12px 16px;
     }
   }
 {% endstylesheet %}
