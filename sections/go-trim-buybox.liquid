@@ -74,7 +74,7 @@
 
     {%- comment -%} Mobile gallery thumbnails {%- endcomment -%}
     {% if product.media.size > 1 %}
-      <div class="go-trim-buybox__gallery-thumbs">
+      <div class="go-trim-buybox__gallery-thumbnails">
         {% for media in product.media %}
           <button
             type="button"
@@ -759,7 +759,7 @@
   }
 
   /* Gallery thumbnails — mobile only */
-  .go-trim-buybox__gallery-thumbs {
+  .go-trim-buybox__gallery-thumbnails {
     display: none;
 
     @media screen and (max-width: 1023px) {
@@ -1575,7 +1575,7 @@
 
     .go-trim-buybox__subtitle {
       margin-block-start: 12px;
-      border-bottom: 1px solid #E4E4E4;
+      border: 1px solid #E4E4E4;
       padding: 6px 0;
       text-align: center;
     }
