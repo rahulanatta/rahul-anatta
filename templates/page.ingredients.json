@@ -296,7 +296,7 @@
               "settings": {
                 "icon": "none",
                 "image_upload": "shopify://shop_images/icon-globe-png-desktop-I2093175553911643.png",
-                "width": 65
+                "width": 64
               }
             },
             "text_1": {
@@ -341,7 +341,7 @@
               "settings": {
                 "icon": "none",
                 "image_upload": "shopify://shop_images/icon-atom-png-desktop-I2093175553911651.png",
-                "width": 65
+                "width": 64
               }
             },
             "text_2": {
@@ -386,7 +386,7 @@
               "settings": {
                 "icon": "none",
                 "image_upload": "shopify://shop_images/icon-leaf-png-desktop-I2093175553911659.png",
-                "width": 65
+                "width": 64
               }
             },
             "text_3": {
@@ -431,7 +431,7 @@
               "settings": {
                 "icon": "none",
                 "image_upload": "shopify://shop_images/icon-dropslash-png-desktop-I2093175553911668.png",
-                "width": 65
+                "width": 64
               }
             },
             "text_4": {
