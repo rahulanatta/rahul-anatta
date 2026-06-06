@@ -25,7 +25,6 @@
 
     {%- comment -%} Left column: Product media gallery {%- endcomment -%}
     <div class="go-trim-buybox__gallery">
-    <div class="go-trim-buybox__media-wrap">
     <div class="go-trim-buybox__media">
       {% assign zoom_image_index = 0 %}
       {% for media in product.media %}
@@ -58,22 +57,6 @@
       {% endfor %}
     </div>
 
-    {%- comment -%} Mobile carousel dot indicators {%- endcomment -%}
-    {% if product.media.size > 1 %}
-      <div class="go-trim-buybox__carousel-dots">
-        {% for media in product.media %}
-          <button
-            type="button"
-            class="go-trim-buybox__carousel-dot{% if forloop.first %} is-active{% endif %}"
-            data-action="carousel-dot"
-            data-dot-index="{{ forloop.index0 }}"
-            aria-label="Go to image {{ forloop.index }}"
-          ></button>
-        {% endfor %}
-      </div>
-    {% endif %}
-    </div>
-
     {%- comment -%} Mobile gallery thumbnails {%- endcomment -%}
     {% if product.media.size > 1 %}
       <div class="go-trim-buybox__gallery-thumbnails">
@@ -94,6 +77,21 @@
               class="go-trim-buybox__gallery-thumb-img"
             >
           </button>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {%- comment -%} Mobile carousel dot indicators {%- endcomment -%}
+    {% if product.media.size > 1 %}
+      <div class="go-trim-buybox__carousel-dots">
+        {% for media in product.media %}
+          <button
+            type="button"
+            class="go-trim-buybox__carousel-dot{% if forloop.first %} is-active{% endif %}"
+            data-action="carousel-dot"
+            data-dot-index="{{ forloop.index0 }}"
+            aria-label="Go to image {{ forloop.index }}"
+          ></button>
         {% endfor %}
       </div>
     {% endif %}
@@ -550,12 +548,8 @@
     object-fit: cover;
   }
 
-  /* Mobile carousel: peek-carousel with overlaid dots */
+  /* Mobile carousel: peek-carousel with dots below thumbnails */
   @media screen and (max-width: 1023px) {
-    .go-trim-buybox__media-wrap {
-      position: relative;
-    }
-
     .go-trim-buybox__media {
       display: flex;
       overflow-x: auto;
@@ -577,13 +571,8 @@
     }
 
     .go-trim-buybox__carousel-dots {
-      position: absolute;
-      bottom: 12px;
-      left: 50%;
-      transform: translateX(-50%);
-      margin-block-start: 0;
+      margin-block-start: 16px;
       gap: 6px;
-      z-index: 2;
     }
 
     .go-trim-buybox__carousel-dot {
@@ -771,7 +760,7 @@
       overflow-x: auto;
       -ms-overflow-style: none;
       scrollbar-width: none;
-      margin-block-start: 12px;
+      margin-block-start: 24px;
 
       &::-webkit-scrollbar {
         display: none;
