@@ -81,7 +81,7 @@
           <a href="{{ product_1.url }}" class="product-bundle__card">
             <div class="product-bundle__card-image">
               {% if product_1.featured_image != blank %}
-                {%- assign sizes_val = '(min-width: 750px) 280px, 260px' -%}
+                {%- assign sizes_val = '(min-width: 1024px) 280px, 260px' -%}
                 {{
                   product_1.featured_image
                   | image_url: width: product_1.featured_image.width
@@ -129,7 +129,7 @@
           <a href="{{ product_2.url }}" class="product-bundle__card">
             <div class="product-bundle__card-image">
               {% if product_2.featured_image != blank %}
-                {%- assign sizes_val_2 = '(min-width: 750px) 280px, 260px' -%}
+                {%- assign sizes_val_2 = '(min-width: 1024px) 280px, 260px' -%}
                 {{
                   product_2.featured_image
                   | image_url: width: product_2.featured_image.width
@@ -187,7 +187,7 @@
     padding-inline: var(--pb-padding-inline, 0px);
   }
 
-  @media screen and (min-width: 750px) {
+  @media screen and (min-width: 1024px) {
     .product-bundle__container {
       grid-template-columns: 1fr 1.4fr;
       gap: 64px;
@@ -203,7 +203,7 @@
     align-items: flex-start;
   }
 
-  @media screen and (min-width: 750px) {
+  @media screen and (min-width: 1024px) {
     .product-bundle__info {
       padding-block-start: 24px;
       gap: 24px;
@@ -230,7 +230,7 @@
     max-width: 420px;
   }
 
-  @media screen and (min-width: 750px) {
+  @media screen and (min-width: 1024px) {
     .product-bundle__heading {
       font-size: 44px;
     }
@@ -318,7 +318,7 @@
     display: none;
   }
 
-  @media screen and (min-width: 750px) {
+  @media screen and (min-width: 1024px) {
     .product-bundle__products {
       overflow-x: visible;
     }
@@ -330,7 +330,7 @@
     width: 260px;
   }
 
-  @media screen and (min-width: 750px) {
+  @media screen and (min-width: 1024px) {
     .product-bundle__card-wrapper {
       width: auto;
       flex: 1;
@@ -430,7 +430,7 @@
     color: rgb(var(--color-foreground));
   }
 
-  @media screen and (min-width: 750px) {
+  @media screen and (min-width: 1024px) {
     .product-bundle__separator {
       height: auto;
       align-self: auto;
@@ -439,7 +439,7 @@
   }
 
   /* Mobile: separator aligns with image area */
-  @media screen and (max-width: 749px) {
+  @media screen and (max-width: 1023px) {
     .product-bundle__separator {
       height: 311px;
     }
@@ -460,7 +460,7 @@
   }
 
   /* Mobile stacked layout */
-  @media screen and (max-width: 749px) {
+  @media screen and (max-width: 1023px) {
     product-bundle-section[data-mobile-layout="stacked"] .product-bundle__products {
       flex-direction: column;
       overflow-x: visible;

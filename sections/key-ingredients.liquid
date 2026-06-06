@@ -36,7 +36,7 @@
 
       <div class="key-ingredients__center">
         {% if section.settings.center_image != blank %}
-          {%- assign sizes_val = '(min-width: 1200px) 480px, (min-width: 750px) 40vw, 90vw' -%}
+          {%- assign sizes_val = '(min-width: 1200px) 480px, (min-width: 1024px) 40vw, 90vw' -%}
           {{
             section.settings.center_image
             | image_url: width: section.settings.center_image.width
@@ -158,7 +158,7 @@
     text-align: center;
   }
 
-  @media screen and (max-width: 749px) {
+  @media screen and (max-width: 1023px) {
     .key-ingredients__inner {
       gap: 36px;
     }

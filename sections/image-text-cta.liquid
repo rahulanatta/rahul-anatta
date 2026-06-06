@@ -25,7 +25,7 @@
   <div class="image-text-cta__grid image-text-cta__grid--image-{{ image_position }}">
     <figure class="image-text-cta__media">
       {% if section.settings.image != blank %}
-        {%- assign sizes_val = '(min-width: 750px) 50vw, 100vw' -%}
+        {%- assign sizes_val = '(min-width: 1024px) 50vw, 100vw' -%}
         {{
           section.settings.image
           | image_url: width: section.settings.image.width
@@ -78,7 +78,7 @@
     gap: var(--gap-md);
   }
 
-  @media screen and (min-width: 750px) {
+  @media screen and (min-width: 1024px) {
     .image-text-cta__grid {
       grid-template-columns: 1fr 1fr;
       gap: var(--gap-xl);
@@ -109,7 +109,7 @@
     border-radius: var(--style-border-radius-sm);
     aspect-ratio: 4 / 3;
 
-    @media screen and (min-width: 750px) {
+    @media screen and (min-width: 1024px) {
       aspect-ratio: auto;
     }
   }
@@ -137,7 +137,7 @@
     padding-inline: var(--page-margin);
   }
 
-  @media screen and (min-width: 750px) {
+  @media screen and (min-width: 1024px) {
     .image-text-cta__grid--image-left .image-text-cta__content {
       padding-inline-start: 0;
       padding-inline-end: var(--page-margin);
