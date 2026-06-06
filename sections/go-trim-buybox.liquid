@@ -25,6 +25,7 @@
 
     {%- comment -%} Left column: Product media gallery {%- endcomment -%}
     <div class="go-trim-buybox__gallery">
+    <div class="go-trim-buybox__media-wrap">
     <div class="go-trim-buybox__media">
       {% assign zoom_image_index = 0 %}
       {% for media in product.media %}
@@ -71,6 +72,7 @@
         {% endfor %}
       </div>
     {% endif %}
+    </div>
 
     {%- comment -%} Mobile gallery thumbnails {%- endcomment -%}
     {% if product.media.size > 1 %}
@@ -550,7 +552,7 @@
 
   /* Mobile carousel: peek-carousel with overlaid dots */
   @media screen and (max-width: 1023px) {
-    .go-trim-buybox__gallery {
+    .go-trim-buybox__media-wrap {
       position: relative;
     }
 
