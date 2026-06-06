@@ -1,0 +1,4 @@
+## Recent
+[chat] Theme content area maxes at 1440px (page_width="narrow" = 90rem) minus 80px margins, so at 1024-1400px viewport the usable width is only ~944-1320px. Desktop layouts sized for the full 1440px (fixed-px multi-column grids/flex with no shrink) overflow this band.
+[chat] A single overflowing section (e.g. product-categories with flex-wrap:nowrap + 5x265px images) creates a page-wide horizontal scrollbar, which makes EVERY section look shifted/non-responsive. When "all sections are not responsive" in a width band, hunt for one overflowing section first. Fix: flex:1 1 0 + min-width:0 on items, width:100% + max-width on images (keeps the 1440px look, shrinks below).
+[chat] Swapping a section's breakpoint number (750px to 1024px) does NOT make it responsive in the new band — it just moves where the fixed desktop layout begins. Must also make that desktop layout fluid (fr/flex/percent) for the 1024-1400px range.
