@@ -1,0 +1,362 @@
+<div
+  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style shop-by-concern"
+  style="
+    {%- render 'spacing-style', settings: section.settings -%}
+    --sbc-columns: {{ section.settings.columns_desktop }};
+    --sbc-gap: {{ section.settings.grid_gap }}px;
+    --sbc-overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+    --sbc-heading-font-size: {{ section.settings.heading_font_size }}px;
+    --sbc-heading-line-height: {{ section.settings.heading_line_height }}px;
+    --sbc-heading-letter-spacing: {{ section.settings.heading_letter_spacing }}px;
+    --sbc-heading-font-weight: {{ section.settings.heading_font_weight }};
+    --sbc-heading-text-transform: {{ section.settings.heading_text_transform }};
+    --sbc-subtitle-font-size: {{ section.settings.subtitle_font_size }}px;
+    --sbc-heading-font-size-mobile: {{ section.settings.heading_font_size_mobile }}px;
+    --sbc-subtitle-font-size-mobile: {{ section.settings.subtitle_font_size_mobile }}px;
+  "
+>
+  <div class="shop-by-concern__grid">
+    {% for block in section.blocks %}
+      {% if block.type == 'concern-card' %}
+        <{% if block.settings.url != blank %}a href="{{ block.settings.url }}"{% else %}div{% endif %}
+          class="shop-by-concern__card"
+          {{ block.shopify_attributes }}
+        >
+          {% if block.settings.image != blank %}
+            {%- assign sizes_val = '(min-width: 1024px) 50vw, 100vw' -%}
+            {{
+              block.settings.image
+              | image_url: width: block.settings.image.width
+              | image_tag:
+                widths: '375,550,750,1100,1500',
+                sizes: sizes_val,
+                loading: 'lazy',
+                class: 'shop-by-concern__card-image',
+                alt: block.settings.heading
+            }}
+          {% else %}
+            <div class="shop-by-concern__card-image shop-by-concern__card-image--placeholder">
+              {{ 'collection-1' | placeholder_svg_tag }}
+            </div>
+          {% endif %}
+
+          <div class="shop-by-concern__overlay"></div>
+
+          <div class="shop-by-concern__content">
+            {% if block.settings.subtitle != blank %}
+              <span class="shop-by-concern__subtitle">{{ block.settings.subtitle }}</span>
+            {% endif %}
+            {% if block.settings.heading != blank %}
+              <span class="shop-by-concern__heading">{{ block.settings.heading }}</span>
+            {% endif %}
+          </div>
+        </{% if block.settings.url != blank %}a{% else %}div{% endif %}>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .shop-by-concern__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sbc-gap, 0px);
+
+    @media screen and (min-width: 1024px) {
+      grid-template-columns: repeat(var(--sbc-columns, 2), 1fr);
+    }
+  }
+
+  .shop-by-concern__card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    aspect-ratio: 778 / 405;
+    text-decoration: none;
+    color: #FFFFFF;
+  }
+
+  .shop-by-concern__card-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .shop-by-concern__card-image--placeholder {
+    background: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    & svg {
+      width: 40%;
+      height: 40%;
+      opacity: 0.3;
+    }
+  }
+
+  .shop-by-concern__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(25, 25, 25, var(--sbc-overlay-opacity, 0.23));
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .shop-by-concern__content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-align: center;
+    padding: 24px;
+  }
+
+  .shop-by-concern__subtitle {
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: var(--sbc-subtitle-font-size-mobile, 14px);
+    line-height: 23px;
+    color: #FFFFFF;
+
+    @media screen and (min-width: 1024px) {
+      font-size: var(--sbc-subtitle-font-size, 18px);
+    }
+  }
+
+  .shop-by-concern__heading {
+    font-family: var(--font-heading--family);
+    font-weight: var(--sbc-heading-font-weight, 500);
+    font-size: var(--sbc-heading-font-size-mobile, 24px);
+    line-height: var(--sbc-heading-line-height, 43px);
+    letter-spacing: var(--sbc-heading-letter-spacing, 1px);
+    text-transform: var(--sbc-heading-text-transform, none);
+    color: #FFFFFF;
+
+    @media screen and (min-width: 1024px) {
+      font-size: var(--sbc-heading-font-size, 35px);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Shop By Concern",
+  "tag": "section",
+  "class": "shop-by-concern-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ],
+      "default": "full-width"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns (desktop)",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "label": "Grid gap",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Overlay"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 23
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "label": "Heading size",
+      "min": 16,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 35
+    },
+    {
+      "type": "range",
+      "id": "heading_line_height",
+      "label": "Heading line height",
+      "min": 20,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "default": 43
+    },
+    {
+      "type": "number",
+      "id": "heading_letter_spacing",
+      "label": "Heading letter spacing",
+      "default": 1
+    },
+    {
+      "type": "select",
+      "id": "heading_font_weight",
+      "label": "Heading font weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "select",
+      "id": "heading_text_transform",
+      "label": "Heading text transform",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "uppercase", "label": "Uppercase" },
+        { "value": "lowercase", "label": "Lowercase" },
+        { "value": "capitalize", "label": "Capitalize" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size_mobile",
+      "label": "Heading size (mobile)",
+      "min": 16,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "subtitle_font_size",
+      "label": "Subtitle size",
+      "min": 10,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "subtitle_font_size_mobile",
+      "label": "Subtitle size (mobile)",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "concern-card",
+      "name": "Concern card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Reduce Stress"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "Shop By Concern"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop By Concern"
+    }
+  ]
+}
+{% endschema %}

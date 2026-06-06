@@ -1,0 +1,712 @@
+{% liquid
+  assign heading = section.settings.heading
+  assign description = section.settings.description
+  assign show_breadcrumb = section.settings.show_breadcrumb
+  assign breadcrumb_parent_1_text = section.settings.breadcrumb_parent_1_text
+  assign breadcrumb_parent_2_text = section.settings.breadcrumb_parent_2_text
+%}
+
+<div
+  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style ingredients-listing"
+  style="
+    {%- render 'spacing-style', settings: section.settings -%}
+    --il-heading-font-size: {{ section.settings.heading_font_size }}px;
+    --il-heading-line-height: {{ section.settings.heading_line_height }}px;
+    --il-heading-font-size-mobile: {{ section.settings.heading_font_size_mobile }}px;
+    --il-heading-line-height-mobile: {{ section.settings.heading_line_height_mobile }}px;
+    --il-desc-font-size: {{ section.settings.description_font_size }}px;
+    --il-desc-line-height: {{ section.settings.description_line_height }}px;
+    --il-desc-font-size-mobile: {{ section.settings.description_font_size_mobile }}px;
+    --il-desc-line-height-mobile: {{ section.settings.description_line_height_mobile }}px;
+    --il-grid-gap: {{ section.settings.grid_gap }}px;
+    --il-grid-row-gap: {{ section.settings.grid_row_gap }}px;
+    --il-card-border-radius: {{ section.settings.card_border_radius }}px;
+    --il-ingredient-title-font-size: {{ section.settings.ingredient_title_font_size }}px;
+    --il-card-gap: {{ section.settings.card_gap }}px;
+    --il-breadcrumb-font-size: {{ section.settings.breadcrumb_font_size }}px;
+    --il-heading-text-transform: {{ section.settings.heading_text_transform }};
+    --il-heading-text-align: {{ section.settings.heading_text_alignment }};
+  "
+>
+  {% if show_breadcrumb %}
+    <nav class="ingredients-listing__breadcrumb" aria-label="Breadcrumb">
+      <ol class="ingredients-listing__breadcrumb-list">
+        {% if breadcrumb_parent_1_text != blank %}
+          <li class="ingredients-listing__breadcrumb-item">
+            <a href="{{ section.settings.breadcrumb_parent_1_url }}" class="ingredients-listing__breadcrumb-link">{{ breadcrumb_parent_1_text }}</a>
+          </li>
+          <li class="ingredients-listing__breadcrumb-separator" aria-hidden="true">/</li>
+        {% endif %}
+        {% if breadcrumb_parent_2_text != blank %}
+          <li class="ingredients-listing__breadcrumb-item">
+            <a href="{{ section.settings.breadcrumb_parent_2_url }}" class="ingredients-listing__breadcrumb-link">{{ breadcrumb_parent_2_text }}</a>
+          </li>
+          <li class="ingredients-listing__breadcrumb-separator" aria-hidden="true">/</li>
+        {% endif %}
+        <li class="ingredients-listing__breadcrumb-item ingredients-listing__breadcrumb-item--current" aria-current="page">
+          {{ page.title }}
+        </li>
+      </ol>
+    </nav>
+  {% endif %}
+
+  {% if heading != blank %}
+    <{{ section.settings.heading_tag }} class="ingredients-listing__heading">{{ heading }}</{{ section.settings.heading_tag }}>
+  {% endif %}
+
+  {% if description != blank %}
+    <p class="ingredients-listing__description">{{ description }}</p>
+  {% endif %}
+
+  {% liquid
+    assign filter_blocks = section.blocks | where: 'type', 'category-filter'
+    assign card_blocks = section.blocks | where: 'type', 'ingredient-card'
+  %}
+
+  {% if filter_blocks.size > 0 %}
+    <div class="ingredients-listing__filters" role="tablist" aria-label="Filter ingredients by category">
+      {% for block in filter_blocks %}
+        <button
+          class="ingredients-listing__filter-pill{% if forloop.first %} is-active{% endif %}"
+          data-filter-value="{{ block.settings.filter_value | handleize }}"
+          role="tab"
+          aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+          {{ block.shopify_attributes }}
+        >
+          {{ block.settings.label }}
+        </button>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {% if card_blocks.size > 0 %}
+    <div class="ingredients-listing__grid">
+      {% for block in card_blocks %}
+        {% liquid
+          assign card_category = block.settings.category | handleize
+        %}
+        <div
+          class="ingredients-listing__card"
+          data-category="{{ card_category }}"
+          {{ block.shopify_attributes }}
+        >
+          {% if block.settings.url != blank %}
+            <a href="{{ block.settings.url }}" class="ingredients-listing__card-link">
+          {% endif %}
+
+          {% if block.settings.image != blank %}
+            {%- assign sizes_val = '(min-width: 1024px) 210px, calc(50vw - 24px)' -%}
+            {{
+              block.settings.image
+              | image_url: width: block.settings.image.width
+              | image_tag:
+                widths: '210,420,630',
+                sizes: sizes_val,
+                loading: 'lazy',
+                class: 'ingredients-listing__card-image',
+                alt: block.settings.title
+            }}
+          {% else %}
+            <div class="ingredients-listing__card-image ingredients-listing__card-image--placeholder">
+              {{ 'product-1' | placeholder_svg_tag }}
+            </div>
+          {% endif %}
+
+          <span class="ingredients-listing__card-title">{{ block.settings.title }} &rarr;</span>
+
+          {% if block.settings.url != blank %}
+            </a>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
+
+<script>
+  (function() {
+    const section = document.querySelector('.ingredients-listing');
+    if (!section) return;
+
+    const filters = section.querySelectorAll('.ingredients-listing__filter-pill');
+    const cards = section.querySelectorAll('.ingredients-listing__card');
+
+    if (!filters.length || !cards.length) return;
+
+    for (const pill of filters) {
+      pill.addEventListener('click', function() {
+        const activeFilter = section.querySelector('.ingredients-listing__filter-pill.is-active');
+
+        if (activeFilter) {
+          activeFilter.classList.remove('is-active');
+          activeFilter.setAttribute('aria-selected', 'false');
+        }
+
+        this.classList.add('is-active');
+        this.setAttribute('aria-selected', 'true');
+
+        const filterValue = this.dataset.filterValue;
+
+        for (const card of cards) {
+          if (filterValue === 'view-all' || filterValue === '') {
+            card.style.display = '';
+          } else if (card.dataset.category === filterValue) {
+            card.style.display = '';
+          } else {
+            card.style.display = 'none';
+          }
+        }
+      });
+    }
+  })();
+</script>
+
+{% stylesheet %}
+  .ingredients-listing {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .ingredients-listing__breadcrumb {
+    width: 100%;
+  }
+
+  .ingredients-listing__breadcrumb-list {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex-wrap: wrap;
+  }
+
+  .ingredients-listing__breadcrumb-link {
+    font-family: var(--font-body--family);
+    font-size: var(--il-breadcrumb-font-size, 14px);
+    line-height: 16px;
+    color: var(--color-foreground);
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .ingredients-listing__breadcrumb-separator {
+    font-family: var(--font-body--family);
+    font-size: calc(var(--il-breadcrumb-font-size, 14px) - 2px);
+    line-height: 16px;
+    color: var(--color-foreground);
+  }
+
+  .ingredients-listing__breadcrumb-item--current {
+    font-family: var(--font-body--family);
+    font-size: var(--il-breadcrumb-font-size, 14px);
+    line-height: 16px;
+    color: var(--color-foreground);
+  }
+
+  .ingredients-listing__heading {
+    font-family: var(--font-heading--family);
+    font-weight: var(--font-heading--weight, 400);
+    font-size: var(--il-heading-font-size-mobile, 36px);
+    line-height: var(--il-heading-line-height-mobile, 44px);
+    text-transform: var(--il-heading-text-transform, none);
+    text-align: var(--il-heading-text-align, left);
+    color: var(--color-foreground-heading);
+    margin: 0;
+
+    @media screen and (min-width: 1024px) {
+      font-size: var(--il-heading-font-size, 50px);
+      line-height: var(--il-heading-line-height, 65px);
+    }
+  }
+
+  .ingredients-listing__description {
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: var(--il-desc-font-size-mobile, 18px);
+    line-height: var(--il-desc-line-height-mobile, 26px);
+    color: var(--color-foreground);
+    margin: 0;
+    max-width: 585px;
+
+    @media screen and (min-width: 1024px) {
+      font-size: var(--il-desc-font-size, 24px);
+      line-height: var(--il-desc-line-height, 31px);
+    }
+  }
+
+  .ingredients-listing__filters {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    padding-block: 4px;
+    -webkit-overflow-scrolling: touch;
+
+    &::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--color-border);
+      border-radius: 2px;
+    }
+  }
+
+  .ingredients-listing__filter-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 16px;
+    border-radius: 12px;
+    border: 1px solid #ACACAC;
+    background: transparent;
+    font-family: var(--font-body--family);
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 21px;
+    color: var(--color-foreground);
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: border-color var(--animation-speed, 0.125s) ease;
+
+    &:hover {
+      border-color: var(--color-foreground);
+    }
+
+    &.is-active {
+      border-color: var(--color-foreground);
+    }
+  }
+
+  .ingredients-listing__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--il-grid-row-gap, 33px) var(--il-grid-gap, 33px);
+
+    @media screen and (min-width: 600px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media screen and (min-width: 1024px) {
+      grid-template-columns: repeat(6, 1fr);
+    }
+  }
+
+  .ingredients-listing__card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--il-card-gap, 13px);
+  }
+
+  .ingredients-listing__card-link {
+    display: flex;
+    flex-direction: column;
+    gap: var(--il-card-gap, 13px);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .ingredients-listing__card-image {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: var(--il-card-border-radius, 30px);
+    display: block;
+  }
+
+  .ingredients-listing__card-image--placeholder {
+    background: var(--color-border);
+    border-radius: var(--il-card-border-radius, 30px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+
+    & svg {
+      width: 60%;
+      height: 60%;
+    }
+  }
+
+  .ingredients-listing__card-title {
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: var(--il-ingredient-title-font-size, 22px);
+    line-height: 29px;
+    color: var(--color-foreground);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Ingredients Listing",
+  "tag": "section",
+  "class": "ingredients-listing-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Advanced ingredients delivering real results"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Premium ingredients, optimized for impact. We source the highest quality compounds for maximum purity, delivering them through advanced liquid absorption so you never waste a drop of nutrition.*"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading tag",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" },
+        { "value": "h6", "label": "H6" }
+      ],
+      "default": "h1"
+    },
+    {
+      "type": "header",
+      "content": "Breadcrumb"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_breadcrumb",
+      "label": "Show breadcrumb",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "breadcrumb_parent_1_text",
+      "label": "Parent 1 text",
+      "default": "Home"
+    },
+    {
+      "type": "url",
+      "id": "breadcrumb_parent_1_url",
+      "label": "Parent 1 link"
+    },
+    {
+      "type": "text",
+      "id": "breadcrumb_parent_2_text",
+      "label": "Parent 2 text",
+      "default": "Nutrition & Health"
+    },
+    {
+      "type": "url",
+      "id": "breadcrumb_parent_2_url",
+      "label": "Parent 2 link"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "label": "Heading size",
+      "min": 20,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "heading_line_height",
+      "label": "Heading line height",
+      "min": 20,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 65
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size_mobile",
+      "label": "Heading size (mobile)",
+      "min": 20,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "heading_line_height_mobile",
+      "label": "Heading line height (mobile)",
+      "min": 20,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "default": 44
+    },
+    {
+      "type": "select",
+      "id": "heading_text_transform",
+      "label": "Heading text transform",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "uppercase", "label": "Uppercase" },
+        { "value": "lowercase", "label": "Lowercase" },
+        { "value": "capitalize", "label": "Capitalize" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "select",
+      "id": "heading_text_alignment",
+      "label": "Heading alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "description_font_size",
+      "label": "Description size",
+      "min": 12,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "description_line_height",
+      "label": "Description line height",
+      "min": 16,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 31
+    },
+    {
+      "type": "range",
+      "id": "description_font_size_mobile",
+      "label": "Description size (mobile)",
+      "min": 12,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "description_line_height_mobile",
+      "label": "Description line height (mobile)",
+      "min": 16,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 26
+    },
+    {
+      "type": "range",
+      "id": "ingredient_title_font_size",
+      "label": "Ingredient title size",
+      "min": 12,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 22
+    },
+    {
+      "type": "range",
+      "id": "breadcrumb_font_size",
+      "label": "Breadcrumb size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Grid"
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "label": "Column gap",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 33
+    },
+    {
+      "type": "range",
+      "id": "grid_row_gap",
+      "label": "Row gap",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 33
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "label": "Image border radius",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "label": "Card image-text gap",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Left padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Right padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category-filter",
+      "name": "Category filter",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Category"
+        },
+        {
+          "type": "text",
+          "id": "filter_value",
+          "label": "Filter value",
+          "default": "category"
+        }
+      ]
+    },
+    {
+      "type": "ingredient-card",
+      "name": "Ingredient card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Ingredient"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link"
+        },
+        {
+          "type": "text",
+          "id": "category",
+          "label": "Category",
+          "info": "Must match a filter value to enable filtering"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Ingredients Listing"
+    }
+  ]
+}
+{% endschema %}

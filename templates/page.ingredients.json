@@ -1,0 +1,681 @@
+{
+  "sections": {
+    "ingredients-listing": {
+      "type": "ingredients-listing",
+      "settings": {
+        "heading": "Advanced ingredients delivering real results",
+        "description": "Premium ingredients, optimized for impact. We source the highest quality compounds for maximum purity, delivering them through advanced liquid absorption so you never waste a drop of nutrition.*",
+        "heading_tag": "h1",
+        "show_breadcrumb": true,
+        "breadcrumb_parent_1_text": "Home",
+        "breadcrumb_parent_2_text": "Nutrition & Health",
+        "heading_font_size": 50,
+        "heading_line_height": 65,
+        "heading_font_size_mobile": 36,
+        "heading_line_height_mobile": 44,
+        "heading_text_transform": "none",
+        "heading_text_alignment": "left",
+        "description_font_size": 24,
+        "description_line_height": 31,
+        "description_font_size_mobile": 18,
+        "description_line_height_mobile": 26,
+        "ingredient_title_font_size": 22,
+        "breadcrumb_font_size": 14,
+        "grid_gap": 33,
+        "grid_row_gap": 33,
+        "card_border_radius": 30,
+        "card_gap": 13,
+        "color_scheme": "scheme-1",
+        "section_width": "page-width",
+        "padding-block-start": 24,
+        "padding-block-end": 40,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
+      },
+      "blocks": {
+        "filter_view_all": {
+          "type": "category-filter",
+          "settings": {
+            "label": "View All",
+            "filter_value": "view-all"
+          }
+        },
+        "filter_vitamins": {
+          "type": "category-filter",
+          "settings": {
+            "label": "Vitamins & Minerals",
+            "filter_value": "vitamins-minerals"
+          }
+        },
+        "filter_digestive": {
+          "type": "category-filter",
+          "settings": {
+            "label": "Digestive Support",
+            "filter_value": "digestive-support"
+          }
+        },
+        "filter_antioxidants": {
+          "type": "category-filter",
+          "settings": {
+            "label": "Antioxidants",
+            "filter_value": "antioxidants"
+          }
+        },
+        "filter_enzymes": {
+          "type": "category-filter",
+          "settings": {
+            "label": "Digestive Enzymes * Botanical Extracts",
+            "filter_value": "digestive-enzymes-botanical-extracts"
+          }
+        },
+        "filter_stress": {
+          "type": "category-filter",
+          "settings": {
+            "label": "Stress Adaptogens",
+            "filter_value": "stress-adaptogens"
+          }
+        },
+        "filter_immune": {
+          "type": "category-filter",
+          "settings": {
+            "label": "Immune Defense",
+            "filter_value": "immune-defense"
+          }
+        },
+        "card_1": {
+          "type": "ingredient-card",
+          "settings": {
+            "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317500.jpg",
+            "title": "Ingredient",
+            "category": "vitamins-minerals"
+          }
+        },
+        "card_2": {
+          "type": "ingredient-card",
+          "settings": {
+            "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317503.jpg",
+            "title": "Ingredient",
+            "category": "vitamins-minerals"
+          }
+        },
+        "card_3": {
+          "type": "ingredient-card",
+          "settings": {
+            "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317506.jpg",
+            "title": "Ingredient",
+            "category": "digestive-support"
+          }
+        },
+        "card_4": {
+          "type": "ingredient-card",
+          "settings": {
+            "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317509.jpg",
+            "title": "Ingredient",
+            "category": "digestive-support"
+          }
+        },
+        "card_5": {
+          "type": "ingredient-card",
+          "settings": {
+            "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317512.jpg",
+            "title": "Ingredient",
+            "category": "antioxidants"
+          }
+        },
+        "card_6": {
+          "type": "ingredient-card",
+          "settings": {
+            "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317515.jpg",
+            "title": "Ingredient",
+            "category": "antioxidants"
+          }
+        },
+        "card_7": {
+          "type": "ingredient-card",
+          "settings": {
+            "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317519.jpg",
+            "title": "Ingredient",
+            "category": "digestive-enzymes-botanical-extracts"
+          }
+        },
+        "card_8": {
+          "type": "ingredient-card",
+          "settings": {
+            "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317522.png",
+            "title": "Ingredient",
+            "category": "digestive-enzymes-botanical-extracts"
+          }
+        },
+        "card_9": {
+          "type": "ingredient-card",
+          "settings": {
+            "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317525.jpg",
+            "title": "Ingredient",
+            "category": "stress-adaptogens"
+          }
+        },
+        "card_10": {
+          "type": "ingredient-card",
+          "settings": {
+            "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317528.png",
+            "title": "Ingredient",
+            "category": "stress-adaptogens"
+          }
+        },
+        "card_11": {
+          "type": "ingredient-card",
+          "settings": {
+            "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317531.jpg",
+            "title": "Ingredient",
+            "category": "immune-defense"
+          }
+        },
+        "card_12": {
+          "type": "ingredient-card",
+          "settings": {
+            "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317534.jpg",
+            "title": "Ingredient",
+            "category": "immune-defense"
+          }
+        },
+        "card_13": {
+          "type": "ingredient-card",
+          "settings": {
+            "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317538.jpg",
+            "title": "Ingredient",
+            "category": "vitamins-minerals"
+          }
+        },
+        "card_14": {
+          "type": "ingredient-card",
+          "settings": {
+            "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317541.jpg",
+            "title": "Ingredient",
+            "category": "digestive-support"
+          }
+        },
+        "card_15": {
+          "type": "ingredient-card",
+          "settings": {
+            "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317506.jpg",
+            "title": "Ingredient",
+            "category": "antioxidants"
+          }
+        },
+        "card_16": {
+          "type": "ingredient-card",
+          "settings": {
+            "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317500.jpg",
+            "title": "Ingredient",
+            "category": "digestive-enzymes-botanical-extracts"
+          }
+        },
+        "card_17": {
+          "type": "ingredient-card",
+          "settings": {
+            "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317550.jpg",
+            "title": "Ingredient",
+            "category": "stress-adaptogens"
+          }
+        },
+        "card_18": {
+          "type": "ingredient-card",
+          "settings": {
+            "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317512.jpg",
+            "title": "Ingredient",
+            "category": "immune-defense"
+          }
+        }
+      },
+      "block_order": [
+        "filter_view_all",
+        "filter_vitamins",
+        "filter_digestive",
+        "filter_antioxidants",
+        "filter_enzymes",
+        "filter_stress",
+        "filter_immune",
+        "card_1",
+        "card_2",
+        "card_3",
+        "card_4",
+        "card_5",
+        "card_6",
+        "card_7",
+        "card_8",
+        "card_9",
+        "card_10",
+        "card_11",
+        "card_12",
+        "card_13",
+        "card_14",
+        "card_15",
+        "card_16",
+        "card_17",
+        "card_18"
+      ]
+    },
+    "icons-strip": {
+      "type": "section",
+      "settings": {
+        "content_direction": "row",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 45,
+        "section_width": "page-width",
+        "section_height": "",
+        "color_scheme": "scheme-1",
+        "background_media": "none",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "padding-block-start": 72,
+        "padding-block-end": 9
+      },
+      "blocks": {
+        "group_1": {
+          "type": "group",
+          "settings": {
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 22,
+            "height": "fit",
+            "inherit_color_scheme": true
+          },
+          "blocks": {
+            "icon_1": {
+              "type": "icon",
+              "settings": {
+                "icon": "none",
+                "image_upload": "shopify://shop_images/icon-globe-png-desktop-I2093175553911643.png",
+                "width": 65
+              }
+            },
+            "text_1": {
+              "type": "text",
+              "settings": {
+                "text": "<p><strong>Good Manufacturing<br>Practices</strong></p>",
+                "type_preset": "custom",
+                "font": "var(--font-body--family)",
+                "font_size": "1.25rem",
+                "line_height": "normal",
+                "letter_spacing": "tight",
+                "case": "none",
+                "wrap": "pretty",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "center",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            }
+          },
+          "block_order": ["icon_1", "text_1"]
+        },
+        "group_2": {
+          "type": "group",
+          "settings": {
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 22,
+            "height": "fit",
+            "inherit_color_scheme": true
+          },
+          "blocks": {
+            "icon_2": {
+              "type": "icon",
+              "settings": {
+                "icon": "none",
+                "image_upload": "shopify://shop_images/icon-atom-png-desktop-I2093175553911651.png",
+                "width": 65
+              }
+            },
+            "text_2": {
+              "type": "text",
+              "settings": {
+                "text": "<p><strong>Non Detectable GMO</strong></p>",
+                "type_preset": "custom",
+                "font": "var(--font-body--family)",
+                "font_size": "1.25rem",
+                "line_height": "normal",
+                "letter_spacing": "tight",
+                "case": "none",
+                "wrap": "pretty",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "center",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            }
+          },
+          "block_order": ["icon_2", "text_2"]
+        },
+        "group_3": {
+          "type": "group",
+          "settings": {
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 22,
+            "height": "fit",
+            "inherit_color_scheme": true
+          },
+          "blocks": {
+            "icon_3": {
+              "type": "icon",
+              "settings": {
+                "icon": "none",
+                "image_upload": "shopify://shop_images/icon-leaf-png-desktop-I2093175553911659.png",
+                "width": 65
+              }
+            },
+            "text_3": {
+              "type": "text",
+              "settings": {
+                "text": "<p><strong>Vegan</strong></p>",
+                "type_preset": "custom",
+                "font": "var(--font-body--family)",
+                "font_size": "1.25rem",
+                "line_height": "normal",
+                "letter_spacing": "tight",
+                "case": "none",
+                "wrap": "pretty",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "center",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            }
+          },
+          "block_order": ["icon_3", "text_3"]
+        },
+        "group_4": {
+          "type": "group",
+          "settings": {
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 22,
+            "height": "fit",
+            "inherit_color_scheme": true
+          },
+          "blocks": {
+            "icon_4": {
+              "type": "icon",
+              "settings": {
+                "icon": "none",
+                "image_upload": "shopify://shop_images/icon-dropslash-png-desktop-I2093175553911668.png",
+                "width": 65
+              }
+            },
+            "text_4": {
+              "type": "text",
+              "settings": {
+                "text": "<p><strong>Dairy Free</strong></p>",
+                "type_preset": "custom",
+                "font": "var(--font-body--family)",
+                "font_size": "1.25rem",
+                "line_height": "normal",
+                "letter_spacing": "tight",
+                "case": "none",
+                "wrap": "pretty",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "center",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            }
+          },
+          "block_order": ["icon_4", "text_4"]
+        }
+      },
+      "block_order": ["group_1", "group_2", "group_3", "group_4"]
+    },
+    "organic-text": {
+      "type": "section",
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 18,
+        "section_width": "page-width",
+        "section_height": "",
+        "color_scheme": "scheme-1",
+        "background_media": "none",
+        "border": "solid",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "padding-block-start": 36,
+        "padding-block-end": 36
+      },
+      "blocks": {
+        "subtitle": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Organic Ingredients</p>",
+            "type_preset": "custom",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "uppercase",
+            "wrap": "pretty",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "center",
+            "color": "var(--color-foreground)",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          }
+        },
+        "heading": {
+          "type": "text",
+          "settings": {
+            "text": "<p>We believe in considering the impact of the choices we make every day</p>",
+            "type_preset": "custom",
+            "font": "var(--font-heading--family)",
+            "font_size": "2.25rem",
+            "line_height": "tight",
+            "letter_spacing": "tight",
+            "case": "none",
+            "wrap": "balance",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "center",
+            "color": "var(--color-foreground-heading)",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          }
+        },
+        "body": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Sustainability is the epitome of allure in modern fashion. Our workout wear collection embodies this ethos, seamlessly blending eco-consciousness with undeniable sexiness. From sleek designs to flattering cuts, each piece exudes confidence and style while leaving</p>",
+            "type_preset": "custom",
+            "font": "var(--font-body--family)",
+            "font_size": "0.875rem",
+            "line_height": "loose",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "center",
+            "color": "var(--color-foreground)",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          }
+        }
+      },
+      "block_order": ["subtitle", "heading", "body"]
+    },
+    "shop-by-concern": {
+      "type": "shop-by-concern",
+      "settings": {
+        "section_width": "full-width",
+        "columns_desktop": 2,
+        "grid_gap": 0,
+        "overlay_opacity": 23,
+        "heading_font_size": 35,
+        "heading_line_height": 43,
+        "heading_letter_spacing": 1,
+        "heading_font_weight": "500",
+        "heading_text_transform": "none",
+        "heading_font_size_mobile": 24,
+        "subtitle_font_size": 18,
+        "subtitle_font_size_mobile": 14,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      },
+      "blocks": {
+        "concern_1": {
+          "type": "concern-card",
+          "settings": {
+            "image": "shopify://shop_images/screenshot-2025-12-05-at-9-54-29-am-1-desktop-209317558.png",
+            "heading": "Reduce Stress",
+            "subtitle": "Shop By Concern"
+          }
+        },
+        "concern_2": {
+          "type": "concern-card",
+          "settings": {
+            "image": "shopify://shop_images/screenshot-2025-12-05-at-9-54-29-am-3-desktop-209317564.png",
+            "heading": "Boost Metabolism",
+            "subtitle": "Shop By Concern"
+          }
+        },
+        "concern_3": {
+          "type": "concern-card",
+          "settings": {
+            "image": "shopify://shop_images/screenshot-2025-12-05-at-9-54-29-am-1-desktop-209317558.png",
+            "heading": "Burn Fat, Keep Muscle",
+            "subtitle": "Shop By Concern"
+          }
+        },
+        "concern_4": {
+          "type": "concern-card",
+          "settings": {
+            "image": "shopify://shop_images/screenshot-2025-12-05-at-9-54-29-am-4-desktop-209317574.jpg",
+            "heading": "Curb Cravings and Hunger",
+            "subtitle": "Shop By Concern"
+          }
+        }
+      },
+      "block_order": ["concern_1", "concern_2", "concern_3", "concern_4"]
+    },
+    "benefits": {
+      "type": "section",
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "flex-start",
+        "gap": 7,
+        "section_width": "page-width",
+        "section_height": "",
+        "color_scheme": "scheme-1",
+        "background_media": "none",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "padding-block-start": 24,
+        "padding-block-end": 24
+      },
+      "blocks": {
+        "benefits_heading": {
+          "type": "text",
+          "settings": {
+            "text": "<p><strong>Benefits</strong></p>",
+            "type_preset": "custom",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "color": "var(--color-foreground-heading)",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          }
+        },
+        "benefits_list": {
+          "type": "text",
+          "settings": {
+            "text": "<p>-Rapid Liquid Absorption<br>-Maximum Bioavailability<br>-Clinically-Backed Purity<br>-Gentle Digestion</p>",
+            "type_preset": "custom",
+            "font": "var(--font-body--family)",
+            "font_size": "1.25rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "color": "var(--color-foreground)",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          }
+        }
+      },
+      "block_order": ["benefits_heading", "benefits_list"]
+    }
+  },
+  "order": [
+    "ingredients-listing",
+    "icons-strip",
+    "organic-text",
+    "shop-by-concern",
+    "benefits"
+  ]
+}
