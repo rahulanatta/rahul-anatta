@@ -6,6 +6,7 @@
   assign breadcrumb_parent_2_text = section.settings.breadcrumb_parent_2_text
 %}
 
+<ingredient-drawer-component>
 <div
   class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style ingredients-listing"
   style="
@@ -90,7 +91,9 @@
           data-category="{{ card_category }}"
           {{ block.shopify_attributes }}
         >
-          {% if block.settings.url != blank %}
+          {% if block.settings.ingredient_handle != blank %}
+            <button type="button" data-ingredient-drawer="{{ block.id }}" class="ingredients-listing__card-link ingredients-listing__card-link--drawer">
+          {% elsif block.settings.url != blank %}
             <a href="{{ block.settings.url }}" class="ingredients-listing__card-link">
           {% endif %}
 
@@ -114,7 +117,9 @@
 
           <span class="ingredients-listing__card-title">{{ block.settings.title }} &rarr;</span>
 
-          {% if block.settings.url != blank %}
+          {% if block.settings.ingredient_handle != blank %}
+            </button>
+          {% elsif block.settings.url != blank %}
             </a>
           {% endif %}
         </div>
@@ -122,6 +127,111 @@
     </div>
   {% endif %}
 </div>
+
+{% comment %} Drawer templates for ingredient cards with metaobject handles {% endcomment %}
+{% for block in card_blocks %}
+  {%- if block.settings.ingredient_handle != blank -%}
+    {%- assign ingredient_mo = shop.metaobjects.ingredient_detail[block.settings.ingredient_handle] -%}
+    {%- if ingredient_mo -%}
+      <template data-ingredient="{{ block.id }}" data-title="{{ ingredient_mo.title.value | escape }}">
+        <div class="ingredient-drawer__content">
+
+          {% if ingredient_mo.main_image.value != blank %}
+            <img
+              src="{{ ingredient_mo.main_image.value | image_url: width: 1080 }}"
+              alt="{{ ingredient_mo.title.value | escape }}"
+              class="ingredient-drawer__main-image"
+              loading="lazy"
+              width="540"
+              height="297"
+            >
+          {% endif %}
+
+          {%- assign drawer_products = ingredient_mo.products.value -%}
+          {% if drawer_products != blank and drawer_products.size > 0 %}
+            <div class="ingredient-drawer__products">
+              <h3 class="ingredient-drawer__products-heading">Products with {{ ingredient_mo.title.value | escape }}</h3>
+              <div class="ingredient-drawer__products-grid">
+                {% for product_ref in drawer_products %}
+                  {% if product_ref != blank %}
+                    <a href="{{ product_ref.url }}" class="ingredient-drawer__product-card">
+                      {% if product_ref.featured_image != blank %}
+                        <img
+                          src="{{ product_ref.featured_image | image_url: width: 276 }}"
+                          alt="{{ product_ref.title | escape }}"
+                          class="ingredient-drawer__product-image"
+                          loading="lazy"
+                          width="138"
+                          height="138"
+                        >
+                      {% endif %}
+                    </a>
+                  {% endif %}
+                {% endfor %}
+              </div>
+            </div>
+          {% endif %}
+
+          {% if ingredient_mo.tagline.value != blank %}
+            <p class="ingredient-drawer__tagline">{{ ingredient_mo.tagline.value | escape }}</p>
+          {% endif %}
+
+          {% if ingredient_mo.benefits.value != blank %}
+            <h3 class="ingredient-drawer__benefits-heading">Benefits</h3>
+          {% endif %}
+
+          {%- assign gallery_images = ingredient_mo.gallery_images.value -%}
+          {% if gallery_images != blank and gallery_images.size > 0 %}
+            <div class="ingredient-drawer__gallery">
+              {% for gallery_img in gallery_images %}
+                {% if gallery_img != blank %}
+                  <img
+                    src="{{ gallery_img | image_url: width: 160 }}"
+                    alt="{{ ingredient_mo.title.value | escape }} gallery image {{ forloop.index }}"
+                    class="ingredient-drawer__gallery-thumb{% if forloop.first %} is-active{% endif %}"
+                    loading="lazy"
+                    width="80"
+                    height="80"
+                  >
+                {% endif %}
+              {% endfor %}
+              {% if gallery_images.size > 5 %}
+                <button type="button" class="ingredient-drawer__gallery-next" aria-label="Scroll gallery">
+                  <svg width="6" height="11" viewBox="0 0 6 11" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M1 1L5 5.5L1 10" stroke="#000000" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+              {% endif %}
+            </div>
+          {% endif %}
+
+          {% if ingredient_mo.description.value != blank %}
+            <p class="ingredient-drawer__description">{{ ingredient_mo.description.value | escape }}</p>
+          {% endif %}
+
+          {% if ingredient_mo.benefits.value != blank %}
+            <p class="ingredient-drawer__benefits-text">{{ ingredient_mo.benefits.value | escape }}</p>
+          {% endif %}
+
+          {% if ingredient_mo.banner_image.value != blank %}
+            <img
+              src="{{ ingredient_mo.banner_image.value | image_url: width: 1200 }}"
+              alt="{{ ingredient_mo.title.value | escape }} banner"
+              class="ingredient-drawer__banner"
+              loading="lazy"
+            >
+          {% endif %}
+
+        </div>
+      </template>
+    {%- endif -%}
+  {%- endif -%}
+{% endfor %}
+
+{% render 'ingredient-drawer', section_id: section.id %}
+
+<script src="{{ 'ingredient-drawer.js' | asset_url }}" type="module"></script>
+</ingredient-drawer-component>
 
 <script>
   (function() {
@@ -341,6 +451,263 @@
     font-size: var(--il-ingredient-title-font-size, 22px);
     line-height: 29px;
     color: var(--color-foreground);
+  }
+
+  .ingredients-listing__card-link--drawer {
+    appearance: none;
+    background: none;
+    text-align: start;
+    cursor: pointer;
+    padding: 0;
+    border: none;
+    color: inherit;
+    font: inherit;
+    width: 100%;
+  }
+
+  /* Ingredient Drawer Styles */
+  .ingredient-drawer__dialog {
+    width: 602px;
+    max-width: 100%;
+    height: 100dvh;
+    max-height: 100dvh;
+    margin: 0 0 0 auto;
+    padding: 0;
+    border: none;
+    background: #FFFFFF;
+  }
+
+  .ingredient-drawer__dialog[open] {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .ingredient-drawer__dialog::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  .ingredient-drawer__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    border-bottom: 1px solid #D3D3D3;
+    position: sticky;
+    top: 0;
+    background: #FFFFFF;
+    z-index: 1;
+    flex-shrink: 0;
+  }
+
+  .ingredient-drawer__title {
+    font-family: var(--font-body--family);
+    font-size: 18px;
+    line-height: 23px;
+    color: #141414;
+  }
+
+  .ingredient-drawer__close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .ingredient-drawer__body {
+    overflow-y: auto;
+    flex: 1;
+  }
+
+  .ingredient-drawer__content {
+    display: flex;
+    flex-direction: column;
+    gap: 34px;
+    padding: 34px 30px 14px;
+  }
+
+  .ingredient-drawer__main-image {
+    width: 100%;
+    aspect-ratio: 540 / 297;
+    object-fit: cover;
+    border-radius: 22px;
+    display: block;
+  }
+
+  .ingredient-drawer__products {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    overflow: hidden;
+  }
+
+  .ingredient-drawer__products-heading {
+    font-family: var(--font-body--family);
+    font-size: 24px;
+    line-height: 31px;
+    color: #141414;
+    margin: 0;
+  }
+
+  .ingredient-drawer__products-grid {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .ingredient-drawer__product-card {
+    flex: 0 0 138px;
+    width: 138px;
+    height: 138px;
+    border-radius: 20px;
+    border: 1px solid #E1E1E1;
+    background: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+  }
+
+  .ingredient-drawer__product-image {
+    max-width: 70%;
+    max-height: 80%;
+    object-fit: contain;
+    border-radius: 16px;
+  }
+
+  .ingredient-drawer__tagline {
+    font-family: var(--font-body--family);
+    font-size: 24px;
+    line-height: 31px;
+    color: #141414;
+    margin: 0;
+  }
+
+  .ingredient-drawer__benefits-heading {
+    font-family: var(--font-body--family);
+    font-size: 24px;
+    line-height: 31px;
+    color: #141414;
+    margin: 0;
+  }
+
+  .ingredient-drawer__gallery {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    overflow-x: auto;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .ingredient-drawer__gallery-thumb {
+    flex: 0 0 80px;
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.2s;
+
+    &.is-active {
+      border-color: #000000;
+    }
+  }
+
+  .ingredient-drawer__gallery-next {
+    flex: 0 0 33px;
+    width: 33px;
+    height: 33px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    border: 1px solid #535353;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .ingredient-drawer__description {
+    font-family: var(--font-body--family);
+    font-size: 16px;
+    line-height: 21px;
+    color: #141414;
+    margin: 0;
+    white-space: pre-line;
+  }
+
+  .ingredient-drawer__benefits-text {
+    font-family: var(--font-body--family);
+    font-size: 16px;
+    line-height: 21px;
+    color: #141414;
+    margin: 0;
+    white-space: pre-line;
+  }
+
+  .ingredient-drawer__banner {
+    width: 100%;
+    display: block;
+    border-radius: 0;
+  }
+
+  @media screen and (max-width: 1023px) {
+    .ingredient-drawer__dialog {
+      width: 100%;
+    }
+
+    .ingredient-drawer__content {
+      padding: 24px 16px 14px;
+      gap: 24px;
+    }
+
+    .ingredient-drawer__main-image {
+      aspect-ratio: 358 / 215;
+    }
+
+    .ingredient-drawer__product-card {
+      flex: 0 0 107px;
+      width: 107px;
+      height: 107px;
+      border-radius: 16px;
+    }
+
+    .ingredient-drawer__product-image {
+      border-radius: 12px;
+    }
+
+    .ingredient-drawer__gallery-thumb {
+      flex: 0 0 51px;
+      width: 51px;
+      height: 51px;
+      border-radius: 12px;
+    }
+
+    .ingredient-drawer__gallery-next {
+      flex: 0 0 21px;
+      width: 21px;
+      height: 21px;
+    }
+
+    .ingredient-drawer__gallery {
+      gap: 10px;
+    }
   }
 {% endstylesheet %}
 
@@ -699,6 +1066,12 @@
           "id": "category",
           "label": "Category",
           "info": "Must match a filter value to enable filtering"
+        },
+        {
+          "type": "text",
+          "id": "ingredient_handle",
+          "label": "Metaobject handle",
+          "info": "Handle of the ingredient_detail metaobject entry. When set, card opens a drawer instead of navigating."
         }
       ]
     }
