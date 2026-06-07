@@ -44,7 +44,10 @@ class IngredientDrawerComponent extends DialogComponent {
   };
 
   /**
-   * Opens the drawer with content from a matching template
+   * Opens the drawer with content from a matching template.
+   * If no template is found (metaobject not yet created or handle mismatch),
+   * the drawer still opens showing the default header with "Ingredient" title
+   * and an empty body — satisfying graceful degradation.
    * @param {string} blockId - The block ID to find the template for
    */
   #openIngredient(blockId) {
@@ -52,19 +55,19 @@ class IngredientDrawerComponent extends DialogComponent {
       this.querySelector(`template[data-ingredient="${blockId}"]`)
     );
 
-    if (!template) return;
-
     const { drawerTitle, drawerContent } = this.refs;
 
     if (drawerContent) {
       drawerContent.innerHTML = '';
-      const clone = template.content.cloneNode(true);
-      drawerContent.appendChild(clone);
-      this.#initGallery(drawerContent);
+      if (template) {
+        const clone = template.content.cloneNode(true);
+        drawerContent.appendChild(clone);
+        this.#initGallery(drawerContent);
+      }
     }
 
     if (drawerTitle) {
-      drawerTitle.textContent = template.dataset.title || 'Ingredient';
+      drawerTitle.textContent = (template && template.dataset.title) || 'Ingredient';
     }
 
     this.showDialog();
