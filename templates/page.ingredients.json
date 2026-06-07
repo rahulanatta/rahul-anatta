@@ -1,37 +1,16 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "ingredients-listing": {
       "type": "ingredients-listing",
-      "settings": {
-        "heading": "Advanced ingredients delivering real results",
-        "description": "Premium ingredients, optimized for impact. We source the highest quality compounds for maximum purity, delivering them through advanced liquid absorption so you never waste a drop of nutrition.*",
-        "heading_tag": "h1",
-        "show_breadcrumb": true,
-        "breadcrumb_parent_1_text": "Home",
-        "breadcrumb_parent_2_text": "Nutrition & Health",
-        "heading_font_size": 50,
-        "heading_line_height": 65,
-        "heading_font_size_mobile": 36,
-        "heading_line_height_mobile": 44,
-        "heading_text_transform": "none",
-        "heading_text_alignment": "left",
-        "description_font_size": 24,
-        "description_line_height": 31,
-        "description_font_size_mobile": 18,
-        "description_line_height_mobile": 26,
-        "ingredient_title_font_size": 22,
-        "breadcrumb_font_size": 14,
-        "grid_gap": 33,
-        "grid_row_gap": 33,
-        "card_border_radius": 30,
-        "card_gap": 13,
-        "color_scheme": "scheme-1",
-        "section_width": "page-width",
-        "padding-block-start": 24,
-        "padding-block-end": 40,
-        "padding-inline-start": 0,
-        "padding-inline-end": 0
-      },
       "blocks": {
         "filter_view_all": {
           "type": "category-filter",
@@ -87,6 +66,7 @@
           "settings": {
             "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317500.jpg",
             "title": "Ingredient",
+            "url": "",
             "category": "vitamins-minerals"
           }
         },
@@ -95,6 +75,7 @@
           "settings": {
             "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317503.jpg",
             "title": "Ingredient",
+            "url": "",
             "category": "vitamins-minerals"
           }
         },
@@ -103,6 +84,7 @@
           "settings": {
             "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317506.jpg",
             "title": "Ingredient",
+            "url": "",
             "category": "digestive-support"
           }
         },
@@ -111,6 +93,7 @@
           "settings": {
             "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317509.jpg",
             "title": "Ingredient",
+            "url": "",
             "category": "digestive-support"
           }
         },
@@ -119,6 +102,7 @@
           "settings": {
             "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317512.jpg",
             "title": "Ingredient",
+            "url": "",
             "category": "antioxidants"
           }
         },
@@ -127,6 +111,7 @@
           "settings": {
             "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317515.jpg",
             "title": "Ingredient",
+            "url": "",
             "category": "antioxidants"
           }
         },
@@ -135,6 +120,7 @@
           "settings": {
             "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317519.jpg",
             "title": "Ingredient",
+            "url": "",
             "category": "digestive-enzymes-botanical-extracts"
           }
         },
@@ -143,6 +129,7 @@
           "settings": {
             "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317522.png",
             "title": "Ingredient",
+            "url": "",
             "category": "digestive-enzymes-botanical-extracts"
           }
         },
@@ -151,6 +138,7 @@
           "settings": {
             "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317525.jpg",
             "title": "Ingredient",
+            "url": "",
             "category": "stress-adaptogens"
           }
         },
@@ -159,6 +147,7 @@
           "settings": {
             "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317528.png",
             "title": "Ingredient",
+            "url": "",
             "category": "stress-adaptogens"
           }
         },
@@ -167,6 +156,7 @@
           "settings": {
             "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317531.jpg",
             "title": "Ingredient",
+            "url": "",
             "category": "immune-defense"
           }
         },
@@ -175,6 +165,7 @@
           "settings": {
             "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317534.jpg",
             "title": "Ingredient",
+            "url": "",
             "category": "immune-defense"
           }
         },
@@ -183,6 +174,7 @@
           "settings": {
             "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317538.jpg",
             "title": "Ingredient",
+            "url": "",
             "category": "vitamins-minerals"
           }
         },
@@ -191,6 +183,7 @@
           "settings": {
             "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317541.jpg",
             "title": "Ingredient",
+            "url": "",
             "category": "digestive-support"
           }
         },
@@ -199,6 +192,7 @@
           "settings": {
             "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317506.jpg",
             "title": "Ingredient",
+            "url": "",
             "category": "antioxidants"
           }
         },
@@ -207,6 +201,7 @@
           "settings": {
             "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317500.jpg",
             "title": "Ingredient",
+            "url": "",
             "category": "digestive-enzymes-botanical-extracts"
           }
         },
@@ -215,6 +210,7 @@
           "settings": {
             "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317550.jpg",
             "title": "Ingredient",
+            "url": "",
             "category": "stress-adaptogens"
           }
         },
@@ -223,6 +219,7 @@
           "settings": {
             "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317512.jpg",
             "title": "Ingredient",
+            "url": "",
             "category": "immune-defense"
           }
         }
@@ -253,29 +250,42 @@
         "card_16",
         "card_17",
         "card_18"
-      ]
+      ],
+      "settings": {
+        "heading": "Advanced ingredients delivering real results",
+        "description": "Premium ingredients, optimized for impact. We source the highest quality compounds for maximum purity, delivering them through advanced liquid absorption so you never waste a drop of nutrition.*",
+        "heading_tag": "h1",
+        "show_breadcrumb": true,
+        "breadcrumb_parent_1_text": "Home",
+        "breadcrumb_parent_1_url": "",
+        "breadcrumb_parent_2_text": "Nutrition & Health",
+        "breadcrumb_parent_2_url": "",
+        "heading_font_size": 50,
+        "heading_line_height": 65,
+        "heading_font_size_mobile": 36,
+        "heading_line_height_mobile": 44,
+        "heading_text_transform": "none",
+        "heading_text_alignment": "left",
+        "description_font_size": 24,
+        "description_line_height": 31,
+        "description_font_size_mobile": 18,
+        "description_line_height_mobile": 26,
+        "ingredient_title_font_size": 22,
+        "breadcrumb_font_size": 14,
+        "grid_gap": 33,
+        "grid_row_gap": 33,
+        "card_border_radius": 30,
+        "card_gap": 13,
+        "color_scheme": "scheme-1",
+        "section_width": "page-width",
+        "padding-block-start": 24,
+        "padding-block-end": 40,
+        "padding-inline-start": 41,
+        "padding-inline-end": 31
+      }
     },
     "icons-strip": {
       "type": "section",
-      "settings": {
-        "content_direction": "row",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "horizontal_alignment_flex_direction_column": "center",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 45,
-        "section_width": "page-width",
-        "section_height": "",
-        "color_scheme": "scheme-1",
-        "background_media": "none",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_radius": 0,
-        "padding-block-start": 72,
-        "padding-block-end": 9
-      },
       "blocks": {
         "group_1": {
           "type": "group",
@@ -284,11 +294,36 @@
             "vertical_on_mobile": true,
             "horizontal_alignment": "flex-start",
             "vertical_alignment": "center",
+            "align_baseline": false,
             "horizontal_alignment_flex_direction_column": "center",
             "vertical_alignment_flex_direction_column": "center",
             "gap": 22,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
             "height": "fit",
-            "inherit_color_scheme": true
+            "custom_height": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
           },
           "blocks": {
             "icon_1": {
@@ -296,13 +331,19 @@
               "settings": {
                 "icon": "none",
                 "image_upload": "shopify://shop_images/icon-globe-png-desktop-I2093175553911643.png",
-                "width": 64
-              }
+                "width": 64,
+                "link": "",
+                "open_in_new_tab": false
+              },
+              "blocks": {}
             },
             "text_1": {
               "type": "text",
               "settings": {
                 "text": "<p><strong>Good Manufacturing<br>Practices</strong></p>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "center",
                 "type_preset": "custom",
                 "font": "var(--font-body--family)",
                 "font_size": "1.25rem",
@@ -310,17 +351,22 @@
                 "letter_spacing": "tight",
                 "case": "none",
                 "wrap": "pretty",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "center",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
-              }
+              },
+              "blocks": {}
             }
           },
-          "block_order": ["icon_1", "text_1"]
+          "block_order": [
+            "icon_1",
+            "text_1"
+          ]
         },
         "group_2": {
           "type": "group",
@@ -329,11 +375,36 @@
             "vertical_on_mobile": true,
             "horizontal_alignment": "flex-start",
             "vertical_alignment": "center",
+            "align_baseline": false,
             "horizontal_alignment_flex_direction_column": "center",
             "vertical_alignment_flex_direction_column": "center",
             "gap": 22,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
             "height": "fit",
-            "inherit_color_scheme": true
+            "custom_height": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
           },
           "blocks": {
             "icon_2": {
@@ -341,13 +412,19 @@
               "settings": {
                 "icon": "none",
                 "image_upload": "shopify://shop_images/icon-atom-png-desktop-I2093175553911651.png",
-                "width": 64
-              }
+                "width": 64,
+                "link": "",
+                "open_in_new_tab": false
+              },
+              "blocks": {}
             },
             "text_2": {
               "type": "text",
               "settings": {
                 "text": "<p><strong>Non Detectable GMO</strong></p>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "center",
                 "type_preset": "custom",
                 "font": "var(--font-body--family)",
                 "font_size": "1.25rem",
@@ -355,17 +432,22 @@
                 "letter_spacing": "tight",
                 "case": "none",
                 "wrap": "pretty",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "center",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
-              }
+              },
+              "blocks": {}
             }
           },
-          "block_order": ["icon_2", "text_2"]
+          "block_order": [
+            "icon_2",
+            "text_2"
+          ]
         },
         "group_3": {
           "type": "group",
@@ -374,11 +456,36 @@
             "vertical_on_mobile": true,
             "horizontal_alignment": "flex-start",
             "vertical_alignment": "center",
+            "align_baseline": false,
             "horizontal_alignment_flex_direction_column": "center",
             "vertical_alignment_flex_direction_column": "center",
             "gap": 22,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
             "height": "fit",
-            "inherit_color_scheme": true
+            "custom_height": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
           },
           "blocks": {
             "icon_3": {
@@ -386,13 +493,19 @@
               "settings": {
                 "icon": "none",
                 "image_upload": "shopify://shop_images/icon-leaf-png-desktop-I2093175553911659.png",
-                "width": 64
-              }
+                "width": 64,
+                "link": "",
+                "open_in_new_tab": false
+              },
+              "blocks": {}
             },
             "text_3": {
               "type": "text",
               "settings": {
                 "text": "<p><strong>Vegan</strong></p>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "center",
                 "type_preset": "custom",
                 "font": "var(--font-body--family)",
                 "font_size": "1.25rem",
@@ -400,17 +513,22 @@
                 "letter_spacing": "tight",
                 "case": "none",
                 "wrap": "pretty",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "center",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
-              }
+              },
+              "blocks": {}
             }
           },
-          "block_order": ["icon_3", "text_3"]
+          "block_order": [
+            "icon_3",
+            "text_3"
+          ]
         },
         "group_4": {
           "type": "group",
@@ -419,11 +537,36 @@
             "vertical_on_mobile": true,
             "horizontal_alignment": "flex-start",
             "vertical_alignment": "center",
+            "align_baseline": false,
             "horizontal_alignment_flex_direction_column": "center",
             "vertical_alignment_flex_direction_column": "center",
             "gap": 22,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
             "height": "fit",
-            "inherit_color_scheme": true
+            "custom_height": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
           },
           "blocks": {
             "icon_4": {
@@ -431,13 +574,19 @@
               "settings": {
                 "icon": "none",
                 "image_upload": "shopify://shop_images/icon-dropslash-png-desktop-I2093175553911668.png",
-                "width": 64
-              }
+                "width": 64,
+                "link": "",
+                "open_in_new_tab": false
+              },
+              "blocks": {}
             },
             "text_4": {
               "type": "text",
               "settings": {
                 "text": "<p><strong>Dairy Free</strong></p>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "center",
                 "type_preset": "custom",
                 "font": "var(--font-body--family)",
                 "font_size": "1.25rem",
@@ -445,47 +594,68 @@
                 "letter_spacing": "tight",
                 "case": "none",
                 "wrap": "pretty",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "center",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
-              }
+              },
+              "blocks": {}
             }
           },
-          "block_order": ["icon_4", "text_4"]
+          "block_order": [
+            "icon_4",
+            "text_4"
+          ]
         }
       },
-      "block_order": ["group_1", "group_2", "group_3", "group_4"]
-    },
-    "organic-text": {
-      "type": "section",
+      "block_order": [
+        "group_1",
+        "group_2",
+        "group_3",
+        "group_4"
+      ],
       "settings": {
-        "content_direction": "column",
+        "content_direction": "row",
         "vertical_on_mobile": true,
         "horizontal_alignment": "flex-start",
         "vertical_alignment": "center",
+        "align_baseline": false,
         "horizontal_alignment_flex_direction_column": "center",
         "vertical_alignment_flex_direction_column": "center",
-        "gap": 18,
+        "gap": 45,
         "section_width": "page-width",
         "section_height": "",
+        "section_height_custom": 50,
         "color_scheme": "scheme-1",
         "background_media": "none",
-        "border": "solid",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
         "border_width": 1,
         "border_opacity": 100,
         "border_radius": 0,
-        "padding-block-start": 36,
-        "padding-block-end": 36
-      },
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 72,
+        "padding-block-end": 9
+      }
+    },
+    "organic-text": {
+      "type": "section",
       "blocks": {
         "subtitle": {
           "type": "text",
           "settings": {
             "text": "<p>Organic Ingredients</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "center",
             "type_preset": "custom",
             "font": "var(--font-body--family)",
             "font_size": "1rem",
@@ -493,20 +663,24 @@
             "letter_spacing": "normal",
             "case": "uppercase",
             "wrap": "pretty",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "center",
             "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
             "padding-block-start": 0,
             "padding-block-end": 0,
             "padding-inline-start": 0,
             "padding-inline-end": 0
-          }
+          },
+          "blocks": {}
         },
         "heading": {
           "type": "text",
           "settings": {
             "text": "<p>We believe in considering the impact of the choices we make every day</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "center",
             "type_preset": "custom",
             "font": "var(--font-heading--family)",
             "font_size": "2.25rem",
@@ -514,20 +688,24 @@
             "letter_spacing": "tight",
             "case": "none",
             "wrap": "balance",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "center",
             "color": "var(--color-foreground-heading)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
             "padding-block-start": 0,
             "padding-block-end": 0,
             "padding-inline-start": 0,
             "padding-inline-end": 0
-          }
+          },
+          "blocks": {}
         },
         "body": {
           "type": "text",
           "settings": {
             "text": "<p>Sustainability is the epitome of allure in modern fashion. Our workout wear collection embodies this ethos, seamlessly blending eco-consciousness with undeniable sexiness. From sleek designs to flattering cuts, each piece exudes confidence and style while leaving</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "center",
             "type_preset": "custom",
             "font": "var(--font-body--family)",
             "font_size": "0.875rem",
@@ -535,21 +713,97 @@
             "letter_spacing": "normal",
             "case": "none",
             "wrap": "pretty",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "center",
             "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
             "padding-block-start": 0,
             "padding-block-end": 0,
             "padding-inline-start": 0,
             "padding-inline-end": 0
-          }
+          },
+          "blocks": {}
         }
       },
-      "block_order": ["subtitle", "heading", "body"]
+      "block_order": [
+        "subtitle",
+        "heading",
+        "body"
+      ],
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 18,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-1",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "solid",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 36,
+        "padding-block-end": 36
+      }
     },
     "shop-by-concern": {
       "type": "shop-by-concern",
+      "blocks": {
+        "concern_1": {
+          "type": "concern-card",
+          "settings": {
+            "image": "shopify://shop_images/screenshot-2025-12-05-at-9-54-29-am-1-desktop-209317558.png",
+            "heading": "Reduce Stress",
+            "subtitle": "Shop By Concern",
+            "url": ""
+          }
+        },
+        "concern_2": {
+          "type": "concern-card",
+          "settings": {
+            "image": "shopify://shop_images/screenshot-2025-12-05-at-9-54-29-am-3-desktop-209317564.png",
+            "heading": "Boost Metabolism",
+            "subtitle": "Shop By Concern",
+            "url": ""
+          }
+        },
+        "concern_3": {
+          "type": "concern-card",
+          "settings": {
+            "image": "shopify://shop_images/screenshot-2025-12-05-at-9-54-29-am-1-desktop-209317558.png",
+            "heading": "Burn Fat, Keep Muscle",
+            "subtitle": "Shop By Concern",
+            "url": ""
+          }
+        },
+        "concern_4": {
+          "type": "concern-card",
+          "settings": {
+            "image": "shopify://shop_images/screenshot-2025-12-05-at-9-54-29-am-4-desktop-209317574.jpg",
+            "heading": "Curb Cravings and Hunger",
+            "subtitle": "Shop By Concern",
+            "url": ""
+          }
+        }
+      },
+      "block_order": [
+        "concern_1",
+        "concern_2",
+        "concern_3",
+        "concern_4"
+      ],
       "settings": {
         "section_width": "full-width",
         "columns_desktop": 2,
@@ -566,69 +820,18 @@
         "color_scheme": "scheme-1",
         "padding-block-start": 0,
         "padding-block-end": 0
-      },
-      "blocks": {
-        "concern_1": {
-          "type": "concern-card",
-          "settings": {
-            "image": "shopify://shop_images/screenshot-2025-12-05-at-9-54-29-am-1-desktop-209317558.png",
-            "heading": "Reduce Stress",
-            "subtitle": "Shop By Concern"
-          }
-        },
-        "concern_2": {
-          "type": "concern-card",
-          "settings": {
-            "image": "shopify://shop_images/screenshot-2025-12-05-at-9-54-29-am-3-desktop-209317564.png",
-            "heading": "Boost Metabolism",
-            "subtitle": "Shop By Concern"
-          }
-        },
-        "concern_3": {
-          "type": "concern-card",
-          "settings": {
-            "image": "shopify://shop_images/screenshot-2025-12-05-at-9-54-29-am-1-desktop-209317558.png",
-            "heading": "Burn Fat, Keep Muscle",
-            "subtitle": "Shop By Concern"
-          }
-        },
-        "concern_4": {
-          "type": "concern-card",
-          "settings": {
-            "image": "shopify://shop_images/screenshot-2025-12-05-at-9-54-29-am-4-desktop-209317574.jpg",
-            "heading": "Curb Cravings and Hunger",
-            "subtitle": "Shop By Concern"
-          }
-        }
-      },
-      "block_order": ["concern_1", "concern_2", "concern_3", "concern_4"]
+      }
     },
     "benefits": {
       "type": "section",
-      "settings": {
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "horizontal_alignment_flex_direction_column": "flex-start",
-        "vertical_alignment_flex_direction_column": "flex-start",
-        "gap": 7,
-        "section_width": "page-width",
-        "section_height": "",
-        "color_scheme": "scheme-1",
-        "background_media": "none",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_radius": 0,
-        "padding-block-start": 24,
-        "padding-block-end": 24
-      },
       "blocks": {
         "benefits_heading": {
           "type": "text",
           "settings": {
             "text": "<p><strong>Benefits</strong></p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
             "type_preset": "custom",
             "font": "var(--font-body--family)",
             "font_size": "1rem",
@@ -636,20 +839,24 @@
             "letter_spacing": "normal",
             "case": "none",
             "wrap": "pretty",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "left",
             "color": "var(--color-foreground-heading)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
             "padding-block-start": 0,
             "padding-block-end": 0,
             "padding-inline-start": 0,
             "padding-inline-end": 0
-          }
+          },
+          "blocks": {}
         },
         "benefits_list": {
           "type": "text",
           "settings": {
             "text": "<p>-Rapid Liquid Absorption<br>-Maximum Bioavailability<br>-Clinically-Backed Purity<br>-Gentle Digestion</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
             "type_preset": "custom",
             "font": "var(--font-body--family)",
             "font_size": "1.25rem",
@@ -657,18 +864,50 @@
             "letter_spacing": "normal",
             "case": "none",
             "wrap": "pretty",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "left",
             "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
             "padding-block-start": 0,
             "padding-block-end": 0,
             "padding-inline-start": 0,
             "padding-inline-end": 0
-          }
+          },
+          "blocks": {}
         }
       },
-      "block_order": ["benefits_heading", "benefits_list"]
+      "block_order": [
+        "benefits_heading",
+        "benefits_list"
+      ],
+      "disabled": true,
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "flex-start",
+        "gap": 7,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-1",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 24,
+        "padding-block-end": 24
+      }
     }
   },
   "order": [
