@@ -662,7 +662,8 @@
   }
 
   .ingredient-drawer__banner {
-    width: 100%;
+    width: calc(100% + 60px);
+    margin-inline: -30px;
     display: block;
     border-radius: 0;
   }
@@ -705,8 +706,17 @@
       height: 21px;
     }
 
+    .ingredient-drawer__gallery-thumb.is-active {
+      border-width: 1px;
+    }
+
     .ingredient-drawer__gallery {
       gap: 10px;
+    }
+
+    .ingredient-drawer__banner {
+      width: calc(100% + 32px);
+      margin-inline: -16px;
     }
   }
 {% endstylesheet %}
