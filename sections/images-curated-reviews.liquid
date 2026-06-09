@@ -1,0 +1,553 @@
+{% liquid
+  assign heading_tag = section.settings.heading_tag | default: 'h2'
+  assign image_blocks = section.blocks | where: 'type', 'image-block'
+  assign review_blocks = section.blocks | where: 'type', 'review-card'
+%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div
+  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style images-curated-reviews"
+  style="
+    {%- render 'spacing-style', settings: section.settings -%}
+    --icr-image-columns: {{ section.settings.image_columns }};
+    --icr-image-gap: {{ section.settings.image_gap }}px;
+    --icr-image-aspect-ratio: {{ section.settings.image_aspect_ratio }};
+    --icr-review-columns: {{ section.settings.review_columns }};
+    --icr-review-gap: {{ section.settings.review_gap }}px;
+    --icr-section-gap: {{ section.settings.section_gap }}px;
+  "
+>
+  {% if section.settings.heading != blank %}
+    <{{ heading_tag }} class="images-curated-reviews__heading">
+      {{- section.settings.heading | escape -}}
+    </{{ heading_tag }}>
+  {% endif %}
+
+  {% if image_blocks.size > 0 %}
+    <div class="images-curated-reviews__images-grid">
+      {% for block in image_blocks %}
+        <div class="images-curated-reviews__image-item" {{ block.shopify_attributes }}>
+          {% if block.settings.image != blank %}
+            {%- assign img_alt = block.settings.image_alt | default: block.settings.image.alt -%}
+            {%- assign sizes_val = '(min-width: 1024px) 25vw, (min-width: 750px) 33vw, 70vw' -%}
+            {{
+              block.settings.image
+              | image_url: width: block.settings.image.width
+              | image_tag:
+                widths: '200,300,400,500,600,800',
+                sizes: sizes_val,
+                loading: 'lazy',
+                class: 'images-curated-reviews__image',
+                alt: img_alt
+            }}
+          {% else %}
+            <div class="images-curated-reviews__image images-curated-reviews__image--placeholder">
+              {{ 'image' | placeholder_svg_tag }}
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {% if review_blocks.size > 0 %}
+    <div class="images-curated-reviews__reviews-grid">
+      {% for block in review_blocks %}
+        <div class="images-curated-reviews__review-card" {{ block.shopify_attributes }}>
+          <div class="images-curated-reviews__stars">
+            {% if block.settings.stars_image != blank %}
+              <img
+                src="{{ block.settings.stars_image | image_url: width: 232 }}"
+                alt="Star rating"
+                width="116"
+                height="20"
+                loading="lazy"
+              >
+            {% else %}
+              {% assign star_count = block.settings.star_count | default: 5 %}
+              {% for i in (1..5) %}
+                {% if i <= star_count %}
+                  <svg class="images-curated-reviews__star images-curated-reviews__star--filled" width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M10 1.25L12.47 7.025L18.75 7.6125L13.9625 11.725L15.4375 17.8625L10 14.5125L4.5625 17.8625L6.0375 11.725L1.25 7.6125L7.53 7.025L10 1.25Z" fill="currentColor"/>
+                  </svg>
+                {% else %}
+                  <svg class="images-curated-reviews__star images-curated-reviews__star--empty" width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M10 1.25L12.47 7.025L18.75 7.6125L13.9625 11.725L15.4375 17.8625L10 14.5125L4.5625 17.8625L6.0375 11.725L1.25 7.6125L7.53 7.025L10 1.25Z" stroke="currentColor" stroke-width="1"/>
+                  </svg>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          </div>
+
+          {% if block.settings.review_text != blank %}
+            <p class="images-curated-reviews__review-text">{{ block.settings.review_text | escape }}</p>
+          {% endif %}
+
+          <div class="images-curated-reviews__reviewer">
+            {% if block.settings.reviewer_image != blank %}
+              <img
+                class="images-curated-reviews__reviewer-image"
+                src="{{ block.settings.reviewer_image | image_url: width: 96 }}"
+                alt="{{ block.settings.reviewer_name | escape }}"
+                width="48"
+                height="48"
+                loading="lazy"
+              >
+            {% endif %}
+            {% if block.settings.reviewer_name != blank %}
+              <span class="images-curated-reviews__reviewer-name">{{ block.settings.reviewer_name | escape }}</span>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
+
+{% stylesheet %}
+  .images-curated-reviews {
+    display: flex;
+    flex-direction: column;
+    gap: var(--icr-section-gap, 40px);
+  }
+
+  .images-curated-reviews__heading {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-weight: var(--font-heading--weight, 500);
+    font-size: 32px;
+    line-height: 42px;
+    letter-spacing: -0.8px;
+    color: var(--color-foreground-heading);
+    text-align: center;
+  }
+
+  /* ---- Images Grid ---- */
+
+  .images-curated-reviews__images-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--icr-image-columns, 4), 1fr);
+    gap: var(--icr-image-gap, 16px);
+  }
+
+  .images-curated-reviews__image-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+  }
+
+  .images-curated-reviews__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    aspect-ratio: var(--icr-image-aspect-ratio, 1 / 1);
+  }
+
+  .images-curated-reviews__image--placeholder {
+    aspect-ratio: var(--icr-image-aspect-ratio, 1 / 1);
+    background: rgb(var(--color-foreground-rgb) / 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    & svg {
+      width: 50%;
+      height: 50%;
+      opacity: 0.3;
+    }
+  }
+
+  /* ---- Reviews Grid ---- */
+
+  .images-curated-reviews__reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--icr-review-columns, 3), 1fr);
+    gap: var(--icr-review-gap, 24px);
+  }
+
+  .images-curated-reviews__review-card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px;
+    border: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-5-15));
+    border-radius: 12px;
+    background: var(--color-background);
+  }
+
+  .images-curated-reviews__stars {
+    display: flex;
+    gap: 2px;
+    color: #F5A623;
+  }
+
+  .images-curated-reviews__stars img {
+    display: block;
+    width: 116px;
+    height: 20px;
+  }
+
+  .images-curated-reviews__star--empty {
+    color: rgb(var(--color-foreground-rgb) / 0.2);
+  }
+
+  .images-curated-reviews__review-text {
+    margin: 0;
+    font-family: var(--font-body--family);
+    font-size: 15px;
+    line-height: 24px;
+    color: var(--color-foreground);
+  }
+
+  .images-curated-reviews__reviewer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-block-start: auto;
+  }
+
+  .images-curated-reviews__reviewer-image {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .images-curated-reviews__reviewer-name {
+    font-family: var(--font-body--family);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    color: var(--color-foreground);
+  }
+
+  /* ---- Tablet ---- */
+
+  @media screen and (max-width: 1023px) {
+    .images-curated-reviews__images-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .images-curated-reviews__reviews-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  /* ---- Mobile ---- */
+
+  @media screen and (max-width: 749px) {
+    .images-curated-reviews__heading {
+      font-size: 24px;
+      line-height: 31px;
+    }
+
+    .images-curated-reviews__images-grid {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      gap: var(--icr-image-gap, 12px);
+      padding-block: 4px;
+    }
+
+    .images-curated-reviews__images-grid::-webkit-scrollbar {
+      display: none;
+    }
+
+    .images-curated-reviews__image-item {
+      flex: 0 0 70vw;
+      max-width: 280px;
+      scroll-snap-align: start;
+    }
+
+    .images-curated-reviews__reviews-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .images-curated-reviews__review-card {
+      padding: 20px;
+    }
+
+    .images-curated-reviews__review-text {
+      font-size: 14px;
+      line-height: 22px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .images-curated-reviews__images-grid {
+      scroll-behavior: auto;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Images & Curated Reviews",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading tag",
+      "options": [
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "header",
+      "content": "Images Layout"
+    },
+    {
+      "type": "range",
+      "id": "image_columns",
+      "label": "Columns (desktop)",
+      "min": 3,
+      "max": 6,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "image_gap",
+      "label": "Image gap",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "image_aspect_ratio",
+      "label": "Image aspect ratio",
+      "options": [
+        { "value": "1 / 1", "label": "Square (1:1)" },
+        { "value": "3 / 4", "label": "Portrait (3:4)" },
+        { "value": "4 / 3", "label": "Landscape (4:3)" },
+        { "value": "auto", "label": "Original" }
+      ],
+      "default": "1 / 1"
+    },
+    {
+      "type": "header",
+      "content": "Reviews Layout"
+    },
+    {
+      "type": "range",
+      "id": "review_columns",
+      "label": "Columns (desktop)",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "review_gap",
+      "label": "Review gap",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "section_gap",
+      "label": "Gap between areas",
+      "min": 0,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Left padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Right padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image-block",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Alt text"
+        }
+      ]
+    },
+    {
+      "type": "review-card",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "stars_image",
+          "label": "Stars image"
+        },
+        {
+          "type": "range",
+          "id": "star_count",
+          "label": "Star rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "review_text",
+          "label": "Review text",
+          "default": "This product is amazing! Highly recommended."
+        },
+        {
+          "type": "text",
+          "id": "reviewer_name",
+          "label": "Reviewer name",
+          "default": "Customer"
+        },
+        {
+          "type": "image_picker",
+          "id": "reviewer_image",
+          "label": "Reviewer image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Images & Curated Reviews",
+      "category": "t:categories.storytelling",
+      "blocks": [
+        {
+          "type": "image-block"
+        },
+        {
+          "type": "image-block"
+        },
+        {
+          "type": "image-block"
+        },
+        {
+          "type": "image-block"
+        },
+        {
+          "type": "review-card",
+          "settings": {
+            "star_count": 5,
+            "review_text": "Love the colors. Creamy, moisturizing and the color stays. Especially love the packaging. It's magnetic.",
+            "reviewer_name": "Nancy W."
+          }
+        },
+        {
+          "type": "review-card",
+          "settings": {
+            "star_count": 5,
+            "review_text": "Great quality and fast shipping. I've been using this for a month and love the results! Highly recommend.",
+            "reviewer_name": "Sarah M."
+          }
+        },
+        {
+          "type": "review-card",
+          "settings": {
+            "star_count": 5,
+            "review_text": "Exceeded my expectations. The texture is perfect and it works wonders. Will definitely buy again.",
+            "reviewer_name": "James K."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
