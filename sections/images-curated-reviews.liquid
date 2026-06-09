@@ -1,7 +1,5 @@
 {% liquid
   assign heading_tag = section.settings.heading_tag | default: 'h2'
-  assign image_blocks = section.blocks | where: 'type', 'image-block'
-  assign review_blocks = section.blocks | where: 'type', 'review-card'
 %}
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
@@ -9,12 +7,10 @@
   class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style images-curated-reviews"
   style="
     {%- render 'spacing-style', settings: section.settings -%}
-    --icr-image-columns: {{ section.settings.image_columns }};
-    --icr-image-gap: {{ section.settings.image_gap }}px;
-    --icr-image-aspect-ratio: {{ section.settings.image_aspect_ratio }};
-    --icr-review-columns: {{ section.settings.review_columns }};
-    --icr-review-gap: {{ section.settings.review_gap }}px;
-    --icr-section-gap: {{ section.settings.section_gap }}px;
+    --icr-margin-block-start: {{ section.settings.margin_block_start }}px;
+    --icr-margin-block-end: {{ section.settings.margin_block_end }}px;
+    --icr-card-radius: {{ section.settings.card_corner_radius }}px;
+    --icr-image-radius: {{ section.settings.image_corner_radius }}px;
   "
 >
   {% if section.settings.heading != blank %}
@@ -23,96 +19,127 @@
     </{{ heading_tag }}>
   {% endif %}
 
-  {% if image_blocks.size > 0 %}
-    <div class="images-curated-reviews__images-grid">
-      {% for block in image_blocks %}
-        <div class="images-curated-reviews__image-item" {{ block.shopify_attributes }}>
-          {% if block.settings.image != blank %}
-            {%- assign img_alt = block.settings.image_alt | default: block.settings.image.alt -%}
-            {%- assign sizes_val = '(min-width: 1024px) 25vw, (min-width: 750px) 33vw, 70vw' -%}
-            {{
-              block.settings.image
-              | image_url: width: block.settings.image.width
-              | image_tag:
-                widths: '200,300,400,500,600,800',
-                sizes: sizes_val,
-                loading: 'lazy',
-                class: 'images-curated-reviews__image',
-                alt: img_alt
-            }}
-          {% else %}
-            <div class="images-curated-reviews__image images-curated-reviews__image--placeholder">
-              {{ 'image' | placeholder_svg_tag }}
-            </div>
-          {% endif %}
-        </div>
-      {% endfor %}
-    </div>
-  {% endif %}
+  {% if section.blocks.size > 0 %}
+    <images-curated-reviews class="images-curated-reviews__wrapper">
+      <div class="images-curated-reviews__content">
+        <div class="images-curated-reviews__track" ref="track">
+          {% for block in section.blocks %}
+            <div class="images-curated-reviews__slide" {{ block.shopify_attributes }}>
+              {% if block.settings.image != blank %}
+                {%- assign img_alt = block.settings.image_alt | default: block.settings.reviewer_name -%}
+                {%- assign sizes_val = '(min-width: 750px) 500px, 90vw' -%}
+                {{
+                  block.settings.image
+                  | image_url: width: block.settings.image.width
+                  | image_tag:
+                    widths: '300,400,500,600,800,1000',
+                    sizes: sizes_val,
+                    loading: 'lazy',
+                    class: 'images-curated-reviews__image',
+                    alt: img_alt
+                }}
+              {% endif %}
 
-  {% if review_blocks.size > 0 %}
-    <div class="images-curated-reviews__reviews-grid">
-      {% for block in review_blocks %}
-        <div class="images-curated-reviews__review-card" {{ block.shopify_attributes }}>
-          <div class="images-curated-reviews__stars">
-            {% if block.settings.stars_image != blank %}
-              <img
-                src="{{ block.settings.stars_image | image_url: width: 232 }}"
-                alt="Star rating"
-                width="116"
-                height="20"
-                loading="lazy"
-              >
-            {% else %}
-              {% assign star_count = block.settings.star_count | default: 5 %}
-              {% for i in (1..5) %}
-                {% if i <= star_count %}
-                  <svg class="images-curated-reviews__star images-curated-reviews__star--filled" width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path d="M10 1.25L12.47 7.025L18.75 7.6125L13.9625 11.725L15.4375 17.8625L10 14.5125L4.5625 17.8625L6.0375 11.725L1.25 7.6125L7.53 7.025L10 1.25Z" fill="currentColor"/>
-                  </svg>
+              <div class="images-curated-reviews__stars">
+                {% if block.settings.stars_image != blank %}
+                  <img
+                    src="{{ block.settings.stars_image | image_url: width: 232 }}"
+                    alt="Star rating"
+                    width="116"
+                    height="20"
+                    loading="lazy"
+                  >
                 {% else %}
-                  <svg class="images-curated-reviews__star images-curated-reviews__star--empty" width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path d="M10 1.25L12.47 7.025L18.75 7.6125L13.9625 11.725L15.4375 17.8625L10 14.5125L4.5625 17.8625L6.0375 11.725L1.25 7.6125L7.53 7.025L10 1.25Z" stroke="currentColor" stroke-width="1"/>
-                  </svg>
+                  {% assign star_count = block.settings.star_count | default: 5 %}
+                  {% for i in (1..5) %}
+                    {% if i <= star_count %}
+                      <svg class="images-curated-reviews__star images-curated-reviews__star--filled" width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M10 1.25L12.47 7.025L18.75 7.6125L13.9625 11.725L15.4375 17.8625L10 14.5125L4.5625 17.8625L6.0375 11.725L1.25 7.6125L7.53 7.025L10 1.25Z" fill="currentColor"/>
+                      </svg>
+                    {% else %}
+                      <svg class="images-curated-reviews__star images-curated-reviews__star--empty" width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M10 1.25L12.47 7.025L18.75 7.6125L13.9625 11.725L15.4375 17.8625L10 14.5125L4.5625 17.8625L6.0375 11.725L1.25 7.6125L7.53 7.025L10 1.25Z" stroke="currentColor" stroke-width="1"/>
+                      </svg>
+                    {% endif %}
+                  {% endfor %}
                 {% endif %}
-              {% endfor %}
-            {% endif %}
-          </div>
+              </div>
 
-          {% if block.settings.review_text != blank %}
-            <p class="images-curated-reviews__review-text">{{ block.settings.review_text | escape }}</p>
-          {% endif %}
+              {% if block.settings.review_text != blank %}
+                <p class="images-curated-reviews__text">{{ block.settings.review_text | escape }}</p>
+              {% endif %}
 
-          <div class="images-curated-reviews__reviewer">
-            {% if block.settings.reviewer_image != blank %}
-              <img
-                class="images-curated-reviews__reviewer-image"
-                src="{{ block.settings.reviewer_image | image_url: width: 96 }}"
-                alt="{{ block.settings.reviewer_name | escape }}"
-                width="48"
-                height="48"
-                loading="lazy"
-              >
-            {% endif %}
-            {% if block.settings.reviewer_name != blank %}
-              <span class="images-curated-reviews__reviewer-name">{{ block.settings.reviewer_name | escape }}</span>
-            {% endif %}
-          </div>
+              <div class="images-curated-reviews__reviewer">
+                {% if block.settings.reviewer_image != blank %}
+                  <img
+                    class="images-curated-reviews__reviewer-image"
+                    src="{{ block.settings.reviewer_image | image_url: width: 96 }}"
+                    alt="{{ block.settings.reviewer_name | escape }}"
+                    width="48"
+                    height="48"
+                    loading="lazy"
+                  >
+                {% endif %}
+                {% if block.settings.reviewer_name != blank %}
+                  <span class="images-curated-reviews__reviewer-name">{{ block.settings.reviewer_name | escape }}</span>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
         </div>
-      {% endfor %}
-    </div>
+
+        {% if section.blocks.size > 1 %}
+          <div class="images-curated-reviews__nav">
+            <button
+              type="button"
+              class="images-curated-reviews__nav-btn images-curated-reviews__nav-btn--prev"
+              ref="prevButton"
+              aria-label="Previous review"
+              on:click="/handlePrev"
+              disabled
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+
+            <div class="images-curated-reviews__dots">
+              {% for block in section.blocks %}
+                <span
+                  class="images-curated-reviews__dot{% if forloop.first %} images-curated-reviews__dot--active{% endif %}"
+                  aria-hidden="true"
+                ></span>
+              {% endfor %}
+            </div>
+
+            <button
+              type="button"
+              class="images-curated-reviews__nav-btn images-curated-reviews__nav-btn--next"
+              ref="nextButton"
+              aria-label="Next review"
+              on:click="/handleNext"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+        {% endif %}
+      </div>
+    </images-curated-reviews>
   {% endif %}
 </div>
 
+<script src="{{ 'images-curated-reviews.js' | asset_url }}" type="module"></script>
+
 {% stylesheet %}
   .images-curated-reviews {
-    display: flex;
-    flex-direction: column;
-    gap: var(--icr-section-gap, 40px);
+    margin-block-start: var(--icr-margin-block-start, 0);
+    margin-block-end: var(--icr-margin-block-end, 0);
   }
 
   .images-curated-reviews__heading {
-    margin: 0;
+    margin: 0 0 24px;
     font-family: var(--font-heading--family);
     font-weight: var(--font-heading--weight, 500);
     font-size: 32px;
@@ -122,64 +149,56 @@
     text-align: center;
   }
 
-  /* ---- Images Grid ---- */
-
-  .images-curated-reviews__images-grid {
-    display: grid;
-    grid-template-columns: repeat(var(--icr-image-columns, 4), 1fr);
-    gap: var(--icr-image-gap, 16px);
+  .images-curated-reviews__wrapper {
+    display: block;
+    width: 100%;
+    border-radius: var(--icr-card-radius, 16px);
   }
 
-  .images-curated-reviews__image-item {
-    position: relative;
-    overflow: hidden;
-    border-radius: 8px;
+  .images-curated-reviews__content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: center;
+    padding: 39px 24px 80px 24px;
+  }
+
+  .images-curated-reviews__track {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+  }
+
+  .images-curated-reviews__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .images-curated-reviews__slide {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    min-width: 100%;
+    scroll-snap-align: start;
   }
 
   .images-curated-reviews__image {
     display: block;
     width: 100%;
-    height: 100%;
+    max-width: 500px;
+    height: auto;
+    border-radius: var(--icr-image-radius, 8px);
     object-fit: cover;
-    aspect-ratio: var(--icr-image-aspect-ratio, 1 / 1);
-  }
-
-  .images-curated-reviews__image--placeholder {
-    aspect-ratio: var(--icr-image-aspect-ratio, 1 / 1);
-    background: rgb(var(--color-foreground-rgb) / 0.05);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    & svg {
-      width: 50%;
-      height: 50%;
-      opacity: 0.3;
-    }
-  }
-
-  /* ---- Reviews Grid ---- */
-
-  .images-curated-reviews__reviews-grid {
-    display: grid;
-    grid-template-columns: repeat(var(--icr-review-columns, 3), 1fr);
-    gap: var(--icr-review-gap, 24px);
-  }
-
-  .images-curated-reviews__review-card {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    padding: 24px;
-    border: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-5-15));
-    border-radius: 12px;
-    background: var(--color-background);
   }
 
   .images-curated-reviews__stars {
     display: flex;
+    justify-content: center;
     gap: 2px;
-    color: #F5A623;
+    color: #141414;
   }
 
   .images-curated-reviews__stars img {
@@ -189,27 +208,30 @@
   }
 
   .images-curated-reviews__star--empty {
-    color: rgb(var(--color-foreground-rgb) / 0.2);
+    color: rgb(var(--color-foreground-rgb) / 0.25);
   }
 
-  .images-curated-reviews__review-text {
+  .images-curated-reviews__text {
     margin: 0;
+    max-width: 622px;
     font-family: var(--font-body--family);
-    font-size: 15px;
-    line-height: 24px;
-    color: var(--color-foreground);
+    font-size: var(--font-size--2xl);
+    font-weight: 500;
+    line-height: 31px;
+    text-align: center;
+    color: #141414;
   }
 
   .images-curated-reviews__reviewer {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-block-start: auto;
+    justify-content: center;
+    gap: 8px;
   }
 
   .images-curated-reviews__reviewer-image {
-    width: 48px;
-    height: 48px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     object-fit: cover;
     flex-shrink: 0;
@@ -217,22 +239,66 @@
 
   .images-curated-reviews__reviewer-name {
     font-family: var(--font-body--family);
-    font-size: 14px;
+    font-size: var(--font-size--md);
     font-weight: 500;
-    line-height: 20px;
-    color: var(--color-foreground);
+    line-height: 21px;
+    text-align: center;
+    color: #141414;
   }
 
-  /* ---- Tablet ---- */
+  .images-curated-reviews__nav {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
 
-  @media screen and (max-width: 1023px) {
-    .images-curated-reviews__images-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
+  .images-curated-reviews__nav-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: #141414;
+    cursor: pointer;
+    transition: opacity var(--animation-speed) ease;
+    border: 1px solid #141414;
+  }
 
-    .images-curated-reviews__reviews-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
+  .images-curated-reviews__nav-btn--prev {
+    border-color: #828282;
+    color: #828282;
+  }
+
+  .images-curated-reviews__nav-btn:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+
+  .images-curated-reviews__nav-btn:focus-visible {
+    outline: 2px solid #141414;
+    outline-offset: 2px;
+  }
+
+  .images-curated-reviews__dots {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .images-curated-reviews__dot {
+    display: block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #c9c9c9;
+    transition: background-color var(--animation-speed) ease;
+  }
+
+  .images-curated-reviews__dot--active {
+    background-color: #000000;
   }
 
   /* ---- Mobile ---- */
@@ -243,43 +309,24 @@
       line-height: 31px;
     }
 
-    .images-curated-reviews__images-grid {
-      display: flex;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      scrollbar-width: none;
-      -webkit-overflow-scrolling: touch;
-      gap: var(--icr-image-gap, 12px);
-      padding-block: 4px;
+    .images-curated-reviews__content {
+      padding: 24px 16px 40px 16px;
     }
 
-    .images-curated-reviews__images-grid::-webkit-scrollbar {
-      display: none;
-    }
-
-    .images-curated-reviews__image-item {
-      flex: 0 0 70vw;
-      max-width: 280px;
-      scroll-snap-align: start;
-    }
-
-    .images-curated-reviews__reviews-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .images-curated-reviews__review-card {
-      padding: 20px;
-    }
-
-    .images-curated-reviews__review-text {
-      font-size: 14px;
-      line-height: 22px;
+    .images-curated-reviews__text {
+      font-size: var(--font-size--lg);
+      line-height: 26px;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .images-curated-reviews__images-grid {
+    .images-curated-reviews__track {
       scroll-behavior: auto;
+    }
+
+    .images-curated-reviews__nav-btn,
+    .images-curated-reviews__dot {
+      transition: none;
     }
   }
 {% endstylesheet %}
@@ -315,21 +362,12 @@
     },
     {
       "type": "header",
-      "content": "Images Layout"
+      "content": "Appearance"
     },
     {
       "type": "range",
-      "id": "image_columns",
-      "label": "Columns (desktop)",
-      "min": 3,
-      "max": 6,
-      "step": 1,
-      "default": 4
-    },
-    {
-      "type": "range",
-      "id": "image_gap",
-      "label": "Image gap",
+      "id": "card_corner_radius",
+      "label": "Card corner radius",
       "min": 0,
       "max": 40,
       "step": 1,
@@ -337,49 +375,14 @@
       "default": 16
     },
     {
-      "type": "select",
-      "id": "image_aspect_ratio",
-      "label": "Image aspect ratio",
-      "options": [
-        { "value": "1 / 1", "label": "Square (1:1)" },
-        { "value": "3 / 4", "label": "Portrait (3:4)" },
-        { "value": "4 / 3", "label": "Landscape (4:3)" },
-        { "value": "auto", "label": "Original" }
-      ],
-      "default": "1 / 1"
-    },
-    {
-      "type": "header",
-      "content": "Reviews Layout"
-    },
-    {
       "type": "range",
-      "id": "review_columns",
-      "label": "Columns (desktop)",
-      "min": 1,
-      "max": 4,
-      "step": 1,
-      "default": 3
-    },
-    {
-      "type": "range",
-      "id": "review_gap",
-      "label": "Review gap",
+      "id": "image_corner_radius",
+      "label": "Image corner radius",
       "min": 0,
       "max": 40,
       "step": 1,
       "unit": "px",
-      "default": 24
-    },
-    {
-      "type": "range",
-      "id": "section_gap",
-      "label": "Gap between areas",
-      "min": 0,
-      "max": 80,
-      "step": 1,
-      "unit": "px",
-      "default": 40
+      "default": 8
     },
     {
       "type": "header",
@@ -407,7 +410,7 @@
     },
     {
       "type": "header",
-      "content": "Spacing"
+      "content": "Padding"
     },
     {
       "type": "range",
@@ -448,12 +451,36 @@
       "step": 1,
       "unit": "px",
       "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Margin"
+    },
+    {
+      "type": "range",
+      "id": "margin_block_start",
+      "label": "Top margin",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_block_end",
+      "label": "Bottom margin",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
     }
   ],
   "blocks": [
     {
-      "type": "image-block",
-      "name": "Image",
+      "type": "review-card",
+      "name": "Review",
       "settings": [
         {
           "type": "image_picker",
@@ -463,18 +490,13 @@
         {
           "type": "text",
           "id": "image_alt",
-          "label": "Alt text"
-        }
-      ]
-    },
-    {
-      "type": "review-card",
-      "name": "Review",
-      "settings": [
+          "label": "Image alt text"
+        },
         {
           "type": "image_picker",
           "id": "stars_image",
-          "label": "Stars image"
+          "label": "Stars image",
+          "info": "Optional. Overrides the star rating below."
         },
         {
           "type": "range",
@@ -495,7 +517,7 @@
           "type": "text",
           "id": "reviewer_name",
           "label": "Reviewer name",
-          "default": "Customer"
+          "default": "-Customer"
         },
         {
           "type": "image_picker",
@@ -511,23 +533,11 @@
       "category": "t:categories.storytelling",
       "blocks": [
         {
-          "type": "image-block"
-        },
-        {
-          "type": "image-block"
-        },
-        {
-          "type": "image-block"
-        },
-        {
-          "type": "image-block"
-        },
-        {
           "type": "review-card",
           "settings": {
             "star_count": 5,
-            "review_text": "Love the colors. Creamy, moisturizing and the color stays. Especially love the packaging. It's magnetic.",
-            "reviewer_name": "Nancy W."
+            "review_text": "Love the colors. Creamy, moisturizing and the color stays. Especially love the lid. It's magnetic.",
+            "reviewer_name": "-Nancy W"
           }
         },
         {
@@ -535,7 +545,7 @@
           "settings": {
             "star_count": 5,
             "review_text": "Great quality and fast shipping. I've been using this for a month and love the results! Highly recommend.",
-            "reviewer_name": "Sarah M."
+            "reviewer_name": "-Sarah M"
           }
         },
         {
@@ -543,7 +553,7 @@
           "settings": {
             "star_count": 5,
             "review_text": "Exceeded my expectations. The texture is perfect and it works wonders. Will definitely buy again.",
-            "reviewer_name": "James K."
+            "reviewer_name": "-James K"
           }
         }
       ]
