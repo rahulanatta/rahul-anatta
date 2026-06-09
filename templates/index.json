@@ -961,6 +961,89 @@
         "padding-inline-start": 12,
         "padding-inline-end": 12
       }
+    },
+    "images_curated_reviews_8WW9wb": {
+      "type": "images-curated-reviews",
+      "blocks": {
+        "image_block_QVgT8x": {
+          "type": "image-block",
+          "settings": {
+            "image": "shopify://shop_images/image-171-mobile-578318848.jpg",
+            "image_alt": ""
+          }
+        },
+        "image_block_tEfQXE": {
+          "type": "image-block",
+          "settings": {
+            "image": "shopify://shop_images/screenshot-2025-12-05-at-9-54-29-am-4-desktop-209317574.jpg",
+            "image_alt": ""
+          }
+        },
+        "image_block_AiEx68": {
+          "type": "image-block",
+          "settings": {
+            "image": "shopify://shop_images/thumbnails-mobile-223839087.png",
+            "image_alt": ""
+          }
+        },
+        "image_block_V3MKyh": {
+          "type": "image-block",
+          "settings": {
+            "image": "shopify://shop_images/thumbnails-mobile-223839045.png",
+            "image_alt": ""
+          }
+        },
+        "review_card_QTkAbE": {
+          "type": "review-card",
+          "settings": {
+            "star_count": 5,
+            "review_text": "Love the colors. Creamy, moisturizing and the color stays. Especially love the packaging. It's magnetic.",
+            "reviewer_name": "Nancy W."
+          }
+        },
+        "review_card_UfN8Pn": {
+          "type": "review-card",
+          "settings": {
+            "star_count": 5,
+            "review_text": "Great quality and fast shipping. I've been using this for a month and love the results! Highly recommend.",
+            "reviewer_name": "Sarah M."
+          }
+        },
+        "review_card_t4XHLP": {
+          "type": "review-card",
+          "settings": {
+            "star_count": 5,
+            "review_text": "Exceeded my expectations. The texture is perfect and it works wonders. Will definitely buy again.",
+            "reviewer_name": "James K."
+          }
+        }
+      },
+      "block_order": [
+        "image_block_QVgT8x",
+        "image_block_tEfQXE",
+        "image_block_AiEx68",
+        "image_block_V3MKyh",
+        "review_card_QTkAbE",
+        "review_card_UfN8Pn",
+        "review_card_t4XHLP"
+      ],
+      "name": "Images & Curated Reviews",
+      "settings": {
+        "heading": "",
+        "heading_tag": "h2",
+        "image_columns": 4,
+        "image_gap": 16,
+        "image_aspect_ratio": "1 / 1",
+        "review_columns": 3,
+        "review_gap": 24,
+        "section_gap": 40,
+        "color_scheme": "",
+        "section_width": "page-width",
+        "padding-block-start": 40,
+        "padding-block-end": 40,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
+      }
     }
   },
   "order": [
@@ -977,6 +1060,7 @@
     "comparison_chart_8wTca8",
     "product_categories_h8hn6x",
     "scientific_results_wXaUDK",
-    "image_table_content"
+    "image_table_content",
+    "images_curated_reviews_8WW9wb"
   ]
 }
