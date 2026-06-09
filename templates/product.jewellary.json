@@ -1,0 +1,777 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "product-information",
+      "blocks": {
+        "media-gallery": {
+          "type": "_product-media-gallery",
+          "static": true,
+          "settings": {
+            "media_presentation": "grid",
+            "media_columns": "two",
+            "image_gap": 4,
+            "large_first_image": false,
+            "icons_style": "arrow",
+            "slideshow_controls_style": "counter",
+            "slideshow_mobile_controls_style": "dots",
+            "thumbnail_position": "right",
+            "thumbnail_width": 44,
+            "thumbnail_radius": 0,
+            "aspect_ratio": "adapt",
+            "constrain_to_viewport": true,
+            "media_fit": "contain",
+            "media_radius": 0,
+            "extend_media": false,
+            "zoom": true,
+            "video_loop": false,
+            "hide_variants": true,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "product-details": {
+          "type": "_product-details",
+          "static": true,
+          "settings": {
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "details_position": "flex-start",
+            "gap": 28,
+            "sticky_details_desktop": true,
+            "inherit_color_scheme": true,
+            "color_scheme": "scheme-1",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "padding-block-start": 24,
+            "padding-block-end": 24,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "group_icgrde": {
+              "type": "group",
+              "name": "Header",
+              "settings": {
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "center",
+                "align_baseline": false,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 12,
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "custom_height": 100,
+                "inherit_color_scheme": true,
+                "color_scheme": "",
+                "background_media": "none",
+                "video_position": "cover",
+                "background_image_position": "cover",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "link": "",
+                "open_in_new_tab": false,
+                "placeholder": "",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "text_xpVMaM": {
+                  "type": "text",
+                  "name": "t:names.title",
+                  "settings": {
+                    "text": "<h1>{{ closest.product.title }}</h1>",
+                    "width": "fit-content",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "h3",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "price_tVjtKg": {
+                  "type": "price",
+                  "settings": {
+                    "show_sale_price_first": true,
+                    "show_installments": true,
+                    "show_tax_info": true,
+                    "type_preset": "paragraph",
+                    "width": "100%",
+                    "alignment": "left",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "color": "var(--color-foreground)",
+                    "padding-block-start": 4,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_xpVMaM",
+                "price_tVjtKg"
+              ]
+            },
+            "divider_VJhene": {
+              "type": "_divider",
+              "name": "t:names.divider",
+              "settings": {
+                "thickness": 1,
+                "corner_radius": "square",
+                "width_percent": 100,
+                "padding-block-start": 0,
+                "padding-block-end": 0
+              },
+              "blocks": {}
+            },
+            "variant_picker_R3rGDr": {
+              "type": "variant-picker",
+              "settings": {
+                "variant_style": "buttons",
+                "show_swatches": false,
+                "alignment": "left",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "buy_buttons_eYQEYi": {
+              "type": "buy-buttons",
+              "settings": {
+                "stacking": true,
+                "show_pickup_availability": false,
+                "gift_card_form": true,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "quantity": {
+                  "type": "quantity",
+                  "static": true,
+                  "settings": {},
+                  "blocks": {}
+                },
+                "add-to-cart": {
+                  "type": "add-to-cart",
+                  "static": true,
+                  "settings": {
+                    "style_class": "button"
+                  },
+                  "blocks": {}
+                },
+                "accelerated-checkout": {
+                  "type": "accelerated-checkout",
+                  "static": true,
+                  "settings": {},
+                  "blocks": {}
+                }
+              },
+              "block_order": []
+            },
+            "text_aEtTtq": {
+              "type": "text",
+              "name": "Product description",
+              "settings": {
+                "text": "{{ closest.product.description }}",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-primary--family)",
+                "font_size": "",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "group_icgrde",
+            "divider_VJhene",
+            "variant_picker_R3rGDr",
+            "buy_buttons_eYQEYi",
+            "text_aEtTtq"
+          ]
+        }
+      },
+      "settings": {
+        "content_width": "content-center-aligned",
+        "desktop_media_position": "left",
+        "equal_columns": false,
+        "limit_details_width": false,
+        "gap": 48,
+        "enable_sticky_add_to_cart": true,
+        "color_scheme": "",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "key_ingredients": {
+      "type": "key-ingredients",
+      "blocks": {
+        "ingredient_1": {
+          "type": "ingredient",
+          "settings": {
+            "title": "Vitamin C",
+            "description": "A powerful antioxidant that boosts the immune system, enhances iron absorption, and promotes collagen production for healthy skin."
+          }
+        },
+        "ingredient_2": {
+          "type": "ingredient",
+          "settings": {
+            "title": "Hydrolysed Collagen",
+            "description": "Supports skin elasticity and hydration, reducing the appearance of fine lines and wrinkles for a youthful glow."
+          }
+        },
+        "ingredient_3": {
+          "type": "ingredient",
+          "settings": {
+            "title": "Zinc",
+            "description": "Supports a strong immune system, promotes wound healing, and helps maintain healthy skin."
+          }
+        },
+        "ingredient_4": {
+          "type": "ingredient",
+          "settings": {
+            "title": "Vitamin E",
+            "description": "Is a powerful antioxidant that helps protect cells from damage caused by free radicals. It supports healthy skin by promoting hydration and reducing signs of aging."
+          }
+        },
+        "ingredient_5": {
+          "type": "ingredient",
+          "settings": {
+            "title": "Iron",
+            "description": "Vital for energy production and oxygen transport in the body, it prevents fatigue and supports overall vitality."
+          }
+        },
+        "ingredient_6": {
+          "type": "ingredient",
+          "settings": {
+            "title": "Vitamin A",
+            "description": "Essential for good vision, healthy skin, and a robust immune system, it also supports cell growth and reproduction."
+          }
+        }
+      },
+      "block_order": [
+        "ingredient_1",
+        "ingredient_2",
+        "ingredient_3",
+        "ingredient_4",
+        "ingredient_5",
+        "ingredient_6"
+      ],
+      "settings": {
+        "heading": "Key Ingredients",
+        "heading_tag": "h2",
+        "heading_size": "h2",
+        "center_image": "shopify://shop_images/rectangle-15773321-mobile-683029619.jpg",
+        "section_width": "page-width",
+        "color_scheme": "scheme-7",
+        "padding-block-start": 60,
+        "padding-block-end": 60
+      }
+    },
+    "scientific_results": {
+      "type": "scientific-results",
+      "blocks": {
+        "result_1": {
+          "type": "result-item",
+          "settings": {
+            "stat_value": "95%",
+            "description": "of the body's creatine is used by the skeletal muscle during exercise. Evidence shows that creatine can support lean muscle mass and strength gains when combines with resistance training."
+          }
+        },
+        "result_2": {
+          "type": "result-item",
+          "settings": {
+            "stat_value": "2%",
+            "description": "Although the brain makes up just 2% of body mass, it uses about 20% of resting energy. Creatine provides benefits for cognitive performance and a reduction of mental fatigue."
+          }
+        },
+        "result_3": {
+          "type": "result-item",
+          "settings": {
+            "stat_value": "5G",
+            "description": "Prime Creatine is formulated with 5 grams of highly bioavailable creatine monophydrate, the most studied and substantiated form. Its bioavailability allows it to reach the brain, where it helps regenerate adenosine triophosphate (ATP), the brain's energy currency."
+          }
+        }
+      },
+      "block_order": [
+        "result_1",
+        "result_2",
+        "result_3"
+      ],
+      "settings": {
+        "heading": "Sharper Mind. Steadier Energy. Stronger Body",
+        "heading_tag": "h2",
+        "columns": 3,
+        "section_width": "page-width",
+        "background_color": "#1bb7c4",
+        "text_color": "#ffffff",
+        "divider_color": "#ffffff",
+        "padding-block-start": 80,
+        "padding-block-end": 80
+      }
+    },
+    "product_recommendations_qggXJq": {
+      "type": "product-recommendations",
+      "blocks": {
+        "text_cbcgyb": {
+          "type": "text",
+          "name": "t:names.header",
+          "settings": {
+            "text": "<h2>You may also like </h2>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "h4",
+            "font": "var(--font-primary--family)",
+            "font_size": "",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "static-product-card": {
+          "type": "_product-card",
+          "name": "t:names.product_card",
+          "static": true,
+          "settings": {
+            "product_card_gap": 8,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 8,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "product_card_gallery_DNizbJ": {
+              "type": "_product-card-gallery",
+              "name": "t:names.product_card_media",
+              "settings": {
+                "image_ratio": "adapt",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "product_title_M7MJkb": {
+              "type": "product-title",
+              "name": "t:names.product_title",
+              "settings": {
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "paragraph",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 4,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "price_gLWgA6": {
+              "type": "price",
+              "settings": {
+                "show_sale_price_first": true,
+                "show_installments": false,
+                "show_tax_info": false,
+                "type_preset": "h6",
+                "width": "100%",
+                "alignment": "left",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "color": "var(--color-foreground)",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "product_card_gallery_DNizbJ",
+            "product_title_M7MJkb",
+            "price_gLWgA6"
+          ]
+        }
+      },
+      "block_order": [
+        "text_cbcgyb"
+      ],
+      "name": "t:names.product_recommendations",
+      "settings": {
+        "product": "{{ closest.product }}",
+        "recommendation_type": "related",
+        "layout_type": "grid",
+        "carousel_on_mobile": false,
+        "max_products": 4,
+        "columns": 4,
+        "mobile_columns": "2",
+        "columns_gap": 12,
+        "rows_gap": 24,
+        "icons_style": "arrow",
+        "icons_shape": "none",
+        "section_width": "page-width",
+        "gap": 28,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 48,
+        "padding-block-end": 48
+      }
+    },
+    "product_features_hTqxaG": {
+      "type": "product-features",
+      "blocks": {
+        "feature_item_ehWMq7": {
+          "type": "feature-item",
+          "settings": {
+            "icon": "shopify://shop_images/image-1350-desktop-677140329.png",
+            "title": "Good Manufacturing Practices",
+            "body_text": ""
+          }
+        },
+        "feature_item_TB3LBQ": {
+          "type": "feature-item",
+          "settings": {
+            "icon": "shopify://shop_images/image-1351-desktop-677140332.png",
+            "title": "Non Detectable GMO",
+            "body_text": ""
+          }
+        },
+        "feature_item_YPnHwK": {
+          "type": "feature-item",
+          "settings": {
+            "icon": "shopify://shop_images/icon-round-question-mark-svg-1-mobile-account-mega-menu-83421299.png",
+            "title": "Vegan",
+            "body_text": ""
+          }
+        },
+        "feature_item_W634YE": {
+          "type": "feature-item",
+          "settings": {
+            "icon": "shopify://shop_images/subscribe-icon-1-mobile-account-mega-menu-83421267.png",
+            "title": "Dairy Free",
+            "body_text": ""
+          }
+        }
+      },
+      "block_order": [
+        "feature_item_ehWMq7",
+        "feature_item_TB3LBQ",
+        "feature_item_YPnHwK",
+        "feature_item_W634YE"
+      ],
+      "name": "Product Features",
+      "settings": {
+        "section_width": "page-width",
+        "color_scheme": "",
+        "padding-block-start": 40,
+        "padding-block-end": 40,
+        "padding-inline-start": 10,
+        "padding-inline-end": 11
+      }
+    },
+    "comparison_chart_RVtEmU": {
+      "type": "comparison-chart",
+      "blocks": {
+        "feature_row_mFrc7Q": {
+          "type": "feature-row",
+          "settings": {
+            "feature_text": "Targeted, Purpose-Driven Ingredients",
+            "column_1_status": "check",
+            "column_2_status": "check",
+            "column_3_status": "cross"
+          }
+        },
+        "feature_row_LkGYCA": {
+          "type": "feature-row",
+          "settings": {
+            "feature_text": "Stripped of Unnecessary Fillers",
+            "column_1_status": "check",
+            "column_2_status": "check",
+            "column_3_status": "cross"
+          }
+        },
+        "feature_row_VpGb34": {
+          "type": "feature-row",
+          "settings": {
+            "feature_text": "Premium Countertop Aesthetic",
+            "column_1_status": "check",
+            "column_2_status": "cross",
+            "column_3_status": "cross"
+          }
+        },
+        "feature_row_wHracT": {
+          "type": "feature-row",
+          "settings": {
+            "feature_text": "Frictionless Auto-Delivery",
+            "column_1_status": "check",
+            "column_2_status": "cross",
+            "column_3_status": "cross"
+          }
+        }
+      },
+      "block_order": [
+        "feature_row_mFrc7Q",
+        "feature_row_LkGYCA",
+        "feature_row_VpGb34",
+        "feature_row_wHracT"
+      ],
+      "name": "Comparison chart",
+      "settings": {
+        "heading": "Us Vs. Them",
+        "heading_tag": "h2",
+        "columns_count": "2",
+        "column_1_name": "The Usuals™",
+        "column_1_image": "shopify://shop_images/935461732-1-page-2-21065080.png",
+        "column_1_highlighted": true,
+        "column_2_name": "Generic Brands",
+        "column_2_image": "shopify://shop_images/ellipse-83-desktop-567318681.png",
+        "column_2_highlighted": false,
+        "column_3_name": "",
+        "column_3_highlighted": false,
+        "section_width": "page-width",
+        "color_scheme": "",
+        "padding-block-start": 60,
+        "padding-block-end": 60
+      }
+    },
+    "product_categories": {
+      "type": "product-categories",
+      "blocks": {
+        "category_1": {
+          "type": "category-item",
+          "settings": {
+            "collection": "",
+            "image": "shopify://shop_images/rectangle-2608-desktop-1-design-569818560.png",
+            "label": "CLEANSE & TONE"
+          }
+        },
+        "category_2": {
+          "type": "category-item",
+          "settings": {
+            "collection": "",
+            "label": "TREAT"
+          }
+        },
+        "category_3": {
+          "type": "category-item",
+          "settings": {
+            "collection": "",
+            "image": "shopify://shop_images/rectangle-2608-desktop-1-design-569818566.jpg",
+            "label": "MOISTURIZE & MASK"
+          }
+        },
+        "category_4": {
+          "type": "category-item",
+          "settings": {
+            "collection": "",
+            "image": "shopify://shop_images/rectangle-2608-desktop-1-design-569818569.png",
+            "label": "BODY"
+          }
+        },
+        "category_5": {
+          "type": "category-item",
+          "settings": {
+            "collection": "",
+            "image": "shopify://shop_images/rectangle-2608-desktop-1-design-569818572.jpg",
+            "label": "MEN"
+          }
+        }
+      },
+      "block_order": [
+        "category_1",
+        "category_2",
+        "category_3",
+        "category_4",
+        "category_5"
+      ],
+      "settings": {
+        "section_width": "page-width",
+        "gap": 20,
+        "item_gap": 16,
+        "image_border_radius": 16,
+        "label_font_size": 24,
+        "label_line_height": 31,
+        "label_font_size_mobile": 18,
+        "label_line_height_mobile": 23,
+        "text_transform": "uppercase",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 64,
+        "padding-block-end": 64,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
+      }
+    },
+    "faq_section_3hehKj": {
+      "type": "faq-section",
+      "blocks": {
+        "faq_item_7T3HWB": {
+          "type": "faq-item",
+          "settings": {
+            "question": "How often should I use Lumiere de Vie® NAD Crème?",
+            "answer": "<p>Shipping typically takes 5-7 business days within the United States. For international orders, shipping can take 10-15 business days, depending on the destination and customs processing times. You will receive a tracking number once your order has shipped so you can monitor its progress.</p>",
+            "open_by_default": true
+          }
+        },
+        "faq_item_pxnpKK": {
+          "type": "faq-item",
+          "settings": {
+            "question": "How is myristyl nicotinate beneficial for skin?",
+            "answer": "<p>Answer text here</p>",
+            "open_by_default": false
+          }
+        },
+        "faq_item_YtRNWH": {
+          "type": "faq-item",
+          "settings": {
+            "question": "What skin types can use Lumière de Vie NAD Crème?",
+            "answer": "<p>Answer text here</p>",
+            "open_by_default": false
+          }
+        },
+        "faq_item_m7t6gw": {
+          "type": "faq-item",
+          "settings": {
+            "question": "Can Lumière de Vie NAD Crème be layered with other skincare products?",
+            "answer": "<p>Answer text here</p>",
+            "open_by_default": false
+          }
+        }
+      },
+      "block_order": [
+        "faq_item_7T3HWB",
+        "faq_item_pxnpKK",
+        "faq_item_YtRNWH",
+        "faq_item_m7t6gw"
+      ],
+      "name": "FAQ",
+      "settings": {
+        "heading": "FAQs",
+        "heading_tag": "h2",
+        "heading_font_size": 32,
+        "heading_line_height": 42,
+        "question_font_size": 22,
+        "question_line_height": 32,
+        "answer_font_size": 16,
+        "answer_line_height": 26,
+        "max_content_width": 1000,
+        "section_width": "page-width",
+        "color_scheme": "",
+        "padding-block-start": 80,
+        "padding-block-end": 80,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
+      }
+    }
+  },
+  "order": [
+    "main",
+    "key_ingredients",
+    "scientific_results",
+    "product_recommendations_qggXJq",
+    "product_features_hTqxaG",
+    "comparison_chart_RVtEmU",
+    "product_categories",
+    "faq_section_3hehKj"
+  ]
+}
