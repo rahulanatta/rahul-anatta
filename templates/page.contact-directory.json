@@ -68,103 +68,157 @@
         "padding-block-end": 0
       }
     },
-    "contact-directory": {
-      "type": "contact-directory",
+    "contact-offices": {
+      "type": "contact-offices",
       "blocks": {
-        "customer_support": {
-          "type": "directory-entry",
+        "office_us": {
+          "type": "office-card",
           "settings": {
-            "title": "Customer Support",
-            "phone_label": "PHONE:",
+            "image": "shopify://shop_images/contact-form-img-m-webp-desktop-743928891.jpg",
+            "country_name": "United States",
             "phone": "1 (866) 420-1709",
-            "email_label": "EMAIL:",
             "email": "support@marketamerica.com",
-            "hours": "Mon - Fri: 8:30 AM - 5:30 PM EST",
-            "address": ""
+            "button_text": "Contact Support",
+            "button_url": ""
           }
         },
-        "order_inquiries": {
-          "type": "directory-entry",
+        "office_ca": {
+          "type": "office-card",
           "settings": {
-            "title": "Order Inquiries",
-            "phone_label": "PHONE:",
+            "image": "shopify://shop_images/contact-form-img-m-webp-desktop-743928891.jpg",
+            "country_name": "Canada",
             "phone": "1 (866) 420-1709",
-            "email_label": "EMAIL:",
-            "email": "orders@marketamerica.com",
-            "hours": "Mon - Fri: 8:30 AM - 5:30 PM EST",
-            "address": ""
+            "email": "support@marketamerica.com",
+            "button_text": "Contact Support",
+            "button_url": ""
           }
         },
-        "returns_exchanges": {
-          "type": "directory-entry",
+        "office_au": {
+          "type": "office-card",
           "settings": {
-            "title": "Returns & Exchanges",
-            "phone_label": "PHONE:",
-            "phone": "1 (866) 420-1709",
-            "email_label": "EMAIL:",
-            "email": "returns@marketamerica.com",
-            "hours": "",
-            "address": ""
+            "image": "shopify://shop_images/unsplash-rc2-ah8lalu-mobile-103133297.jpg",
+            "country_name": "Australia",
+            "phone": "1 (800) 750 016",
+            "email": "marketaustralia@marketaustralia.com.au",
+            "button_text": "Contact Support",
+            "button_url": ""
           }
         },
-        "general_info": {
-          "type": "directory-entry",
+        "office_hk": {
+          "type": "office-card",
           "settings": {
-            "title": "General Information",
-            "phone_label": "PHONE:",
-            "phone": "1 (336) 605-0040",
-            "email_label": "EMAIL:",
-            "email": "marketamerica@marketamerica.com",
-            "hours": "",
-            "address": ""
+            "image": "shopify://shop_images/unsplash-rc2-ah8lalu-mobile-103133268.jpg",
+            "country_name": "Hong Kong",
+            "phone": "(852) 3512-9198",
+            "email": "hkcustomersupport@shop.com",
+            "button_text": "Contact Support",
+            "button_url": ""
           }
         },
-        "public_relations": {
-          "type": "directory-entry",
+        "office_tw": {
+          "type": "office-card",
           "settings": {
-            "title": "Public Relations",
-            "phone_label": "",
-            "phone": "",
-            "email_label": "EMAIL:",
-            "email": "media@marketamerica.com",
-            "hours": "",
-            "address": ""
+            "image": "shopify://shop_images/contact-form-img-m-webp-desktop-743928891.jpg",
+            "country_name": "Taiwan",
+            "phone": "(866) 2-87125598 #2",
+            "email": "unfranchiseservices@markettaiwan.com.tw",
+            "button_text": "Contact Support",
+            "button_url": ""
           }
         },
-        "corporate_office": {
-          "type": "directory-entry",
+        "office_my": {
+          "type": "office-card",
           "settings": {
-            "title": "Corporate Office",
-            "phone_label": "PHONE:",
-            "phone": "1 (336) 605-0040",
-            "email_label": "EMAIL:",
-            "email": "marketamerica@marketamerica.com",
-            "hours": "Mon - Fri: 8:30 AM - 5:30 PM EST",
-            "address": "1302 Pleasant Ridge Road\nGreensboro, NC 27409"
+            "image": "shopify://shop_images/unsplash-rc2-ah8lalu-desktop-103062076.jpg",
+            "country_name": "Malaysia",
+            "phone": "(603) 2289 3388",
+            "email": "unfranchiseservices@marketmalaysia.my",
+            "button_text": "Contact Support",
+            "button_url": ""
+          }
+        },
+        "office_sg": {
+          "type": "office-card",
+          "settings": {
+            "image": "shopify://shop_images/contact-form-img-m-webp-desktop-743928891.jpg",
+            "country_name": "Singapore",
+            "phone": "(65) 6568-2678",
+            "email": "sgunfranchiseservices@marketsingapore.com.sg",
+            "button_text": "Contact Support",
+            "button_url": ""
+          }
+        },
+        "office_id": {
+          "type": "office-card",
+          "settings": {
+            "image": "shopify://shop_images/contact-form-img-m-webp-desktop-743928891.jpg",
+            "country_name": "Indonesia",
+            "phone": "+62-21-39524525",
+            "email": "unfranchiseservices@marketindonesia.id",
+            "button_text": "Contact Support",
+            "button_url": ""
           }
         }
       },
       "block_order": [
-        "customer_support",
-        "order_inquiries",
-        "returns_exchanges",
-        "general_info",
-        "public_relations",
-        "corporate_office"
+        "office_us",
+        "office_ca",
+        "office_au",
+        "office_hk",
+        "office_tw",
+        "office_my",
+        "office_sg",
+        "office_id"
       ],
       "settings": {
-        "heading": "Contact Directory",
-        "description": "Find the right team to help you with your inquiry. Reach us by phone or email — we're happy to assist.",
         "section_width": "page-width",
         "grid_gap": 32,
         "color_scheme": "scheme-1",
         "padding-block-start": 0,
         "padding-block-end": 40
       }
+    },
+    "contact-help": {
+      "type": "contact-help",
+      "blocks": {
+        "general_info": {
+          "type": "info-group",
+          "settings": {
+            "title": "General Information",
+            "phone_label": "PHONE:",
+            "phone": "1 (336) 605-0040",
+            "email_label": "EMAIL:",
+            "email": "marketamerica@marketamerica.com"
+          }
+        },
+        "public_relations": {
+          "type": "info-group",
+          "settings": {
+            "title": "Public Relations",
+            "phone_label": "",
+            "phone": "",
+            "email_label": "EMAIL:",
+            "email": "media@marketamerica.com"
+          }
+        }
+      },
+      "block_order": [
+        "general_info",
+        "public_relations"
+      ],
+      "settings": {
+        "heading": "Wherever You Are, We're Here to Help",
+        "description": "No matter where you do business with us, our dedicated customer support teams are just a phone call or email away. Find the contact information for your region below — we look forward to assisting you!",
+        "section_width": "page-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 40,
+        "padding-block-end": 40
+      }
     }
   },
   "order": [
     "main",
-    "contact-directory"
+    "contact-offices",
+    "contact-help"
   ]
 }
