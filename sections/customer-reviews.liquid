@@ -29,12 +29,13 @@
         <div class="customer-reviews__overall-stars">
           {% assign rating_int = overall_rating | times: 1 | floor %}
           {% assign rating_decimal = overall_rating | times: 10 | modulo: 10 %}
+          {% assign rating_next = rating_int | plus: 1 %}
           {% for i in (1..5) %}
             {% if i <= rating_int %}
               <svg class="customer-reviews__star customer-reviews__star--filled" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <path d="M10 1.25L12.47 7.025L18.75 7.6125L13.9625 11.725L15.4375 17.8625L10 14.5125L4.5625 17.8625L6.0375 11.725L1.25 7.6125L7.53 7.025L10 1.25Z" fill="currentColor"/>
               </svg>
-            {% elsif i == rating_int | plus: 1 and rating_decimal > 0 %}
+            {% elsif i == rating_next and rating_decimal > 0 %}
               <svg class="customer-reviews__star customer-reviews__star--half" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <defs>
                   <linearGradient id="half-star-{{ section.id }}-{{ i }}">
