@@ -11,7 +11,8 @@
       "mcp__claude_ai_Shopify__graphql_mutation",
       "mcp__claude_ai_Figma__get_design_context",
       "mcp__claude_ai_Shopify__graphql_query",
-      "WebFetch(domain:ma-anatta-dev.myshopify.com)"
+      "WebFetch(domain:ma-anatta-dev.myshopify.com)",
+      "mcp__claude_ai_Figma__get_screenshot"
     ]
   }
 }

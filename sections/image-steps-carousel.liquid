@@ -1,0 +1,661 @@
+{% liquid
+  assign image_blocks = section.blocks | where: 'type', 'image-slide'
+  assign step_blocks = section.blocks | where: 'type', 'step'
+%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div
+  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style image-steps-carousel"
+  style="
+    {%- render 'spacing-style', settings: section.settings -%}
+    --isc-desktop-gap: {{ section.settings.desktop_gap }}px;
+    --isc-content-gap: {{ section.settings.content_gap }}px;
+    --isc-image-radius: {{ section.settings.image_border_radius }}px;
+    --isc-badge-bg: {{ section.settings.badge_background }};
+  "
+>
+  <image-steps-carousel class="image-steps-carousel__layout">
+
+    {%- comment -%} Image Carousel {%- endcomment -%}
+    <div class="image-steps-carousel__carousel">
+      <div class="image-steps-carousel__track" ref="track">
+        {% for block in image_blocks %}
+          <div
+            class="image-steps-carousel__slide"
+            data-slide-index="{{ forloop.index0 }}"
+            {{ block.shopify_attributes }}
+          >
+            {% if block.settings.image != blank %}
+              {%- assign sizes_val = '(min-width: 750px) 40vw, 80vw' -%}
+              {{
+                block.settings.image
+                | image_url: width: block.settings.image.width
+                | image_tag:
+                  sizes: sizes_val,
+                  widths: '375,550,750,1100,1500',
+                  loading: 'lazy',
+                  class: 'image-steps-carousel__image',
+                  alt: block.settings.image.alt
+              }}
+            {% else %}
+              <div class="image-steps-carousel__placeholder">
+                {{ 'image' | placeholder_svg_tag: 'image-steps-carousel__placeholder-svg' }}
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+
+      {% if section.settings.show_arrows and image_blocks.size > 1 %}
+        <div class="image-steps-carousel__arrows">
+          <button
+            type="button"
+            class="image-steps-carousel__arrow image-steps-carousel__arrow--prev"
+            ref="prevButton"
+            on:click="/scrollPrev"
+            aria-label="Previous slide"
+            disabled
+          >
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <button
+            type="button"
+            class="image-steps-carousel__arrow image-steps-carousel__arrow--next"
+            ref="nextButton"
+            on:click="/scrollNext"
+            aria-label="Next slide"
+          >
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      {% endif %}
+    </div>
+
+    {%- comment -%} Content: Heading + Steps {%- endcomment -%}
+    <div class="image-steps-carousel__content">
+      {% if section.settings.heading != blank %}
+        <{{ section.settings.heading_tag }} class="image-steps-carousel__heading">
+          {{- section.settings.heading | escape -}}
+        </{{ section.settings.heading_tag }}>
+      {% endif %}
+
+      {% if step_blocks.size > 0 %}
+        <div class="image-steps-carousel__steps">
+          {% for block in step_blocks %}
+            <div
+              class="image-steps-carousel__step{% if forloop.first %} image-steps-carousel__step--active{% endif %}{% if forloop.last %} image-steps-carousel__step--last{% endif %}"
+              data-step-index="{{ forloop.index0 }}"
+              on:click="/goToStep"
+              {{ block.shopify_attributes }}
+            >
+              <div class="image-steps-carousel__step-marker">
+                <span class="image-steps-carousel__dot"></span>
+              </div>
+              <div class="image-steps-carousel__step-body">
+                <div class="image-steps-carousel__step-header">
+                  {% if block.settings.badge_text != blank %}
+                    <span class="image-steps-carousel__badge">
+                      {{- block.settings.badge_text | escape -}}
+                    </span>
+                  {% endif %}
+                  {% if block.settings.step_title != blank %}
+                    <span class="image-steps-carousel__step-title">
+                      {{- block.settings.step_title | escape -}}
+                    </span>
+                  {% endif %}
+                </div>
+                {% if block.settings.description != blank %}
+                  <div class="image-steps-carousel__step-description rte">
+                    {{ block.settings.description }}
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+  </image-steps-carousel>
+</div>
+
+<script src="{{ 'image-steps-carousel.js' | asset_url }}" type="module"></script>
+
+{% stylesheet %}
+  /* ============================================================
+     Image Steps Carousel Section
+     ============================================================ */
+
+  .image-steps-carousel__layout {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  /* ---- Carousel ---- */
+
+  .image-steps-carousel__carousel {
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .image-steps-carousel__track {
+    display: flex;
+    gap: 24px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .image-steps-carousel__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .image-steps-carousel__slide {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    overflow: hidden;
+    border-radius: var(--isc-image-radius, 30px);
+    min-width: 65vw;
+    height: 400px;
+  }
+
+  .image-steps-carousel__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .image-steps-carousel__placeholder {
+    width: 100%;
+    height: 100%;
+    min-height: 300px;
+    background-color: rgb(0 0 0 / 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .image-steps-carousel__placeholder-svg {
+    width: 50%;
+    height: 50%;
+    opacity: 0.3;
+  }
+
+  /* ---- Arrows ---- */
+
+  .image-steps-carousel__arrows {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+    justify-content: center;
+  }
+
+  .image-steps-carousel__arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--color-border, rgb(0 0 0 / 0.1));
+    background: var(--color-background, #fff);
+    color: var(--color-foreground, #141414);
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+    padding: 0;
+  }
+
+  .image-steps-carousel__arrow:disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+
+  .image-steps-carousel__arrow:not(:disabled):hover {
+    border-color: var(--color-foreground, #141414);
+  }
+
+  .image-steps-carousel__arrow:focus-visible {
+    outline: 2px solid var(--color-foreground, #141414);
+    outline-offset: 2px;
+  }
+
+  /* ---- Content ---- */
+
+  .image-steps-carousel__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--isc-content-gap, 40px);
+  }
+
+  .image-steps-carousel__heading {
+    margin: 0;
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 1.5rem;
+    line-height: 1.3;
+    color: var(--color-foreground, #141414);
+  }
+
+  /* ---- Steps ---- */
+
+  .image-steps-carousel__steps {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    overflow: visible;
+  }
+
+  .image-steps-carousel__step {
+    display: grid;
+    grid-template-columns: 17px 1fr;
+    column-gap: 16px;
+    cursor: pointer;
+    opacity: 0.4;
+    transition: opacity 0.3s ease;
+  }
+
+  .image-steps-carousel__step--active {
+    opacity: 1;
+  }
+
+  .image-steps-carousel__step:hover {
+    opacity: 0.8;
+  }
+
+  .image-steps-carousel__step--active:hover {
+    opacity: 1;
+  }
+
+  .image-steps-carousel__step-marker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+
+  .image-steps-carousel__dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: var(--color-foreground, #141414);
+    flex-shrink: 0;
+    margin-top: 8px;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.3s ease;
+  }
+
+  .image-steps-carousel__step--active .image-steps-carousel__dot {
+    transform: scale(1.4);
+  }
+
+  /* Connecting line between dots */
+  .image-steps-carousel__step:not(.image-steps-carousel__step--last) .image-steps-carousel__step-marker::after {
+    content: '';
+    position: absolute;
+    top: 25px;
+    bottom: -38px;
+    left: 50%;
+    width: 2px;
+    transform: translateX(-50%);
+    background-color: var(--color-foreground, #141414);
+    opacity: 0.3;
+  }
+
+  .image-steps-carousel__step-body {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .image-steps-carousel__step-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .image-steps-carousel__badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 16px;
+    border-radius: 32px;
+    background-color: var(--isc-badge-bg, #81AE9A);
+    color: #fff;
+    font-family: var(--font-body--family);
+    font-weight: 500;
+    font-size: 1rem;
+    line-height: 1.3125;
+    white-space: nowrap;
+  }
+
+  .image-steps-carousel__step-title {
+    font-family: var(--font-body--family);
+    font-weight: 500;
+    font-size: 1.25rem;
+    line-height: 1.3;
+    color: var(--color-foreground, #141414);
+  }
+
+  .image-steps-carousel__step-description {
+    font-family: var(--font-body--family);
+    font-weight: 300;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--color-foreground, #141414);
+  }
+
+  .image-steps-carousel__step-description ul {
+    margin: 0;
+    padding-inline-start: 1.2em;
+    list-style-type: disc;
+  }
+
+  .image-steps-carousel__step-description li {
+    margin-bottom: 8px;
+  }
+
+  .image-steps-carousel__step-description li:last-child {
+    margin-bottom: 0;
+  }
+
+  /* ---- Desktop layout ---- */
+
+  @media screen and (min-width: 750px) {
+    .image-steps-carousel__layout {
+      flex-direction: row;
+      align-items: center;
+      gap: var(--isc-desktop-gap, 80px);
+    }
+
+    .image-steps-carousel__carousel {
+      flex: 1 1 55%;
+      min-width: 0;
+    }
+
+    .image-steps-carousel__slide {
+      min-width: unset;
+      height: 546px;
+    }
+
+    .image-steps-carousel__image {
+      width: auto;
+      height: 100%;
+    }
+
+    .image-steps-carousel__content {
+      flex: 1 1 45%;
+      min-width: 0;
+    }
+
+    .image-steps-carousel__heading {
+      font-size: 2rem;
+      line-height: 42px;
+    }
+  }
+
+  /* ---- Mobile adjustments ---- */
+
+  @media screen and (max-width: 749px) {
+    .image-steps-carousel__heading {
+      font-size: 1.5rem;
+      line-height: 1.3;
+    }
+
+    .image-steps-carousel__badge {
+      font-size: 0.875rem;
+      padding: 3px 12px;
+    }
+
+    .image-steps-carousel__step-title {
+      font-size: 1.125rem;
+    }
+
+    .image-steps-carousel__step-description {
+      font-size: 0.875rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .image-steps-carousel__track {
+      scroll-behavior: auto;
+    }
+
+    .image-steps-carousel__dot {
+      transition: none;
+    }
+
+    .image-steps-carousel__step {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Image steps carousel",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "How It Works"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading tag",
+      "options": [
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows",
+      "label": "Show arrows",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "label": "Image border radius",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "color",
+      "id": "badge_background",
+      "label": "Badge background",
+      "default": "#81AE9A"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_gap",
+      "label": "Desktop gap",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "content_gap",
+      "label": "Content gap",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Left padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Right padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image-slide",
+      "name": "Image slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    },
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        {
+          "type": "text",
+          "id": "badge_text",
+          "label": "Badge text"
+        },
+        {
+          "type": "text",
+          "id": "step_title",
+          "label": "Step title"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image steps carousel",
+      "category": "t:categories.storytelling",
+      "blocks": [
+        {
+          "type": "image-slide"
+        },
+        {
+          "type": "image-slide"
+        },
+        {
+          "type": "image-slide"
+        },
+        {
+          "type": "step",
+          "settings": {
+            "badge_text": "Step 1",
+            "step_title": "Cleanse & Prepare",
+            "description": "<ul><li>Start with a gentle cleansing routine to prepare your skin for the treatment ahead.</li></ul>"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "badge_text": "Step 2",
+            "step_title": "Treat & Nourish",
+            "description": "<ul><li>Apply the targeted treatment serum to deliver active ingredients where they are needed most.</li></ul>"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "badge_text": "Step 3",
+            "step_title": "Protect & Maintain",
+            "description": "<ul><li>Seal in the benefits with a protective moisturizer to keep your skin hydrated all day.</li></ul>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
