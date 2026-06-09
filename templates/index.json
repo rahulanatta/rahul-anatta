@@ -263,7 +263,9 @@
         "gradient_direction": "to right",
         "text_color": "#ffffff",
         "padding-block-start": 24,
-        "padding-block-end": 24
+        "padding-block-end": 24,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
       }
     },
     "product_list_fa6P9H": {
@@ -941,6 +943,7 @@
       "settings": {
         "heading": "Natural Firming Facial Serum",
         "subtitle": "A concentrated, plant-based formula designed to support skin",
+        "image": "shopify://shop_images/image-171-mobile-578318848.jpg",
         "image_position": "right",
         "heading_font_size": 32,
         "subtitle_font_size": 16,
@@ -953,10 +956,10 @@
         "row_border_radius": 8,
         "section_width": "full-width",
         "color_scheme": "scheme-8",
-        "padding-block-start": 0,
-        "padding-block-end": 0,
-        "padding-inline-start": 0,
-        "padding-inline-end": 0
+        "padding-block-start": 12,
+        "padding-block-end": 12,
+        "padding-inline-start": 12,
+        "padding-inline-end": 12
       }
     }
   },
