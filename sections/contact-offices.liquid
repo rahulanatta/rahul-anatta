@@ -1,0 +1,293 @@
+<div
+  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style contact-offices"
+  style="
+    {%- render 'spacing-style', settings: section.settings -%}
+    --co-grid-gap: {{ section.settings.grid_gap }}px;
+  "
+>
+  <div class="contact-offices__grid">
+    {% for block in section.blocks %}
+      {% if block.type == 'office-card' %}
+        <div class="contact-offices__card" {{ block.shopify_attributes }}>
+          <div class="contact-offices__picture">
+            {% if block.settings.image != blank %}
+              {%- assign sizes_val = '(min-width: 1024px) 33vw, 100vw' -%}
+              {{
+                block.settings.image
+                | image_url: width: block.settings.image.width
+                | image_tag:
+                  widths: '375,550,750,1100',
+                  sizes: sizes_val,
+                  loading: 'lazy',
+                  class: 'contact-offices__image',
+                  alt: block.settings.country_name
+              }}
+            {% else %}
+              <div class="contact-offices__image contact-offices__image--placeholder">
+                {{ 'image' | placeholder_svg_tag }}
+              </div>
+            {% endif %}
+          </div>
+
+          <div class="contact-offices__info">
+            <div class="contact-offices__details">
+              {% if block.settings.country_name != blank %}
+                <h3 class="contact-offices__country">{{ block.settings.country_name | escape }}</h3>
+              {% endif %}
+              {% if block.settings.phone != blank %}
+                <p class="contact-offices__phone">{{ block.settings.phone | escape }}</p>
+              {% endif %}
+              {% if block.settings.email != blank %}
+                <p class="contact-offices__email">{{ block.settings.email | escape }}</p>
+              {% endif %}
+            </div>
+
+            {% if block.settings.button_text != blank %}
+              <a
+                {% if block.settings.button_url != blank %}href="{{ block.settings.button_url }}"{% endif %}
+                class="contact-offices__button"
+              >
+                {{ block.settings.button_text | escape }}
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .contact-offices__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--co-grid-gap, 32px);
+
+    @media screen and (min-width: 1024px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .contact-offices__card {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    align-items: center;
+    padding: 12px 12px 32px 10px;
+    background: #fff;
+    border-radius: 22px;
+    border: 1px solid #D5D5D5;
+
+    @media screen and (min-width: 1024px) {
+      padding: 32px 15px;
+      border-radius: 0;
+      border: none;
+    }
+  }
+
+  .contact-offices__picture {
+    width: 100%;
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  .contact-offices__image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 410 / 255;
+    object-fit: cover;
+  }
+
+  .contact-offices__image--placeholder {
+    background: #F2F2F2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    & svg {
+      width: 40%;
+      height: 40%;
+      opacity: 0.3;
+    }
+  }
+
+  .contact-offices__info {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+    padding-inline: 2px;
+  }
+
+  .contact-offices__details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .contact-offices__country {
+    font-family: var(--font-heading--family);
+    font-weight: 500;
+    font-size: 26px;
+    line-height: 38px;
+    letter-spacing: -0.64px;
+    margin: 0;
+    color: var(--color-foreground);
+  }
+
+  .contact-offices__phone,
+  .contact-offices__email {
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 30px;
+    margin: 0;
+    color: var(--color-foreground);
+  }
+
+  .contact-offices__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 40px 9px;
+    background: #fff;
+    border: 1px solid #000;
+    border-radius: 10px;
+    font-family: var(--font-body--family);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 30px;
+    text-transform: capitalize;
+    text-decoration: none;
+    color: #000;
+    cursor: pointer;
+    width: fit-content;
+    transition: background-color 0.2s ease, color 0.2s ease;
+
+    &:hover {
+      background: #000;
+      color: #fff;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Country office directory",
+  "tag": "section",
+  "class": "contact-offices-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "label": "Grid gap",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "office-card",
+      "name": "Office card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "country_name",
+          "label": "Country name",
+          "default": "United States"
+        },
+        {
+          "type": "text",
+          "id": "phone",
+          "label": "Phone number",
+          "default": "1 (866) 420-1709"
+        },
+        {
+          "type": "text",
+          "id": "email",
+          "label": "Email",
+          "default": "support@marketamerica.com"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button text",
+          "default": "Contact Support"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "Button link"
+        }
+      ]
+    },
+    {
+      "type": "@app"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Country office directory"
+    }
+  ]
+}
+{% endschema %}

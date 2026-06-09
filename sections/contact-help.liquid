@@ -1,0 +1,267 @@
+<div
+  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style contact-help"
+  style="{%- render 'spacing-style', settings: section.settings -%}"
+>
+  <div class="contact-help__header">
+    {% if section.settings.heading != blank %}
+      <h2 class="contact-help__heading">{{ section.settings.heading | escape }}</h2>
+    {% endif %}
+    {% if section.settings.description != blank %}
+      <p class="contact-help__description">{{ section.settings.description | escape }}</p>
+    {% endif %}
+  </div>
+
+  {% if section.blocks.size > 0 %}
+    <div class="contact-help__groups">
+      {% for block in section.blocks %}
+        {% if block.type == 'info-group' %}
+          <div class="contact-help__group" {{ block.shopify_attributes }}>
+            {% if block.settings.title != blank %}
+              <h3 class="contact-help__group-title">{{ block.settings.title | escape }}</h3>
+            {% endif %}
+
+            <div class="contact-help__group-details">
+              {% if block.settings.phone != blank %}
+                <div class="contact-help__detail">
+                  {% if block.settings.phone_label != blank %}
+                    <span class="contact-help__label">{{ block.settings.phone_label | escape }}</span>
+                  {% endif %}
+                  <a href="tel:{{ block.settings.phone | escape }}" class="contact-help__link">
+                    {{ block.settings.phone | escape }}
+                  </a>
+                </div>
+              {% endif %}
+
+              {% if block.settings.email != blank %}
+                <div class="contact-help__detail">
+                  {% if block.settings.email_label != blank %}
+                    <span class="contact-help__label">{{ block.settings.email_label | escape }}</span>
+                  {% endif %}
+                  <a href="mailto:{{ block.settings.email | escape }}" class="contact-help__link">
+                    {{ block.settings.email | escape }}
+                  </a>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
+
+{% stylesheet %}
+  .contact-help__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+    max-width: 750px;
+    margin-inline: auto;
+    margin-block-end: 40px;
+  }
+
+  .contact-help__heading {
+    font-family: var(--font-heading--family);
+    font-weight: 500;
+    font-size: 26px;
+    line-height: 38px;
+    letter-spacing: -0.64px;
+    margin: 0;
+    color: var(--color-foreground);
+
+    @media screen and (min-width: 1024px) {
+      font-size: 32px;
+      line-height: 42px;
+    }
+  }
+
+  .contact-help__description {
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 26px;
+    margin: 0;
+    color: var(--color-foreground);
+  }
+
+  .contact-help__groups {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+
+    @media screen and (min-width: 1024px) {
+      flex-direction: row;
+      gap: 64px;
+    }
+  }
+
+  .contact-help__group {
+    flex: 1;
+  }
+
+  .contact-help__group-title {
+    font-family: var(--font-heading--family);
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 30px;
+    margin: 0 0 16px;
+    color: var(--color-foreground);
+  }
+
+  .contact-help__group-details {
+    display: flex;
+    flex-direction: row;
+    gap: 32px;
+  }
+
+  .contact-help__detail {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .contact-help__label {
+    font-family: var(--font-body--family);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    text-transform: uppercase;
+    color: var(--color-foreground);
+  }
+
+  .contact-help__link {
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #56AFD9;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Contact help",
+  "tag": "section",
+  "class": "contact-help-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Wherever You Are, We're Here to Help"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "No matter where you do business with us, our dedicated customer support teams are just a phone call or email away. Find the contact information for your region below — we look forward to assisting you!"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "info-group",
+      "name": "Info group",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "General Information"
+        },
+        {
+          "type": "text",
+          "id": "phone_label",
+          "label": "Phone label",
+          "default": "PHONE:"
+        },
+        {
+          "type": "text",
+          "id": "phone",
+          "label": "Phone number"
+        },
+        {
+          "type": "text",
+          "id": "email_label",
+          "label": "Email label",
+          "default": "EMAIL:"
+        },
+        {
+          "type": "text",
+          "id": "email",
+          "label": "Email"
+        }
+      ]
+    },
+    {
+      "type": "@app"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact help"
+    }
+  ]
+}
+{% endschema %}
