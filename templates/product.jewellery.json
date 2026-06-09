@@ -176,7 +176,7 @@
               "type": "text",
               "name": "Subtitle",
               "settings": {
-                "text": "{{ closest.product.metafields.custom.product_short_description.value | default: '' }}",
+                "text": "{{ closest.product.metafields.custom.product_short_description.value }}",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "left",
