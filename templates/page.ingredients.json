@@ -65,162 +65,180 @@
           "type": "ingredient-card",
           "settings": {
             "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317500.jpg",
-            "title": "Ingredient",
+            "title": "Vitamin C",
             "url": "",
-            "category": "vitamins-minerals"
+            "category": "vitamins-minerals",
+            "ingredient_handle": "vitamin-c"
           }
         },
         "card_2": {
           "type": "ingredient-card",
           "settings": {
             "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317503.jpg",
-            "title": "Ingredient",
+            "title": "Vitamin C",
             "url": "",
-            "category": "vitamins-minerals"
+            "category": "vitamins-minerals",
+            "ingredient_handle": "vitamin-c"
           }
         },
         "card_3": {
           "type": "ingredient-card",
           "settings": {
             "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317506.jpg",
-            "title": "Ingredient",
+            "title": "Probiotics",
             "url": "",
-            "category": "digestive-support"
+            "category": "digestive-support",
+            "ingredient_handle": "probiotics"
           }
         },
         "card_4": {
           "type": "ingredient-card",
           "settings": {
             "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317509.jpg",
-            "title": "Ingredient",
+            "title": "Probiotics",
             "url": "",
-            "category": "digestive-support"
+            "category": "digestive-support",
+            "ingredient_handle": "probiotics"
           }
         },
         "card_5": {
           "type": "ingredient-card",
           "settings": {
             "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317512.jpg",
-            "title": "Ingredient",
+            "title": "Green Tea Extract",
             "url": "",
-            "category": "antioxidants"
+            "category": "antioxidants",
+            "ingredient_handle": "green-tea-extract"
           }
         },
         "card_6": {
           "type": "ingredient-card",
           "settings": {
             "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317515.jpg",
-            "title": "Ingredient",
+            "title": "Green Tea Extract",
             "url": "",
-            "category": "antioxidants"
+            "category": "antioxidants",
+            "ingredient_handle": "green-tea-extract"
           }
         },
         "card_7": {
           "type": "ingredient-card",
           "settings": {
             "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317519.jpg",
-            "title": "Ingredient",
+            "title": "Bromelain",
             "url": "",
-            "category": "digestive-enzymes-botanical-extracts"
+            "category": "digestive-enzymes-botanical-extracts",
+            "ingredient_handle": "bromelain"
           }
         },
         "card_8": {
           "type": "ingredient-card",
           "settings": {
             "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317522.png",
-            "title": "Ingredient",
+            "title": "Bromelain",
             "url": "",
-            "category": "digestive-enzymes-botanical-extracts"
+            "category": "digestive-enzymes-botanical-extracts",
+            "ingredient_handle": "bromelain"
           }
         },
         "card_9": {
           "type": "ingredient-card",
           "settings": {
             "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317525.jpg",
-            "title": "Ingredient",
+            "title": "Ashwagandha",
             "url": "",
-            "category": "stress-adaptogens"
+            "category": "stress-adaptogens",
+            "ingredient_handle": "ashwagandha"
           }
         },
         "card_10": {
           "type": "ingredient-card",
           "settings": {
             "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317528.png",
-            "title": "Ingredient",
+            "title": "Ashwagandha",
             "url": "",
-            "category": "stress-adaptogens"
+            "category": "stress-adaptogens",
+            "ingredient_handle": "ashwagandha"
           }
         },
         "card_11": {
           "type": "ingredient-card",
           "settings": {
             "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317531.jpg",
-            "title": "Ingredient",
+            "title": "Zinc",
             "url": "",
-            "category": "immune-defense"
+            "category": "immune-defense",
+            "ingredient_handle": "zinc"
           }
         },
         "card_12": {
           "type": "ingredient-card",
           "settings": {
             "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317534.jpg",
-            "title": "Ingredient",
+            "title": "Zinc",
             "url": "",
-            "category": "immune-defense"
+            "category": "immune-defense",
+            "ingredient_handle": "zinc"
           }
         },
         "card_13": {
           "type": "ingredient-card",
           "settings": {
             "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317538.jpg",
-            "title": "Ingredient",
+            "title": "Vitamin C",
             "url": "",
-            "category": "vitamins-minerals"
+            "category": "vitamins-minerals",
+            "ingredient_handle": "vitamin-c"
           }
         },
         "card_14": {
           "type": "ingredient-card",
           "settings": {
             "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317541.jpg",
-            "title": "Ingredient",
+            "title": "Probiotics",
             "url": "",
-            "category": "digestive-support"
+            "category": "digestive-support",
+            "ingredient_handle": "probiotics"
           }
         },
         "card_15": {
           "type": "ingredient-card",
           "settings": {
             "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317506.jpg",
-            "title": "Ingredient",
+            "title": "Green Tea Extract",
             "url": "",
-            "category": "antioxidants"
+            "category": "antioxidants",
+            "ingredient_handle": "green-tea-extract"
           }
         },
         "card_16": {
           "type": "ingredient-card",
           "settings": {
             "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317500.jpg",
-            "title": "Ingredient",
+            "title": "Bromelain",
             "url": "",
-            "category": "digestive-enzymes-botanical-extracts"
+            "category": "digestive-enzymes-botanical-extracts",
+            "ingredient_handle": "bromelain"
           }
         },
         "card_17": {
           "type": "ingredient-card",
           "settings": {
             "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317550.jpg",
-            "title": "Ingredient",
+            "title": "Ashwagandha",
             "url": "",
-            "category": "stress-adaptogens"
+            "category": "stress-adaptogens",
+            "ingredient_handle": "ashwagandha"
           }
         },
         "card_18": {
           "type": "ingredient-card",
           "settings": {
             "image": "shopify://shop_images/adobestock-493811626-preview-1-desktop-209317512.jpg",
-            "title": "Ingredient",
+            "title": "Zinc",
             "url": "",
-            "category": "immune-defense"
+            "category": "immune-defense",
+            "ingredient_handle": "zinc"
           }
         }
       },

@@ -9,7 +9,8 @@
       "mcp__claude_ai_Shopify__create-product",
       "mcp__claude_ai_Shopify__validate_graphql_codeblocks",
       "mcp__claude_ai_Shopify__graphql_mutation",
-      "mcp__claude_ai_Figma__get_design_context"
+      "mcp__claude_ai_Figma__get_design_context",
+      "mcp__claude_ai_Shopify__graphql_query"
     ]
   }
 }

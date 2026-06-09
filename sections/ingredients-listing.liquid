@@ -128,99 +128,41 @@
   {% endif %}
 </div>
 
-{% comment %} Drawer templates for ingredient cards with metaobject handles {% endcomment %}
+{% comment %} Drawer templates: content pulled from the `ingredient` metaobject (title, description, image) {% endcomment %}
 {% for block in card_blocks %}
   {%- if block.settings.ingredient_handle != blank -%}
-    {%- assign ingredient_mo = shop.metaobjects.ingredient_detail[block.settings.ingredient_handle] -%}
+    {%- assign ingredient_mo = shop.metaobjects.ingredient[block.settings.ingredient_handle] -%}
     {%- if ingredient_mo -%}
-      <template data-ingredient="{{ block.id }}" data-title="{{ ingredient_mo.title.value | escape }}">
+      <template data-ingredient="{{ block.id }}" data-title="{{ ingredient_mo.title.value | default: block.settings.title | escape }}">
         <div class="ingredient-drawer__content">
 
-          {% if ingredient_mo.main_image.value != blank %}
+          {%- if ingredient_mo.image.value != blank -%}
             <img
-              src="{{ ingredient_mo.main_image.value | image_url: width: 1080 }}"
+              src="{{ ingredient_mo.image.value | image_url: width: 1080 }}"
               alt="{{ ingredient_mo.title.value | escape }}"
               class="ingredient-drawer__main-image"
               loading="lazy"
               width="540"
               height="297"
             >
-          {% endif %}
-
-          {%- assign drawer_products = ingredient_mo.products.value -%}
-          {% if drawer_products != blank and drawer_products.size > 0 %}
-            <div class="ingredient-drawer__products">
-              <h3 class="ingredient-drawer__products-heading">Products with {{ ingredient_mo.title.value | escape }}</h3>
-              <div class="ingredient-drawer__products-grid">
-                {% for product_ref in drawer_products %}
-                  {% if product_ref != blank %}
-                    <a href="{{ product_ref.url }}" class="ingredient-drawer__product-card">
-                      {% if product_ref.featured_image != blank %}
-                        <img
-                          src="{{ product_ref.featured_image | image_url: width: 276 }}"
-                          alt="{{ product_ref.title | escape }}"
-                          class="ingredient-drawer__product-image"
-                          loading="lazy"
-                          width="138"
-                          height="138"
-                        >
-                      {% endif %}
-                    </a>
-                  {% endif %}
-                {% endfor %}
-              </div>
-            </div>
-          {% endif %}
-
-          {% if ingredient_mo.tagline.value != blank %}
-            <p class="ingredient-drawer__tagline">{{ ingredient_mo.tagline.value | escape }}</p>
-          {% endif %}
-
-          {% if ingredient_mo.benefits.value != blank %}
-            <h3 class="ingredient-drawer__benefits-heading">Benefits</h3>
-          {% endif %}
-
-          {%- assign gallery_images = ingredient_mo.gallery_images.value -%}
-          {% if gallery_images != blank and gallery_images.size > 0 %}
-            <div class="ingredient-drawer__gallery">
-              {% for gallery_img in gallery_images %}
-                {% if gallery_img != blank %}
-                  <img
-                    src="{{ gallery_img | image_url: width: 160 }}"
-                    alt="{{ ingredient_mo.title.value | escape }} gallery image {{ forloop.index }}"
-                    class="ingredient-drawer__gallery-thumb{% if forloop.first %} is-active{% endif %}"
-                    loading="lazy"
-                    width="80"
-                    height="80"
-                  >
-                {% endif %}
-              {% endfor %}
-              {% if gallery_images.size > 5 %}
-                <button type="button" class="ingredient-drawer__gallery-next" aria-label="Scroll gallery">
-                  <svg width="6" height="11" viewBox="0 0 6 11" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path d="M1 1L5 5.5L1 10" stroke="#000000" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </button>
-              {% endif %}
-            </div>
-          {% endif %}
-
-          {% if ingredient_mo.description.value != blank %}
-            <p class="ingredient-drawer__description">{{ ingredient_mo.description.value | escape }}</p>
-          {% endif %}
-
-          {% if ingredient_mo.benefits.value != blank %}
-            <p class="ingredient-drawer__benefits-text">{{ ingredient_mo.benefits.value | escape }}</p>
-          {% endif %}
-
-          {% if ingredient_mo.banner_image.value != blank %}
+          {%- elsif block.settings.image != blank -%}
             <img
-              src="{{ ingredient_mo.banner_image.value | image_url: width: 1200 }}"
-              alt="{{ ingredient_mo.title.value | escape }} banner"
-              class="ingredient-drawer__banner"
+              src="{{ block.settings.image | image_url: width: 1080 }}"
+              alt="{{ ingredient_mo.title.value | escape }}"
+              class="ingredient-drawer__main-image"
               loading="lazy"
+              width="540"
+              height="297"
             >
-          {% endif %}
+          {%- endif -%}
+
+          {%- if ingredient_mo.title.value != blank -%}
+            <h2 class="ingredient-drawer__name">{{ ingredient_mo.title.value | escape }}</h2>
+          {%- endif -%}
+
+          {%- if ingredient_mo.description.value != blank -%}
+            <p class="ingredient-drawer__description">{{ ingredient_mo.description.value | escape }}</p>
+          {%- endif -%}
 
         </div>
       </template>
@@ -641,6 +583,15 @@
     justify-content: center;
     cursor: pointer;
     padding: 0;
+  }
+
+  .ingredient-drawer__name {
+    font-family: var(--font-heading--family);
+    font-weight: var(--font-heading--weight, 400);
+    font-size: 28px;
+    line-height: 36px;
+    color: #141414;
+    margin: 0;
   }
 
   .ingredient-drawer__description {
@@ -1080,8 +1031,8 @@
         {
           "type": "text",
           "id": "ingredient_handle",
-          "label": "Metaobject handle",
-          "info": "Handle of the ingredient_detail metaobject entry. When set, card opens a drawer instead of navigating."
+          "label": "Ingredient metaobject handle",
+          "info": "Handle of the Ingredient metaobject entry (e.g. vitamin-c). When set, the card opens a drawer with that ingredient's title, description, and image instead of navigating."
         }
       ]
     }
