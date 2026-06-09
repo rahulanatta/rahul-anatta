@@ -1,0 +1,319 @@
+<div
+  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style contact-directory"
+  style="
+    {%- render 'spacing-style', settings: section.settings -%}
+    --cd-grid-gap: {{ section.settings.grid_gap }}px;
+  "
+>
+  <div class="contact-directory__header">
+    {% if section.settings.heading != blank %}
+      <h2 class="contact-directory__heading">{{ section.settings.heading | escape }}</h2>
+    {% endif %}
+    {% if section.settings.description != blank %}
+      <p class="contact-directory__description">{{ section.settings.description | escape }}</p>
+    {% endif %}
+  </div>
+
+  {% if section.blocks.size > 0 %}
+    <div class="contact-directory__grid">
+      {% for block in section.blocks %}
+        {% if block.type == 'directory-entry' %}
+          <div class="contact-directory__entry" {{ block.shopify_attributes }}>
+            {% if block.settings.title != blank %}
+              <h3 class="contact-directory__entry-title">{{ block.settings.title | escape }}</h3>
+            {% endif %}
+
+            <div class="contact-directory__entry-details">
+              {% if block.settings.phone != blank %}
+                <div class="contact-directory__detail">
+                  {% if block.settings.phone_label != blank %}
+                    <span class="contact-directory__label">{{ block.settings.phone_label | escape }}</span>
+                  {% endif %}
+                  <a href="tel:{{ block.settings.phone | escape }}" class="contact-directory__link">
+                    {{ block.settings.phone | escape }}
+                  </a>
+                </div>
+              {% endif %}
+
+              {% if block.settings.email != blank %}
+                <div class="contact-directory__detail">
+                  {% if block.settings.email_label != blank %}
+                    <span class="contact-directory__label">{{ block.settings.email_label | escape }}</span>
+                  {% endif %}
+                  <a href="mailto:{{ block.settings.email | escape }}" class="contact-directory__link">
+                    {{ block.settings.email | escape }}
+                  </a>
+                </div>
+              {% endif %}
+
+              {% if block.settings.hours != blank %}
+                <div class="contact-directory__detail">
+                  <span class="contact-directory__label">Hours:</span>
+                  <span class="contact-directory__hours">{{ block.settings.hours | escape }}</span>
+                </div>
+              {% endif %}
+
+              {% if block.settings.address != blank %}
+                <div class="contact-directory__detail">
+                  <span class="contact-directory__label">Address:</span>
+                  <span class="contact-directory__address">{{ block.settings.address | escape }}</span>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
+
+{% stylesheet %}
+  .contact-directory__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+    max-width: 750px;
+    margin-inline: auto;
+    margin-block-end: 40px;
+  }
+
+  .contact-directory__heading {
+    font-family: var(--font-heading--family);
+    font-weight: 500;
+    font-size: 26px;
+    line-height: 38px;
+    letter-spacing: -0.64px;
+    margin: 0;
+    color: var(--color-foreground);
+
+    @media screen and (min-width: 1024px) {
+      font-size: 32px;
+      line-height: 42px;
+    }
+  }
+
+  .contact-directory__description {
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 26px;
+    margin: 0;
+    color: var(--color-foreground);
+  }
+
+  .contact-directory__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--cd-grid-gap, 32px);
+
+    @media screen and (min-width: 1024px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .contact-directory__entry {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-block-end: 24px;
+    border-bottom: 1px solid #D5D5D5;
+  }
+
+  .contact-directory__entry-title {
+    font-family: var(--font-heading--family);
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 30px;
+    margin: 0;
+    color: var(--color-foreground);
+  }
+
+  .contact-directory__entry-details {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 24px;
+    row-gap: 12px;
+  }
+
+  .contact-directory__detail {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .contact-directory__label {
+    font-family: var(--font-body--family);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    text-transform: uppercase;
+    color: var(--color-foreground);
+  }
+
+  .contact-directory__link {
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #56AFD9;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .contact-directory__hours,
+  .contact-directory__address {
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--color-foreground);
+    white-space: pre-line;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Contact directory",
+  "tag": "section",
+  "class": "contact-directory-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Contact Directory"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Find the right team to help you with your inquiry. Reach us by phone or email — we're happy to assist."
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "label": "Grid gap",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "directory-entry",
+      "name": "Directory entry",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Customer Support"
+        },
+        {
+          "type": "text",
+          "id": "phone_label",
+          "label": "Phone label",
+          "default": "PHONE:"
+        },
+        {
+          "type": "text",
+          "id": "phone",
+          "label": "Phone number"
+        },
+        {
+          "type": "text",
+          "id": "email_label",
+          "label": "Email label",
+          "default": "EMAIL:"
+        },
+        {
+          "type": "text",
+          "id": "email",
+          "label": "Email address"
+        },
+        {
+          "type": "text",
+          "id": "hours",
+          "label": "Hours"
+        },
+        {
+          "type": "textarea",
+          "id": "address",
+          "label": "Address"
+        }
+      ]
+    },
+    {
+      "type": "@app"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact directory"
+    }
+  ]
+}
+{% endschema %}
