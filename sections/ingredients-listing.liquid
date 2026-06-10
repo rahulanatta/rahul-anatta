@@ -55,10 +55,6 @@
     <{{ section.settings.heading_tag }} class="ingredients-listing__heading">{{ heading }}</{{ section.settings.heading_tag }}>
   {% endif %}
 
-  {% if description != blank %}
-    <p class="ingredients-listing__description">{{ description }}</p>
-  {% endif %}
-
   {% liquid
     assign filter_blocks = section.blocks | where: 'type', 'category-filter'
     assign card_blocks = section.blocks | where: 'type', 'ingredient-card'
@@ -78,6 +74,10 @@
         </button>
       {% endfor %}
     </div>
+  {% endif %}
+
+  {% if description != blank %}
+    <p class="ingredients-listing__description">{{ description }}</p>
   {% endif %}
 
   {% if card_blocks.size > 0 %}

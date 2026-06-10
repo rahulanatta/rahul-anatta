@@ -273,7 +273,7 @@
         "heading": "Advanced ingredients delivering real results",
         "description": "Premium ingredients, optimized for impact. We source the highest quality compounds for maximum purity, delivering them through advanced liquid absorption so you never waste a drop of nutrition.*",
         "heading_tag": "h1",
-        "show_breadcrumb": false,
+        "show_breadcrumb": true,
         "breadcrumb_parent_1_text": "Home",
         "breadcrumb_parent_1_url": "",
         "breadcrumb_parent_2_text": "Nutrition & Health",
