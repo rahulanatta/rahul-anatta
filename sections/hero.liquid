@@ -450,12 +450,18 @@
 
 <div
   id="Hero-{{ section.id }}"
-  class="hero color-{{ section.settings.color_scheme }}{% if section.blocks.size == 0 and section.settings.section_height == 'auto' %} hero--no-blocks-auto-height{% endif %}{% if section.settings.stack_media_on_mobile %} hero--stack-mobile{% endif %}"
+  class="hero color-{{ section.settings.color_scheme }}{% if section.blocks.size == 0 and section.settings.section_height == 'auto' %} hero--no-blocks-auto-height{% endif %}{% if section.settings.stack_media_on_mobile %} hero--stack-mobile{% endif %}{% if section.settings.custom_mobile_layout %} hero--custom-mobile{% endif %}{% if section.settings.custom_mobile_layout and section.settings.image_height_mobile > 0 %} hero--mobile-height{% endif %}"
   style="
     --hero-border-style: {{ section.settings.border }};
     --hero-border-width: {{ section.settings.border_width }}px;
     --hero-border-opacity: {{ section.settings.border_opacity }}%;
     --hero-corner-radius: {{ section.settings.corner_radius | default: 0 }}px;
+    --hero-corner-radius-mobile: {{ section.settings.corner_radius_mobile | default: 0 }}px;
+    --hero-pad-top-m: {{ section.settings.pad_top_mobile | default: 0 }}px;
+    --hero-pad-bottom-m: {{ section.settings.pad_bottom_mobile | default: 0 }}px;
+    --hero-pad-left-m: {{ section.settings.pad_left_mobile | default: 0 }}px;
+    --hero-pad-right-m: {{ section.settings.pad_right_mobile | default: 0 }}px;
+    {% if section.settings.image_height_mobile > 0 %}--hero-min-height-mobile: {{ section.settings.image_height_mobile }}px;{% endif %}
     --blur-opacity: {{ section.settings.reflection_opacity | divided_by: 100.0 }};
     {% if section.settings.image_height > 0 %}
       --hero-min-height: {{ section.settings.image_height }}px;
@@ -658,6 +664,23 @@
     .hero--stack-mobile .hero__media-grid {
       grid-template-columns: 1fr;
       grid-template-rows: repeat(var(--hero-media-count-mobile, 1), calc(100% / var(--hero-media-count-mobile, 1)));
+    }
+  }
+
+  /* Mobile-specific overrides (when "Custom mobile layout" is enabled) */
+  @media screen and (max-width: 749px) {
+    .hero--custom-mobile .hero__container {
+      padding-block: calc(var(--hero-pad-top-m, 0px) + var(--section-top-offset, 0px)) var(--hero-pad-bottom-m, 0px);
+      padding-inline: var(--hero-pad-left-m, 0px) var(--hero-pad-right-m, 0px);
+      border-radius: var(--hero-corner-radius-mobile, 0px);
+    }
+
+    .hero--custom-mobile .hero__media-grid {
+      border-radius: var(--hero-corner-radius-mobile, 0px);
+    }
+
+    .hero--mobile-height {
+      min-height: calc(var(--hero-min-height-mobile) - var(--hero-height-offset));
     }
   }
 
@@ -1283,6 +1306,84 @@
       "step": 1,
       "unit": "px",
       "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Mobile"
+    },
+    {
+      "type": "checkbox",
+      "id": "custom_mobile_layout",
+      "label": "Custom mobile layout",
+      "default": false,
+      "info": "Use separate padding, corner radius and image height on mobile."
+    },
+    {
+      "type": "range",
+      "id": "image_height_mobile",
+      "label": "Image height",
+      "min": 0,
+      "max": 1000,
+      "step": 10,
+      "unit": "px",
+      "default": 0,
+      "info": "Set to 0 to use the desktop height.",
+      "visible_if": "{{ section.settings.custom_mobile_layout }}"
+    },
+    {
+      "type": "range",
+      "id": "corner_radius_mobile",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 12,
+      "visible_if": "{{ section.settings.custom_mobile_layout }}"
+    },
+    {
+      "type": "range",
+      "id": "pad_top_mobile",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 24,
+      "visible_if": "{{ section.settings.custom_mobile_layout }}"
+    },
+    {
+      "type": "range",
+      "id": "pad_bottom_mobile",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 24,
+      "visible_if": "{{ section.settings.custom_mobile_layout }}"
+    },
+    {
+      "type": "range",
+      "id": "pad_left_mobile",
+      "label": "t:settings.left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 16,
+      "visible_if": "{{ section.settings.custom_mobile_layout }}"
+    },
+    {
+      "type": "range",
+      "id": "pad_right_mobile",
+      "label": "t:settings.right",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 16,
+      "visible_if": "{{ section.settings.custom_mobile_layout }}"
     }
   ],
   "presets": [
