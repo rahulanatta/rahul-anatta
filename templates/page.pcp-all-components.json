@@ -59,6 +59,82 @@
     },
     "brand-carousel": {
       "type": "brand-carousel",
+      "blocks": {
+        "brand_logo_cWpnmA": {
+          "type": "brand-logo",
+          "settings": {
+            "image": "shopify://shop_images/Rectangle.png",
+            "link": "shopify://collections/frontpage",
+            "alt_text": ""
+          }
+        },
+        "brand_logo_Un9Nn3": {
+          "type": "brand-logo",
+          "settings": {
+            "image": "shopify://shop_images/skintelligence-usca-mx-hk-tw-logo_1.png",
+            "link": "",
+            "alt_text": ""
+          }
+        },
+        "brand_1": {
+          "type": "brand-logo",
+          "settings": {
+            "image": "shopify://shop_images/brand.png",
+            "link": "shopify://collections",
+            "alt_text": "Brand 1"
+          }
+        },
+        "brand_2": {
+          "type": "brand-logo",
+          "settings": {
+            "image": "shopify://shop_images/Screenshot_2025-09-04_at_4.24.19_PM_17.png",
+            "link": "",
+            "alt_text": "Brand 2"
+          }
+        },
+        "brand_3": {
+          "type": "brand-logo",
+          "settings": {
+            "image": "shopify://shop_images/motives-logo.png",
+            "link": "",
+            "alt_text": "Brand 3"
+          }
+        },
+        "brand_4": {
+          "type": "brand-logo",
+          "settings": {
+            "image": "shopify://shop_images/ldv-usca-au-gb-es-hk-tw-sg-logo_1.png",
+            "link": "",
+            "alt_text": "Brand 4"
+          }
+        },
+        "brand_5": {
+          "type": "brand-logo",
+          "settings": {
+            "image": "shopify://shop_images/gotrim-logo-1-mobile-223839991.png",
+            "link": "",
+            "alt_text": "Brand 5"
+          }
+        },
+        "brand_6": {
+          "type": "brand-logo",
+          "settings": {
+            "image": "shopify://shop_images/Isotonix-Logo-Black_1.svg",
+            "link": "",
+            "alt_text": "Brand 6"
+          }
+        }
+      },
+      "block_order": [
+        "brand_logo_cWpnmA",
+        "brand_logo_Un9Nn3",
+        "brand_1",
+        "brand_2",
+        "brand_3",
+        "brand_4",
+        "brand_5",
+        "brand_6"
+      ],
       "settings": {
         "heading": "",
         "heading_tag": "h2",
@@ -72,56 +148,10 @@
         "color_scheme": "scheme-1",
         "section_width": "page-width",
         "padding-block-start": 40,
-        "padding-block-end": 40,
+        "padding-block-end": 0,
         "padding-inline-start": 0,
         "padding-inline-end": 0
-      },
-      "blocks": {
-        "brand_1": {
-          "type": "brand-logo",
-          "settings": {
-            "alt_text": "Brand 1"
-          }
-        },
-        "brand_2": {
-          "type": "brand-logo",
-          "settings": {
-            "alt_text": "Brand 2"
-          }
-        },
-        "brand_3": {
-          "type": "brand-logo",
-          "settings": {
-            "alt_text": "Brand 3"
-          }
-        },
-        "brand_4": {
-          "type": "brand-logo",
-          "settings": {
-            "alt_text": "Brand 4"
-          }
-        },
-        "brand_5": {
-          "type": "brand-logo",
-          "settings": {
-            "alt_text": "Brand 5"
-          }
-        },
-        "brand_6": {
-          "type": "brand-logo",
-          "settings": {
-            "alt_text": "Brand 6"
-          }
-        }
-      },
-      "block_order": [
-        "brand_1",
-        "brand_2",
-        "brand_3",
-        "brand_4",
-        "brand_5",
-        "brand_6"
-      ]
+      }
     }
   },
   "order": [
