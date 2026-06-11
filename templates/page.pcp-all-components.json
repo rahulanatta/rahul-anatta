@@ -56,9 +56,76 @@
         "padding-block-start": 40,
         "padding-block-end": 80
       }
+    },
+    "brand-carousel": {
+      "type": "brand-carousel",
+      "settings": {
+        "heading": "",
+        "heading_tag": "h2",
+        "columns_desktop": 6,
+        "columns_mobile": 3,
+        "gap": 24,
+        "logo_max_height": 60,
+        "auto_play": false,
+        "auto_play_speed": 3,
+        "show_arrows": true,
+        "color_scheme": "scheme-1",
+        "section_width": "page-width",
+        "padding-block-start": 40,
+        "padding-block-end": 40,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
+      },
+      "blocks": {
+        "brand_1": {
+          "type": "brand-logo",
+          "settings": {
+            "alt_text": "Brand 1"
+          }
+        },
+        "brand_2": {
+          "type": "brand-logo",
+          "settings": {
+            "alt_text": "Brand 2"
+          }
+        },
+        "brand_3": {
+          "type": "brand-logo",
+          "settings": {
+            "alt_text": "Brand 3"
+          }
+        },
+        "brand_4": {
+          "type": "brand-logo",
+          "settings": {
+            "alt_text": "Brand 4"
+          }
+        },
+        "brand_5": {
+          "type": "brand-logo",
+          "settings": {
+            "alt_text": "Brand 5"
+          }
+        },
+        "brand_6": {
+          "type": "brand-logo",
+          "settings": {
+            "alt_text": "Brand 6"
+          }
+        }
+      },
+      "block_order": [
+        "brand_1",
+        "brand_2",
+        "brand_3",
+        "brand_4",
+        "brand_5",
+        "brand_6"
+      ]
     }
   },
   "order": [
-    "main"
+    "main",
+    "brand-carousel"
   ]
 }

@@ -1,0 +1,459 @@
+{% liquid
+  assign section_width = section.settings.section_width
+  assign show_arrows = section.settings.show_arrows
+  assign auto_play = section.settings.auto_play
+  assign auto_play_speed = section.settings.auto_play_speed
+%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div
+  class="section section--{{ section_width }} color-{{ section.settings.color_scheme }} spacing-style brand-carousel"
+  style="
+    {%- render 'spacing-style', settings: section.settings -%}
+    --brand-carousel-columns: {{ section.settings.columns_desktop }};
+    --brand-carousel-columns-mobile: {{ section.settings.columns_mobile }};
+    --brand-carousel-gap: {{ section.settings.gap }}px;
+    --brand-carousel-logo-max-height: {{ section.settings.logo_max_height }}px;
+  "
+>
+  {% if section.settings.heading != blank %}
+    <{{ section.settings.heading_tag }} class="brand-carousel__heading">
+      {{ section.settings.heading | escape }}
+    </{{ section.settings.heading_tag }}>
+  {% endif %}
+
+  {% if section.blocks.size > 0 %}
+    <brand-carousel-component
+      class="brand-carousel__container"
+      data-auto-play="{{ auto_play }}"
+      data-speed="{{ auto_play_speed }}"
+    >
+      {% if show_arrows %}
+        <button
+          type="button"
+          class="brand-carousel__arrow brand-carousel__arrow--prev"
+          ref="prevBtn"
+          aria-label="Previous"
+          on:click="/handlePrev"
+          disabled
+        >
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      {% endif %}
+
+      <div class="brand-carousel__track" ref="track">
+        {% for block in section.blocks %}
+          <div class="brand-carousel__item" {{ block.shopify_attributes }}>
+            {% if block.settings.image != blank %}
+              {% if block.settings.link != blank %}
+                <a href="{{ block.settings.link }}" class="brand-carousel__link">
+              {% endif %}
+
+              {% liquid
+                assign alt_val = block.settings.alt_text
+                if alt_val == blank
+                  assign alt_val = block.settings.image.alt
+                endif
+              %}
+              {{
+                block.settings.image
+                | image_url: width: block.settings.image.width
+                | image_tag:
+                  widths: '100,200,300,400',
+                  sizes: '200px',
+                  loading: 'lazy',
+                  class: 'brand-carousel__logo',
+                  alt: alt_val
+              }}
+
+              {% if block.settings.link != blank %}
+                </a>
+              {% endif %}
+            {% else %}
+              <div class="brand-carousel__placeholder">
+                {{ 'image' | placeholder_svg_tag }}
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+
+      {% if show_arrows %}
+        <button
+          type="button"
+          class="brand-carousel__arrow brand-carousel__arrow--next"
+          ref="nextBtn"
+          aria-label="Next"
+          on:click="/handleNext"
+        >
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M7.5 5L12.5 10L7.5 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      {% endif %}
+    </brand-carousel-component>
+  {% endif %}
+</div>
+
+<script src="{{ 'brand-carousel.js' | asset_url }}" type="module"></script>
+
+{% stylesheet %}
+  .brand-carousel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .brand-carousel__heading {
+    font-family: var(--font-heading--family);
+    font-weight: var(--font-heading--weight);
+    font-size: var(--font-size--xl);
+    line-height: 1.2;
+    text-align: center;
+    color: var(--color-foreground);
+    margin: 0 0 24px 0;
+  }
+
+  @media screen and (max-width: 749px) {
+    .brand-carousel__heading {
+      font-size: var(--font-size--lg);
+      margin-bottom: 16px;
+    }
+  }
+
+  .brand-carousel__container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    position: relative;
+  }
+
+  .brand-carousel__track {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: calc((100% - (var(--brand-carousel-columns) - 1) * var(--brand-carousel-gap)) / var(--brand-carousel-columns));
+    gap: var(--brand-carousel-gap);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    width: 100%;
+  }
+
+  .brand-carousel__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .brand-carousel__track {
+      grid-auto-columns: calc((100% - (var(--brand-carousel-columns-mobile) - 1) * var(--brand-carousel-gap)) / var(--brand-carousel-columns-mobile));
+    }
+  }
+
+  .brand-carousel__item {
+    scroll-snap-align: start;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+  }
+
+  .brand-carousel__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    width: 100%;
+    height: 100%;
+  }
+
+  .brand-carousel__logo {
+    display: block;
+    max-height: var(--brand-carousel-logo-max-height);
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+  }
+
+  .brand-carousel__placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-height: var(--brand-carousel-logo-max-height);
+    color: var(--color-foreground);
+    opacity: 0.3;
+  }
+
+  .brand-carousel__placeholder svg {
+    width: 60px;
+    height: 60px;
+  }
+
+  .brand-carousel__arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--color-border);
+    background: var(--color-background);
+    color: var(--color-foreground);
+    cursor: pointer;
+    padding: 0;
+    transition: opacity var(--animation-speed) ease, border-color var(--animation-speed) ease;
+  }
+
+  .brand-carousel__arrow:hover:not(:disabled) {
+    border-color: var(--color-foreground);
+  }
+
+  .brand-carousel__arrow:disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+
+  .brand-carousel__arrow:focus-visible {
+    outline: 2px solid var(--color-foreground);
+    outline-offset: 2px;
+  }
+
+  .brand-carousel__arrow svg {
+    display: block;
+    width: 20px;
+    height: 20px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .brand-carousel__arrow {
+      display: none;
+    }
+
+    .brand-carousel__container {
+      gap: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .brand-carousel__track {
+      scroll-behavior: auto;
+    }
+
+    .brand-carousel__arrow {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Brand carousel",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading tag",
+      "options": [
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" },
+        { "value": "h6", "label": "H6" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns (desktop)",
+      "min": 3,
+      "max": 8,
+      "step": 1,
+      "default": 6
+    },
+    {
+      "type": "range",
+      "id": "columns_mobile",
+      "label": "Columns (mobile)",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Gap",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "default": 24,
+      "unit": "px"
+    },
+    {
+      "type": "number",
+      "id": "logo_max_height",
+      "label": "Logo max height",
+      "default": 60
+    },
+    {
+      "type": "header",
+      "content": "Auto-play"
+    },
+    {
+      "type": "checkbox",
+      "id": "auto_play",
+      "label": "Auto-play",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "auto_play_speed",
+      "label": "Speed (seconds)",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 3,
+      "visible_if": "{{ section.settings.auto_play }}"
+    },
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows",
+      "label": "Show arrows",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Padding top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Padding left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Padding right",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 0,
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "brand-logo",
+      "name": "Brand logo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Logo image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "text",
+          "id": "alt_text",
+          "label": "Alt text"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 20,
+  "presets": [
+    {
+      "name": "Brand carousel",
+      "blocks": [
+        { "type": "brand-logo", "settings": { "alt_text": "Brand 1" } },
+        { "type": "brand-logo", "settings": { "alt_text": "Brand 2" } },
+        { "type": "brand-logo", "settings": { "alt_text": "Brand 3" } },
+        { "type": "brand-logo", "settings": { "alt_text": "Brand 4" } },
+        { "type": "brand-logo", "settings": { "alt_text": "Brand 5" } },
+        { "type": "brand-logo", "settings": { "alt_text": "Brand 6" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
