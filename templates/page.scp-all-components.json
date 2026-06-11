@@ -1,0 +1,29 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "two-sided": {
+      "type": "image-text-cta",
+      "settings": {
+        "heading": "Image with text",
+        "heading_tag": "h2",
+        "heading_size": "h2",
+        "button_text": "Shop Now",
+        "button_style": "primary",
+        "image_position": "left",
+        "content_vertical_alignment": "center",
+        "section_width": "full-width",
+        "color_scheme": "scheme-1",
+        "min_height": 0,
+        "padding-block-start": 40,
+        "padding-block-end": 40,
+        "margin-block-start": 0,
+        "margin-block-end": 0
+      }
+    }
+  },
+  "order": ["main", "two-sided"]
+}
