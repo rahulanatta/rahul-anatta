@@ -187,11 +187,31 @@
         "padding-inline-start": 0,
         "padding-inline-end": 0
       }
+    },
+    "pcp-product-carousel": {
+      "type": "pcp-product-carousel",
+      "settings": {
+        "heading": "Shop Our Products",
+        "shop_all_label": "Shop all",
+        "max_products": 8,
+        "show_vendor": true,
+        "show_reviews": true,
+        "show_cashback": true,
+        "show_add_to_cart": true,
+        "color_scheme": "scheme-1",
+        "section_width": "page-width",
+        "card_gap": 12,
+        "padding-block-start": 48,
+        "padding-block-end": 48,
+        "margin-block-start": 0,
+        "margin-block-end": 0
+      }
     }
   },
   "order": [
     "main",
     "hero_ppt6yE",
-    "brand-carousel"
+    "brand-carousel",
+    "pcp-product-carousel"
   ]
 }

@@ -1,0 +1,179 @@
+{% doc %}
+  PCP Product Card
+
+  Renders a product card for the PCP product carousel section.
+
+  @param {object} product - Product object (required)
+  @param {string} section_id - The parent section ID
+  @param {boolean} [show_vendor] - Display vendor name (default: true)
+  @param {boolean} [show_reviews] - Display star ratings (default: true)
+  @param {boolean} [show_cashback] - Display cashback info (default: true)
+  @param {boolean} [show_add_to_cart] - Display add to cart button (default: true)
+  @param {number} [card_border_radius] - Card border radius in px (default: 16)
+
+  @example
+  {% render 'pcp-product-card',
+    product: product,
+    section_id: section.id,
+    show_vendor: true,
+    show_reviews: true,
+    show_cashback: true,
+    show_add_to_cart: true
+  %}
+{% enddoc %}
+
+{% liquid
+  assign product = product | default: empty
+  unless product != empty
+    break
+  endunless
+
+  assign show_vendor = show_vendor | default: true
+  assign show_reviews = show_reviews | default: true
+  assign show_cashback = show_cashback | default: true
+  assign show_add_to_cart = show_add_to_cart | default: true
+  assign card_border_radius = card_border_radius | default: 16
+
+  assign current_variant = product.selected_or_first_available_variant
+  assign cashback_percent = product.metafields.customMA.maxStandardCashbackPercent.value
+%}
+
+<pcp-product-card
+  class="ppc-card"
+  data-product-id="{{ product.id }}"
+  style="--ppc-card-radius: {{ card_border_radius }}px;"
+>
+  <a href="{{ product.url }}" class="ppc-card__link" aria-label="{{ product.title }}" tabindex="-1"></a>
+
+  <div class="ppc-card__image-wrapper">
+    {% if product.featured_image %}
+      {% liquid
+        assign img = product.featured_image
+        assign sizes_val = '(min-width: 750px) 237px, 161px'
+      %}
+      {{
+        img
+        | image_url: width: img.width
+        | image_tag:
+          sizes: sizes_val,
+          widths: '161,237,322,474',
+          loading: 'lazy',
+          class: 'ppc-card__image',
+          alt: img.alt | default: product.title
+      }}
+    {% else %}
+      <div class="ppc-card__image-placeholder">
+        {{ 'product-1' | placeholder_svg_tag: 'ppc-card__placeholder-svg' }}
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="ppc-card__content">
+    <div class="ppc-card__info">
+      {% if show_vendor and product.vendor != blank %}
+        <p class="ppc-card__vendor">{{ product.vendor }}</p>
+      {% endif %}
+
+      <h3 class="ppc-card__title">
+        <a href="{{ product.url }}" class="ppc-card__title-link">{{ product.title }}</a>
+      </h3>
+
+      {% if show_reviews %}
+        <div class="ppc-card__reviews">
+          <img
+            src="{{ 'stars.svg' | asset_url }}"
+            alt="Product rating"
+            class="ppc-card__stars"
+            width="68"
+            height="12"
+            loading="lazy"
+          >
+          <span class="ppc-card__reviews-text">4.5 (346)</span>
+        </div>
+      {% endif %}
+
+      {%- comment -%} Variant picker — visible on mobile only {%- endcomment -%}
+      {% if product.variants.size > 1 %}
+        <div class="ppc-card__variants">
+          <p class="ppc-card__variants-label">
+            Select {{ product.options_with_values.first.name }}:
+          </p>
+          <div class="ppc-card__variants-list">
+            {% for variant in product.variants %}
+              <button
+                type="button"
+                class="ppc-card__size-btn{% if variant == current_variant %} ppc-card__size-btn--selected{% endif %}"
+                data-variant-id="{{ variant.id }}"
+                aria-pressed="{% if variant == current_variant %}true{% else %}false{% endif %}"
+                aria-label="{{ variant.title }}"
+                on:click="/handleVariantSelect"
+                {% unless variant.available %}disabled{% endunless %}
+              >
+                {{ variant.option1 }}
+              </button>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+
+      <div class="ppc-card__price-row">
+        <div class="ppc-card__price-wrapper">
+          <span class="ppc-card__price" ref="priceDisplay">
+            {% render 'format-price', price: current_variant.price %}
+          </span>
+          {% if current_variant.compare_at_price and current_variant.compare_at_price > current_variant.price %}
+            <span class="ppc-card__compare-price" ref="comparePriceDisplay">
+              {% render 'format-price', price: current_variant.compare_at_price %}
+            </span>
+          {% else %}
+            <span class="ppc-card__compare-price" ref="comparePriceDisplay" style="display: none;"></span>
+          {% endif %}
+        </div>
+
+        {% if show_cashback and cashback_percent %}
+          <div class="ppc-card__cashback">
+            <span class="ppc-card__cashback-percent">{{ cashback_percent }}%</span>
+            <img
+              src="{{ 'cashback-icon-2.svg' | asset_url }}"
+              alt=""
+              class="ppc-card__cashback-icon"
+              width="12"
+              height="12"
+              loading="lazy"
+            >
+            <span class="ppc-card__cashback-label">Cashback</span>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if show_add_to_cart %}
+      <div class="ppc-card__actions">
+        <form action="/cart/add" method="post" class="ppc-card__add-form" on:submit="/handleAddToCart">
+          <input type="hidden" name="id" value="{{ current_variant.id }}" ref="variantInput">
+          <input type="hidden" name="quantity" value="1">
+          <button type="submit" class="ppc-card__add-btn" ref="addButton">
+            Add to Cart
+          </button>
+        </form>
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="ppc-card__live-region sr-only" ref="liveRegion" aria-live="polite" role="status"></div>
+
+  <script type="application/json">
+    [
+      {%- for variant in product.variants -%}
+        {
+          "id": {{ variant.id }},
+          "title": {{ variant.title | json }},
+          "price": {{ variant.price }},
+          "compare_at_price": {{ variant.compare_at_price | default: 'null' }},
+          "options": {{ variant.options | json }},
+          "available": {{ variant.available | json }}
+        }{% unless forloop.last %},{% endunless %}
+      {%- endfor -%}
+    ]
+  </script>
+</pcp-product-card>

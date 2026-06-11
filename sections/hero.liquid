@@ -457,7 +457,9 @@
     --hero-border-opacity: {{ section.settings.border_opacity }}%;
     --hero-corner-radius: {{ section.settings.corner_radius | default: 0 }}px;
     --blur-opacity: {{ section.settings.reflection_opacity | divided_by: 100.0 }};
-    {% if section.settings.section_height == 'custom' %}
+    {% if section.settings.image_height > 0 %}
+      --hero-min-height: {{ section.settings.image_height }}px;
+    {% elsif section.settings.section_height == 'custom' %}
       --hero-min-height: {{ section.settings.section_height_custom }}svh;
     {% elsif section.settings.section_height == "full-screen" %}
        --hero-min-height: 100svh;
@@ -594,6 +596,8 @@
     display: grid;
     grid-column: 1 / -1;
     grid-template-columns: repeat(var(--hero-media-count, 1), 1fr);
+    border-radius: var(--hero-corner-radius, 0px);
+    overflow: hidden;
   }
 
   .hero--auto .hero__media {
