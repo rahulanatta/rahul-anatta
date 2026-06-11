@@ -17,6 +17,10 @@
           "settings": {
             "media_type_1": "image",
             "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
             "horizontal_alignment_flex_direction_column": "center",
             "vertical_alignment_flex_direction_column": "flex-end",
             "gap": 12,
@@ -35,25 +39,57 @@
             "heading_1": {
               "type": "text",
               "settings": {
-                "text": "<h2>New Arrivals</h2>"
-              }
+                "text": "<h2>New Arrivals</h2>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
             },
             "button_1": {
               "type": "button",
               "settings": {
                 "label": "Shop Now",
                 "link": "shopify://collections/all",
-                "style_class": "button"
-              }
+                "open_in_new_tab": false,
+                "style_class": "button",
+                "width": "fit-content",
+                "custom_width": 100,
+                "width_mobile": "fit-content",
+                "custom_width_mobile": 100
+              },
+              "blocks": {}
             }
           },
-          "block_order": ["heading_1", "button_1"]
+          "block_order": [
+            "heading_1",
+            "button_1"
+          ]
         },
         "slide_2": {
           "type": "_slide",
           "settings": {
             "media_type_1": "image",
             "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
             "horizontal_alignment_flex_direction_column": "center",
             "vertical_alignment_flex_direction_column": "flex-end",
             "gap": 12,
@@ -72,25 +108,57 @@
             "heading_2": {
               "type": "text",
               "settings": {
-                "text": "<h2>Best Sellers</h2>"
-              }
+                "text": "<h2>Best Sellers</h2>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
             },
             "button_2": {
               "type": "button",
               "settings": {
                 "label": "Shop Collection",
                 "link": "shopify://collections/all",
-                "style_class": "button"
-              }
+                "open_in_new_tab": false,
+                "style_class": "button",
+                "width": "fit-content",
+                "custom_width": 100,
+                "width_mobile": "fit-content",
+                "custom_width_mobile": 100
+              },
+              "blocks": {}
             }
           },
-          "block_order": ["heading_2", "button_2"]
+          "block_order": [
+            "heading_2",
+            "button_2"
+          ]
         },
         "slide_3": {
           "type": "_slide",
           "settings": {
             "media_type_1": "image",
             "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
             "horizontal_alignment_flex_direction_column": "center",
             "vertical_alignment_flex_direction_column": "flex-end",
             "gap": 12,
@@ -109,32 +177,69 @@
             "heading_3": {
               "type": "text",
               "settings": {
-                "text": "<h2>Limited Edition</h2>"
-              }
+                "text": "<h2>Limited Edition</h2>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
             },
             "button_3": {
               "type": "button",
               "settings": {
                 "label": "Discover More",
                 "link": "shopify://collections/all",
-                "style_class": "button"
-              }
+                "open_in_new_tab": false,
+                "style_class": "button",
+                "width": "fit-content",
+                "custom_width": 100,
+                "width_mobile": "fit-content",
+                "custom_width_mobile": 100
+              },
+              "blocks": {}
             }
           },
-          "block_order": ["heading_3", "button_3"]
+          "block_order": [
+            "heading_3",
+            "button_3"
+          ]
         }
       },
-      "block_order": ["slide_1", "slide_2", "slide_3"],
+      "block_order": [
+        "slide_1",
+        "slide_2",
+        "slide_3"
+      ],
+      "disabled": true,
       "settings": {
         "display_mode": "full_frame",
         "section_width": "full-width",
-        "content_position": "on-media",
+        "full_frame_on_mobile": false,
+        "slideshow_gap": 12,
+        "corner_radius": 0,
         "slide_height": "large",
+        "content_position": "on-media",
         "color_scheme": "scheme-6",
         "icons_style": "arrows_large",
         "icons_shape": "none",
         "slideshow_controls_style": "dots",
         "autoplay": false,
+        "autoplay_speed": 4,
         "padding-block-start": 0,
         "padding-block-end": 0
       }
@@ -1099,6 +1204,7 @@
           "type": "review-card",
           "settings": {
             "image": "shopify://shop_images/image-171-mobile-578318848.jpg",
+            "image_alt": "",
             "star_count": 5,
             "review_text": "Love the colors. Creamy, moisturizing and the color stays. Especially love the packaging. It's magnetic.",
             "reviewer_name": "-Nancy W."
@@ -1108,6 +1214,7 @@
           "type": "review-card",
           "settings": {
             "image": "shopify://shop_images/screenshot-2025-12-05-at-9-54-29-am-4-desktop-209317574.jpg",
+            "image_alt": "",
             "star_count": 5,
             "review_text": "Great quality and fast shipping. I've been using this for a month and love the results! Highly recommend.",
             "reviewer_name": "-Sarah M."
@@ -1117,6 +1224,7 @@
           "type": "review-card",
           "settings": {
             "image": "shopify://shop_images/thumbnails-mobile-223839087.png",
+            "image_alt": "",
             "star_count": 5,
             "review_text": "Exceeded my expectations. The texture is perfect and it works wonders. Will definitely buy again.",
             "reviewer_name": "-James K."
