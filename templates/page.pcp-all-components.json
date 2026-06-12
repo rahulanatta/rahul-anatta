@@ -206,12 +206,61 @@
         "margin-block-start": 0,
         "margin-block-end": 0
       }
+    },
+    "what-people-are-saying": {
+      "type": "what-people-are-saying",
+      "blocks": {
+        "review_1": {
+          "type": "review-card",
+          "settings": {
+            "star_count": 5,
+            "review_text": "Love the colors. Creamy, moisturizing and the color stays. Especially love the lid. It's magnetic.",
+            "reviewer_name": "-Nancy W"
+          }
+        },
+        "review_2": {
+          "type": "review-card",
+          "settings": {
+            "star_count": 5,
+            "review_text": "Great quality and fast shipping. I've been using this for a month and love the results! Highly recommend.",
+            "reviewer_name": "-Sarah M"
+          }
+        },
+        "review_3": {
+          "type": "review-card",
+          "settings": {
+            "star_count": 5,
+            "review_text": "Exceeded my expectations. The texture is perfect and it works wonders. Will definitely buy again.",
+            "reviewer_name": "-James K"
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3"
+      ],
+      "settings": {
+        "heading": "What people are saying",
+        "heading_tag": "h2",
+        "columns_desktop": 3,
+        "gap": 24,
+        "section_width": "page-width",
+        "card_corner_radius": 16,
+        "show_card_border": false,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 48,
+        "padding-block-end": 48,
+        "margin-block-start": 0,
+        "margin-block-end": 0
+      }
     }
   },
   "order": [
     "main",
     "hero_ppt6yE",
     "brand-carousel",
-    "pcp-product-carousel"
+    "pcp-product-carousel",
+    "what-people-are-saying"
   ]
 }
