@@ -12,6 +12,7 @@
     --wpas-columns: {{ section.settings.columns_desktop }};
     --wpas-gap: {{ section.settings.gap }}px;
     --wpas-card-radius: {{ section.settings.card_corner_radius }}px;
+    --wpas-image-radius: {{ section.settings.image_border_radius }}px;
   "
 >
   {% if section.settings.heading != blank %}
@@ -25,6 +26,17 @@
       <div class="what-people-are-saying__grid" ref="track">
         {% for block in section.blocks %}
           <div class="what-people-are-saying__card{% if section.settings.show_card_border %} what-people-are-saying__card--bordered{% endif %}" {{ block.shopify_attributes }}>
+            {% if block.settings.image != blank %}
+              <img
+                class="what-people-are-saying__card-image"
+                src="{{ block.settings.image | image_url: width: 800 }}"
+                alt="{{ block.settings.image.alt | escape }}"
+                width="{{ block.settings.image.width }}"
+                height="{{ block.settings.image.height }}"
+                loading="lazy"
+              >
+            {% endif %}
+
             <div class="what-people-are-saying__stars">
               {% assign star_count = block.settings.star_count | default: 5 %}
               {% for i in (1..5) %}
@@ -145,6 +157,13 @@
     padding: 32px 24px;
     border-radius: var(--wpas-card-radius, 16px);
     background-color: var(--color-background);
+  }
+
+  .what-people-are-saying__card-image {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: var(--wpas-image-radius, 8px);
   }
 
   .what-people-are-saying__card--bordered {
@@ -374,6 +393,16 @@
       "default": 16
     },
     {
+      "type": "range",
+      "id": "image_border_radius",
+      "label": "Image corner radius",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 8
+    },
+    {
       "type": "checkbox",
       "id": "show_card_border",
       "label": "Show card border",
@@ -443,6 +472,11 @@
       "type": "review-card",
       "name": "Review",
       "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
         {
           "type": "range",
           "id": "star_count",
