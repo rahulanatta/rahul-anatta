@@ -1251,6 +1251,22 @@
         "margin_block_start": 0,
         "margin_block_end": 0
       }
+    },
+    "two_panel_media": {
+      "type": "two-panel-media",
+      "settings": {
+        "panel_1_media_type": "image",
+        "panel_1_image": "shopify://shop_images/frame-2147256344-desktop-57708436.png",
+        "panel_1_title": "EYE COLLECTION",
+        "panel_1_subtitle": "Designed to enhance every look with rich pigments and flawless finishes.",
+        "panel_1_cta_text": "SHOP EYE",
+        "panel_2_media_type": "image",
+        "panel_2_image": "shopify://shop_images/rectangle-15773283-desktop-57708442.png",
+        "section_width": "full-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
     }
   },
   "order": [
@@ -1269,6 +1285,7 @@
     "product_categories_h8hn6x",
     "scientific_results_wXaUDK",
     "image_table_content",
-    "images_curated_reviews_8WW9wb"
+    "images_curated_reviews_8WW9wb",
+    "two_panel_media"
   ]
 }
