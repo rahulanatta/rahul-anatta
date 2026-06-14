@@ -207,6 +207,53 @@
         "margin-block-end": 0
       }
     },
+    "ticker": {
+      "type": "ticker",
+      "blocks": {
+        "item_1": {
+          "type": "ticker-item",
+          "settings": {
+            "text": "Clinically proven",
+            "icon": "check_box"
+          }
+        },
+        "item_2": {
+          "type": "ticker-item",
+          "settings": {
+            "text": "Third Party Tested",
+            "icon": "check_box"
+          }
+        },
+        "item_3": {
+          "type": "ticker-item",
+          "settings": {
+            "text": "No Refrigeration Needed",
+            "icon": "check_box"
+          }
+        },
+        "item_4": {
+          "type": "ticker-item",
+          "settings": {
+            "text": "30-day money back guarantee",
+            "icon": "check_box"
+          }
+        }
+      },
+      "block_order": [
+        "item_1",
+        "item_2",
+        "item_3",
+        "item_4"
+      ],
+      "settings": {
+        "background_color": "#B7A882",
+        "text_color": "#FFFFFF",
+        "background_opacity": 100,
+        "section_width": "full-width",
+        "speed": 25,
+        "gap": 48
+      }
+    },
     "what-people-are-saying": {
       "type": "what-people-are-saying",
       "blocks": {
@@ -260,6 +307,7 @@
     "main",
     "hero_ppt6yE",
     "brand-carousel",
+    "ticker",
     "pcp-product-carousel",
     "what-people-are-saying"
   ]

@@ -6,13 +6,17 @@
 
 {% liquid
   assign gap = section.settings.gap
-  assign bg_color = section.settings.background_color
+  assign bg_color = section.settings.background_color | default: '#B7A882'
   assign text_color = section.settings.text_color
   assign icon_size = section.settings.icon_size
   assign show_gradient = section.settings.show_gradient
-  assign gradient_color = section.settings.gradient_color
+  assign gradient_color = section.settings.gradient_color | default: '#96875F'
   assign gradient_direction = section.settings.gradient_direction
   assign speed = section.settings.speed
+  assign background_opacity = section.settings.background_opacity | default: 100
+  assign opacity_decimal = background_opacity | divided_by: 100.0
+  assign bg_color = bg_color | color_modify: 'alpha', opacity_decimal
+  assign gradient_color = gradient_color | color_modify: 'alpha', opacity_decimal
 %}
 
 <div
@@ -329,6 +333,17 @@
       "id": "text_color",
       "label": "Text color",
       "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "background_opacity",
+      "label": "Background opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 100,
+      "unit": "%",
+      "info": "0% = fully transparent, 100% = fully opaque"
     },
     {
       "type": "header",
