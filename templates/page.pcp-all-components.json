@@ -301,6 +301,50 @@
         "margin-block-start": 0,
         "margin-block-end": 0
       }
+    },
+    "customer-satisfaction": {
+      "type": "customer-satisfaction",
+      "blocks": {
+        "stat_1": {
+          "type": "stat-item",
+          "settings": {
+            "stat_value": "98%",
+            "description": "Customer Satisfaction Rate based on verified purchase reviews and post-purchase surveys."
+          }
+        },
+        "stat_2": {
+          "type": "stat-item",
+          "settings": {
+            "stat_value": "50K+",
+            "description": "Happy Customers Worldwide who trust our products for their daily wellness and health routines."
+          }
+        },
+        "stat_3": {
+          "type": "stat-item",
+          "settings": {
+            "stat_value": "4.8/5",
+            "description": "Average Customer Rating across all product lines, reflecting consistent quality and effectiveness."
+          }
+        }
+      },
+      "block_order": [
+        "stat_1",
+        "stat_2",
+        "stat_3"
+      ],
+      "settings": {
+        "heading": "Customer Satisfaction",
+        "heading_tag": "h2",
+        "columns": 3,
+        "section_width": "page-width",
+        "background_color": "#1BB7C4",
+        "text_color": "#FFFFFF",
+        "divider_color": "#FFFFFF",
+        "padding-block-start": 80,
+        "padding-block-end": 80,
+        "margin-block-start": 0,
+        "margin-block-end": 0
+      }
     }
   },
   "order": [
@@ -309,6 +353,7 @@
     "brand-carousel",
     "ticker",
     "pcp-product-carousel",
-    "what-people-are-saying"
+    "what-people-are-saying",
+    "customer-satisfaction"
   ]
 }
