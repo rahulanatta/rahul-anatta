@@ -254,6 +254,27 @@
         "gap": 48
       }
     },
+    "pcp-collection-grid": {
+      "type": "pcp-collection-grid",
+      "settings": {
+        "heading": "Shop Necklaces",
+        "shop_all_label": "Shop all",
+        "max_products": 8,
+        "show_vendor": true,
+        "show_reviews": true,
+        "show_cashback": true,
+        "show_add_to_cart": true,
+        "color_scheme": "scheme-1",
+        "section_width": "page-width",
+        "columns_desktop": 4,
+        "columns_mobile": 2,
+        "card_gap": 16,
+        "padding-block-start": 48,
+        "padding-block-end": 48,
+        "margin-block-start": 0,
+        "margin-block-end": 0
+      }
+    },
     "what-people-are-saying": {
       "type": "what-people-are-saying",
       "blocks": {
@@ -353,6 +374,7 @@
     "brand-carousel",
     "ticker",
     "pcp-product-carousel",
+    "pcp-collection-grid",
     "what-people-are-saying",
     "customer-satisfaction"
   ]
