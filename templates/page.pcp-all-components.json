@@ -366,6 +366,70 @@
         "margin-block-start": 0,
         "margin-block-end": 0
       }
+    },
+    "pcp-verified-reviews": {
+      "type": "pcp-verified-reviews",
+      "blocks": {
+        "review_1": {
+          "type": "review-card",
+          "settings": {
+            "rating": 5,
+            "title": "Life-changing supplement",
+            "body": "I have been taking this product for three months now and the difference is remarkable. My energy levels are consistently higher and I feel great throughout the day.",
+            "author": "Sarah M.",
+            "date": "March 10, 2025",
+            "verified": true
+          }
+        },
+        "review_2": {
+          "type": "review-card",
+          "settings": {
+            "rating": 4,
+            "title": "Great quality, fast shipping",
+            "body": "Really impressed with the quality of the product. Packaging was excellent and it arrived quickly. Only giving 4 stars because the taste could be improved slightly.",
+            "author": "David L.",
+            "date": "February 22, 2025",
+            "verified": true
+          }
+        },
+        "review_3": {
+          "type": "review-card",
+          "settings": {
+            "rating": 5,
+            "title": "Best on the market",
+            "body": "I have tried many similar products and this one stands out. The results speak for themselves. Highly recommend to anyone looking for a premium option.",
+            "author": "Jennifer K.",
+            "date": "January 15, 2025",
+            "verified": true
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3"
+      ],
+      "settings": {
+        "heading": "Verified Reviews",
+        "heading_tag": "h2",
+        "overall_rating": "4.5",
+        "total_reviews_count": "22",
+        "recommendation_percentage": "90",
+        "star_5_percent": 60,
+        "star_4_percent": 20,
+        "star_3_percent": 10,
+        "star_2_percent": 5,
+        "star_1_percent": 5,
+        "show_load_more": true,
+        "reviews_per_page": 10,
+        "sort_default": "highest",
+        "color_scheme": "scheme-1",
+        "section_width": "page-width",
+        "padding-block-start": 60,
+        "padding-block-end": 60,
+        "margin-block-start": 0,
+        "margin-block-end": 0
+      }
     }
   },
   "order": [
@@ -376,6 +440,7 @@
     "pcp-product-carousel",
     "pcp-collection-grid",
     "what-people-are-saying",
-    "customer-satisfaction"
+    "customer-satisfaction",
+    "pcp-verified-reviews"
   ]
 }

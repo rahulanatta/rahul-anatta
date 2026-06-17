@@ -1,0 +1,859 @@
+{% liquid
+  assign overall_rating = section.settings.overall_rating | default: '4.5'
+  assign total_reviews = section.settings.total_reviews_count | default: '22'
+  assign recommendation_pct = section.settings.recommendation_percentage | default: '90'
+  assign heading_tag = section.settings.heading_tag | default: 'h2'
+
+  assign star_5 = section.settings.star_5_percent | default: 60
+  assign star_4 = section.settings.star_4_percent | default: 20
+  assign star_3 = section.settings.star_3_percent | default: 10
+  assign star_2 = section.settings.star_2_percent | default: 5
+  assign star_1 = section.settings.star_1_percent | default: 5
+%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div
+  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style pcp-verified-reviews"
+  style="
+    {% render 'spacing-style', settings: section.settings %}
+    --pvr-margin-top: {{ section.settings.margin-block-start }}px;
+    --pvr-margin-bottom: {{ section.settings.margin-block-end }}px;
+  "
+>
+  {% if section.settings.heading != blank %}
+    <{{ heading_tag }} class="pcp-verified-reviews__heading">
+      {{- section.settings.heading | escape -}}
+    </{{ heading_tag }}>
+  {% endif %}
+
+  <div class="pcp-verified-reviews__summary">
+    <div class="pcp-verified-reviews__summary-left">
+      <div class="pcp-verified-reviews__overall">
+        <span class="pcp-verified-reviews__overall-number">{{ overall_rating }}</span>
+        <div class="pcp-verified-reviews__overall-stars">
+          {% assign rating_int = overall_rating | times: 1 | floor %}
+          {% assign rating_decimal = overall_rating | times: 10 | modulo: 10 %}
+          {% assign rating_next = rating_int | plus: 1 %}
+          {% for i in (1..5) %}
+            {% if i <= rating_int %}
+              <svg class="pcp-verified-reviews__star pcp-verified-reviews__star--filled" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M10 1.25L12.47 7.025L18.75 7.6125L13.9625 11.725L15.4375 17.8625L10 14.5125L4.5625 17.8625L6.0375 11.725L1.25 7.6125L7.53 7.025L10 1.25Z" fill="currentColor"/>
+              </svg>
+            {% elsif i == rating_next and rating_decimal > 0 %}
+              <svg class="pcp-verified-reviews__star pcp-verified-reviews__star--half" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <defs>
+                  <linearGradient id="pvr-half-star-{{ section.id }}-{{ i }}">
+                    <stop offset="50%" stop-color="currentColor"/>
+                    <stop offset="50%" stop-color="transparent"/>
+                  </linearGradient>
+                </defs>
+                <path d="M10 1.25L12.47 7.025L18.75 7.6125L13.9625 11.725L15.4375 17.8625L10 14.5125L4.5625 17.8625L6.0375 11.725L1.25 7.6125L7.53 7.025L10 1.25Z" fill="url(#pvr-half-star-{{ section.id }}-{{ i }})" stroke="currentColor" stroke-width="1"/>
+              </svg>
+            {% else %}
+              <svg class="pcp-verified-reviews__star pcp-verified-reviews__star--empty" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M10 1.25L12.47 7.025L18.75 7.6125L13.9625 11.725L15.4375 17.8625L10 14.5125L4.5625 17.8625L6.0375 11.725L1.25 7.6125L7.53 7.025L10 1.25Z" stroke="currentColor" stroke-width="1"/>
+              </svg>
+            {% endif %}
+          {% endfor %}
+        </div>
+        <span class="pcp-verified-reviews__overall-count">Based on {{ total_reviews }} reviews</span>
+      </div>
+
+      <div class="pcp-verified-reviews__distribution">
+        <div class="pcp-verified-reviews__bar-row">
+          <span class="pcp-verified-reviews__bar-label">5</span>
+          <svg class="pcp-verified-reviews__bar-star" width="14" height="14" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M10 1.25L12.47 7.025L18.75 7.6125L13.9625 11.725L15.4375 17.8625L10 14.5125L4.5625 17.8625L6.0375 11.725L1.25 7.6125L7.53 7.025L10 1.25Z" fill="currentColor"/>
+          </svg>
+          <div class="pcp-verified-reviews__bar-track">
+            <div class="pcp-verified-reviews__bar-fill" style="width: {{ star_5 }}%"></div>
+          </div>
+          <span class="pcp-verified-reviews__bar-pct">{{ star_5 }}%</span>
+        </div>
+        <div class="pcp-verified-reviews__bar-row">
+          <span class="pcp-verified-reviews__bar-label">4</span>
+          <svg class="pcp-verified-reviews__bar-star" width="14" height="14" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M10 1.25L12.47 7.025L18.75 7.6125L13.9625 11.725L15.4375 17.8625L10 14.5125L4.5625 17.8625L6.0375 11.725L1.25 7.6125L7.53 7.025L10 1.25Z" fill="currentColor"/>
+          </svg>
+          <div class="pcp-verified-reviews__bar-track">
+            <div class="pcp-verified-reviews__bar-fill" style="width: {{ star_4 }}%"></div>
+          </div>
+          <span class="pcp-verified-reviews__bar-pct">{{ star_4 }}%</span>
+        </div>
+        <div class="pcp-verified-reviews__bar-row">
+          <span class="pcp-verified-reviews__bar-label">3</span>
+          <svg class="pcp-verified-reviews__bar-star" width="14" height="14" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M10 1.25L12.47 7.025L18.75 7.6125L13.9625 11.725L15.4375 17.8625L10 14.5125L4.5625 17.8625L6.0375 11.725L1.25 7.6125L7.53 7.025L10 1.25Z" fill="currentColor"/>
+          </svg>
+          <div class="pcp-verified-reviews__bar-track">
+            <div class="pcp-verified-reviews__bar-fill" style="width: {{ star_3 }}%"></div>
+          </div>
+          <span class="pcp-verified-reviews__bar-pct">{{ star_3 }}%</span>
+        </div>
+        <div class="pcp-verified-reviews__bar-row">
+          <span class="pcp-verified-reviews__bar-label">2</span>
+          <svg class="pcp-verified-reviews__bar-star" width="14" height="14" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M10 1.25L12.47 7.025L18.75 7.6125L13.9625 11.725L15.4375 17.8625L10 14.5125L4.5625 17.8625L6.0375 11.725L1.25 7.6125L7.53 7.025L10 1.25Z" fill="currentColor"/>
+          </svg>
+          <div class="pcp-verified-reviews__bar-track">
+            <div class="pcp-verified-reviews__bar-fill" style="width: {{ star_2 }}%"></div>
+          </div>
+          <span class="pcp-verified-reviews__bar-pct">{{ star_2 }}%</span>
+        </div>
+        <div class="pcp-verified-reviews__bar-row">
+          <span class="pcp-verified-reviews__bar-label">1</span>
+          <svg class="pcp-verified-reviews__bar-star" width="14" height="14" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M10 1.25L12.47 7.025L18.75 7.6125L13.9625 11.725L15.4375 17.8625L10 14.5125L4.5625 17.8625L6.0375 11.725L1.25 7.6125L7.53 7.025L10 1.25Z" fill="currentColor"/>
+          </svg>
+          <div class="pcp-verified-reviews__bar-track">
+            <div class="pcp-verified-reviews__bar-fill" style="width: {{ star_1 }}%"></div>
+          </div>
+          <span class="pcp-verified-reviews__bar-pct">{{ star_1 }}%</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pcp-verified-reviews__summary-right">
+      <p class="pcp-verified-reviews__recommendation">
+        {{ recommendation_pct }}% of reviewers recommend this product
+      </p>
+      {% if section.settings.write_review_url != blank %}
+        <a href="{{ section.settings.write_review_url }}" class="pcp-verified-reviews__write-btn">
+          Write a Review
+        </a>
+      {% else %}
+        <button type="button" class="pcp-verified-reviews__write-btn" disabled>
+          Write a Review
+        </button>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if section.blocks.size > 0 %}
+    <div class="pcp-verified-reviews__list-header">
+      <span class="pcp-verified-reviews__list-count">{{ section.blocks.size }} Reviews</span>
+      <div class="pcp-verified-reviews__sort">
+        <label for="pvr-sort-{{ section.id }}" class="pcp-verified-reviews__sort-label">Sort by:</label>
+        <select id="pvr-sort-{{ section.id }}" class="pcp-verified-reviews__sort-select">
+          <option value="highest"{% if section.settings.sort_default == 'highest' %} selected{% endif %}>Highest Rated</option>
+          <option value="lowest"{% if section.settings.sort_default == 'lowest' %} selected{% endif %}>Lowest Rated</option>
+          <option value="newest"{% if section.settings.sort_default == 'newest' %} selected{% endif %}>Newest</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="pcp-verified-reviews__list">
+      {% for block in section.blocks %}
+        <div class="pcp-verified-reviews__card" {{ block.shopify_attributes }}>
+          <div class="pcp-verified-reviews__card-stars">
+            {% assign card_rating = block.settings.rating | default: 5 %}
+            {% for i in (1..5) %}
+              {% if i <= card_rating %}
+                <svg class="pcp-verified-reviews__star pcp-verified-reviews__star--filled" width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M10 1.25L12.47 7.025L18.75 7.6125L13.9625 11.725L15.4375 17.8625L10 14.5125L4.5625 17.8625L6.0375 11.725L1.25 7.6125L7.53 7.025L10 1.25Z" fill="currentColor"/>
+                </svg>
+              {% else %}
+                <svg class="pcp-verified-reviews__star pcp-verified-reviews__star--empty" width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M10 1.25L12.47 7.025L18.75 7.6125L13.9625 11.725L15.4375 17.8625L10 14.5125L4.5625 17.8625L6.0375 11.725L1.25 7.6125L7.53 7.025L10 1.25Z" stroke="currentColor" stroke-width="1"/>
+                </svg>
+              {% endif %}
+            {% endfor %}
+          </div>
+
+          {% if block.settings.title != blank %}
+            <h4 class="pcp-verified-reviews__card-title">{{ block.settings.title | escape }}</h4>
+          {% endif %}
+
+          {% if block.settings.body != blank %}
+            <p class="pcp-verified-reviews__card-body">{{ block.settings.body | escape }}</p>
+          {% endif %}
+
+          <div class="pcp-verified-reviews__card-meta">
+            {% if block.settings.author != blank %}
+              <span class="pcp-verified-reviews__card-author">{{ block.settings.author | escape }}</span>
+            {% endif %}
+            {% if block.settings.verified %}
+              <span class="pcp-verified-reviews__card-verified">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M7 0C3.136 0 0 3.136 0 7C0 10.864 3.136 14 7 14C10.864 14 14 10.864 14 7C14 3.136 10.864 0 7 0ZM5.6 10.5L2.1 7L3.087 6.013L5.6 8.519L10.913 3.206L11.9 4.2L5.6 10.5Z" fill="#4CAF50"/>
+                </svg>
+                Verified Buyer
+              </span>
+            {% endif %}
+            {% if block.settings.date != blank %}
+              <span class="pcp-verified-reviews__card-date">{{ block.settings.date | escape }}</span>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    {% if section.settings.show_load_more and section.blocks.size > section.settings.reviews_per_page %}
+      <div class="pcp-verified-reviews__load-more">
+        <button type="button" class="pcp-verified-reviews__load-more-btn">
+          Load More Reviews
+        </button>
+      </div>
+    {% endif %}
+  {% endif %}
+</div>
+
+{% stylesheet %}
+  .pcp-verified-reviews {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin-block-start: var(--pvr-margin-top, 0px);
+    margin-block-end: var(--pvr-margin-bottom, 0px);
+  }
+
+  .pcp-verified-reviews__heading {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 42px;
+    letter-spacing: -0.8px;
+    color: var(--color-foreground);
+    text-align: center;
+  }
+
+  .pcp-verified-reviews__summary {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    padding: 32px;
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+    border-radius: var(--style-border-radius-sm, 8px);
+  }
+
+  @media screen and (min-width: 1024px) {
+    .pcp-verified-reviews__summary {
+      flex-direction: row;
+      gap: 48px;
+      align-items: flex-start;
+    }
+
+    .pcp-verified-reviews__summary-left {
+      flex: 1;
+    }
+
+    .pcp-verified-reviews__summary-right {
+      flex: 0 0 auto;
+      min-width: 240px;
+    }
+  }
+
+  .pcp-verified-reviews__summary-left {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .pcp-verified-reviews__overall {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .pcp-verified-reviews__overall-number {
+    font-family: var(--font-heading--family);
+    font-weight: 600;
+    font-size: 48px;
+    line-height: 1;
+    color: var(--color-foreground);
+  }
+
+  .pcp-verified-reviews__overall-stars {
+    display: flex;
+    gap: 2px;
+    color: #F5A623;
+  }
+
+  .pcp-verified-reviews__overall-count {
+    font-family: var(--font-body--family);
+    font-size: 14px;
+    line-height: 20px;
+    color: rgb(var(--color-foreground-rgb) / 0.6);
+  }
+
+  .pcp-verified-reviews__distribution {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 400px;
+  }
+
+  .pcp-verified-reviews__bar-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .pcp-verified-reviews__bar-label {
+    font-family: var(--font-body--family);
+    font-size: 14px;
+    line-height: 20px;
+    width: 12px;
+    text-align: end;
+    color: var(--color-foreground);
+  }
+
+  .pcp-verified-reviews__bar-star {
+    flex-shrink: 0;
+    color: #F5A623;
+  }
+
+  .pcp-verified-reviews__bar-track {
+    flex: 1;
+    height: 8px;
+    background-color: rgb(var(--color-foreground-rgb) / 0.08);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .pcp-verified-reviews__bar-fill {
+    height: 100%;
+    background-color: #F5A623;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+  }
+
+  .pcp-verified-reviews__bar-pct {
+    font-family: var(--font-body--family);
+    font-size: 13px;
+    line-height: 18px;
+    color: rgb(var(--color-foreground-rgb) / 0.6);
+    width: 36px;
+    text-align: end;
+  }
+
+  .pcp-verified-reviews__summary-right {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .pcp-verified-reviews__recommendation {
+    margin: 0;
+    font-family: var(--font-body--family);
+    font-size: 15px;
+    line-height: 22px;
+    color: var(--color-foreground);
+  }
+
+  .pcp-verified-reviews__write-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    border: 1px solid var(--color-foreground);
+    border-radius: var(--style-border-radius-sm, 4px);
+    background: transparent;
+    color: var(--color-foreground);
+    font-family: var(--font-body--family);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+
+    &:hover {
+      background-color: var(--color-foreground);
+      color: var(--color-background);
+    }
+
+    &[disabled] {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-foreground);
+      outline-offset: 2px;
+    }
+  }
+
+  .pcp-verified-reviews__list-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block-end: 16px;
+    border-bottom: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+  }
+
+  .pcp-verified-reviews__list-count {
+    font-family: var(--font-body--family);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    color: var(--color-foreground);
+  }
+
+  .pcp-verified-reviews__sort {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .pcp-verified-reviews__sort-label {
+    font-family: var(--font-body--family);
+    font-size: 14px;
+    line-height: 20px;
+    color: rgb(var(--color-foreground-rgb) / 0.6);
+  }
+
+  .pcp-verified-reviews__sort-select {
+    font-family: var(--font-body--family);
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--color-foreground);
+    background: transparent;
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.2);
+    border-radius: 4px;
+    padding: 6px 28px 6px 10px;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23333' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+
+    &:focus-visible {
+      outline: 2px solid var(--color-foreground);
+      outline-offset: 2px;
+    }
+  }
+
+  .pcp-verified-reviews__list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pcp-verified-reviews__card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-block: 24px;
+    border-bottom: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+  }
+
+  .pcp-verified-reviews__card-stars {
+    display: flex;
+    gap: 2px;
+    color: #F5A623;
+  }
+
+  .pcp-verified-reviews__star--empty {
+    color: rgb(var(--color-foreground-rgb) / 0.2);
+  }
+
+  .pcp-verified-reviews__card-title {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 26px;
+    color: var(--color-foreground);
+  }
+
+  .pcp-verified-reviews__card-body {
+    margin: 0;
+    font-family: var(--font-body--family);
+    font-size: 15px;
+    line-height: 24px;
+    color: rgb(var(--color-foreground-rgb) / 0.8);
+  }
+
+  .pcp-verified-reviews__card-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .pcp-verified-reviews__card-author {
+    font-family: var(--font-body--family);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    color: var(--color-foreground);
+  }
+
+  .pcp-verified-reviews__card-verified {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--font-body--family);
+    font-size: 13px;
+    line-height: 18px;
+    color: #4CAF50;
+  }
+
+  .pcp-verified-reviews__card-date {
+    font-family: var(--font-body--family);
+    font-size: 13px;
+    line-height: 18px;
+    color: rgb(var(--color-foreground-rgb) / 0.5);
+  }
+
+  .pcp-verified-reviews__load-more {
+    display: flex;
+    justify-content: center;
+    padding-block-start: 24px;
+  }
+
+  .pcp-verified-reviews__load-more-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 32px;
+    border: 1px solid var(--color-foreground);
+    border-radius: var(--style-border-radius-sm, 4px);
+    background: transparent;
+    color: var(--color-foreground);
+    font-family: var(--font-body--family);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+
+    &:hover {
+      background-color: var(--color-foreground);
+      color: var(--color-background);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-foreground);
+      outline-offset: 2px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .pcp-verified-reviews__heading {
+      font-size: 24px;
+      line-height: 31px;
+    }
+
+    .pcp-verified-reviews__summary {
+      padding: 24px 16px;
+    }
+
+    .pcp-verified-reviews__overall-number {
+      font-size: 40px;
+    }
+
+    .pcp-verified-reviews__distribution {
+      max-width: 100%;
+    }
+
+    .pcp-verified-reviews__list-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .pcp-verified-reviews__card-title {
+      font-size: 16px;
+      line-height: 24px;
+    }
+
+    .pcp-verified-reviews__card-body {
+      font-size: 14px;
+      line-height: 22px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Verified Reviews",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Verified Reviews"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading tag",
+      "options": [
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "text",
+      "id": "overall_rating",
+      "label": "Overall rating",
+      "default": "4.5"
+    },
+    {
+      "type": "text",
+      "id": "total_reviews_count",
+      "label": "Total reviews",
+      "default": "22"
+    },
+    {
+      "type": "text",
+      "id": "recommendation_percentage",
+      "label": "Recommendation %",
+      "default": "90"
+    },
+    {
+      "type": "url",
+      "id": "write_review_url",
+      "label": "Write review link"
+    },
+    {
+      "type": "header",
+      "content": "Rating Distribution"
+    },
+    {
+      "type": "range",
+      "id": "star_5_percent",
+      "label": "5 star %",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "star_4_percent",
+      "label": "4 star %",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "star_3_percent",
+      "label": "3 star %",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "star_2_percent",
+      "label": "2 star %",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "range",
+      "id": "star_1_percent",
+      "label": "1 star %",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "header",
+      "content": "Display"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_load_more",
+      "label": "Show load more",
+      "default": true
+    },
+    {
+      "type": "number",
+      "id": "reviews_per_page",
+      "label": "Reviews per page",
+      "default": 10
+    },
+    {
+      "type": "select",
+      "id": "sort_default",
+      "label": "Default sort",
+      "options": [
+        { "value": "highest", "label": "Highest Rated" },
+        { "value": "lowest", "label": "Lowest Rated" },
+        { "value": "newest", "label": "Newest" }
+      ],
+      "default": "highest"
+    },
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "margin-block-start",
+      "label": "Top margin",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin-block-end",
+      "label": "Bottom margin",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review-card",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "Rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Great product!"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Review text",
+          "default": "I absolutely love this product. The quality is exceptional and it exceeded my expectations."
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Author",
+          "default": "Jane D."
+        },
+        {
+          "type": "text",
+          "id": "date",
+          "label": "Date",
+          "default": "December 15, 2024"
+        },
+        {
+          "type": "checkbox",
+          "id": "verified",
+          "label": "Verified buyer",
+          "default": true
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Verified Reviews",
+      "category": "t:categories.storytelling",
+      "blocks": [
+        {
+          "type": "review-card",
+          "settings": {
+            "rating": 5,
+            "title": "Absolutely stunning!",
+            "body": "This piece is gorgeous. The craftsmanship is impeccable and it looks even better in person. Highly recommend!",
+            "author": "Sarah M.",
+            "date": "January 5, 2025",
+            "verified": true
+          }
+        },
+        {
+          "type": "review-card",
+          "settings": {
+            "rating": 4,
+            "title": "Beautiful quality",
+            "body": "Really lovely piece, well made and elegant. The only reason for 4 stars is the clasp could be a bit easier to use.",
+            "author": "Emma K.",
+            "date": "December 20, 2024",
+            "verified": true
+          }
+        },
+        {
+          "type": "review-card",
+          "settings": {
+            "rating": 5,
+            "title": "Perfect gift",
+            "body": "Bought this as a gift and it was a hit! Beautiful packaging and the product itself is top notch quality.",
+            "author": "Michael R.",
+            "date": "November 30, 2024",
+            "verified": true
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
