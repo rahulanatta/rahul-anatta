@@ -275,6 +275,17 @@
         "margin-block-end": 0
       }
     },
+    "thin-promo-bar": {
+      "type": "thin-promo-bar",
+      "settings": {
+        "heading": "Limited Time Offer — Shop Now & Save",
+        "cta_label": "Shop Now",
+        "color_scheme": "scheme-5",
+        "section_width": "full-width",
+        "padding-block-start": 16,
+        "padding-block-end": 16
+      }
+    },
     "what-people-are-saying": {
       "type": "what-people-are-saying",
       "blocks": {
@@ -439,6 +450,7 @@
     "ticker",
     "pcp-product-carousel",
     "pcp-collection-grid",
+    "thin-promo-bar",
     "what-people-are-saying",
     "customer-satisfaction",
     "pcp-verified-reviews"
