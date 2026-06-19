@@ -1,29 +1,46 @@
-<div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <div
-  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style thin-promo-bar"
+  class="section section--{{ section.settings.section_width }} spacing-style thin-promo-bar"
   style="
     {%- render 'spacing-style', settings: section.settings -%}
-    --tpb-gap: {{ section.settings.gap }}px;
-    --tpb-text-alignment: {{ section.settings.text_alignment }};
   "
 >
-  <div class="thin-promo-bar__container">
-    {% if section.settings.heading != blank %}
-      <{{ section.settings.heading_tag }} class="thin-promo-bar__heading">
-        {{- section.settings.heading | escape -}}
-      </{{ section.settings.heading_tag }}>
-    {% endif %}
+  <div
+    class="thin-promo-bar__container color-{{ section.settings.color_scheme }}"
+    style="
+      --tpb-gap: {{ section.settings.gap }}px;
+      --tpb-border-radius: {{ section.settings.border_radius }}px;
+    "
+  >
+    <div class="thin-promo-bar__content">
+      {% if section.settings.heading != blank %}
+        <{{ section.settings.heading_tag }} class="thin-promo-bar__heading">
+          {{- section.settings.heading | escape -}}
+        </{{ section.settings.heading_tag }}>
+      {% endif %}
 
-    {% if section.settings.subtext != blank %}
-      <p class="thin-promo-bar__subtext">
-        {{- section.settings.subtext | escape -}}
-      </p>
-    {% endif %}
+      {% if section.settings.subtext != blank %}
+        <p class="thin-promo-bar__subtext">
+          {{- section.settings.subtext | escape -}}
+        </p>
+      {% endif %}
 
-    {% if section.settings.cta_label != blank and section.settings.cta_url != blank %}
-      <a href="{{ section.settings.cta_url }}" class="thin-promo-bar__cta">
-        {{- section.settings.cta_label | escape -}}
-      </a>
+      {% if section.settings.cta_label != blank and section.settings.cta_url != blank %}
+        <a href="{{ section.settings.cta_url }}" class="thin-promo-bar__cta">
+          {{- section.settings.cta_label | escape -}}
+        </a>
+      {% endif %}
+    </div>
+
+    {% if section.settings.image != blank %}
+      <div class="thin-promo-bar__image-wrapper">
+        <img
+          src="{{ section.settings.image | image_url: width: 764 }}"
+          alt="{{ section.settings.image.alt | escape }}"
+          width="{{ section.settings.image.width }}"
+          height="{{ section.settings.image.height }}"
+          loading="lazy"
+        >
+      </div>
     {% endif %}
   </div>
 </div>
@@ -31,33 +48,46 @@
 {% stylesheet %}
   .thin-promo-bar__container {
     display: flex;
-    align-items: center;
+    align-items: stretch;
+    border-radius: var(--tpb-border-radius, 20px);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .thin-promo-bar__content {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
-    gap: var(--tpb-gap, 16px);
-    text-align: var(--tpb-text-alignment, center);
-    flex-wrap: wrap;
+    padding: 16px 40px;
+    gap: var(--tpb-gap, 4px);
   }
 
   .thin-promo-bar__heading {
-    font-family: var(--font-heading--family);
-    font-size: 16px;
-    line-height: 1.4;
-    font-weight: 600;
+    font-family: var(--font-body--family);
+    font-size: 26px;
+    line-height: 32px;
+    font-weight: 700;
+    font-style: italic;
+    letter-spacing: -0.44px;
     color: var(--color-foreground);
     margin: 0;
   }
 
   .thin-promo-bar__subtext {
     font-family: var(--font-body--family);
-    font-size: 14px;
-    line-height: 1.4;
+    font-size: 26px;
+    line-height: 32px;
+    font-weight: 200;
+    letter-spacing: -0.44px;
     color: var(--color-foreground);
     margin: 0;
   }
 
   .thin-promo-bar__cta {
     font-family: var(--font-body--family);
-    font-size: 14px;
+    font-size: 16px;
     line-height: 1.4;
     font-weight: 600;
     color: var(--color-foreground);
@@ -70,22 +100,40 @@
     opacity: 0.75;
   }
 
+  .thin-promo-bar__image-wrapper {
+    flex: 0 0 auto;
+    width: 30%;
+    max-width: 382px;
+  }
+
+  .thin-promo-bar__image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
   @media screen and (max-width: 749px) {
-    .thin-promo-bar__container {
-      flex-direction: column;
-      gap: calc(var(--tpb-gap, 16px) * 0.5);
+    .thin-promo-bar__content {
+      padding: 12px 20px;
     }
 
     .thin-promo-bar__heading {
-      font-size: 14px;
+      font-size: 16px;
+      line-height: 22px;
     }
 
     .thin-promo-bar__subtext {
-      font-size: 13px;
+      font-size: 16px;
+      line-height: 22px;
     }
 
     .thin-promo-bar__cta {
       font-size: 13px;
+    }
+
+    .thin-promo-bar__image-wrapper {
+      width: 25%;
     }
   }
 {% endstylesheet %}
@@ -125,6 +173,11 @@
       "label": "CTA link"
     },
     {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
       "type": "select",
       "id": "heading_tag",
       "label": "Heading tag",
@@ -161,6 +214,16 @@
       "step": 4,
       "unit": "px",
       "default": 16
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "default": 20
     },
     {
       "type": "select",
