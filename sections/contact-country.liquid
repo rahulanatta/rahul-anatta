@@ -1,0 +1,849 @@
+{%- liquid
+  assign support_form_id = 'contact-support-' | append: section.id
+  assign consultant_form_id = 'contact-consultant-' | append: section.id
+  assign consultant_anchor_id = 'consultant-' | append: section.id
+
+  assign newline_char = "
+"
+  assign subjects = section.settings.issue_subjects | split: newline_char
+-%}
+
+<div
+  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style contact-country"
+  style="{%- render 'spacing-style', settings: section.settings -%}"
+>
+  {%- comment -%} Top section: address card + support form {%- endcomment -%}
+  <div class="contact-country__top">
+    <div class="contact-country__address-card">
+      <div class="contact-country__card-image">
+        {% if section.settings.country_image != blank %}
+          {%- assign card_sizes = '(min-width: 1024px) 378px, calc(100vw - 60px)' -%}
+          {{
+            section.settings.country_image
+            | image_url: width: section.settings.country_image.width
+            | image_tag:
+              widths: '335,378,670,756',
+              sizes: card_sizes,
+              loading: 'lazy',
+              class: 'contact-country__image',
+              alt: section.settings.country_name
+          }}
+        {% else %}
+          <div class="contact-country__image contact-country__image--placeholder">
+            {{ 'image' | placeholder_svg_tag }}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="contact-country__card-info">
+        <div class="contact-country__card-details">
+          {% if section.settings.country_name != blank %}
+            <h2 class="contact-country__country-name">{{ section.settings.country_name | escape }}</h2>
+          {% endif %}
+          {% if section.settings.phone != blank %}
+            <p class="contact-country__phone">{{ section.settings.phone | escape }}</p>
+          {% endif %}
+          {% if section.settings.email != blank %}
+            <p class="contact-country__email-text">{{ section.settings.email | escape }}</p>
+          {% endif %}
+        </div>
+
+        <div class="contact-country__consultant-info">
+          <p class="contact-country__consultant-title">Your Shop Consultant</p>
+          {% if section.settings.consultant_name != blank %}
+            <p class="contact-country__consultant-name-text">{{ section.settings.consultant_name | escape }}</p>
+          {% endif %}
+          <a href="#{{ consultant_anchor_id }}" class="contact-country__contact-link">
+            {{ section.settings.contact_directly_text | escape }}
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-country__support-form">
+      {%- form 'contact', id: support_form_id -%}
+        <input type="hidden" name="contact[form_type]" value="support">
+
+        {% if form.posted_successfully? %}
+          <div class="contact-country__form-success" role="status">
+            Thank you for contacting support. We'll get back to you soon.
+          </div>
+        {% endif %}
+
+        {% if form.errors %}
+          <div class="contact-country__form-errors" role="alert">
+            {{ form.errors | default_errors }}
+          </div>
+        {% endif %}
+
+        <div class="contact-country__fields">
+          <div class="contact-country__field-row">
+            <div class="contact-country__field">
+              <label class="contact-country__label" for="support-name-{{ section.id }}">Name</label>
+              <input
+                type="text"
+                id="support-name-{{ section.id }}"
+                name="contact[name]"
+                class="contact-country__input"
+                placeholder="Name"
+                autocomplete="name"
+              >
+            </div>
+            <div class="contact-country__field">
+              <label class="contact-country__label" for="support-email-{{ section.id }}">Email *</label>
+              <input
+                type="email"
+                id="support-email-{{ section.id }}"
+                name="contact[email]"
+                class="contact-country__input"
+                placeholder="Email"
+                autocomplete="email"
+                required
+              >
+            </div>
+          </div>
+
+          <div class="contact-country__field">
+            <label class="contact-country__label" for="support-phone-{{ section.id }}">Phone</label>
+            <input
+              type="tel"
+              id="support-phone-{{ section.id }}"
+              name="contact[phone]"
+              class="contact-country__input"
+              placeholder="Phone"
+              autocomplete="tel"
+            >
+          </div>
+
+          {% if subjects.size > 0 %}
+            <div class="contact-country__field">
+              <label class="contact-country__label" for="support-subject-{{ section.id }}">Issue Subject:</label>
+              <div class="contact-country__select-wrap">
+                <select
+                  id="support-subject-{{ section.id }}"
+                  name="contact[issue_subject]"
+                  class="contact-country__select"
+                >
+                  <option value="" disabled selected>Select</option>
+                  {%- for subject in subjects -%}
+                    {%- assign subject_trimmed = subject | strip -%}
+                    {%- if subject_trimmed != blank -%}
+                      <option value="{{ subject_trimmed | escape }}">{{ subject_trimmed | escape }}</option>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </select>
+              </div>
+            </div>
+          {% endif %}
+
+          <div class="contact-country__field">
+            <label class="contact-country__label" for="support-order-{{ section.id }}">Order Number:</label>
+            <input
+              type="text"
+              id="support-order-{{ section.id }}"
+              name="contact[order_number]"
+              class="contact-country__input"
+              placeholder="1234567890"
+            >
+          </div>
+
+          <div class="contact-country__field">
+            <label class="contact-country__label" for="support-body-{{ section.id }}">Description of issue or questions: *</label>
+            <textarea
+              id="support-body-{{ section.id }}"
+              name="contact[body]"
+              class="contact-country__textarea"
+              placeholder="Your Message"
+              required
+            ></textarea>
+          </div>
+
+          <div class="contact-country__submit-wrap contact-country__submit-wrap--end">
+            <button type="submit" class="contact-country__submit">Submit</button>
+          </div>
+        </div>
+      {%- endform -%}
+    </div>
+  </div>
+
+  {%- comment -%} Divider {%- endcomment -%}
+  <hr class="contact-country__divider">
+
+  {%- comment -%} Consultant email section {%- endcomment -%}
+  <div class="contact-country__consultant-section" id="{{ consultant_anchor_id }}">
+    <div class="contact-country__consultant-header">
+      {% if section.settings.consultant_avatar != blank %}
+        {{
+          section.settings.consultant_avatar
+          | image_url: width: 104
+          | image_tag:
+            widths: '52,104',
+            class: 'contact-country__header-avatar',
+            alt: section.settings.consultant_name,
+            loading: 'lazy'
+        }}
+      {% endif %}
+      <h2 class="contact-country__consultant-heading">
+        Email {{ section.settings.consultant_name | escape }}
+      </h2>
+    </div>
+
+    <div class="contact-country__consultant-grid">
+      <div class="contact-country__consultant-form-wrap">
+        {%- form 'contact', id: consultant_form_id -%}
+          <input type="hidden" name="contact[form_type]" value="consultant">
+          <input type="hidden" name="contact[consultant_name]" value="{{ section.settings.consultant_name | escape }}">
+
+          {% if form.posted_successfully? %}
+            <div class="contact-country__form-success" role="status">
+              Thank you for your message. {{ section.settings.consultant_name | escape }} will be in touch soon.
+            </div>
+          {% endif %}
+
+          {% if form.errors %}
+            <div class="contact-country__form-errors" role="alert">
+              {{ form.errors | default_errors }}
+            </div>
+          {% endif %}
+
+          <div class="contact-country__fields">
+            <div class="contact-country__field-row contact-country__field-row--consultant">
+              <div class="contact-country__field contact-country__field--name">
+                <label class="contact-country__label" for="consultant-name-{{ section.id }}">Name</label>
+                <input
+                  type="text"
+                  id="consultant-name-{{ section.id }}"
+                  name="contact[name]"
+                  class="contact-country__input"
+                  placeholder="Name"
+                  autocomplete="name"
+                >
+              </div>
+              <div class="contact-country__field contact-country__field--email">
+                <label class="contact-country__label" for="consultant-email-{{ section.id }}">Email *</label>
+                <input
+                  type="email"
+                  id="consultant-email-{{ section.id }}"
+                  name="contact[email]"
+                  class="contact-country__input"
+                  placeholder="Email"
+                  autocomplete="email"
+                  required
+                >
+              </div>
+            </div>
+
+            <div class="contact-country__field">
+              <label class="contact-country__label" for="consultant-phone-{{ section.id }}">Phone</label>
+              <input
+                type="tel"
+                id="consultant-phone-{{ section.id }}"
+                name="contact[phone]"
+                class="contact-country__input"
+                placeholder="Phone"
+                autocomplete="tel"
+              >
+            </div>
+
+            {% if subjects.size > 0 %}
+              <div class="contact-country__field">
+                <label class="contact-country__label" for="consultant-subject-{{ section.id }}">Issue Subject:</label>
+                <div class="contact-country__select-wrap">
+                  <select
+                    id="consultant-subject-{{ section.id }}"
+                    name="contact[issue_subject]"
+                    class="contact-country__select"
+                  >
+                    <option value="" disabled selected>Select</option>
+                    {%- for subject in subjects -%}
+                      {%- assign subject_trimmed = subject | strip -%}
+                      {%- if subject_trimmed != blank -%}
+                        <option value="{{ subject_trimmed | escape }}">{{ subject_trimmed | escape }}</option>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </select>
+                </div>
+              </div>
+            {% endif %}
+
+            <div class="contact-country__field">
+              <label class="contact-country__label" for="consultant-body-{{ section.id }}">Message</label>
+              <textarea
+                id="consultant-body-{{ section.id }}"
+                name="contact[body]"
+                class="contact-country__textarea"
+                placeholder="Your message"
+              ></textarea>
+            </div>
+
+            <div class="contact-country__submit-wrap contact-country__submit-wrap--center">
+              <button type="submit" class="contact-country__submit">Submit</button>
+            </div>
+          </div>
+        {%- endform -%}
+      </div>
+
+      <div class="contact-country__message-card">
+        {% if section.settings.consultant_message != blank %}
+          <div class="contact-country__message-text">
+            {{ section.settings.consultant_message | escape | newline_to_br }}
+          </div>
+        {% endif %}
+
+        <div class="contact-country__message-author">
+          {% if section.settings.consultant_avatar != blank %}
+            {{
+              section.settings.consultant_avatar
+              | image_url: width: 84
+              | image_tag:
+                widths: '42,84',
+                class: 'contact-country__message-avatar',
+                alt: section.settings.consultant_name,
+                loading: 'lazy'
+            }}
+          {% endif %}
+          {% if section.settings.consultant_name != blank %}
+            <span class="contact-country__message-author-name">{{ section.settings.consultant_name | escape }}</span>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  /* =============================================
+     Contact Country Section
+     ============================================= */
+
+  /* --- Top grid: address card + support form --- */
+  .contact-country__top {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+
+    @media screen and (min-width: 1024px) {
+      display: grid;
+      grid-template-columns: 408px 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+  }
+
+  /* --- Address card --- */
+  .contact-country__address-card {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    padding: 20px 12px 32px 17px;
+    border-radius: 22px;
+    border: 1px solid #D5D5D5;
+    background: #fff;
+
+    @media screen and (min-width: 1024px) {
+      padding: 17px 15px 32px 15px;
+      border-radius: 18px;
+      border-color: #EDEDED;
+    }
+  }
+
+  .contact-country__card-image {
+    width: 100%;
+    overflow: hidden;
+    border-radius: 10px 10px 0 0;
+
+    @media screen and (min-width: 1024px) {
+      border-radius: 14px;
+    }
+  }
+
+  .contact-country__image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 378 / 247;
+    object-fit: cover;
+  }
+
+  .contact-country__image--placeholder {
+    background: #F2F2F2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 378 / 247;
+
+    & svg {
+      width: 40%;
+      height: 40%;
+      opacity: 0.3;
+    }
+  }
+
+  .contact-country__card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding-inline: 2px;
+  }
+
+  .contact-country__card-details {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .contact-country__country-name {
+    font-family: var(--font-heading--family);
+    font-weight: 500;
+    font-size: 26px;
+    line-height: 38px;
+    letter-spacing: -0.64px;
+    margin: 0;
+    color: var(--color-foreground);
+  }
+
+  .contact-country__phone,
+  .contact-country__email-text {
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 30px;
+    margin: 0;
+    color: var(--color-foreground);
+  }
+
+  .contact-country__consultant-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .contact-country__consultant-title {
+    font-family: var(--font-heading--family);
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 38px;
+    letter-spacing: -0.64px;
+    margin: 0;
+    color: var(--color-foreground);
+  }
+
+  .contact-country__consultant-name-text {
+    font-family: var(--font-body--family);
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 30px;
+    margin: 0;
+    color: var(--color-foreground);
+  }
+
+  .contact-country__contact-link {
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 30px;
+    color: #3D95CB;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  /* --- Form shared styles --- */
+  .contact-country__fields {
+    display: flex;
+    flex-direction: column;
+    gap: 17px;
+  }
+
+  .contact-country__field-row {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    @media screen and (min-width: 750px) {
+      flex-direction: row;
+      gap: 30px;
+
+      & > .contact-country__field {
+        flex: 1;
+      }
+    }
+  }
+
+  .contact-country__field-row--consultant {
+    @media screen and (min-width: 750px) {
+      gap: 14px;
+
+      & > .contact-country__field--name {
+        flex: 0 1 300px;
+        min-width: 180px;
+      }
+
+      & > .contact-country__field--email {
+        flex: 1;
+      }
+    }
+  }
+
+  .contact-country__field {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .contact-country__label {
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 26px;
+    color: var(--color-foreground);
+    padding: 0 5px;
+  }
+
+  .contact-country__input,
+  .contact-country__select,
+  .contact-country__textarea {
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+    color: var(--color-foreground);
+    background: transparent;
+    border: 1px solid #E4E4E4;
+    border-radius: 10px;
+    padding: 12px 16px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease;
+
+    &::placeholder {
+      color: var(--color-foreground);
+      opacity: 0.5;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: #000;
+    }
+  }
+
+  .contact-country__textarea {
+    min-height: 160px;
+    resize: vertical;
+  }
+
+  .contact-country__select-wrap {
+    position: relative;
+  }
+
+  .contact-country__select {
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    padding-inline-end: 40px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23000' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+  }
+
+  /* --- Submit button --- */
+  .contact-country__submit-wrap {
+    display: flex;
+    padding-block-start: 4px;
+  }
+
+  .contact-country__submit-wrap--end {
+    justify-content: flex-end;
+  }
+
+  .contact-country__submit-wrap--center {
+    justify-content: center;
+  }
+
+  .contact-country__submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 40px 9px;
+    background: #000;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-family: var(--font-body--family);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 30px;
+    text-transform: capitalize;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 0.85;
+    }
+
+    @media screen and (max-width: 749px) {
+      width: 100%;
+    }
+  }
+
+  /* --- Form status messages --- */
+  .contact-country__form-success {
+    padding: 12px 16px;
+    background: #E8F5E9;
+    border: 1px solid #A5D6A7;
+    border-radius: 10px;
+    color: #2E7D32;
+    font-family: var(--font-body--family);
+    font-size: 14px;
+    line-height: 20px;
+    margin-block-end: 16px;
+  }
+
+  .contact-country__form-errors {
+    padding: 12px 16px;
+    background: #FFEBEE;
+    border: 1px solid #EF9A9A;
+    border-radius: 10px;
+    color: #C62828;
+    font-family: var(--font-body--family);
+    font-size: 14px;
+    line-height: 20px;
+    margin-block-end: 16px;
+
+    & ul {
+      margin: 4px 0 0;
+      padding-inline-start: 20px;
+    }
+  }
+
+  /* --- Divider --- */
+  .contact-country__divider {
+    border: none;
+    border-block-start: 1px solid #E4E4E4;
+    margin-block: 40px;
+  }
+
+  /* --- Consultant section --- */
+  .contact-country__consultant-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    margin-block-end: 24px;
+  }
+
+  .contact-country__header-avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .contact-country__consultant-heading {
+    font-family: var(--font-heading--family);
+    font-weight: 300;
+    font-size: 26px;
+    line-height: 38px;
+    letter-spacing: -0.64px;
+    margin: 0;
+    color: var(--color-foreground);
+  }
+
+  /* --- Consultant grid: form + message card --- */
+  .contact-country__consultant-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    @media screen and (min-width: 1024px) {
+      display: grid;
+      grid-template-columns: 1fr 347px;
+      gap: 40px;
+      align-items: start;
+    }
+  }
+
+  .contact-country__consultant-form-wrap {
+    min-width: 0;
+  }
+
+  /* --- Message card --- */
+  .contact-country__message-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 40px;
+    padding: 24px 20px;
+    border: 1px solid #E4E4E4;
+    border-radius: 20px;
+    order: -1;
+
+    @media screen and (min-width: 1024px) {
+      order: 0;
+      padding: 20px 22px;
+    }
+  }
+
+  .contact-country__message-text {
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-style: italic;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--color-foreground);
+  }
+
+  .contact-country__message-author {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .contact-country__message-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .contact-country__message-author-name {
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--color-foreground);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Country contact directory",
+  "tag": "section",
+  "class": "contact-country-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "image_picker",
+      "id": "country_image",
+      "label": "Country image"
+    },
+    {
+      "type": "text",
+      "id": "country_name",
+      "label": "Country name",
+      "default": "United States"
+    },
+    {
+      "type": "text",
+      "id": "phone",
+      "label": "Phone number",
+      "default": "1 (866) 420-1709"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Email",
+      "default": "support@marketamerica.com"
+    },
+    {
+      "type": "header",
+      "content": "Consultant"
+    },
+    {
+      "type": "text",
+      "id": "consultant_name",
+      "label": "Consultant name",
+      "default": "Steve Bosson"
+    },
+    {
+      "type": "image_picker",
+      "id": "consultant_avatar",
+      "label": "Consultant avatar"
+    },
+    {
+      "type": "textarea",
+      "id": "consultant_message",
+      "label": "Consultant message",
+      "default": "I'm here to answer any questions you may have and guide you through your health and wellness journey. My goal is to help you find the right products and solutions tailored to your unique needs. Whether you're just getting started or refining your routine, I'm here to make the process simple and stress-free. Think of me as your go-to resource for trusted support every step of the way.\n\nSimply fill out this form and i'll be in touch!"
+    },
+    {
+      "type": "text",
+      "id": "contact_directly_text",
+      "label": "Contact directly text",
+      "default": "Contact Directly?"
+    },
+    {
+      "type": "header",
+      "content": "Form"
+    },
+    {
+      "type": "textarea",
+      "id": "issue_subjects",
+      "label": "Issue subjects",
+      "info": "One option per line",
+      "default": "Billing\nShipping\nReturns\nProduct Question\nOther"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Country contact directory",
+      "category": "Contact"
+    }
+  ]
+}
+{% endschema %}

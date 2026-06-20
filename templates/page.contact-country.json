@@ -1,0 +1,25 @@
+{
+  "sections": {
+    "main": {
+      "type": "contact-country",
+      "settings": {
+        "country_image": "shopify://shop_images/contact-form-img-m-webp-desktop-743928891.jpg",
+        "country_name": "United States",
+        "phone": "1 (866) 420-1709",
+        "email": "support@marketamerica.com",
+        "consultant_name": "Steve Bosson",
+        "consultant_avatar": "shopify://shop_images/ellipse-143-mobile-744732682.png",
+        "consultant_message": "I'm here to answer any questions you may have and guide you through your health and wellness journey. My goal is to help you find the right products and solutions tailored to your unique needs. Whether you're just getting started or refining your routine, I'm here to make the process simple and stress-free. Think of me as your go-to resource for trusted support every step of the way.\n\nSimply fill out this form and i'll be in touch!",
+        "contact_directly_text": "Contact Directly?",
+        "issue_subjects": "Billing\nShipping\nReturns\nProduct Question\nOther",
+        "section_width": "page-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 40,
+        "padding-block-end": 40
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
