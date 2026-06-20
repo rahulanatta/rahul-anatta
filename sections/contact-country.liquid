@@ -2,10 +2,7 @@
   assign support_form_id = 'contact-support-' | append: section.id
   assign consultant_form_id = 'contact-consultant-' | append: section.id
   assign consultant_anchor_id = 'consultant-' | append: section.id
-
-  assign newline_char = "
-"
-  assign subjects = section.settings.issue_subjects | split: newline_char
+  assign subjects = section.settings.issue_subjects | newline_to_br | split: '<br />'
 -%}
 
 <div
