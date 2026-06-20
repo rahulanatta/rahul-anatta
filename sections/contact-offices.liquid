@@ -43,8 +43,16 @@
             </div>
 
             {% if block.settings.button_text != blank %}
+              {%- liquid
+                assign base_directory_url = section.settings.directory_page | default: '/pages/contact-country'
+                assign country_handle = block.settings.country_name | handleize
+                assign office_target_url = base_directory_url | append: '?country=' | append: country_handle
+                if block.settings.button_url != blank
+                  assign office_target_url = block.settings.button_url
+                endif
+              -%}
               <a
-                {% if block.settings.button_url != blank %}href="{{ block.settings.button_url }}"{% endif %}
+                href="{{ office_target_url }}"
                 class="contact-offices__button"
               >
                 {{ block.settings.button_text | escape }}
@@ -183,6 +191,12 @@
     {
       "type": "header",
       "content": "Layout"
+    },
+    {
+      "type": "url",
+      "id": "directory_page",
+      "label": "Country directory page",
+      "info": "The per-country contact page. Each card links here with the country pre-selected. Defaults to /pages/contact-country."
     },
     {
       "type": "select",

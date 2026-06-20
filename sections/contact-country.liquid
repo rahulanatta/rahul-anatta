@@ -1,317 +1,385 @@
 {%- liquid
-  assign support_form_id = 'contact-support-' | append: section.id
-  assign consultant_form_id = 'contact-consultant-' | append: section.id
-  assign consultant_anchor_id = 'consultant-' | append: section.id
   assign subjects = section.settings.issue_subjects | newline_to_br | split: '<br />'
 -%}
 
 <div
+  id="contact-country-{{ section.id }}"
   class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style contact-country"
   style="{%- render 'spacing-style', settings: section.settings -%}"
+  data-contact-country
 >
-  {%- comment -%} Top section: address card + support form {%- endcomment -%}
-  <div class="contact-country__top">
-    <div class="contact-country__address-card">
-      <div class="contact-country__card-image">
-        {% if section.settings.country_image != blank %}
-          {%- assign card_sizes = '(min-width: 1024px) 378px, calc(100vw - 60px)' -%}
-          {{
-            section.settings.country_image
-            | image_url: width: section.settings.country_image.width
-            | image_tag:
-              widths: '335,378,670,756',
-              sizes: card_sizes,
-              loading: 'lazy',
-              class: 'contact-country__image',
-              alt: section.settings.country_name
-          }}
-        {% else %}
-          <div class="contact-country__image contact-country__image--placeholder">
-            {{ 'image' | placeholder_svg_tag }}
+  {%- for block in section.blocks -%}
+    {%- liquid
+      assign country_handle = block.settings.country_name | handleize
+      assign support_form_id = 'contact-support-' | append: block.id
+      assign consultant_form_id = 'contact-consultant-' | append: block.id
+      assign consultant_anchor_id = 'consultant-' | append: block.id
+    -%}
+    <div
+      class="contact-country__panel{% if forloop.first %} contact-country__panel--active{% endif %}"
+      data-country="{{ country_handle }}"
+      {{ block.shopify_attributes }}
+    >
+      {%- comment -%} Top section: address card + support form {%- endcomment -%}
+      <div class="contact-country__top">
+        <div class="contact-country__address-card">
+          <div class="contact-country__card-image">
+            {% if block.settings.country_image != blank %}
+              {%- assign card_sizes = '(min-width: 1024px) 378px, calc(100vw - 60px)' -%}
+              {{
+                block.settings.country_image
+                | image_url: width: block.settings.country_image.width
+                | image_tag:
+                  widths: '335,378,670,756',
+                  sizes: card_sizes,
+                  loading: 'lazy',
+                  class: 'contact-country__image',
+                  alt: block.settings.country_name
+              }}
+            {% else %}
+              <div class="contact-country__image contact-country__image--placeholder">
+                {{ 'image' | placeholder_svg_tag }}
+              </div>
+            {% endif %}
           </div>
-        {% endif %}
-      </div>
 
-      <div class="contact-country__card-info">
-        <div class="contact-country__card-details">
-          {% if section.settings.country_name != blank %}
-            <h2 class="contact-country__country-name">{{ section.settings.country_name | escape }}</h2>
-          {% endif %}
-          {% if section.settings.phone != blank %}
-            <p class="contact-country__phone">{{ section.settings.phone | escape }}</p>
-          {% endif %}
-          {% if section.settings.email != blank %}
-            <p class="contact-country__email-text">{{ section.settings.email | escape }}</p>
-          {% endif %}
+          <div class="contact-country__card-info">
+            <div class="contact-country__card-details">
+              {% if block.settings.country_name != blank %}
+                <h2 class="contact-country__country-name">{{ block.settings.country_name | escape }}</h2>
+              {% endif %}
+              {% if block.settings.phone != blank %}
+                <p class="contact-country__phone">{{ block.settings.phone | escape }}</p>
+              {% endif %}
+              {% if block.settings.email != blank %}
+                <p class="contact-country__email-text">{{ block.settings.email | escape }}</p>
+              {% endif %}
+            </div>
+
+            <div class="contact-country__consultant-info">
+              <p class="contact-country__consultant-title">Your Shop Consultant</p>
+              {% if block.settings.consultant_name != blank %}
+                <p class="contact-country__consultant-name-text">{{ block.settings.consultant_name | escape }}</p>
+              {% endif %}
+              <a href="#{{ consultant_anchor_id }}" class="contact-country__contact-link">
+                {{ section.settings.contact_directly_text | escape }}
+              </a>
+            </div>
+          </div>
         </div>
 
-        <div class="contact-country__consultant-info">
-          <p class="contact-country__consultant-title">Your Shop Consultant</p>
-          {% if section.settings.consultant_name != blank %}
-            <p class="contact-country__consultant-name-text">{{ section.settings.consultant_name | escape }}</p>
-          {% endif %}
-          <a href="#{{ consultant_anchor_id }}" class="contact-country__contact-link">
-            {{ section.settings.contact_directly_text | escape }}
-          </a>
-        </div>
-      </div>
-    </div>
+        <div class="contact-country__support-form">
+          {%- form 'contact', id: support_form_id -%}
+            <input type="hidden" name="contact[form_type]" value="support">
+            <input type="hidden" name="contact[country]" value="{{ block.settings.country_name | escape }}">
 
-    <div class="contact-country__support-form">
-      {%- form 'contact', id: support_form_id -%}
-        <input type="hidden" name="contact[form_type]" value="support">
-
-        {% if form.posted_successfully? %}
-          <div class="contact-country__form-success" role="status">
-            Thank you for contacting support. We'll get back to you soon.
-          </div>
-        {% endif %}
-
-        {% if form.errors %}
-          <div class="contact-country__form-errors" role="alert">
-            {{ form.errors | default_errors }}
-          </div>
-        {% endif %}
-
-        <div class="contact-country__fields">
-          <div class="contact-country__field-row">
-            <div class="contact-country__field">
-              <label class="contact-country__label" for="support-name-{{ section.id }}">Name</label>
-              <input
-                type="text"
-                id="support-name-{{ section.id }}"
-                name="contact[name]"
-                class="contact-country__input"
-                placeholder="Name"
-                autocomplete="name"
-              >
-            </div>
-            <div class="contact-country__field">
-              <label class="contact-country__label" for="support-email-{{ section.id }}">Email *</label>
-              <input
-                type="email"
-                id="support-email-{{ section.id }}"
-                name="contact[email]"
-                class="contact-country__input"
-                placeholder="Email"
-                autocomplete="email"
-                required
-              >
-            </div>
-          </div>
-
-          <div class="contact-country__field">
-            <label class="contact-country__label" for="support-phone-{{ section.id }}">Phone</label>
-            <input
-              type="tel"
-              id="support-phone-{{ section.id }}"
-              name="contact[phone]"
-              class="contact-country__input"
-              placeholder="Phone"
-              autocomplete="tel"
-            >
-          </div>
-
-          {% if subjects.size > 0 %}
-            <div class="contact-country__field">
-              <label class="contact-country__label" for="support-subject-{{ section.id }}">Issue Subject:</label>
-              <div class="contact-country__select-wrap">
-                <select
-                  id="support-subject-{{ section.id }}"
-                  name="contact[issue_subject]"
-                  class="contact-country__select"
-                >
-                  <option value="" disabled selected>Select</option>
-                  {%- for subject in subjects -%}
-                    {%- assign subject_trimmed = subject | strip -%}
-                    {%- if subject_trimmed != blank -%}
-                      <option value="{{ subject_trimmed | escape }}">{{ subject_trimmed | escape }}</option>
-                    {%- endif -%}
-                  {%- endfor -%}
-                </select>
-              </div>
-            </div>
-          {% endif %}
-
-          <div class="contact-country__field">
-            <label class="contact-country__label" for="support-order-{{ section.id }}">Order Number:</label>
-            <input
-              type="text"
-              id="support-order-{{ section.id }}"
-              name="contact[order_number]"
-              class="contact-country__input"
-              placeholder="1234567890"
-            >
-          </div>
-
-          <div class="contact-country__field">
-            <label class="contact-country__label" for="support-body-{{ section.id }}">Description of issue or questions: *</label>
-            <textarea
-              id="support-body-{{ section.id }}"
-              name="contact[body]"
-              class="contact-country__textarea"
-              placeholder="Your Message"
-              required
-            ></textarea>
-          </div>
-
-          <div class="contact-country__submit-wrap contact-country__submit-wrap--end">
-            <button type="submit" class="contact-country__submit">Submit</button>
-          </div>
-        </div>
-      {%- endform -%}
-    </div>
-  </div>
-
-  {%- comment -%} Divider {%- endcomment -%}
-  <hr class="contact-country__divider">
-
-  {%- comment -%} Consultant email section {%- endcomment -%}
-  <div class="contact-country__consultant-section" id="{{ consultant_anchor_id }}">
-    <div class="contact-country__consultant-header">
-      {% if section.settings.consultant_avatar != blank %}
-        {{
-          section.settings.consultant_avatar
-          | image_url: width: 104
-          | image_tag:
-            widths: '52,104',
-            class: 'contact-country__header-avatar',
-            alt: section.settings.consultant_name,
-            loading: 'lazy'
-        }}
-      {% endif %}
-      <h2 class="contact-country__consultant-heading">
-        Email {{ section.settings.consultant_name | escape }}
-      </h2>
-    </div>
-
-    <div class="contact-country__consultant-grid">
-      <div class="contact-country__consultant-form-wrap">
-        {%- form 'contact', id: consultant_form_id -%}
-          <input type="hidden" name="contact[form_type]" value="consultant">
-          <input type="hidden" name="contact[consultant_name]" value="{{ section.settings.consultant_name | escape }}">
-
-          {% if form.posted_successfully? %}
-            <div class="contact-country__form-success" role="status">
-              Thank you for your message. {{ section.settings.consultant_name | escape }} will be in touch soon.
-            </div>
-          {% endif %}
-
-          {% if form.errors %}
-            <div class="contact-country__form-errors" role="alert">
-              {{ form.errors | default_errors }}
-            </div>
-          {% endif %}
-
-          <div class="contact-country__fields">
-            <div class="contact-country__field-row contact-country__field-row--consultant">
-              <div class="contact-country__field contact-country__field--name">
-                <label class="contact-country__label" for="consultant-name-{{ section.id }}">Name</label>
-                <input
-                  type="text"
-                  id="consultant-name-{{ section.id }}"
-                  name="contact[name]"
-                  class="contact-country__input"
-                  placeholder="Name"
-                  autocomplete="name"
-                >
-              </div>
-              <div class="contact-country__field contact-country__field--email">
-                <label class="contact-country__label" for="consultant-email-{{ section.id }}">Email *</label>
-                <input
-                  type="email"
-                  id="consultant-email-{{ section.id }}"
-                  name="contact[email]"
-                  class="contact-country__input"
-                  placeholder="Email"
-                  autocomplete="email"
-                  required
-                >
-              </div>
-            </div>
-
-            <div class="contact-country__field">
-              <label class="contact-country__label" for="consultant-phone-{{ section.id }}">Phone</label>
-              <input
-                type="tel"
-                id="consultant-phone-{{ section.id }}"
-                name="contact[phone]"
-                class="contact-country__input"
-                placeholder="Phone"
-                autocomplete="tel"
-              >
-            </div>
-
-            {% if subjects.size > 0 %}
-              <div class="contact-country__field">
-                <label class="contact-country__label" for="consultant-subject-{{ section.id }}">Issue Subject:</label>
-                <div class="contact-country__select-wrap">
-                  <select
-                    id="consultant-subject-{{ section.id }}"
-                    name="contact[issue_subject]"
-                    class="contact-country__select"
-                  >
-                    <option value="" disabled selected>Select</option>
-                    {%- for subject in subjects -%}
-                      {%- assign subject_trimmed = subject | strip -%}
-                      {%- if subject_trimmed != blank -%}
-                        <option value="{{ subject_trimmed | escape }}">{{ subject_trimmed | escape }}</option>
-                      {%- endif -%}
-                    {%- endfor -%}
-                  </select>
-                </div>
+            {% if form.posted_successfully? %}
+              <div class="contact-country__form-success" role="status">
+                Thank you for contacting support. We'll get back to you soon.
               </div>
             {% endif %}
 
-            <div class="contact-country__field">
-              <label class="contact-country__label" for="consultant-body-{{ section.id }}">Message</label>
-              <textarea
-                id="consultant-body-{{ section.id }}"
-                name="contact[body]"
-                class="contact-country__textarea"
-                placeholder="Your message"
-              ></textarea>
-            </div>
+            {% if form.errors %}
+              <div class="contact-country__form-errors" role="alert">
+                {{ form.errors | default_errors }}
+              </div>
+            {% endif %}
 
-            <div class="contact-country__submit-wrap contact-country__submit-wrap--center">
-              <button type="submit" class="contact-country__submit">Submit</button>
+            <div class="contact-country__fields">
+              <div class="contact-country__field-row">
+                <div class="contact-country__field">
+                  <label class="contact-country__label" for="support-name-{{ block.id }}">Name</label>
+                  <input
+                    type="text"
+                    id="support-name-{{ block.id }}"
+                    name="contact[name]"
+                    class="contact-country__input"
+                    placeholder="Name"
+                    autocomplete="name"
+                  >
+                </div>
+                <div class="contact-country__field">
+                  <label class="contact-country__label" for="support-email-{{ block.id }}">Email *</label>
+                  <input
+                    type="email"
+                    id="support-email-{{ block.id }}"
+                    name="contact[email]"
+                    class="contact-country__input"
+                    placeholder="Email"
+                    autocomplete="email"
+                    required
+                  >
+                </div>
+              </div>
+
+              <div class="contact-country__field">
+                <label class="contact-country__label" for="support-phone-{{ block.id }}">Phone</label>
+                <input
+                  type="tel"
+                  id="support-phone-{{ block.id }}"
+                  name="contact[phone]"
+                  class="contact-country__input"
+                  placeholder="Phone"
+                  autocomplete="tel"
+                >
+              </div>
+
+              {% if subjects.size > 0 %}
+                <div class="contact-country__field">
+                  <label class="contact-country__label" for="support-subject-{{ block.id }}">Issue Subject:</label>
+                  <div class="contact-country__select-wrap">
+                    <select
+                      id="support-subject-{{ block.id }}"
+                      name="contact[issue_subject]"
+                      class="contact-country__select"
+                    >
+                      <option value="" disabled selected>Select</option>
+                      {%- for subject in subjects -%}
+                        {%- assign subject_trimmed = subject | strip -%}
+                        {%- if subject_trimmed != blank -%}
+                          <option value="{{ subject_trimmed | escape }}">{{ subject_trimmed | escape }}</option>
+                        {%- endif -%}
+                      {%- endfor -%}
+                    </select>
+                  </div>
+                </div>
+              {% endif %}
+
+              <div class="contact-country__field">
+                <label class="contact-country__label" for="support-order-{{ block.id }}">Order Number:</label>
+                <input
+                  type="text"
+                  id="support-order-{{ block.id }}"
+                  name="contact[order_number]"
+                  class="contact-country__input"
+                  placeholder="1234567890"
+                >
+              </div>
+
+              <div class="contact-country__field">
+                <label class="contact-country__label" for="support-body-{{ block.id }}">Description of issue or questions: *</label>
+                <textarea
+                  id="support-body-{{ block.id }}"
+                  name="contact[body]"
+                  class="contact-country__textarea"
+                  placeholder="Your Message"
+                  required
+                ></textarea>
+              </div>
+
+              <div class="contact-country__submit-wrap contact-country__submit-wrap--end">
+                <button type="submit" class="contact-country__submit">Submit</button>
+              </div>
             </div>
-          </div>
-        {%- endform -%}
+          {%- endform -%}
+        </div>
       </div>
 
-      <div class="contact-country__message-card">
-        {% if section.settings.consultant_message != blank %}
-          <div class="contact-country__message-text">
-            {{ section.settings.consultant_message | escape | newline_to_br }}
-          </div>
-        {% endif %}
+      {%- comment -%} Divider {%- endcomment -%}
+      <hr class="contact-country__divider">
 
-        <div class="contact-country__message-author">
-          {% if section.settings.consultant_avatar != blank %}
+      {%- comment -%} Consultant email section {%- endcomment -%}
+      <div class="contact-country__consultant-section" id="{{ consultant_anchor_id }}">
+        <div class="contact-country__consultant-header">
+          {% if block.settings.consultant_avatar != blank %}
             {{
-              section.settings.consultant_avatar
-              | image_url: width: 84
+              block.settings.consultant_avatar
+              | image_url: width: 104
               | image_tag:
-                widths: '42,84',
-                class: 'contact-country__message-avatar',
-                alt: section.settings.consultant_name,
+                widths: '52,104',
+                class: 'contact-country__header-avatar',
+                alt: block.settings.consultant_name,
                 loading: 'lazy'
             }}
           {% endif %}
-          {% if section.settings.consultant_name != blank %}
-            <span class="contact-country__message-author-name">{{ section.settings.consultant_name | escape }}</span>
-          {% endif %}
+          <h2 class="contact-country__consultant-heading">
+            Email {{ block.settings.consultant_name | escape }}
+          </h2>
+        </div>
+
+        <div class="contact-country__consultant-grid">
+          <div class="contact-country__consultant-form-wrap">
+            {%- form 'contact', id: consultant_form_id -%}
+              <input type="hidden" name="contact[form_type]" value="consultant">
+              <input type="hidden" name="contact[country]" value="{{ block.settings.country_name | escape }}">
+              <input type="hidden" name="contact[consultant_name]" value="{{ block.settings.consultant_name | escape }}">
+
+              {% if form.posted_successfully? %}
+                <div class="contact-country__form-success" role="status">
+                  Thank you for your message. {{ block.settings.consultant_name | escape }} will be in touch soon.
+                </div>
+              {% endif %}
+
+              {% if form.errors %}
+                <div class="contact-country__form-errors" role="alert">
+                  {{ form.errors | default_errors }}
+                </div>
+              {% endif %}
+
+              <div class="contact-country__fields">
+                <div class="contact-country__field-row contact-country__field-row--consultant">
+                  <div class="contact-country__field contact-country__field--name">
+                    <label class="contact-country__label" for="consultant-name-{{ block.id }}">Name</label>
+                    <input
+                      type="text"
+                      id="consultant-name-{{ block.id }}"
+                      name="contact[name]"
+                      class="contact-country__input"
+                      placeholder="Name"
+                      autocomplete="name"
+                    >
+                  </div>
+                  <div class="contact-country__field contact-country__field--email">
+                    <label class="contact-country__label" for="consultant-email-{{ block.id }}">Email *</label>
+                    <input
+                      type="email"
+                      id="consultant-email-{{ block.id }}"
+                      name="contact[email]"
+                      class="contact-country__input"
+                      placeholder="Email"
+                      autocomplete="email"
+                      required
+                    >
+                  </div>
+                </div>
+
+                <div class="contact-country__field">
+                  <label class="contact-country__label" for="consultant-phone-{{ block.id }}">Phone</label>
+                  <input
+                    type="tel"
+                    id="consultant-phone-{{ block.id }}"
+                    name="contact[phone]"
+                    class="contact-country__input"
+                    placeholder="Phone"
+                    autocomplete="tel"
+                  >
+                </div>
+
+                {% if subjects.size > 0 %}
+                  <div class="contact-country__field">
+                    <label class="contact-country__label" for="consultant-subject-{{ block.id }}">Issue Subject:</label>
+                    <div class="contact-country__select-wrap">
+                      <select
+                        id="consultant-subject-{{ block.id }}"
+                        name="contact[issue_subject]"
+                        class="contact-country__select"
+                      >
+                        <option value="" disabled selected>Select</option>
+                        {%- for subject in subjects -%}
+                          {%- assign subject_trimmed = subject | strip -%}
+                          {%- if subject_trimmed != blank -%}
+                            <option value="{{ subject_trimmed | escape }}">{{ subject_trimmed | escape }}</option>
+                          {%- endif -%}
+                        {%- endfor -%}
+                      </select>
+                    </div>
+                  </div>
+                {% endif %}
+
+                <div class="contact-country__field">
+                  <label class="contact-country__label" for="consultant-body-{{ block.id }}">Message</label>
+                  <textarea
+                    id="consultant-body-{{ block.id }}"
+                    name="contact[body]"
+                    class="contact-country__textarea"
+                    placeholder="Your message"
+                  ></textarea>
+                </div>
+
+                <div class="contact-country__submit-wrap contact-country__submit-wrap--center">
+                  <button type="submit" class="contact-country__submit">Submit</button>
+                </div>
+              </div>
+            {%- endform -%}
+          </div>
+
+          <div class="contact-country__message-card">
+            {% if block.settings.consultant_message != blank %}
+              <div class="contact-country__message-text">
+                {{ block.settings.consultant_message | escape | newline_to_br }}
+              </div>
+            {% endif %}
+
+            <div class="contact-country__message-author">
+              {% if block.settings.consultant_avatar != blank %}
+                {{
+                  block.settings.consultant_avatar
+                  | image_url: width: 84
+                  | image_tag:
+                    widths: '42,84',
+                    class: 'contact-country__message-avatar',
+                    alt: block.settings.consultant_name,
+                    loading: 'lazy'
+                }}
+              {% endif %}
+              {% if block.settings.consultant_name != blank %}
+                <span class="contact-country__message-author-name">{{ block.settings.consultant_name | escape }}</span>
+              {% endif %}
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  {%- endfor -%}
 </div>
+
+<script>
+  (function () {
+    var root = document.getElementById('contact-country-{{ section.id }}');
+    if (!root) return;
+
+    var panels = root.querySelectorAll('.contact-country__panel');
+    if (!panels.length) return;
+
+    function activate(target) {
+      for (var i = 0; i < panels.length; i++) {
+        panels[i].classList.toggle('contact-country__panel--active', panels[i] === target);
+      }
+    }
+
+    // If a form was just submitted, prioritise the panel showing its status.
+    var statusPanel = null;
+    for (var j = 0; j < panels.length; j++) {
+      if (panels[j].querySelector('.contact-country__form-success, .contact-country__form-errors')) {
+        statusPanel = panels[j];
+        break;
+      }
+    }
+
+    var target = null;
+    if (statusPanel) {
+      target = statusPanel;
+    } else {
+      var params = new URLSearchParams(window.location.search);
+      var wanted = (params.get('country') || '').toLowerCase();
+      if (wanted) {
+        for (var k = 0; k < panels.length; k++) {
+          if (panels[k].getAttribute('data-country') === wanted) {
+            target = panels[k];
+            break;
+          }
+        }
+      }
+    }
+
+    if (!target) target = panels[0];
+    activate(target);
+  })();
+</script>
 
 {% stylesheet %}
   /* =============================================
      Contact Country Section
      ============================================= */
+
+  /* --- Country panels (one per country, JS-toggled) --- */
+  .contact-country__panel {
+    display: none;
+  }
+
+  .contact-country__panel--active {
+    display: block;
+  }
 
   /* --- Top grid: address card + support form --- */
   .contact-country__top {
@@ -724,61 +792,13 @@
   "settings": [
     {
       "type": "header",
-      "content": "Content"
-    },
-    {
-      "type": "image_picker",
-      "id": "country_image",
-      "label": "Country image"
-    },
-    {
-      "type": "text",
-      "id": "country_name",
-      "label": "Country name",
-      "default": "United States"
-    },
-    {
-      "type": "text",
-      "id": "phone",
-      "label": "Phone number",
-      "default": "1 (866) 420-1709"
-    },
-    {
-      "type": "text",
-      "id": "email",
-      "label": "Email",
-      "default": "support@marketamerica.com"
-    },
-    {
-      "type": "header",
-      "content": "Consultant"
-    },
-    {
-      "type": "text",
-      "id": "consultant_name",
-      "label": "Consultant name",
-      "default": "Steve Bosson"
-    },
-    {
-      "type": "image_picker",
-      "id": "consultant_avatar",
-      "label": "Consultant avatar"
-    },
-    {
-      "type": "textarea",
-      "id": "consultant_message",
-      "label": "Consultant message",
-      "default": "I'm here to answer any questions you may have and guide you through your health and wellness journey. My goal is to help you find the right products and solutions tailored to your unique needs. Whether you're just getting started or refining your routine, I'm here to make the process simple and stress-free. Think of me as your go-to resource for trusted support every step of the way.\n\nSimply fill out this form and i'll be in touch!"
+      "content": "Form"
     },
     {
       "type": "text",
       "id": "contact_directly_text",
       "label": "Contact directly text",
       "default": "Contact Directly?"
-    },
-    {
-      "type": "header",
-      "content": "Form"
     },
     {
       "type": "textarea",
@@ -836,10 +856,69 @@
       "default": 40
     }
   ],
+  "blocks": [
+    {
+      "type": "country",
+      "name": "Country",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Address"
+        },
+        {
+          "type": "image_picker",
+          "id": "country_image",
+          "label": "Country image"
+        },
+        {
+          "type": "text",
+          "id": "country_name",
+          "label": "Country name",
+          "default": "United States"
+        },
+        {
+          "type": "text",
+          "id": "phone",
+          "label": "Phone number",
+          "default": "1 (866) 420-1709"
+        },
+        {
+          "type": "text",
+          "id": "email",
+          "label": "Email",
+          "default": "support@marketamerica.com"
+        },
+        {
+          "type": "header",
+          "content": "Consultant"
+        },
+        {
+          "type": "text",
+          "id": "consultant_name",
+          "label": "Consultant name",
+          "default": "Steve Bosson"
+        },
+        {
+          "type": "image_picker",
+          "id": "consultant_avatar",
+          "label": "Consultant avatar"
+        },
+        {
+          "type": "textarea",
+          "id": "consultant_message",
+          "label": "Consultant message",
+          "default": "I'm here to answer any questions you may have and guide you through your health and wellness journey. My goal is to help you find the right products and solutions tailored to your unique needs. Whether you're just getting started or refining your routine, I'm here to make the process simple and stress-free. Think of me as your go-to resource for trusted support every step of the way.\n\nSimply fill out this form and i'll be in touch!"
+        }
+      ]
+    }
+  ],
   "presets": [
     {
       "name": "Country contact directory",
-      "category": "Contact"
+      "category": "Contact",
+      "blocks": [
+        { "type": "country" }
+      ]
     }
   ]
 }
