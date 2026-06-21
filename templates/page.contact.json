@@ -180,7 +180,6 @@
         "office_id"
       ],
       "settings": {
-        "directory_page": "/pages/contact-country",
         "section_width": "page-width",
         "grid_gap": 32,
         "color_scheme": "scheme-1",
