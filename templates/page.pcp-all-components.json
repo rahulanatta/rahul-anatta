@@ -188,6 +188,54 @@
         "padding-inline-end": 0
       }
     },
+    "pcp-shop-by-brand": {
+      "type": "pcp-shop-by-brand",
+      "blocks": {
+        "tab_1": {
+          "type": "brand-tab",
+          "settings": {
+            "title": "Plant-Based Hair Care",
+            "description": "Royal Spa provides the luxury treatment that skin and hair deserve."
+          }
+        },
+        "tab_2": {
+          "type": "brand-tab",
+          "settings": {
+            "title": "Safe for Dry Skin"
+          }
+        },
+        "tab_3": {
+          "type": "brand-tab",
+          "settings": {
+            "title": "Organic Skincare"
+          }
+        },
+        "tab_4": {
+          "type": "brand-tab",
+          "settings": {
+            "title": "Anti-Aging Skincare"
+          }
+        }
+      },
+      "block_order": [
+        "tab_1",
+        "tab_2",
+        "tab_3",
+        "tab_4"
+      ],
+      "settings": {
+        "eyebrow": "Shop By Brand",
+        "heading": "Elevate your Everyday Routine",
+        "max_products": 4,
+        "hide_on_mobile": false,
+        "color_scheme": "scheme-1",
+        "section_width": "page-width",
+        "padding-block-start": 100,
+        "padding-block-end": 100,
+        "margin-block-start": 0,
+        "margin-block-end": 0
+      }
+    },
     "pcp-product-carousel": {
       "type": "pcp-product-carousel",
       "settings": {
@@ -451,6 +499,7 @@
     "main",
     "hero_ppt6yE",
     "brand-carousel",
+    "pcp-shop-by-brand",
     "ticker",
     "pcp-product-carousel",
     "pcp-collection-grid",
