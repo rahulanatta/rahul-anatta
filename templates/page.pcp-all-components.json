@@ -493,6 +493,49 @@
         "margin-block-start": 0,
         "margin-block-end": 0
       }
+    },
+    "pcp-key-ingredients": {
+      "type": "pcp-key-ingredients",
+      "blocks": {
+        "ingredient_1": {
+          "type": "ingredient",
+          "settings": {
+            "image": "shopify://shop_images/rectangle-926485-desktop-567317760.png",
+            "title": "Advantra Z®",
+            "description": "Clinically proven to stimulate thermogenesis and accelerate fat burning without elevating heart rate."
+          }
+        },
+        "ingredient_2": {
+          "type": "ingredient",
+          "settings": {
+            "image": "shopify://shop_images/rectangle-926486-full-template-mobile-578520441.png",
+            "title": "Ginkgo Biloba",
+            "description": "Enhances cerebral blood flow for razor-sharp mental clarity and cognitive focus."
+          }
+        },
+        "ingredient_3": {
+          "type": "ingredient",
+          "settings": {
+            "image": "shopify://shop_images/rectangle-926485-desktop-567317770.png",
+            "title": "Guarana Extract",
+            "description": "Releases energy slowly over hours, completely eliminating the sudden crashes."
+          }
+        }
+      },
+      "block_order": [
+        "ingredient_1",
+        "ingredient_2",
+        "ingredient_3"
+      ],
+      "settings": {
+        "heading": "Key ingredients",
+        "color_scheme": "scheme-1",
+        "section_width": "page-width",
+        "padding-block-start": 48,
+        "padding-block-end": 48,
+        "margin-block-start": 0,
+        "margin-block-end": 0
+      }
     }
   },
   "order": [
@@ -506,6 +549,7 @@
     "thin-promo-bar",
     "what-people-are-saying",
     "customer-satisfaction",
-    "pcp-verified-reviews"
+    "pcp-verified-reviews",
+    "pcp-key-ingredients"
   ]
 }
