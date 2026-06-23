@@ -536,6 +536,25 @@
         "margin-block-start": 0,
         "margin-block-end": 0
       }
+    },
+    "pmc-media-collection": {
+      "type": "pcp-media-with-collection",
+      "settings": {
+        "heading": "Shop all Skintelligence",
+        "subtext": "botanical skin care with natural extracts that soothe skin",
+        "image": "shopify://shop_images/adobestock-534588353-1-desktop-466139481.png",
+        "image_border_radius": 30,
+        "card_border_radius": 20,
+        "max_products": 8,
+        "show_vendor": true,
+        "card_gap": 20,
+        "color_scheme": "scheme-2",
+        "section_width": "page-width",
+        "padding-block-start": 80,
+        "padding-block-end": 80,
+        "margin-block-start": 0,
+        "margin-block-end": 0
+      }
     }
   },
   "order": [
@@ -550,6 +569,7 @@
     "what-people-are-saying",
     "customer-satisfaction",
     "pcp-verified-reviews",
-    "pcp-key-ingredients"
+    "pcp-key-ingredients",
+    "pmc-media-collection"
   ]
 }
