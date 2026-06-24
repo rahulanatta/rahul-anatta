@@ -236,6 +236,55 @@
         "margin-block-end": 0
       }
     },
+    "pcp-product-highlights": {
+      "type": "pcp-product-highlights",
+      "blocks": {
+        "tab_1": {
+          "type": "category-tab",
+          "settings": {
+            "title": "Necklaces",
+            "description": "We're strict about what goes into our products (and what stays out). Our therapist calls it setting healthy boundaries."
+          }
+        },
+        "tab_2": {
+          "type": "category-tab",
+          "settings": {
+            "title": "Earrings"
+          }
+        },
+        "tab_3": {
+          "type": "category-tab",
+          "settings": {
+            "title": "Bracelets"
+          }
+        },
+        "tab_4": {
+          "type": "category-tab",
+          "settings": {
+            "title": "Rings"
+          }
+        }
+      },
+      "block_order": [
+        "tab_1",
+        "tab_2",
+        "tab_3",
+        "tab_4"
+      ],
+      "settings": {
+        "eyebrow": "Find The Right Piece For You",
+        "heading": "Create Your Unique Style",
+        "max_products": 4,
+        "color_scheme": "scheme-1",
+        "section_width": "page-width",
+        "padding-block-start": 64,
+        "padding-block-end": 64,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0,
+        "margin-block-start": 0,
+        "margin-block-end": 0
+      }
+    },
     "pcp-product-carousel": {
       "type": "pcp-product-carousel",
       "settings": {
@@ -562,6 +611,7 @@
     "hero_ppt6yE",
     "brand-carousel",
     "pcp-shop-by-brand",
+    "pcp-product-highlights",
     "ticker",
     "pcp-product-carousel",
     "pcp-collection-grid",
