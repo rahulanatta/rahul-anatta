@@ -1,0 +1,122 @@
+{
+  "sections": {
+    "main": {
+      "type": "brand-directory",
+      "settings": {
+        "heading": "Our Brands",
+        "heading_tag": "h2",
+        "columns_desktop": 4,
+        "columns_mobile": 2,
+        "gap": 10,
+        "card_border_radius": 14,
+        "section_width": "page-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 40,
+        "padding-block-end": 40,
+        "margin-block-start": 0,
+        "margin-block-end": 0
+      },
+      "blocks": {
+        "brand_1": {
+          "type": "brand-card",
+          "settings": {
+            "image": "shopify://shop_images/firefly-20260402095115-2-desktop-536822298.png",
+            "title": "Isotonix"
+          }
+        },
+        "brand_2": {
+          "type": "brand-card",
+          "settings": {
+            "image": "shopify://shop_images/generated-with-kive-ai-kive-image-49-1-desktop-536822299.png",
+            "title": "Isotonix"
+          }
+        },
+        "brand_3": {
+          "type": "brand-card",
+          "settings": {
+            "image": "shopify://shop_images/generated-with-kive-ai-kive-image-3-3-desktop-536822300.png",
+            "title": "Isotonix"
+          }
+        },
+        "brand_4": {
+          "type": "brand-card",
+          "settings": {
+            "image": "shopify://shop_images/us-mochatonix-chocolate-mocha-ingredients-with-scoop-firefly-1-desktop-536822301.png",
+            "title": "Isotonix"
+          }
+        },
+        "brand_5": {
+          "type": "brand-card",
+          "settings": {
+            "image": "shopify://shop_images/firefly-20260406120429-2-mobile-design-558389688.png",
+            "title": "Isotonix"
+          }
+        },
+        "brand_6": {
+          "type": "brand-card",
+          "settings": {
+            "image": "shopify://shop_images/2026-04-07-09-55-22-1-desktop-536822339.png",
+            "title": "Isotonix"
+          }
+        },
+        "brand_7": {
+          "type": "brand-card",
+          "settings": {
+            "image": "shopify://shop_images/generated-with-kive-ai-kive-image-84-1-desktop-536822525.png",
+            "title": "Isotonix"
+          }
+        },
+        "brand_8": {
+          "type": "brand-card",
+          "settings": {
+            "image": "shopify://shop_images/image-202-desktop-554410962.png",
+            "title": "Isotonix"
+          }
+        },
+        "brand_9": {
+          "type": "brand-card",
+          "settings": {
+            "image": "shopify://shop_images/image-203-desktop-554410963.png",
+            "title": "Isotonix"
+          }
+        },
+        "brand_10": {
+          "type": "brand-card",
+          "settings": {
+            "image": "shopify://shop_images/image-1335-desktop-554410967.png",
+            "title": "Isotonix"
+          }
+        },
+        "brand_11": {
+          "type": "brand-card",
+          "settings": {
+            "image": "shopify://shop_images/image-1176-full-template-mobile-578520988.png",
+            "title": "Isotonix"
+          }
+        },
+        "brand_12": {
+          "type": "brand-card",
+          "settings": {
+            "image": "shopify://shop_images/firefly-20260402141846-1-full-template-mobile-578520990.png",
+            "title": "Isotonix"
+          }
+        }
+      },
+      "block_order": [
+        "brand_1",
+        "brand_2",
+        "brand_3",
+        "brand_4",
+        "brand_5",
+        "brand_6",
+        "brand_7",
+        "brand_8",
+        "brand_9",
+        "brand_10",
+        "brand_11",
+        "brand_12"
+      ]
+    }
+  },
+  "order": ["main"]
+}

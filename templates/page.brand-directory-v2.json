@@ -1,0 +1,384 @@
+{
+  "sections": {
+    "brand-directory": {
+      "type": "brand-directory-v2",
+      "settings": {
+        "heading": "Our Brands",
+        "heading_tag": "h1",
+        "card_background_color": "#F8F8F8",
+        "card_border_color": "#000000",
+        "card_border_radius": 14,
+        "columns_desktop": 6,
+        "columns_tablet": 3,
+        "columns_mobile": 2,
+        "card_gap": 20,
+        "row_gap": 24,
+        "category_gap": 48,
+        "section_width": "page-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 40,
+        "padding-block-end": 40,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
+      },
+      "blocks": {
+        "cat_health": {
+          "type": "category-heading",
+          "settings": {
+            "title": "Health & Nutrition"
+          }
+        },
+        "brand_isotonix": {
+          "type": "brand-item",
+          "settings": {
+            "brand_name": "Isotonix",
+            "logo_svg": "isotonix-logo-black-1.svg"
+          }
+        },
+        "brand_prime": {
+          "type": "brand-item",
+          "settings": {
+            "brand_name": "Prime",
+            "logo_svg": "prime-usca-hk-logo-1.svg"
+          }
+        },
+        "brand_c3b_health": {
+          "type": "brand-item",
+          "settings": {
+            "brand_name": "C3B Health",
+            "logo_svg": "c3b-health-logo-1.svg"
+          }
+        },
+        "brand_ultimate_aloe": {
+          "type": "brand-item",
+          "settings": {
+            "brand_name": "Ultimate Aloe",
+            "logo_svg": "ultimate-aloe-usca-hk-logo-1.svg"
+          }
+        },
+        "brand_nutrametrix": {
+          "type": "brand-item",
+          "settings": {
+            "brand_name": "nutraMetrix",
+            "logo_image": "shopify://shop_images/1-desktop-536819958.png"
+          }
+        },
+        "brand_advanced_level_90": {
+          "type": "brand-item",
+          "settings": {
+            "brand_name": "Advanced Level 90",
+            "logo_svg": "advanced-level-90-us-logo-1.svg"
+          }
+        },
+        "brand_bliss": {
+          "type": "brand-item",
+          "settings": {
+            "brand_name": "Bliss",
+            "logo_svg": "bliss-us-1.svg"
+          }
+        },
+        "brand_heart_health": {
+          "type": "brand-item",
+          "settings": {
+            "brand_name": "Heart Health",
+            "logo_svg": "heart-health-logo-trademark-cross-1.svg"
+          }
+        },
+        "brand_mochatonix": {
+          "type": "brand-item",
+          "settings": {
+            "brand_name": "Mochatonix",
+            "logo_svg": "mochatonix-us-logo-1.svg"
+          }
+        },
+        "brand_glucosatrin": {
+          "type": "brand-item",
+          "settings": {
+            "brand_name": "Glucosatrin",
+            "logo_svg": "glucosatrin-usca-au-logo-1.svg"
+          }
+        },
+        "brand_mpc": {
+          "type": "brand-item",
+          "settings": {
+            "brand_name": "MPC"
+          }
+        },
+        "brand_dna_miracles": {
+          "type": "brand-item",
+          "settings": {
+            "brand_name": "DNA Miracles",
+            "logo_image": "shopify://shop_images/image-1332-desktop-536820041.png"
+          }
+        },
+        "brand_vita_mind": {
+          "type": "brand-item",
+          "settings": {
+            "brand_name": "Vita Mind",
+            "logo_svg": "vita-mind-logo-black-1.svg"
+          }
+        },
+        "brand_isotonix_custom": {
+          "type": "brand-item",
+          "settings": {
+            "brand_name": "Isotonix Custom Cocktail"
+          }
+        },
+        "brand_nutri_physical": {
+          "type": "brand-item",
+          "settings": {
+            "brand_name": "Nutri Physical",
+            "logo_svg": "nutri-physical-us-logo-1.svg"
+          }
+        },
+        "brand_curcumin_extreme": {
+          "type": "brand-item",
+          "settings": {
+            "brand_name": "Curcumin Extreme",
+            "logo_svg": "curcumin-extreme-usca-hk-sg-logo-1.svg"
+          }
+        },
+        "brand_awake": {
+          "type": "brand-item",
+          "settings": {
+            "brand_name": "Awake",
+            "logo_svg": "awake-us-logo-1.svg"
+          }
+        },
+        "brand_opc3_chews": {
+          "type": "brand-item",
+          "settings": {
+            "brand_name": "OPC-3 Chews",
+            "logo_svg": "opc3chews-usa-32979-logotreatment-200x75-1.svg"
+          }
+        },
+        "brand_probiotics_10": {
+          "type": "brand-item",
+          "settings": {
+            "brand_name": "Probiotics 10",
+            "logo_svg": "probiotics-10-1.svg"
+          }
+        },
+        "brand_thymenol": {
+          "type": "brand-item",
+          "settings": {
+            "brand_name": "Thymenol",
+            "logo_svg": "thymenol-logo-1.svg"
+          }
+        },
+        "brand_pure_collagen": {
+          "type": "brand-item",
+          "settings": {
+            "brand_name": "Pure Collagen",
+            "logo_svg": "pure-collagen-logo-1.svg"
+          }
+        },
+        "brand_vivoquin": {
+          "type": "brand-item",
+          "settings": {
+            "brand_name": "Vivoquin",
+            "logo_svg": "vivoquin-logo-trademark-1.svg"
+          }
+        },
+        "brand_glutaq": {
+          "type": "brand-item",
+          "settings": {
+            "brand_name": "GlutaQ",
+            "logo_svg": "glutaq-logo-1.svg"
+          }
+        },
+        "brand_gotrim": {
+          "type": "brand-item",
+          "settings": {
+            "brand_name": "GoTrim",
+            "logo_svg": "gotrim-200x75-1.svg"
+          }
+        },
+        "cat_beauty": {
+          "type": "category-heading",
+          "settings": {
+            "title": "Beauty"
+          }
+        },
+        "brand_motives": {
+          "type": "brand-item",
+          "settings": {
+            "brand_name": "Motives",
+            "logo_svg": "motives-logo-black-1.svg"
+          }
+        },
+        "brand_ldv": {
+          "type": "brand-item",
+          "settings": {
+            "brand_name": "Lumière de Vie",
+            "logo_svg": "ldv-usca-au-gb-es-hk-tw-sg-logo-1.svg"
+          }
+        },
+        "brand_c3b": {
+          "type": "brand-item",
+          "settings": {
+            "brand_name": "C3B",
+            "logo_svg": "c3b-logo-1.svg"
+          }
+        },
+        "brand_fixx": {
+          "type": "brand-item",
+          "settings": {
+            "brand_name": "Fixx",
+            "logo_svg": "fixx-au-tw-logo-1.svg"
+          }
+        },
+        "brand_timeless": {
+          "type": "brand-item",
+          "settings": {
+            "brand_name": "Timeless Prescription",
+            "logo_svg": "timeless-prescription-usca-mx-tw-logo-1.svg"
+          }
+        },
+        "brand_pentaxyl": {
+          "type": "brand-item",
+          "settings": {
+            "brand_name": "Pentaxyl",
+            "logo_svg": "pentaxyl-usca-au-hk-tw-sg-logo-1.svg"
+          }
+        },
+        "brand_royal_spa": {
+          "type": "brand-item",
+          "settings": {
+            "brand_name": "Royal Spa"
+          }
+        },
+        "brand_skintelligence": {
+          "type": "brand-item",
+          "settings": {
+            "brand_name": "Skintelligence",
+            "logo_svg": "skintelligence-usca-mx-hk-tw-logo-1.svg"
+          }
+        },
+        "brand_vitashield": {
+          "type": "brand-item",
+          "settings": {
+            "brand_name": "VitaShield",
+            "logo_svg": "vitashield-usca-hk-tw-logo-1.svg"
+          }
+        },
+        "brand_cell_labs": {
+          "type": "brand-item",
+          "settings": {
+            "brand_name": "Cellular Laboratories",
+            "logo_svg": "cell-labs-usca-au-gb-es-mx-sg-logo-1.svg"
+          }
+        },
+        "cat_jewelry": {
+          "type": "category-heading",
+          "settings": {
+            "title": "Jewelry"
+          }
+        },
+        "brand_layered": {
+          "type": "brand-item",
+          "settings": {
+            "brand_name": "Layered",
+            "logo_svg": "layered-logo-1.svg"
+          }
+        },
+        "cat_other": {
+          "type": "category-heading",
+          "settings": {
+            "title": "Other"
+          }
+        },
+        "brand_pet_health": {
+          "type": "brand-item",
+          "settings": {
+            "brand_name": "Pet Health",
+            "logo_svg": "pet-health-us-1.svg"
+          }
+        },
+        "brand_pure_h2o": {
+          "type": "brand-item",
+          "settings": {
+            "brand_name": "Pure H2O"
+          }
+        },
+        "brand_other_1": {
+          "type": "brand-item",
+          "settings": {
+            "brand_name": "Brand",
+            "logo_image": "shopify://shop_images/image-1333-desktop-536821343.png"
+          }
+        },
+        "brand_other_2": {
+          "type": "brand-item",
+          "settings": {
+            "brand_name": "Brand",
+            "logo_image": "shopify://shop_images/image-1334-desktop-536821347.png"
+          }
+        },
+        "brand_other_3": {
+          "type": "brand-item",
+          "settings": {
+            "brand_name": "Brand"
+          }
+        },
+        "brand_autoworks": {
+          "type": "brand-item",
+          "settings": {
+            "brand_name": "Autoworks",
+            "logo_svg": "autoworks-usca-tw-logo-1.svg"
+          }
+        }
+      },
+      "block_order": [
+        "cat_health",
+        "brand_isotonix",
+        "brand_prime",
+        "brand_c3b_health",
+        "brand_ultimate_aloe",
+        "brand_nutrametrix",
+        "brand_advanced_level_90",
+        "brand_bliss",
+        "brand_heart_health",
+        "brand_mochatonix",
+        "brand_glucosatrin",
+        "brand_mpc",
+        "brand_dna_miracles",
+        "brand_vita_mind",
+        "brand_isotonix_custom",
+        "brand_nutri_physical",
+        "brand_curcumin_extreme",
+        "brand_awake",
+        "brand_opc3_chews",
+        "brand_probiotics_10",
+        "brand_thymenol",
+        "brand_pure_collagen",
+        "brand_vivoquin",
+        "brand_glutaq",
+        "brand_gotrim",
+        "cat_beauty",
+        "brand_motives",
+        "brand_ldv",
+        "brand_c3b",
+        "brand_fixx",
+        "brand_timeless",
+        "brand_pentaxyl",
+        "brand_royal_spa",
+        "brand_skintelligence",
+        "brand_vitashield",
+        "brand_cell_labs",
+        "cat_jewelry",
+        "brand_layered",
+        "cat_other",
+        "brand_pet_health",
+        "brand_pure_h2o",
+        "brand_other_1",
+        "brand_other_2",
+        "brand_other_3",
+        "brand_autoworks"
+      ]
+    }
+  },
+  "order": [
+    "brand-directory"
+  ]
+}
