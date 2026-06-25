@@ -1,0 +1,250 @@
+{
+  "sections": {
+    "page-heading": {
+      "type": "section",
+      "blocks": {
+        "heading": {
+          "type": "text",
+          "settings": {
+            "text": "<h2>Our Brands</h2>",
+            "width": "100%",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-heading--family)",
+            "font_size": "",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "background": false,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          }
+        }
+      },
+      "block_order": ["heading"],
+      "settings": {
+        "content_direction": "column",
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "flex-start",
+        "gap": 0,
+        "section_width": "page-width",
+        "section_height": "",
+        "color_scheme": "scheme-1",
+        "background_media": "none",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "padding-block-start": 40,
+        "padding-block-end": 0
+      }
+    },
+    "health-nutrition": {
+      "type": "brand-category-carousel",
+      "settings": {
+        "heading": "Health & Nutrition",
+        "heading_tag": "h2",
+        "color_scheme": "scheme-1",
+        "section_width": "page-width",
+        "padding-block-start": 20,
+        "padding-block-end": 20
+      },
+      "blocks": {
+        "hn_1": {
+          "type": "brand-card",
+          "settings": {
+            "image": "shopify://shop_images/firefly-20260402095115-2-desktop-554410909.png",
+            "title": "Isotonix"
+          }
+        },
+        "hn_2": {
+          "type": "brand-card",
+          "settings": {
+            "image": "shopify://shop_images/firefly-20260402141846-1-full-template-mobile-578520990.png",
+            "title": "Prime"
+          }
+        },
+        "hn_3": {
+          "type": "brand-card",
+          "settings": {
+            "image": "shopify://shop_images/generated-with-kive-ai-kive-image-3-3-desktop-536821461.png",
+            "title": "Isotonix"
+          }
+        },
+        "hn_4": {
+          "type": "brand-card",
+          "settings": {
+            "image": "shopify://shop_images/chatgpt-image-20-2026-11-49-40-1-desktop-536821474.png",
+            "title": "Core 3 Health"
+          }
+        },
+        "hn_5": {
+          "type": "brand-card",
+          "settings": {
+            "image": "shopify://shop_images/us-mochatonix-chocolate-mocha-ingredients-with-scoop-firefly-1-desktop-536821481.png",
+            "title": "MochaTonix"
+          }
+        },
+        "hn_6": {
+          "type": "brand-card",
+          "settings": {
+            "image": "shopify://shop_images/gemini-generated-image-gjjr9lgjjr9lgjjr-1-desktop-536821488.png",
+            "title": "Advanced Level 90"
+          }
+        },
+        "hn_7": {
+          "type": "brand-card",
+          "settings": {
+            "image": "shopify://shop_images/image-171-mobile-578318848.jpg",
+            "title": "Ultimate Aloe"
+          }
+        }
+      },
+      "block_order": ["hn_1", "hn_2", "hn_3", "hn_4", "hn_5", "hn_6", "hn_7"]
+    },
+    "beauty": {
+      "type": "brand-category-carousel",
+      "settings": {
+        "heading": "Beauty",
+        "heading_tag": "h2",
+        "color_scheme": "scheme-1",
+        "section_width": "page-width",
+        "padding-block-start": 20,
+        "padding-block-end": 20
+      },
+      "blocks": {
+        "b_1": {
+          "type": "brand-card",
+          "settings": {
+            "image": "shopify://shop_images/gemini-generated-image-j6kv93j6kv93j6kv-4-mobile-design-558389650.png",
+            "title": "Motives"
+          }
+        },
+        "b_2": {
+          "type": "brand-card",
+          "settings": {
+            "image": "shopify://shop_images/image-1218-desktop-536821520.png",
+            "title": "Lumière de Vie"
+          }
+        },
+        "b_3": {
+          "type": "brand-card",
+          "settings": {
+            "image": "shopify://shop_images/image-1331-desktop-536821526.png",
+            "title": "Fixx"
+          }
+        },
+        "b_4": {
+          "type": "brand-card",
+          "settings": {
+            "image": "shopify://shop_images/gemini-generated-image-ib168sib168sib16-1-desktop-536821532.png",
+            "title": "Core 3 Beauty"
+          }
+        },
+        "b_5": {
+          "type": "brand-card",
+          "settings": {
+            "image": "shopify://shop_images/firefly-20260420120725-1-desktop-536821538.png",
+            "title": "Timeless Prescription"
+          }
+        },
+        "b_6": {
+          "type": "brand-card",
+          "settings": {
+            "image": "shopify://shop_images/firefly-20260420120715-1-desktop-536821544.png",
+            "title": "Pentaxyl"
+          }
+        }
+      },
+      "block_order": ["b_1", "b_2", "b_3", "b_4", "b_5", "b_6"]
+    },
+    "other": {
+      "type": "brand-category-carousel",
+      "settings": {
+        "heading": "Other",
+        "heading_tag": "h2",
+        "color_scheme": "scheme-1",
+        "section_width": "page-width",
+        "padding-block-start": 20,
+        "padding-block-end": 20
+      },
+      "blocks": {
+        "o_1": {
+          "type": "brand-card",
+          "settings": {
+            "image": "shopify://shop_images/firefly-20260416122641-1-desktop-536821566.png",
+            "title": "Snap"
+          }
+        },
+        "o_2": {
+          "type": "brand-card",
+          "settings": {
+            "image": "shopify://shop_images/firefly-20260420121807-1-desktop-536821571.png",
+            "title": "DNA Miracles"
+          }
+        },
+        "o_3": {
+          "type": "brand-card",
+          "settings": {
+            "image": "shopify://shop_images/firefly-20260420122238-1-desktop-536821577.png",
+            "title": "Autoworks™"
+          }
+        },
+        "o_4": {
+          "type": "brand-card",
+          "settings": {
+            "image": "shopify://shop_images/firefly-20260420121952-1-desktop-536821583.png",
+            "title": "Pet Health"
+          }
+        },
+        "o_5": {
+          "type": "brand-card",
+          "settings": {
+            "image": "shopify://shop_images/gemini-generated-image-coookmcoookmcooo-1-desktop-536821589.png",
+            "title": "SHOP.COM (Gift Card)"
+          }
+        },
+        "o_6": {
+          "type": "brand-card",
+          "settings": {
+            "image": "shopify://shop_images/image-1176-full-template-mobile-578520988.png",
+            "title": "gotrim"
+          }
+        }
+      },
+      "block_order": ["o_1", "o_2", "o_3", "o_4", "o_5", "o_6"]
+    },
+    "jewelry": {
+      "type": "brand-category-carousel",
+      "settings": {
+        "heading": "Jewelry",
+        "heading_tag": "h2",
+        "color_scheme": "scheme-1",
+        "section_width": "page-width",
+        "padding-block-start": 20,
+        "padding-block-end": 20
+      },
+      "blocks": {
+        "j_1": {
+          "type": "brand-card",
+          "settings": {
+            "image": "shopify://shop_images/firefly-20260406120429-1-desktop-536821611.png",
+            "title": "Layered"
+          }
+        }
+      },
+      "block_order": ["j_1"]
+    }
+  },
+  "order": [
+    "page-heading",
+    "health-nutrition",
+    "beauty",
+    "other",
+    "jewelry"
+  ]
+}
