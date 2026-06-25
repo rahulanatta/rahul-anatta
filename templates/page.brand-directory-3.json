@@ -44,12 +44,16 @@
       }
     },
     "health-nutrition": {
-      "type": "brand-category-carousel",
+      "type": "brand-category-grid",
       "settings": {
         "heading": "Health & Nutrition",
-        "heading_tag": "h2",
-        "color_scheme": "scheme-1",
+        "heading_tag": "h3",
         "section_width": "page-width",
+        "columns_desktop": 4,
+        "columns_mobile": 2,
+        "gap": 10,
+        "card_border_radius": 14,
+        "color_scheme": "scheme-1",
         "padding-block-start": 20,
         "padding-block-end": 20
       },
@@ -58,7 +62,8 @@
           "type": "brand-card",
           "settings": {
             "image": "shopify://shop_images/firefly-20260402095115-2-desktop-554410909.png",
-            "title": "Isotonix"
+            "title": "Isotonix",
+            "wide": true
           }
         },
         "hn_2": {
@@ -107,12 +112,16 @@
       "block_order": ["hn_1", "hn_2", "hn_3", "hn_4", "hn_5", "hn_6", "hn_7"]
     },
     "beauty": {
-      "type": "brand-category-carousel",
+      "type": "brand-category-grid",
       "settings": {
         "heading": "Beauty",
-        "heading_tag": "h2",
-        "color_scheme": "scheme-1",
+        "heading_tag": "h3",
         "section_width": "page-width",
+        "columns_desktop": 4,
+        "columns_mobile": 2,
+        "gap": 10,
+        "card_border_radius": 14,
+        "color_scheme": "scheme-1",
         "padding-block-start": 20,
         "padding-block-end": 20
       },
@@ -121,7 +130,8 @@
           "type": "brand-card",
           "settings": {
             "image": "shopify://shop_images/gemini-generated-image-j6kv93j6kv93j6kv-4-mobile-design-558389650.png",
-            "title": "Motives"
+            "title": "Motives",
+            "wide": true
           }
         },
         "b_2": {
@@ -163,12 +173,16 @@
       "block_order": ["b_1", "b_2", "b_3", "b_4", "b_5", "b_6"]
     },
     "other": {
-      "type": "brand-category-carousel",
+      "type": "brand-category-grid",
       "settings": {
         "heading": "Other",
-        "heading_tag": "h2",
-        "color_scheme": "scheme-1",
+        "heading_tag": "h3",
         "section_width": "page-width",
+        "columns_desktop": 4,
+        "columns_mobile": 2,
+        "gap": 10,
+        "card_border_radius": 14,
+        "color_scheme": "scheme-1",
         "padding-block-start": 20,
         "padding-block-end": 20
       },
@@ -219,12 +233,16 @@
       "block_order": ["o_1", "o_2", "o_3", "o_4", "o_5", "o_6"]
     },
     "jewelry": {
-      "type": "brand-category-carousel",
+      "type": "brand-category-grid",
       "settings": {
         "heading": "Jewelry",
-        "heading_tag": "h2",
-        "color_scheme": "scheme-1",
+        "heading_tag": "h3",
         "section_width": "page-width",
+        "columns_desktop": 4,
+        "columns_mobile": 2,
+        "gap": 10,
+        "card_border_radius": 14,
+        "color_scheme": "scheme-1",
         "padding-block-start": 20,
         "padding-block-end": 20
       },
