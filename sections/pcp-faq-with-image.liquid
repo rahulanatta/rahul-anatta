@@ -11,6 +11,8 @@
     {% render 'spacing-style', settings: section.settings %}
     --pfwi-margin-top: {{ section.settings.margin-block-start }}px;
     --pfwi-margin-bottom: {{ section.settings.margin-block-end }}px;
+    --pfwi-padding-inline-start: {{ section.settings.padding-inline-start }}px;
+    --pfwi-padding-inline-end: {{ section.settings.padding-inline-end }}px;
     --pfwi-image-border-radius: {{ section.settings.image_border_radius }}px;
     --pfwi-eyebrow-font-size: {{ section.settings.eyebrow_font_size }}px;
     --pfwi-eyebrow-line-height: {{ section.settings.eyebrow_line_height }}px;
@@ -103,6 +105,8 @@
   .pfwi {
     padding-block-start: var(--padding-block-start, 60px);
     padding-block-end: var(--padding-block-end, 60px);
+    padding-inline-start: var(--pfwi-padding-inline-start, 0px);
+    padding-inline-end: var(--pfwi-padding-inline-end, 0px);
     margin-block-start: var(--pfwi-margin-top, 0px);
     margin-block-end: var(--pfwi-margin-bottom, 0px);
   }
@@ -485,6 +489,26 @@
       "max": 100,
       "step": 1,
       "default": 60,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Padding left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Padding right",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 0,
       "unit": "px"
     },
     {
