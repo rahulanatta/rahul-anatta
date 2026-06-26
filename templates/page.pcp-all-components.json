@@ -604,6 +604,60 @@
         "margin-block-start": 0,
         "margin-block-end": 0
       }
+    },
+    "pcp-faq-with-image": {
+      "type": "pcp-faq-with-image",
+      "blocks": {
+        "faq_1": {
+          "type": "faq-item",
+          "settings": {
+            "question": "Why should I take supplements?",
+            "answer": "Even with a balanced diet, it can be difficult to get all the nutrients your body needs every day. Supplements can help fill nutritional gaps and support foundational areas like immune health, energy, and overall well-being.",
+            "open_by_default": true
+          }
+        },
+        "faq_2": {
+          "type": "faq-item",
+          "settings": {
+            "question": "How do I choose the right supplements?",
+            "answer": "Consider your individual health goals, dietary gaps, and lifestyle factors. Consulting with a healthcare professional can help you identify which supplements may be most beneficial for your needs."
+          }
+        },
+        "faq_3": {
+          "type": "faq-item",
+          "settings": {
+            "question": "How long does it take to see results?",
+            "answer": "Results vary depending on the supplement and individual factors. Some benefits may be noticed within a few weeks, while others may take several months of consistent use."
+          }
+        },
+        "faq_4": {
+          "type": "faq-item",
+          "settings": {
+            "question": "Can I take multiple supplements together?",
+            "answer": "Many supplements can be taken together safely. However, it's important to be aware of potential interactions. We recommend consulting with a healthcare professional for personalized guidance."
+          }
+        }
+      },
+      "block_order": [
+        "faq_1",
+        "faq_2",
+        "faq_3",
+        "faq_4"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/container-desktop-I4661285045651580.jpg",
+        "eyebrow": "General Health FAQs",
+        "heading": "Guidance you can trust for your wellness journey",
+        "heading_tag": "h2",
+        "image_position": "left",
+        "image_border_radius": 18,
+        "color_scheme": "scheme-1",
+        "section_width": "page-width",
+        "padding-block-start": 60,
+        "padding-block-end": 60,
+        "margin-block-start": 0,
+        "margin-block-end": 0
+      }
     }
   },
   "order": [
@@ -620,6 +674,7 @@
     "customer-satisfaction",
     "pcp-verified-reviews",
     "pcp-key-ingredients",
-    "pmc-media-collection"
+    "pmc-media-collection",
+    "pcp-faq-with-image"
   ]
 }

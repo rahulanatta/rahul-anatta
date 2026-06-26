@@ -1,0 +1,574 @@
+{% liquid
+  assign eyebrow = section.settings.eyebrow
+  assign heading = section.settings.heading
+  assign heading_tag = section.settings.heading_tag
+%}
+
+<div
+  id="section-{{ section.id }}"
+  class="pfwi color-{{ section.settings.color_scheme }}"
+  style="
+    {% render 'spacing-style', settings: section.settings %}
+    --pfwi-margin-top: {{ section.settings.margin-block-start }}px;
+    --pfwi-margin-bottom: {{ section.settings.margin-block-end }}px;
+    --pfwi-image-border-radius: {{ section.settings.image_border_radius }}px;
+    --pfwi-eyebrow-font-size: {{ section.settings.eyebrow_font_size }}px;
+    --pfwi-eyebrow-line-height: {{ section.settings.eyebrow_line_height }}px;
+    --pfwi-heading-font-size: {{ section.settings.heading_font_size }}px;
+    --pfwi-heading-line-height: {{ section.settings.heading_line_height }}px;
+    --pfwi-question-font-size: {{ section.settings.question_font_size }}px;
+    --pfwi-question-line-height: {{ section.settings.question_line_height }}px;
+    --pfwi-answer-font-size: {{ section.settings.answer_font_size }}px;
+    --pfwi-answer-line-height: {{ section.settings.answer_line_height }}px;
+  "
+>
+  <div class="pfwi__container {% if section.settings.section_width == 'page-width' %}page-width{% endif %}">
+    <div class="pfwi__grid {% if section.settings.image_position == 'right' %}pfwi__grid--image-right{% endif %}">
+      <div class="pfwi__image-col">
+        {% if section.settings.image != blank %}
+          {%- assign sizes_val = '(min-width: 1024px) 50vw, 100vw' -%}
+          {{
+            section.settings.image
+            | image_url: width: section.settings.image.width
+            | image_tag:
+              sizes: sizes_val,
+              widths: '375,550,750,1100,1500',
+              loading: 'lazy',
+              class: 'pfwi__image',
+              alt: section.settings.image.alt
+          }}
+        {% else %}
+          <div class="pfwi__image-placeholder">
+            {{ 'image' | placeholder_svg_tag: 'pfwi__placeholder-svg' }}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="pfwi__content-col">
+        <div class="pfwi__content-inner">
+          <div class="pfwi__header">
+            {% if eyebrow != blank %}
+              <span class="pfwi__eyebrow">{{ eyebrow | escape }}</span>
+            {% endif %}
+            {% if heading != blank %}
+              <{{ heading_tag }} class="pfwi__heading">{{ heading | escape }}</{{ heading_tag }}>
+            {% endif %}
+          </div>
+
+          {% if section.blocks.size > 0 %}
+            <div class="pfwi__accordion">
+              {% for block in section.blocks %}
+                {% capture accordion_children %}
+                  <details
+                    class="pfwi__details"
+                    {% if block.settings.open_by_default %}open{% endif %}
+                    {{ block.shopify_attributes }}
+                  >
+                    <summary class="pfwi__summary">
+                      <span class="pfwi__question">{{ block.settings.question | escape }}</span>
+                      <span class="pfwi__icon pfwi__icon--plus" aria-hidden="true">
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M2.8125 9H15.1875" stroke="currentColor" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"/>
+                          <path d="M9 2.8125V15.1875" stroke="currentColor" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </span>
+                      <span class="pfwi__icon pfwi__icon--minus" aria-hidden="true">
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M2.8125 9H15.1875" stroke="currentColor" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </span>
+                    </summary>
+                    <div class="details-content">
+                      <div class="pfwi__answer">
+                        {{ block.settings.answer }}
+                      </div>
+                    </div>
+                  </details>
+                {% endcapture %}
+                {% render 'accordion-custom-component',
+                  children: accordion_children,
+                  open_by_default_on_desktop: block.settings.open_by_default,
+                  open_by_default_on_mobile: block.settings.open_by_default
+                %}
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .pfwi {
+    padding-block-start: var(--padding-block-start, 60px);
+    padding-block-end: var(--padding-block-end, 60px);
+    margin-block-start: var(--pfwi-margin-top, 0px);
+    margin-block-end: var(--pfwi-margin-bottom, 0px);
+  }
+
+  .pfwi__container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pfwi__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  @media screen and (min-width: 1024px) {
+    .pfwi__grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+
+    .pfwi__grid--image-right {
+      .pfwi__image-col {
+        order: 2;
+      }
+
+      .pfwi__content-col {
+        order: 1;
+      }
+    }
+  }
+
+  .pfwi__image-col {
+    overflow: hidden;
+    border-radius: var(--pfwi-image-border-radius, 18px);
+  }
+
+  .pfwi__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media screen and (max-width: 1023px) {
+    .pfwi__image-col {
+      aspect-ratio: 627 / 797;
+    }
+  }
+
+  .pfwi__image-placeholder {
+    width: 100%;
+    height: 100%;
+    min-height: 400px;
+    background-color: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pfwi__placeholder-svg {
+    width: 60%;
+    height: 60%;
+  }
+
+  .pfwi__content-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  @media screen and (min-width: 1024px) {
+    .pfwi__content-col {
+      align-items: flex-end;
+    }
+  }
+
+  .pfwi__content-inner {
+    width: 100%;
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media screen and (min-width: 1024px) {
+    .pfwi__content-inner {
+      padding-inline-start: 53px;
+    }
+  }
+
+  .pfwi__header {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-block-end: 36px;
+  }
+
+  .pfwi__eyebrow {
+    font-family: var(--font-subheading--family, var(--font-body--family));
+    font-size: var(--pfwi-eyebrow-font-size, 16px);
+    line-height: var(--pfwi-eyebrow-line-height, 24px);
+    font-weight: 500;
+    text-transform: uppercase;
+    color: var(--color-foreground);
+  }
+
+  .pfwi__heading {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-size: var(--pfwi-heading-font-size, 36px);
+    line-height: var(--pfwi-heading-line-height, 43px);
+    font-weight: 500;
+    letter-spacing: -0.71px;
+    color: var(--color-foreground);
+  }
+
+  .pfwi__accordion {
+    width: 100%;
+  }
+
+  .pfwi__details {
+    border-bottom: 1px solid #E6E6E6;
+  }
+
+  .pfwi__details[open] {
+    border-bottom-color: currentColor;
+  }
+
+  .pfwi__summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: 18px;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .pfwi__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .pfwi__summary:focus-visible {
+    outline: 2px solid var(--color-foreground);
+    outline-offset: 2px;
+  }
+
+  .pfwi__question {
+    flex: 1;
+    font-family: var(--font-heading--family);
+    font-weight: 500;
+    font-size: var(--pfwi-question-font-size, 20px);
+    line-height: var(--pfwi-question-line-height, 28px);
+    letter-spacing: -0.39px;
+    color: var(--color-foreground);
+  }
+
+  .pfwi__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    margin-inline-start: 16px;
+    color: var(--color-foreground);
+  }
+
+  .pfwi__icon--minus {
+    display: none;
+  }
+
+  .pfwi__details[open] .pfwi__icon--plus {
+    display: none;
+  }
+
+  .pfwi__details[open] .pfwi__icon--minus {
+    display: flex;
+  }
+
+  .pfwi__answer {
+    padding-block-end: 18px;
+    font-family: var(--font-body--family);
+    font-weight: 400;
+    font-size: var(--pfwi-answer-font-size, 14px);
+    line-height: var(--pfwi-answer-line-height, 23px);
+    color: var(--color-foreground);
+  }
+
+  .pfwi__answer p {
+    margin: 0;
+  }
+
+  @media screen and (max-width: 1023px) {
+    .pfwi__heading {
+      font-size: 28px;
+      line-height: 34px;
+      letter-spacing: -0.56px;
+    }
+
+    .pfwi__header {
+      gap: 12px;
+      margin-block-end: 24px;
+    }
+
+    .pfwi__question {
+      font-size: 18px;
+      line-height: 24px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pfwi * {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "FAQ with Image",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "General Health FAQs"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Guidance you can trust for your wellness journey"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading tag",
+      "options": [
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" },
+        { "value": "h6", "label": "H6" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "number",
+      "id": "eyebrow_font_size",
+      "label": "Eyebrow font size",
+      "default": 16,
+      "info": "In pixels"
+    },
+    {
+      "type": "number",
+      "id": "eyebrow_line_height",
+      "label": "Eyebrow line height",
+      "default": 24,
+      "info": "In pixels"
+    },
+    {
+      "type": "number",
+      "id": "heading_font_size",
+      "label": "Heading font size",
+      "default": 36,
+      "info": "In pixels"
+    },
+    {
+      "type": "number",
+      "id": "heading_line_height",
+      "label": "Heading line height",
+      "default": 43,
+      "info": "In pixels"
+    },
+    {
+      "type": "number",
+      "id": "question_font_size",
+      "label": "Question font size",
+      "default": 20,
+      "info": "In pixels"
+    },
+    {
+      "type": "number",
+      "id": "question_line_height",
+      "label": "Question line height",
+      "default": 28,
+      "info": "In pixels"
+    },
+    {
+      "type": "number",
+      "id": "answer_font_size",
+      "label": "Answer font size",
+      "default": 14,
+      "info": "In pixels"
+    },
+    {
+      "type": "number",
+      "id": "answer_line_height",
+      "label": "Answer line height",
+      "default": 23,
+      "info": "In pixels"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "number",
+      "id": "image_border_radius",
+      "label": "Image border radius",
+      "default": 18,
+      "info": "In pixels"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Padding top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 60,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 60,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "margin-block-start",
+      "label": "Margin top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "margin-block-end",
+      "label": "Margin bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 0,
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq-item",
+      "name": "FAQ item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "Question text here"
+        },
+        {
+          "type": "textarea",
+          "id": "answer",
+          "label": "Answer"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_by_default",
+          "label": "Open by default",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ with Image",
+      "blocks": {
+        "item_1": {
+          "type": "faq-item",
+          "settings": {
+            "question": "Why should I take supplements?",
+            "answer": "Even with a balanced diet, it can be difficult to get all the nutrients your body needs every day. Supplements can help fill nutritional gaps and support foundational areas like immune health, energy, and overall well-being.",
+            "open_by_default": true
+          }
+        },
+        "item_2": {
+          "type": "faq-item",
+          "settings": {
+            "question": "How do I choose the right supplements?",
+            "answer": "Consider your individual health goals, dietary gaps, and lifestyle factors. Consulting with a healthcare professional can help you identify which supplements may be most beneficial for your needs."
+          }
+        },
+        "item_3": {
+          "type": "faq-item",
+          "settings": {
+            "question": "How long does it take to see results?",
+            "answer": "Results vary depending on the supplement and individual factors. Some benefits may be noticed within a few weeks, while others may take several months of consistent use."
+          }
+        },
+        "item_4": {
+          "type": "faq-item",
+          "settings": {
+            "question": "Can I take multiple supplements together?",
+            "answer": "Many supplements can be taken together safely. However, it's important to be aware of potential interactions. We recommend consulting with a healthcare professional for personalized guidance."
+          }
+        }
+      },
+      "block_order": ["item_1", "item_2", "item_3", "item_4"]
+    }
+  ]
+}
+{% endschema %}
