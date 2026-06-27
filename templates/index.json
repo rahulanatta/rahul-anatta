@@ -316,6 +316,8 @@
         "section_width": "page-width",
         "section_height": "medium",
         "section_height_custom": 50,
+        "image_height": 0,
+        "corner_radius": 0,
         "color_scheme": "scheme-6",
         "toggle_overlay": true,
         "overlay_color": "#12121266",
@@ -324,7 +326,16 @@
         "blurred_reflection": false,
         "reflection_opacity": 75,
         "padding-block-start": 100,
-        "padding-block-end": 72
+        "padding-block-end": 72,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0,
+        "custom_mobile_layout": false,
+        "image_height_mobile": 0,
+        "corner_radius_mobile": 12,
+        "pad_top_mobile": 24,
+        "pad_bottom_mobile": 24,
+        "pad_left_mobile": 16,
+        "pad_right_mobile": 16
       }
     },
     "categories_carousel": {
@@ -497,6 +508,7 @@
         "gradient_color": "#dfdfdf",
         "gradient_direction": "to right",
         "text_color": "#ffffff",
+        "background_opacity": 100,
         "padding-block-start": 24,
         "padding-block-end": 24,
         "padding-inline-start": 0,
@@ -735,8 +747,11 @@
         "content_vertical_alignment": "center",
         "section_width": "page-width",
         "color_scheme": "",
+        "min_height": 0,
         "padding-block-start": 40,
-        "padding-block-end": 40
+        "padding-block-end": 40,
+        "margin-block-start": 0,
+        "margin-block-end": 0
       }
     },
     "product_bundle_8gYwaQ": {
@@ -1260,12 +1275,88 @@
         "panel_1_title": "EYE COLLECTION",
         "panel_1_subtitle": "Designed to enhance every look with rich pigments and flawless finishes.",
         "panel_1_cta_text": "SHOP EYE",
+        "panel_1_cta_link": "",
         "panel_2_media_type": "image",
         "panel_2_image": "shopify://shop_images/rectangle-15773283-desktop-57708442.png",
+        "panel_2_title": "",
+        "panel_2_subtitle": "",
+        "panel_2_cta_text": "",
+        "panel_2_cta_link": "",
+        "heading_tag": "h2",
+        "overlay_color": "#000000",
+        "overlay_opacity": 80,
         "section_width": "full-width",
         "color_scheme": "scheme-1",
         "padding-block-start": 0,
         "padding-block-end": 0
+      }
+    },
+    "pcp_faq_with_image_aCMFrH": {
+      "type": "pcp-faq-with-image",
+      "blocks": {
+        "faq_item_Rc7mQ6": {
+          "type": "faq-item",
+          "settings": {
+            "question": "Why should I take supplements?",
+            "answer": "Even with a balanced diet, it can be difficult to get all the nutrients your body needs every day. Supplements can help fill nutritional gaps and support foundational areas like immune health, energy, and overall well-being.",
+            "open_by_default": true
+          }
+        },
+        "faq_item_TBhk9R": {
+          "type": "faq-item",
+          "settings": {
+            "question": "How do I choose the right supplements?",
+            "answer": "Consider your individual health goals, dietary gaps, and lifestyle factors. Consulting with a healthcare professional can help you identify which supplements may be most beneficial for your needs.",
+            "open_by_default": false
+          }
+        },
+        "faq_item_DCWPJi": {
+          "type": "faq-item",
+          "settings": {
+            "question": "How long does it take to see results?",
+            "answer": "Results vary depending on the supplement and individual factors. Some benefits may be noticed within a few weeks, while others may take several months of consistent use.",
+            "open_by_default": false
+          }
+        },
+        "faq_item_8AtcY4": {
+          "type": "faq-item",
+          "settings": {
+            "question": "Can I take multiple supplements together?",
+            "answer": "Many supplements can be taken together safely. However, it's important to be aware of potential interactions. We recommend consulting with a healthcare professional for personalized guidance.",
+            "open_by_default": false
+          }
+        }
+      },
+      "block_order": [
+        "faq_item_Rc7mQ6",
+        "faq_item_TBhk9R",
+        "faq_item_DCWPJi",
+        "faq_item_8AtcY4"
+      ],
+      "name": "FAQ with Image",
+      "settings": {
+        "image": "shopify://shop_images/container-desktop-I4661285045651580.jpg",
+        "eyebrow": "General Health FAQs",
+        "heading": "Guidance you can trust for your wellness journey",
+        "heading_tag": "h2",
+        "eyebrow_font_size": 16,
+        "eyebrow_line_height": 24,
+        "heading_font_size": 36,
+        "heading_line_height": 43,
+        "question_font_size": 20,
+        "question_line_height": 28,
+        "answer_font_size": 14,
+        "answer_line_height": 23,
+        "image_position": "left",
+        "image_border_radius": 18,
+        "section_width": "page-width",
+        "color_scheme": "",
+        "padding-block-start": 60,
+        "padding-block-end": 60,
+        "padding-inline-start": 32,
+        "padding-inline-end": 32,
+        "margin-block-start": 0,
+        "margin-block-end": 0
       }
     }
   },
@@ -1286,6 +1377,7 @@
     "scientific_results_wXaUDK",
     "image_table_content",
     "images_curated_reviews_8WW9wb",
-    "two_panel_media"
+    "two_panel_media",
+    "pcp_faq_with_image_aCMFrH"
   ]
 }
