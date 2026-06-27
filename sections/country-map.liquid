@@ -1,0 +1,288 @@
+{% liquid
+  assign section_width = section.settings.section_width
+%}
+
+<div
+  class="country-map"
+  style="
+    --country-map-margin-top: {{ section.settings.margin-block-start }}px;
+    --country-map-margin-bottom: {{ section.settings.margin-block-end }}px;
+    --country-map-padding-inline-start: {{ section.settings.padding-inline-start }}px;
+    --country-map-padding-inline-end: {{ section.settings.padding-inline-end }}px;
+  "
+>
+  <div
+    class="country-map__inner section section--{{ section_width }} spacing-style"
+    style="{% render 'spacing-style', settings: section.settings %}"
+  >
+    <div class="country-map__wrapper">
+      {% if section.settings.map_image != blank %}
+        {%- assign sizes_val = '(min-width: 1200px) 1260px, 100vw' -%}
+        {{
+          section.settings.map_image
+          | image_url: width: section.settings.map_image.width
+          | image_tag:
+            sizes: sizes_val,
+            widths: '375,550,750,1100,1260,1500',
+            loading: 'lazy',
+            class: 'country-map__image',
+            alt: section.settings.map_image_alt
+        }}
+      {% else %}
+        <div class="country-map__placeholder">
+          {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+        </div>
+      {% endif %}
+
+      {% if section.blocks.size > 0 %}
+        <div class="country-map__stats">
+          {% for block in section.blocks %}
+            <div class="country-map__stat-item" {{ block.shopify_attributes }}>
+              {% if block.settings.stat_value != blank %}
+                <p class="country-map__stat-number">{{ block.settings.stat_value | escape }}</p>
+              {% endif %}
+              {% if block.settings.stat_label != blank %}
+                <p class="country-map__stat-label">{{ block.settings.stat_label | escape }}</p>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .country-map {
+    margin-top: var(--country-map-margin-top, 0px);
+    margin-bottom: var(--country-map-margin-bottom, 0px);
+  }
+
+  .country-map__wrapper {
+    position: relative;
+  }
+
+  .country-map__image {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .country-map__placeholder {
+    width: 100%;
+    aspect-ratio: 1260 / 677;
+    background-color: #f0f0f0;
+
+    .placeholder-svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .country-map__stats {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-inline-start: var(--country-map-padding-inline-start, 0px);
+    padding-inline-end: var(--country-map-padding-inline-end, 0px);
+  }
+
+  .country-map__stat-item {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .country-map__stat-number {
+    font-family: var(--font-body--family);
+    font-weight: 500;
+    font-size: 128px;
+    line-height: 128px;
+    letter-spacing: 0;
+    color: #000000;
+    margin: 0;
+  }
+
+  .country-map__stat-label {
+    font-family: var(--font-body--family);
+    font-weight: 500;
+    font-size: 30px;
+    line-height: 36px;
+    letter-spacing: -0.35px;
+    color: #171717;
+    margin: 0;
+  }
+
+  @media screen and (max-width: 1024px) {
+    .country-map__stat-number {
+      font-size: 41px;
+      line-height: 41px;
+    }
+
+    .country-map__stat-label {
+      font-size: 10px;
+      line-height: 12px;
+      letter-spacing: -0.11px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Country map",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "blocks": [
+    {
+      "type": "stat-item",
+      "name": "Stat item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "stat_value",
+          "label": "Value"
+        },
+        {
+          "type": "text",
+          "id": "stat_label",
+          "label": "Label"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "image_picker",
+      "id": "map_image",
+      "label": "Map image"
+    },
+    {
+      "type": "text",
+      "id": "map_image_alt",
+      "label": "Map image alt text",
+      "default": "World map showing global presence"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ],
+      "default": "full-width"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Right",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Margin"
+    },
+    {
+      "type": "range",
+      "id": "margin-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Country map",
+      "blocks": {
+        "stat_1": {
+          "type": "stat-item",
+          "settings": {
+            "stat_value": "9+",
+            "stat_label": "Markets & Countries"
+          }
+        },
+        "stat_2": {
+          "type": "stat-item",
+          "settings": {
+            "stat_value": "3",
+            "stat_label": "Headquarters"
+          }
+        },
+        "stat_3": {
+          "type": "stat-item",
+          "settings": {
+            "stat_value": "40+",
+            "stat_label": "Brands"
+          }
+        }
+      },
+      "block_order": ["stat_1", "stat_2", "stat_3"]
+    }
+  ]
+}
+{% endschema %}

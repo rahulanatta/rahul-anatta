@@ -1,0 +1,539 @@
+{% liquid
+  assign heading_text = section.settings.heading_text
+  assign heading_tag = section.settings.heading_tag
+  assign section_width = section.settings.section_width
+%}
+
+<div
+  class="section section--{{ section_width }} about-hero-blurred color-{{ section.settings.color_scheme }} spacing-style{% if section.settings.invert_logos %} about-hero-blurred--invert-logos{% endif %}"
+  style="
+    {%- render 'spacing-style', settings: section.settings -%}
+    --ahb-min-height: {{ section.settings.min_height }}px;
+    --ahb-min-height-mobile: {{ section.settings.min_height_mobile }}px;
+    --ahb-blur-intensity: {{ section.settings.blur_intensity }}px;
+    --ahb-blur-bg-opacity: {{ section.settings.blur_bg_opacity | divided_by: 100.0 }};
+    --ahb-overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+    --ahb-blur-band-height: {{ section.settings.blur_band_height }}%;
+    --ahb-heading-font-size: {{ section.settings.heading_font_size }}px;
+    --ahb-heading-font-size-mobile: {{ section.settings.heading_font_size_mobile }}px;
+    --ahb-heading-font-weight: {{ section.settings.heading_font_weight }};
+    --ahb-heading-font-weight-mobile: {{ section.settings.heading_font_weight_mobile }};
+    --ahb-heading-letter-spacing: {{ section.settings.heading_letter_spacing }}px;
+  "
+>
+  <div class="about-hero-blurred__media">
+    {% if section.settings.image != blank %}
+      <div class="about-hero-blurred__media-desktop">
+        {{
+          section.settings.image
+          | image_url: width: section.settings.image.width
+          | image_tag:
+            sizes: '100vw',
+            widths: '750,1100,1500,1780,2000,2560,3840',
+            loading: 'eager',
+            fetchpriority: 'high',
+            class: 'about-hero-blurred__image',
+            alt: section.settings.image.alt
+        }}
+      </div>
+    {% endif %}
+
+    {% if section.settings.custom_mobile_media and section.settings.mobile_image != blank %}
+      <div class="about-hero-blurred__media-mobile">
+        {{
+          section.settings.mobile_image
+          | image_url: width: section.settings.mobile_image.width
+          | image_tag:
+            sizes: '100vw',
+            widths: '375,550,750,1100',
+            loading: 'eager',
+            fetchpriority: 'high',
+            class: 'about-hero-blurred__image',
+            alt: section.settings.mobile_image.alt
+        }}
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="about-hero-blurred__blur-band">
+    <div class="about-hero-blurred__overlay"></div>
+    <div class="about-hero-blurred__content">
+      {% if heading_text != blank %}
+        <{{ heading_tag }} class="about-hero-blurred__heading">
+          {{- heading_text | escape | newline_to_br -}}
+        </{{ heading_tag }}>
+      {% endif %}
+
+      {% if section.blocks.size > 0 %}
+        <div class="about-hero-blurred__logos{% if section.settings.show_logos_desktop %} about-hero-blurred__logos--show-desktop{% endif %}{% if section.settings.show_logos_mobile %} about-hero-blurred__logos--show-mobile{% endif %}">
+          {% for block in section.blocks %}
+            <div class="about-hero-blurred__logo-item" {{ block.shopify_attributes }}>
+              {% if block.settings.link != blank %}
+                <a href="{{ block.settings.link }}" class="about-hero-blurred__logo-link">
+              {% endif %}
+
+              {% if block.settings.image != blank %}
+                {% liquid
+                  assign logo_alt = block.settings.alt_text
+                  if logo_alt == blank
+                    assign logo_alt = block.settings.image.alt
+                  endif
+                %}
+                {{
+                  block.settings.image
+                  | image_url: width: block.settings.image.width
+                  | image_tag:
+                    widths: '100,200,300,400',
+                    sizes: '120px',
+                    loading: 'lazy',
+                    class: 'about-hero-blurred__logo-img',
+                    alt: logo_alt
+                }}
+              {% endif %}
+
+              {% if block.settings.link != blank %}
+                </a>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .about-hero-blurred {
+    position: relative;
+    overflow: hidden;
+    min-height: var(--ahb-min-height, 720px);
+  }
+
+  /* Media layer — fills the entire section */
+  .about-hero-blurred__media {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .about-hero-blurred__media-desktop,
+  .about-hero-blurred__media-mobile {
+    width: 100%;
+    height: 100%;
+  }
+
+  .about-hero-blurred__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Hide mobile image on desktop */
+  .about-hero-blurred__media-mobile {
+    display: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .about-hero-blurred {
+      min-height: var(--ahb-min-height-mobile, 638px);
+    }
+
+    .about-hero-blurred__media-desktop {
+      display: none;
+    }
+
+    .about-hero-blurred__media-mobile {
+      display: block;
+    }
+  }
+
+  /* Blur band — positioned at the bottom of the section */
+  .about-hero-blurred__blur-band {
+    position: absolute;
+    bottom: 0;
+    inset-inline: 0;
+    height: var(--ahb-blur-band-height, 34%);
+    backdrop-filter: blur(var(--ahb-blur-intensity, 40px));
+    -webkit-backdrop-filter: blur(var(--ahb-blur-intensity, 40px));
+    background: rgba(255, 255, 255, var(--ahb-blur-bg-opacity, 0.1));
+    z-index: 1;
+  }
+
+  /* Dark overlay inside blur band */
+  .about-hero-blurred__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, var(--ahb-overlay-opacity, 0.3));
+    z-index: 1;
+  }
+
+  /* Content layer — centered within the blur band */
+  .about-hero-blurred__content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    padding-inline-start: var(--padding-inline-start, 24px);
+    padding-inline-end: var(--padding-inline-end, 24px);
+    gap: 24px;
+  }
+
+  /* Heading */
+  .about-hero-blurred__heading {
+    font-family: var(--font-heading--family);
+    font-size: var(--ahb-heading-font-size, 39px);
+    font-weight: var(--ahb-heading-font-weight, 200);
+    letter-spacing: var(--ahb-heading-letter-spacing, 1px);
+    color: #ffffff;
+    text-align: center;
+    margin: 0;
+    line-height: 1.3;
+  }
+
+  @media screen and (max-width: 749px) {
+    .about-hero-blurred__heading {
+      font-size: var(--ahb-heading-font-size-mobile, 32px);
+      font-weight: var(--ahb-heading-font-weight-mobile, 300);
+      line-height: 1.31;
+    }
+  }
+
+  /* Brand logos — hidden by default, shown via modifier classes */
+  .about-hero-blurred__logos {
+    display: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .about-hero-blurred__logos--show-desktop {
+      display: flex;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .about-hero-blurred__logos--show-mobile {
+      display: flex;
+    }
+  }
+
+  .about-hero-blurred__logo-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .about-hero-blurred__logo-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+  }
+
+  .about-hero-blurred__logo-img {
+    display: block;
+    max-height: 40px;
+    width: auto;
+    max-width: 120px;
+    object-fit: contain;
+  }
+
+  /* Invert logos for dark backgrounds (black SVGs → white) */
+  .about-hero-blurred--invert-logos .about-hero-blurred__logo-img {
+    filter: brightness(0) invert(1);
+  }
+
+  /* Focus styles */
+  .about-hero-blurred__logo-link:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .about-hero-blurred {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "About hero blurred",
+  "tag": "section",
+  "class": "about-hero-blurred-wrapper section-wrapper",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background image"
+    },
+    {
+      "type": "textarea",
+      "id": "heading_text",
+      "label": "Heading",
+      "default": "Built on Product Powered by People 立足产品，驱动于人"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading tag",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" },
+        { "value": "h6", "label": "H6" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "header",
+      "content": "Mobile"
+    },
+    {
+      "type": "checkbox",
+      "id": "custom_mobile_media",
+      "label": "Use custom mobile image",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile image",
+      "visible_if": "{{ section.settings.custom_mobile_media }}"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "number",
+      "id": "heading_font_size",
+      "label": "Heading font size",
+      "default": 39
+    },
+    {
+      "type": "number",
+      "id": "heading_font_size_mobile",
+      "label": "Heading font size (mobile)",
+      "default": 32
+    },
+    {
+      "type": "select",
+      "id": "heading_font_weight",
+      "label": "Heading font weight",
+      "options": [
+        { "value": "100", "label": "100 - Thin" },
+        { "value": "200", "label": "200 - Extra Light" },
+        { "value": "300", "label": "300 - Light" },
+        { "value": "400", "label": "400 - Regular" }
+      ],
+      "default": "200"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_weight_mobile",
+      "label": "Font weight (mobile)",
+      "options": [
+        { "value": "100", "label": "100 - Thin" },
+        { "value": "200", "label": "200 - Extra Light" },
+        { "value": "300", "label": "300 - Light" },
+        { "value": "400", "label": "400 - Regular" }
+      ],
+      "default": "300"
+    },
+    {
+      "type": "number",
+      "id": "heading_letter_spacing",
+      "label": "Letter spacing (px)",
+      "default": 1
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "range",
+      "id": "blur_intensity",
+      "label": "Blur intensity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "blur_bg_opacity",
+      "label": "Blur background opacity",
+      "info": "White background opacity behind the blur",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Dark overlay opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "blur_band_height",
+      "label": "Blur band height",
+      "min": 20,
+      "max": 60,
+      "step": 1,
+      "unit": "%",
+      "default": 34
+    },
+    {
+      "type": "checkbox",
+      "id": "invert_logos",
+      "label": "Invert logo colors",
+      "info": "Makes dark logos appear white on the dark background",
+      "default": true
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ],
+      "default": "full-width"
+    },
+    {
+      "type": "number",
+      "id": "min_height",
+      "label": "Min height (desktop)",
+      "default": 720
+    },
+    {
+      "type": "number",
+      "id": "min_height_mobile",
+      "label": "Min height (mobile)",
+      "default": 638
+    },
+    {
+      "type": "checkbox",
+      "id": "show_logos_desktop",
+      "label": "Show logos on desktop",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_logos_mobile",
+      "label": "Show logos on mobile",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Padding top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Padding left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Padding right",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "brand-logo",
+      "name": "Brand logo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Logo image"
+        },
+        {
+          "type": "text",
+          "id": "alt_text",
+          "label": "Alt text"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 20,
+  "presets": [
+    {
+      "name": "About hero blurred"
+    }
+  ]
+}
+{% endschema %}
