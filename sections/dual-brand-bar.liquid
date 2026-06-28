@@ -1,0 +1,441 @@
+{% liquid
+  assign p1_image = section.settings.panel_1_image
+  assign p1_logo = section.settings.panel_1_logo
+  assign p1_logo_asset = section.settings.panel_1_logo_asset
+  assign p1_cta_text = section.settings.panel_1_cta_text
+  assign p1_cta_link = section.settings.panel_1_cta_link
+
+  assign p2_image = section.settings.panel_2_image
+  assign p2_logo = section.settings.panel_2_logo
+  assign p2_logo_asset = section.settings.panel_2_logo_asset
+  assign p2_cta_text = section.settings.panel_2_cta_text
+  assign p2_cta_link = section.settings.panel_2_cta_link
+  assign p2_use_gradient = section.settings.panel_2_use_gradient
+%}
+
+<div
+  class="section section--{{ section.settings.section_width }} spacing-style dual-brand-bar color-{{ section.settings.color_scheme }}"
+  style="{% render 'spacing-style', settings: section.settings %}"
+>
+  <div
+    class="dual-brand-bar__grid"
+    style="
+      --dbb-height: {{ section.settings.bar_height | default: 122 }}px;
+      --dbb-height-mobile: {{ section.settings.bar_height_mobile | default: 80 }}px;
+      --dbb-radius: {{ section.settings.border_radius | default: 20 }}px;
+      --dbb-p1-color: {{ section.settings.panel_1_text_color }};
+      --dbb-p2-color: {{ section.settings.panel_2_text_color }};
+      --dbb-gradient-start: {{ section.settings.panel_2_gradient_start }};
+      --dbb-gradient-end: {{ section.settings.panel_2_gradient_end }};
+    "
+  >
+    {%- comment -%} Panel 1 — Left {%- endcomment -%}
+    {%- if p1_cta_link != blank -%}
+      <a href="{{ p1_cta_link }}" class="dual-brand-bar__panel dual-brand-bar__panel--left">
+    {%- else -%}
+      <div class="dual-brand-bar__panel dual-brand-bar__panel--left">
+    {%- endif -%}
+
+      {%- if p1_image -%}
+        <div class="dual-brand-bar__bg">
+          {{
+            p1_image
+            | image_url: width: p1_image.width
+            | image_tag:
+              sizes: '(min-width: 750px) 50vw, 50vw',
+              widths: '375,550,750,1100',
+              loading: 'lazy',
+              class: 'dual-brand-bar__bg-img',
+              alt: p1_image.alt
+          }}
+        </div>
+      {%- endif -%}
+
+      <div class="dual-brand-bar__content">
+        {%- if p1_logo -%}
+          <img
+            class="dual-brand-bar__logo"
+            src="{{ p1_logo | image_url: width: 200 }}"
+            alt="{{ p1_logo.alt | escape }}"
+            loading="lazy"
+            width="{{ p1_logo.width }}"
+            height="{{ p1_logo.height }}"
+          />
+        {%- elsif p1_logo_asset != blank -%}
+          <img
+            class="dual-brand-bar__logo"
+            src="{{ p1_logo_asset | asset_url }}"
+            alt="{{ p1_cta_text | escape }}"
+            loading="lazy"
+          />
+        {%- endif -%}
+
+        {%- if p1_cta_text != blank -%}
+          <span class="dual-brand-bar__cta">{{ p1_cta_text }}</span>
+        {%- endif -%}
+      </div>
+
+    {%- if p1_cta_link != blank -%}
+      </a>
+    {%- else -%}
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Panel 2 — Right {%- endcomment -%}
+    {%- if p2_cta_link != blank -%}
+      <a href="{{ p2_cta_link }}" class="dual-brand-bar__panel dual-brand-bar__panel--right{% if p2_use_gradient %} dual-brand-bar__panel--gradient{% endif %}">
+    {%- else -%}
+      <div class="dual-brand-bar__panel dual-brand-bar__panel--right{% if p2_use_gradient %} dual-brand-bar__panel--gradient{% endif %}">
+    {%- endif -%}
+
+      {%- unless p2_use_gradient -%}
+        {%- if p2_image -%}
+          <div class="dual-brand-bar__bg">
+            {{
+              p2_image
+              | image_url: width: p2_image.width
+              | image_tag:
+                sizes: '(min-width: 750px) 50vw, 50vw',
+                widths: '375,550,750,1100',
+                loading: 'lazy',
+                class: 'dual-brand-bar__bg-img',
+                alt: p2_image.alt
+            }}
+          </div>
+        {%- endif -%}
+      {%- endunless -%}
+
+      <div class="dual-brand-bar__content">
+        {%- if p2_logo -%}
+          <img
+            class="dual-brand-bar__logo"
+            src="{{ p2_logo | image_url: width: 200 }}"
+            alt="{{ p2_logo.alt | escape }}"
+            loading="lazy"
+            width="{{ p2_logo.width }}"
+            height="{{ p2_logo.height }}"
+          />
+        {%- elsif p2_logo_asset != blank -%}
+          <img
+            class="dual-brand-bar__logo"
+            src="{{ p2_logo_asset | asset_url }}"
+            alt="{{ p2_cta_text | escape }}"
+            loading="lazy"
+          />
+        {%- endif -%}
+
+        {%- if p2_cta_text != blank -%}
+          <span class="dual-brand-bar__cta">{{ p2_cta_text }}</span>
+        {%- endif -%}
+      </div>
+
+    {%- if p2_cta_link != blank -%}
+      </a>
+    {%- else -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+.dual-brand-bar__grid {
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  border-radius: var(--dbb-radius, 20px);
+  height: var(--dbb-height, 122px);
+}
+
+.dual-brand-bar__panel {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+a.dual-brand-bar__panel:hover {
+  opacity: 0.92;
+  transition: opacity var(--animation-speed, 0.125s) ease;
+}
+
+.dual-brand-bar__panel--left {
+  color: var(--dbb-p1-color, #ffffff);
+}
+
+.dual-brand-bar__panel--right {
+  color: var(--dbb-p2-color, #000000);
+}
+
+/* Background layer — image fills */
+.dual-brand-bar__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.dual-brand-bar__bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Right panel gradient via ::before with skew for diagonal seam */
+.dual-brand-bar__panel--gradient::before {
+  content: '';
+  position: absolute;
+  top: -10%;
+  bottom: -10%;
+  left: -24px;
+  right: 0;
+  background: linear-gradient(326deg, var(--dbb-gradient-start, #A5D7EE), var(--dbb-gradient-end, #F0F0F0));
+  transform: skewX(-3deg);
+  transform-origin: top right;
+  z-index: 0;
+}
+
+/* Content layer */
+.dual-brand-bar__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.dual-brand-bar__logo {
+  max-height: 25px;
+  width: auto;
+  object-fit: contain;
+}
+
+.dual-brand-bar__cta {
+  font-family: var(--font-body--family);
+  font-weight: 200;
+  font-size: 26px;
+  line-height: 32px;
+  letter-spacing: -0.44px;
+}
+
+/* Mobile styles */
+@media screen and (max-width: 749px) {
+  .dual-brand-bar__grid {
+    height: var(--dbb-height-mobile, 80px);
+  }
+
+  .dual-brand-bar__logo {
+    max-height: 18px;
+  }
+
+  .dual-brand-bar__cta {
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: -0.28px;
+  }
+
+  .dual-brand-bar__content {
+    gap: 2px;
+  }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Dual brand bar",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Panel 1 (Left)"
+    },
+    {
+      "type": "image_picker",
+      "id": "panel_1_image",
+      "label": "Background image"
+    },
+    {
+      "type": "image_picker",
+      "id": "panel_1_logo",
+      "label": "Logo image"
+    },
+    {
+      "type": "text",
+      "id": "panel_1_logo_asset",
+      "label": "Logo SVG filename",
+      "info": "Filename from assets/ (e.g. my-logo.svg). Used when logo image is empty."
+    },
+    {
+      "type": "text",
+      "id": "panel_1_cta_text",
+      "label": "CTA text",
+      "default": "Shop isotonix"
+    },
+    {
+      "type": "url",
+      "id": "panel_1_cta_link",
+      "label": "CTA link"
+    },
+    {
+      "type": "color",
+      "id": "panel_1_text_color",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Panel 2 (Right)"
+    },
+    {
+      "type": "image_picker",
+      "id": "panel_2_image",
+      "label": "Background image"
+    },
+    {
+      "type": "image_picker",
+      "id": "panel_2_logo",
+      "label": "Logo image"
+    },
+    {
+      "type": "text",
+      "id": "panel_2_logo_asset",
+      "label": "Logo SVG filename",
+      "default": "gotrim-logo.svg",
+      "info": "Filename from assets/ (e.g. gotrim-logo.svg). Used when logo image is empty."
+    },
+    {
+      "type": "text",
+      "id": "panel_2_cta_text",
+      "label": "CTA text",
+      "default": "Shop Gotrim"
+    },
+    {
+      "type": "url",
+      "id": "panel_2_cta_link",
+      "label": "CTA link"
+    },
+    {
+      "type": "color",
+      "id": "panel_2_text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "checkbox",
+      "id": "panel_2_use_gradient",
+      "label": "Use gradient background",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "panel_2_gradient_start",
+      "label": "Gradient start color",
+      "default": "#A5D7EE"
+    },
+    {
+      "type": "color",
+      "id": "panel_2_gradient_end",
+      "label": "Gradient end color",
+      "default": "#F0F0F0"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "number",
+      "id": "bar_height",
+      "label": "Bar height (px)",
+      "default": 122
+    },
+    {
+      "type": "number",
+      "id": "bar_height_mobile",
+      "label": "Mobile bar height (px)",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "default": 20,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "default": "page-width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ]
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Left padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Right padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 0,
+      "unit": "px"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Dual brand bar"
+    }
+  ]
+}
+{% endschema %}

@@ -1358,6 +1358,24 @@
         "margin-block-start": 0,
         "margin-block-end": 0
       }
+    },
+    "dual_brand_bar": {
+      "type": "dual-brand-bar",
+      "settings": {
+        "panel_1_image": "shopify://shop_images/rectangle-2642-desktop-63289941.png",
+        "panel_1_cta_text": "Shop isotonix",
+        "panel_1_text_color": "#FFFFFF",
+        "panel_2_logo_asset": "gotrim-logo.svg",
+        "panel_2_cta_text": "Shop Gotrim",
+        "panel_2_text_color": "#000000",
+        "panel_2_gradient_start": "#A5D7EE",
+        "panel_2_gradient_end": "#F0F0F0",
+        "panel_2_use_gradient": true,
+        "bar_height": 122,
+        "bar_height_mobile": 80,
+        "border_radius": 20,
+        "section_width": "page-width"
+      }
     }
   },
   "order": [
@@ -1378,6 +1396,7 @@
     "image_table_content",
     "images_curated_reviews_8WW9wb",
     "two_panel_media",
-    "pcp_faq_with_image_aCMFrH"
+    "pcp_faq_with_image_aCMFrH",
+    "dual_brand_bar"
   ]
 }
