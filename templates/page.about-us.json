@@ -1,28 +1,38 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "about-hero": {
       "type": "about-hero-blurred",
       "settings": {
         "image": "shopify://shop_images/my-movie-43-1-desktop-70869930.jpg",
-        "custom_mobile_media": true,
-        "mobile_image": "shopify://shop_images/hero-m-mobile-708610725.png",
         "heading_text": "Built on Product Powered by People\n立足产品，驱动于人",
         "heading_tag": "h1",
-        "section_width": "full-width",
-        "min_height": 720,
-        "min_height_mobile": 638,
-        "blur_intensity": 40,
-        "blur_bg_opacity": 10,
-        "overlay_opacity": 30,
-        "blur_band_height": 34,
-        "invert_logos": true,
-        "show_logos_desktop": false,
-        "show_logos_mobile": true,
+        "custom_mobile_media": true,
+        "mobile_image": "shopify://shop_images/hero-m-mobile-708610725.png",
         "heading_font_size": 39,
         "heading_font_size_mobile": 32,
         "heading_font_weight": "200",
         "heading_font_weight_mobile": "300",
         "heading_letter_spacing": 1,
+        "blur_intensity": 40,
+        "blur_bg_opacity": 10,
+        "overlay_opacity": 30,
+        "blur_band_height": 34,
+        "invert_logos": true,
+        "color_scheme": "",
+        "section_width": "full-width",
+        "min_height": 720,
+        "min_height_mobile": 638,
+        "show_logos_desktop": false,
+        "show_logos_mobile": true,
         "padding-block-start": 0,
         "padding-block-end": 0,
         "padding-inline-start": 0,
@@ -64,7 +74,11 @@
           "blocks": {}
         }
       },
-      "block_order": ["heading", "page-content"],
+      "block_order": [
+        "heading",
+        "page-content"
+      ],
+      "disabled": true,
       "settings": {
         "content_direction": "column",
         "gap": 32,
@@ -75,17 +89,6 @@
     },
     "country-map": {
       "type": "country-map",
-      "settings": {
-        "map_image": "shopify://shop_images/image-1352-mobile-708610979.png",
-        "map_image_alt": "World map showing global presence",
-        "section_width": "full-width",
-        "padding-block-start": 0,
-        "padding-block-end": 0,
-        "padding-inline-start": 0,
-        "padding-inline-end": 0,
-        "margin-block-start": 0,
-        "margin-block-end": 0
-      },
       "blocks": {
         "stat_1": {
           "type": "stat-item",
@@ -109,8 +112,27 @@
           }
         }
       },
-      "block_order": ["stat_1", "stat_2", "stat_3"]
+      "block_order": [
+        "stat_1",
+        "stat_2",
+        "stat_3"
+      ],
+      "settings": {
+        "map_image": "shopify://shop_images/image-1352-mobile-708610979.png",
+        "map_image_alt": "World map showing global presence",
+        "section_width": "full-width",
+        "padding-block-start": 0,
+        "padding-block-end": 0,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0,
+        "margin-block-start": 0,
+        "margin-block-end": 0
+      }
     }
   },
-  "order": ["about-hero", "main", "country-map"]
+  "order": [
+    "about-hero",
+    "main",
+    "country-map"
+  ]
 }
