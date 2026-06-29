@@ -9,16 +9,16 @@
   style="
     {%- render 'spacing-style', settings: section.settings -%}
     --at-image-radius: {{ image_border_radius }}px;
+    --at-fill-width: 0%;
   "
 >
-  {% for block in section.blocks %}
-    <div
-      class="about-timeline__entry"
-      {% unless forloop.first %}hidden{% endunless %}
-      data-index="{{ forloop.index0 }}"
-      {{ block.shopify_attributes }}
-    >
-      <div class="about-timeline__image-wrapper">
+  {%- comment -%} Layer 1: Media — stacked image slides with crossfade {%- endcomment -%}
+  <div class="about-timeline__media">
+    {% for block in section.blocks %}
+      <div
+        class="about-timeline__image-slide{% if forloop.first %} about-timeline__image-slide--active{% endif %}"
+        data-index="{{ forloop.index0 }}"
+      >
         {% if block.settings.image != blank %}
           {{
             block.settings.image
@@ -36,28 +36,27 @@
           </div>
         {% endif %}
       </div>
+    {% endfor %}
 
-      <div class="about-timeline__content-row">
-        <div class="about-timeline__year-display">
-          <span class="about-timeline__year-large">{{ block.settings.year | escape }}</span>
-        </div>
-        <div class="about-timeline__text-content">
-          {% if block.settings.heading != blank %}
-            <h3 class="about-timeline__heading">{{ block.settings.heading | escape }}</h3>
-          {% endif %}
-          {% if block.settings.description != blank %}
-            <div class="about-timeline__description">{{ block.settings.description }}</div>
-          {% endif %}
-        </div>
-      </div>
-    </div>
-  {% endfor %}
+    {% if section.blocks.size > 1 %}
+      <button type="button" class="about-timeline__arrow about-timeline__arrow--prev" on:click="/handlePrev" aria-label="Previous year">
+        <svg width="8" height="16" viewBox="0 0 8 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M7 1L1 8L7 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <button type="button" class="about-timeline__arrow about-timeline__arrow--next" on:click="/handleNext" aria-label="Next year">
+        <svg width="8" height="16" viewBox="0 0 8 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 1L7 8L1 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    {% endif %}
+  </div>
 
   {% if section.blocks.size > 1 %}
+    {%- comment -%} Layer 2: Controls — track with animated fill + year buttons {%- endcomment -%}
     <div class="about-timeline__controls">
       <div class="about-timeline__track">
-        <div class="about-timeline__track-line"></div>
-        <div class="about-timeline__track-fill" style="--at-fill-width: {{ 100.0 | divided_by: section.blocks.size | minus: 1 }}%;"></div>
+        <div class="about-timeline__track-fill"></div>
       </div>
 
       <div class="about-timeline__year-buttons">
@@ -75,20 +74,30 @@
         {% endfor %}
       </div>
     </div>
-
-    <div class="about-timeline__arrows">
-      <button type="button" class="about-timeline__arrow about-timeline__arrow--prev" on:click="/handlePrev" aria-label="Previous year">
-        <svg width="8" height="16" viewBox="0 0 8 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M7 1L1 8L7 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </button>
-      <button type="button" class="about-timeline__arrow about-timeline__arrow--next" on:click="/handleNext" aria-label="Next year">
-        <svg width="8" height="16" viewBox="0 0 8 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M1 1L7 8L1 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </button>
-    </div>
   {% endif %}
+
+  {%- comment -%} Layer 3: Content — crossfade year / heading / description {%- endcomment -%}
+  <div class="about-timeline__content">
+    {% for block in section.blocks %}
+      <div
+        class="about-timeline__content-slide{% if forloop.first %} about-timeline__content-slide--active{% endif %}"
+        data-index="{{ forloop.index0 }}"
+        {{ block.shopify_attributes }}
+      >
+        <div class="about-timeline__year-display">
+          <span class="about-timeline__year-large">{{ block.settings.year | escape }}</span>
+        </div>
+        <div class="about-timeline__text-content">
+          {% if block.settings.heading != blank %}
+            <h3 class="about-timeline__heading">{{ block.settings.heading | escape }}</h3>
+          {% endif %}
+          {% if block.settings.description != blank %}
+            <div class="about-timeline__description">{{ block.settings.description }}</div>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
 </about-timeline-component>
 
 <script src="{{ 'about-timeline.js' | asset_url }}" type="module"></script>
@@ -96,21 +105,28 @@
 {% stylesheet %}
   .about-timeline {
     position: relative;
-    overflow: hidden;
   }
 
-  .about-timeline__entry {
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
-  }
-
-  .about-timeline__image-wrapper {
+  /* ── Layer 1: Media — stacked image slides ── */
+  .about-timeline__media {
     position: relative;
-    width: 100%;
-    border-radius: var(--at-image-radius, 20px);
     overflow: hidden;
+    border-radius: var(--at-image-radius, 20px);
     aspect-ratio: 1041 / 468;
+    cursor: grab;
+  }
+
+  .about-timeline__image-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+  }
+
+  .about-timeline__image-slide--active {
+    opacity: 1;
+    pointer-events: auto;
   }
 
   .about-timeline__image {
@@ -131,59 +147,48 @@
     height: 100%;
   }
 
-  .about-timeline__content-row {
+  /* Arrows — inside media for correct vertical centering */
+  .about-timeline__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background-color: #FFFFFF;
+    border: 1.5px solid #333333;
     display: flex;
-    flex-direction: row;
     align-items: center;
-    gap: 38px;
-  }
-
-  .about-timeline__year-display {
-    flex-shrink: 0;
-  }
-
-  .about-timeline__year-large {
-    font-family: var(--font-heading--family);
-    font-size: 128px;
-    font-weight: 700;
-    line-height: 128px;
-    color: #56AFD9;
-  }
-
-  .about-timeline__text-content {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
     justify-content: center;
+    cursor: pointer;
+    opacity: 0.3;
+    color: #000000;
+    transition: opacity 0.2s ease;
   }
 
-  .about-timeline__heading {
-    font-family: var(--font-heading--family);
-    font-size: 30px;
-    font-weight: 500;
-    line-height: 36px;
-    letter-spacing: -0.35px;
-    color: #171717;
-    margin: 0;
+  .about-timeline__arrow:hover {
+    opacity: 0.6;
   }
 
-  .about-timeline__description {
-    font-family: var(--font-body--family);
-    font-size: 18px;
-    font-weight: 400;
-    line-height: 29px;
-    letter-spacing: -0.44px;
-    color: #525252;
+  .about-timeline__arrow--prev {
+    left: 12px;
   }
 
-  .about-timeline__description p {
-    margin: 0;
+  .about-timeline__arrow--next {
+    right: 12px;
   }
 
-  /* Controls - year selector bar */
+  .about-timeline__arrow:focus-visible {
+    outline: 2px solid #171717;
+    outline-offset: 2px;
+    opacity: 0.6;
+  }
+
+  /* ── Layer 2: Controls — track + year buttons ── */
   .about-timeline__controls {
     position: relative;
-    margin-top: 22px;
+    margin-top: 7px;
   }
 
   .about-timeline__track {
@@ -193,6 +198,16 @@
     right: 0;
     height: 1px;
     background-color: #D4D4D4;
+  }
+
+  .about-timeline__track-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: #171717;
+    width: var(--at-fill-width, 0%);
+    transition: width 0.4s ease;
   }
 
   .about-timeline__year-buttons {
@@ -243,59 +258,83 @@
     color: #171717;
   }
 
-  /* Arrows */
-  .about-timeline__arrows {
+  /* ── Layer 3: Content — crossfade year / heading / description ── */
+  .about-timeline__content {
+    position: relative;
+    margin-top: 22px;
+  }
+
+  .about-timeline__content-slide {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 38px;
     position: absolute;
     top: 0;
     left: 0;
-    right: 0;
+    width: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
     pointer-events: none;
   }
 
-  .about-timeline__arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-100%);
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    background-color: #FFFFFF;
-    border: 1.5px solid #333333;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    opacity: 0.3;
+  .about-timeline__content-slide--active {
+    position: relative;
+    opacity: 1;
+    visibility: visible;
     pointer-events: auto;
-    color: #000000;
-    transition: opacity 0.2s ease;
   }
 
-  .about-timeline__arrow:hover {
-    opacity: 0.6;
+  .about-timeline__year-display {
+    flex-shrink: 0;
   }
 
-  .about-timeline__arrow--prev {
-    left: 12px;
+  .about-timeline__year-large {
+    font-family: var(--font-heading--family);
+    font-size: 128px;
+    font-weight: 700;
+    line-height: 128px;
+    color: #56AFD9;
   }
 
-  .about-timeline__arrow--next {
-    right: 12px;
+  .about-timeline__text-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: center;
   }
 
-  .about-timeline__arrow:focus-visible {
-    outline: 2px solid #171717;
-    outline-offset: 2px;
-    opacity: 0.6;
+  .about-timeline__heading {
+    font-family: var(--font-heading--family);
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 36px;
+    letter-spacing: -0.35px;
+    color: #171717;
+    margin: 0;
   }
 
-  /* Mobile */
+  .about-timeline__description {
+    font-family: var(--font-body--family);
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 29px;
+    letter-spacing: -0.44px;
+    color: #525252;
+  }
+
+  .about-timeline__description p {
+    margin: 0;
+  }
+
+  /* ── Mobile ── */
   @media screen and (max-width: 749px) {
-    .about-timeline__image-wrapper {
+    .about-timeline__media {
       aspect-ratio: 358 / 200;
     }
 
-    .about-timeline__content-row {
+    .about-timeline__content-slide {
       flex-direction: column;
       gap: 8px;
       align-items: flex-start;
@@ -316,7 +355,7 @@
       line-height: 24px;
     }
 
-    .about-timeline__arrows {
+    .about-timeline__arrow {
       display: none;
     }
 
@@ -337,6 +376,9 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .about-timeline__image-slide,
+    .about-timeline__content-slide,
+    .about-timeline__track-fill,
     .about-timeline__dot,
     .about-timeline__arrow {
       transition: none;
