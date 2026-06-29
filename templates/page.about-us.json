@@ -39,6 +39,162 @@
         "padding-inline-end": 0
       }
     },
+    "about-description": {
+      "type": "section",
+      "blocks": {
+        "description-text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Market America is a product brokerage and internet marketing company powered by entrepreneurs around the world. Through results-driven technology and the power of people, we are creating the economy of the future.</p>",
+            "width": "100%",
+            "max_width": "normal",
+            "alignment": "center",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "32px",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "#171717",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          }
+        }
+      },
+      "block_order": [
+        "description-text"
+      ],
+      "settings": {
+        "content_direction": "column",
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 0,
+        "section_width": "page-width",
+        "section_height": "",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 60,
+        "padding-block-end": 60
+      }
+    },
+    "about-timeline": {
+      "type": "about-timeline",
+      "blocks": {
+        "year_1992": {
+          "type": "timeline-entry",
+          "settings": {
+            "year": "1992",
+            "image": "shopify://shop_images/rectangle-15773310-mobile-708610935.png",
+            "heading": "Founded",
+            "description": "<p>Established by JR and Loren Ridinger to transform lives through premium products and a revolutionary entrepreneurial system.</p>"
+          }
+        },
+        "year_1993": {
+          "type": "timeline-entry",
+          "settings": {
+            "year": "1993",
+            "heading": "Early Growth",
+            "description": "<p>Market America begins expanding its product lines and growing the UnFranchise Business model.</p>"
+          }
+        },
+        "year_2005": {
+          "type": "timeline-entry",
+          "settings": {
+            "year": "2005",
+            "heading": "Digital Evolution",
+            "description": "<p>Launching SHOP.COM to create a revolutionary online shopping experience for customers worldwide.</p>"
+          }
+        },
+        "year_2008": {
+          "type": "timeline-entry",
+          "settings": {
+            "year": "2008",
+            "heading": "Global Expansion",
+            "description": "<p>Expanding into new international markets and strengthening the global entrepreneur network.</p>"
+          }
+        },
+        "year_2010": {
+          "type": "timeline-entry",
+          "settings": {
+            "year": "2010",
+            "heading": "Innovation Era",
+            "description": "<p>Introducing new product brands and advancing proprietary technology platforms.</p>"
+          }
+        },
+        "year_2026": {
+          "type": "timeline-entry",
+          "settings": {
+            "year": "2026",
+            "heading": "The Future",
+            "description": "<p>Continuing to innovate and empower entrepreneurs around the world with cutting-edge products and technology.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "year_1992",
+        "year_1993",
+        "year_2005",
+        "year_2008",
+        "year_2010",
+        "year_2026"
+      ],
+      "settings": {
+        "image_border_radius": 20,
+        "color_scheme": "scheme-1",
+        "section_width": "page-width",
+        "padding-block-start": 40,
+        "padding-block-end": 40,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
+      }
+    },
+    "country-map": {
+      "type": "country-map",
+      "blocks": {
+        "stat_1": {
+          "type": "stat-item",
+          "settings": {
+            "stat_value": "9+",
+            "stat_label": "Markets & Countries"
+          }
+        },
+        "stat_2": {
+          "type": "stat-item",
+          "settings": {
+            "stat_value": "3",
+            "stat_label": "Headquarters"
+          }
+        },
+        "stat_3": {
+          "type": "stat-item",
+          "settings": {
+            "stat_value": "40+",
+            "stat_label": "Brands"
+          }
+        }
+      },
+      "block_order": [
+        "stat_1",
+        "stat_2",
+        "stat_3"
+      ],
+      "settings": {
+        "map_image": "shopify://shop_images/image-1352-mobile-708610979.png",
+        "map_image_alt": "World map showing global presence",
+        "section_width": "full-width",
+        "padding-block-start": 0,
+        "padding-block-end": 0,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0,
+        "margin-block-start": 0,
+        "margin-block-end": 0
+      }
+    },
     "main": {
       "type": "main-page",
       "blocks": {
@@ -87,52 +243,317 @@
         "padding-block-end": 80
       }
     },
-    "country-map": {
-      "type": "country-map",
-      "blocks": {
-        "stat_1": {
-          "type": "stat-item",
-          "settings": {
-            "stat_value": "9+",
-            "stat_label": "Markets & Countries"
-          }
-        },
-        "stat_2": {
-          "type": "stat-item",
-          "settings": {
-            "stat_value": "3",
-            "stat_label": "Headquarters"
-          }
-        },
-        "stat_3": {
-          "type": "stat-item",
-          "settings": {
-            "stat_value": "40+",
-            "stat_label": "Brands"
-          }
-        }
-      },
-      "block_order": [
-        "stat_1",
-        "stat_2",
-        "stat_3"
-      ],
+    "founder": {
+      "type": "about-leader-spotlight",
       "settings": {
-        "map_image": "shopify://shop_images/image-1352-mobile-708610979.png",
-        "map_image_alt": "World map showing global presence",
-        "section_width": "full-width",
-        "padding-block-start": 0,
-        "padding-block-end": 0,
+        "image": "shopify://shop_images/rectangle-15773311-mobile-708611028.png",
+        "image_position": "right",
+        "heading": "Our Founder, JR Ridinger",
+        "heading_tag": "h2",
+        "bio_text": "<p>I started this company in 1992 because I had a vision: to provide people with an opportunity to achieve their dreams and break free from the traditional 45-year plan. I believed there was a better way — a way for people to take control of their own financial futures while helping others do the same.</p><p>That belief became Market America, and what started as a bold idea has grown into a global movement powered by passionate entrepreneurs and world-class products.</p>",
+        "attribution_text": "Founder, Market America Worldwide",
+        "show_signature": true,
+        "signature_asset": "jr-signature-1-2.svg",
+        "bio_link_text": "",
+        "bio_link_url": "",
+        "image_rotation": 0,
+        "image_radius_top_left": 20,
+        "image_radius_top_right": 20,
+        "image_radius_bottom_left": 20,
+        "image_radius_bottom_right": 20,
+        "color_scheme": "scheme-1",
+        "section_width": "page-width",
+        "padding-block-start": 40,
+        "padding-block-end": 40,
         "padding-inline-start": 0,
         "padding-inline-end": 0,
         "margin-block-start": 0,
         "margin-block-end": 0
       }
+    },
+    "image-strip": {
+      "type": "about-image-strip",
+      "blocks": {
+        "img_1": {
+          "type": "strip-image",
+          "settings": {
+            "image": "shopify://shop_images/image-6-1-mobile-708611030.jpg",
+            "image_alt": "About Market America"
+          }
+        },
+        "img_2": {
+          "type": "strip-image",
+          "settings": {
+            "image": "shopify://shop_images/image-7-1-mobile-708611031.jpg",
+            "image_alt": "About Market America"
+          }
+        },
+        "img_3": {
+          "type": "strip-image",
+          "settings": {
+            "image": "shopify://shop_images/image-9-1-mobile-708611032.jpg",
+            "image_alt": "About Market America"
+          }
+        },
+        "img_4": {
+          "type": "strip-image",
+          "settings": {
+            "image": "shopify://shop_images/image-13-1-mobile-708611033.jpg",
+            "image_alt": "About Market America"
+          }
+        },
+        "img_5": {
+          "type": "strip-image",
+          "settings": {
+            "image": "shopify://shop_images/hourglass-1-mobile-708611034.jpg",
+            "image_alt": "About Market America"
+          }
+        },
+        "img_6": {
+          "type": "strip-image",
+          "settings": {
+            "image": "shopify://shop_images/jr-1-mobile-708611035.jpg",
+            "image_alt": "About Market America"
+          }
+        }
+      },
+      "block_order": [
+        "img_1",
+        "img_2",
+        "img_3",
+        "img_4",
+        "img_5",
+        "img_6"
+      ],
+      "settings": {
+        "image_height": 187,
+        "gap": 0,
+        "border_radius": 20,
+        "color_scheme": "scheme-1",
+        "section_width": "full-width",
+        "padding-block-start": 0,
+        "padding-block-end": 0,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
+      }
+    },
+    "co-founder": {
+      "type": "about-leader-spotlight",
+      "settings": {
+        "image": "shopify://shop_images/rectangle-15773316-mobile-708611049.png",
+        "image_position": "left",
+        "heading": "Loren Ridinger\nCo-Founder & CEO",
+        "heading_tag": "h2",
+        "bio_text": "<p>Legendary founder JR Ridinger passed away in 2022, following Market America's 30th anniversary celebration. Today, Co-Founder & CEO Loren Ridinger continues to lead the company with the same passion and determination that have defined its success from the very beginning.</p><p>Under her leadership, Market America continues to innovate and inspire a global community of entrepreneurs and customers.</p>",
+        "attribution_text": "",
+        "show_signature": false,
+        "signature_asset": "",
+        "bio_link_text": "View Bio →",
+        "bio_link_url": "",
+        "image_rotation": -3,
+        "image_radius_top_left": 60,
+        "image_radius_top_right": 0,
+        "image_radius_bottom_left": 104,
+        "image_radius_bottom_right": 0,
+        "color_scheme": "scheme-1",
+        "section_width": "page-width",
+        "padding-block-start": 40,
+        "padding-block-end": 40,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0,
+        "margin-block-start": 0,
+        "margin-block-end": 0
+      }
+    },
+    "leadership-team": {
+      "type": "about-leadership-team",
+      "blocks": {
+        "member_1": {
+          "type": "bio-card",
+          "settings": {
+            "image": "shopify://shop_images/rectangle-15773312-mobile-708611059.png",
+            "name": "Marc Ashley",
+            "title": "President & COO, Market America Worldwide",
+            "image_rotation": 2
+          }
+        },
+        "member_2": {
+          "type": "bio-card",
+          "settings": {
+            "image": "shopify://shop_images/rectangle-15773313-mobile-708611066.png",
+            "name": "Steve Ashley",
+            "title": "President & COO, SHOP.COM",
+            "image_rotation": -2
+          }
+        },
+        "member_3": {
+          "type": "bio-card",
+          "settings": {
+            "image": "shopify://shop_images/rectangle-15773312-mobile-708611073.png",
+            "name": "Joe Bolyard",
+            "title": "Executive Vice President",
+            "image_rotation": 2
+          }
+        },
+        "member_4": {
+          "type": "bio-card",
+          "settings": {
+            "image": "shopify://shop_images/rectangle-15773313-mobile-708611079.png",
+            "name": "Amber Ridinger McLaughlin",
+            "title": "Vice President",
+            "image_rotation": -2
+          }
+        },
+        "member_5": {
+          "type": "bio-card",
+          "settings": {
+            "image": "shopify://shop_images/rectangle-15773312-desktop-708610462.png",
+            "name": "Christian Vazquez",
+            "title": "Vice President",
+            "image_rotation": 2
+          }
+        },
+        "member_6": {
+          "type": "bio-card",
+          "settings": {
+            "image": "shopify://shop_images/rectangle-15773313-mobile-708611118.png",
+            "name": "Eugene Wallace",
+            "title": "Chief Technology Officer",
+            "image_rotation": -2
+          }
+        },
+        "member_7": {
+          "type": "bio-card",
+          "settings": {
+            "image": "shopify://shop_images/rectangle-15773312-mobile-708611125.png",
+            "name": "Andrew Weissman",
+            "title": "Vice President",
+            "image_rotation": 2
+          }
+        },
+        "member_8": {
+          "type": "bio-card",
+          "settings": {
+            "image": "shopify://shop_images/rectangle-15773313-mobile-708611131.png",
+            "name": "Marty Weissman",
+            "title": "Executive Vice President",
+            "image_rotation": -2
+          }
+        },
+        "member_9": {
+          "type": "bio-card",
+          "settings": {
+            "image": "shopify://shop_images/rectangle-15773313-desktop-708610487.png",
+            "name": "Steve Bosson",
+            "title": "Chief Growth Officer",
+            "image_rotation": -2
+          }
+        },
+        "member_10": {
+          "type": "bio-card",
+          "settings": {
+            "image": "shopify://shop_images/rectangle-15773313-mobile-708611092.png",
+            "name": "Michael Brady",
+            "title": "Chief Information Officer",
+            "image_rotation": 2
+          }
+        },
+        "member_11": {
+          "type": "bio-card",
+          "settings": {
+            "image": "shopify://shop_images/rectangle-15773312-mobile-708611099.png",
+            "name": "Kevin Buckman",
+            "title": "Executive Vice President",
+            "image_rotation": -2
+          }
+        },
+        "member_12": {
+          "type": "bio-card",
+          "settings": {
+            "image": "shopify://shop_images/rectangle-15773313-mobile-708611105.png",
+            "name": "Brandi Quinn",
+            "title": "Vice President",
+            "image_rotation": 2
+          }
+        }
+      },
+      "block_order": [
+        "member_1",
+        "member_2",
+        "member_3",
+        "member_4",
+        "member_5",
+        "member_6",
+        "member_7",
+        "member_8",
+        "member_9",
+        "member_10",
+        "member_11",
+        "member_12"
+      ],
+      "settings": {
+        "heading": "Executive & Leadership Team",
+        "heading_tag": "h2",
+        "columns_desktop": 4,
+        "columns_mobile": 2,
+        "gap": 32,
+        "card_image_radius": 104,
+        "color_scheme": "scheme-1",
+        "section_width": "page-width",
+        "padding-block-start": 60,
+        "padding-block-end": 40,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
+      }
+    },
+    "leadership-cta": {
+      "type": "about-leadership-cta",
+      "settings": {
+        "heading": "Connect with Our Leadership",
+        "heading_tag": "h2",
+        "button_text": "Contact Us",
+        "background_image": "shopify://shop_images/unsplash-fn27dli8bz8-mobile-708611137.jpg",
+        "background_color": "#E5F0F5",
+        "gradient_opacity": 50,
+        "container_border_radius": 20,
+        "color_scheme": "scheme-1",
+        "section_width": "page-width",
+        "padding-block-start": 0,
+        "padding-block-end": 0,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
+      }
+    },
+    "bottom-text": {
+      "type": "about-bottom-text",
+      "settings": {
+        "heading": "Built on Product Powered by People",
+        "heading_tag": "h2",
+        "text_color": "#56AFD9",
+        "font_size_desktop": 62,
+        "font_size_mobile": 28,
+        "font_weight": "300",
+        "letter_spacing": 1,
+        "color_scheme": "scheme-1",
+        "section_width": "page-width",
+        "padding-block-start": 60,
+        "padding-block-end": 60,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
+      }
     }
   },
   "order": [
     "about-hero",
+    "about-description",
+    "about-timeline",
+    "country-map",
     "main",
-    "country-map"
+    "founder",
+    "image-strip",
+    "co-founder",
+    "leadership-team",
+    "leadership-cta",
+    "bottom-text"
   ]
 }

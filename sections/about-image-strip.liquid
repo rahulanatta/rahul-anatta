@@ -1,0 +1,223 @@
+{% liquid
+  assign section_width = section.settings.section_width
+  assign color_scheme = section.settings.color_scheme
+  assign image_height = section.settings.image_height
+  assign gap = section.settings.gap
+  assign border_radius = section.settings.border_radius
+%}
+
+<div
+  class="section section--{{ section_width }} color-{{ color_scheme }} spacing-style about-image-strip"
+  style="
+    {%- render 'spacing-style', settings: section.settings -%}
+    --ais-height: {{ image_height }}px;
+    --ais-gap: {{ gap }}px;
+    --ais-radius: {{ border_radius }}px;
+  "
+>
+  <div class="about-image-strip__track">
+    {% for block in section.blocks %}
+      <div class="about-image-strip__item" {{ block.shopify_attributes }}>
+        {% if block.settings.image != blank %}
+          {{
+            block.settings.image
+            | image_url: width: block.settings.image.width
+            | image_tag:
+              sizes: '(min-width: 750px) 250px, 180px',
+              widths: '180,250,375,500',
+              loading: 'lazy',
+              class: 'about-image-strip__image',
+              alt: block.settings.image_alt
+          }}
+        {% else %}
+          <div class="about-image-strip__placeholder">
+            {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+          </div>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .about-image-strip__track {
+    display: flex;
+    gap: var(--ais-gap, 0px);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .about-image-strip__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .about-image-strip__item {
+    flex-shrink: 0;
+  }
+
+  .about-image-strip__image {
+    display: block;
+    height: var(--ais-height, 187px);
+    width: auto;
+    border-radius: var(--ais-radius, 20px);
+    object-fit: cover;
+  }
+
+  .about-image-strip__placeholder {
+    height: var(--ais-height, 187px);
+    width: 200px;
+    border-radius: var(--ais-radius, 20px);
+    background-color: #f0f0f0;
+  }
+
+  .about-image-strip__placeholder .placeholder-svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  @media screen and (max-width: 749px) {
+    .about-image-strip__image {
+      height: calc(var(--ais-height, 187px) * 0.65);
+    }
+
+    .about-image-strip__placeholder {
+      height: calc(var(--ais-height, 187px) * 0.65);
+      width: 140px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Image strip",
+  "tag": "section",
+  "class": "about-image-strip-wrapper section-wrapper",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "number",
+      "id": "image_height",
+      "label": "Image height (px)",
+      "default": 187
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Gap between images",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Image border radius",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ],
+      "default": "full-width"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Padding top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Padding left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Padding right",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "strip-image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Image alt text"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Image strip"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,461 @@
+{% liquid
+  assign section_width = section.settings.section_width
+  assign color_scheme = section.settings.color_scheme
+  assign image_position = section.settings.image_position
+  assign rotation = section.settings.image_rotation
+  assign radius_tl = section.settings.image_radius_top_left
+  assign radius_tr = section.settings.image_radius_top_right
+  assign radius_bl = section.settings.image_radius_bottom_left
+  assign radius_br = section.settings.image_radius_bottom_right
+%}
+
+<div
+  class="section section--{{ section_width }} color-{{ color_scheme }} spacing-style about-leader-spotlight{% if image_position == 'left' %} about-leader-spotlight--image-left{% endif %}"
+  style="
+    {%- render 'spacing-style', settings: section.settings -%}
+    --als-rotation: {{ rotation }}deg;
+    --als-radius-tl: {{ radius_tl }}px;
+    --als-radius-tr: {{ radius_tr }}px;
+    --als-radius-bl: {{ radius_bl }}px;
+    --als-radius-br: {{ radius_br }}px;
+    --als-margin-top: {{ section.settings.margin-block-start }}px;
+    --als-margin-bottom: {{ section.settings.margin-block-end }}px;
+  "
+>
+  <div class="about-leader-spotlight__grid">
+    <div class="about-leader-spotlight__image-col">
+      {% if section.settings.image != blank %}
+        <div class="about-leader-spotlight__image-wrapper">
+          {{
+            section.settings.image
+            | image_url: width: section.settings.image.width
+            | image_tag:
+              sizes: '(min-width: 750px) 45vw, 100vw',
+              widths: '375,550,750,1000,1200',
+              loading: 'lazy',
+              class: 'about-leader-spotlight__image',
+              alt: section.settings.image.alt
+          }}
+        </div>
+      {% else %}
+        <div class="about-leader-spotlight__placeholder">
+          {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="about-leader-spotlight__text-col">
+      {% if section.settings.heading != blank %}
+        <{{ section.settings.heading_tag }} class="about-leader-spotlight__heading">
+          {{- section.settings.heading | escape | newline_to_br -}}
+        </{{ section.settings.heading_tag }}>
+      {% endif %}
+
+      {% if section.settings.bio_text != blank %}
+        <div class="about-leader-spotlight__bio">{{ section.settings.bio_text }}</div>
+      {% endif %}
+
+      {% if section.settings.attribution_text != blank %}
+        <p class="about-leader-spotlight__attribution">{{ section.settings.attribution_text | escape }}</p>
+      {% endif %}
+
+      {% if section.settings.show_signature and section.settings.signature_asset != blank %}
+        <div class="about-leader-spotlight__signature">
+          <img
+            src="{{ section.settings.signature_asset | asset_url }}"
+            alt="Signature"
+            class="about-leader-spotlight__signature-img"
+            loading="lazy"
+            width="256"
+            height="69"
+          >
+        </div>
+      {% endif %}
+
+      {% if section.settings.bio_link_text != blank and section.settings.bio_link_url != blank %}
+        <a href="{{ section.settings.bio_link_url }}" class="about-leader-spotlight__bio-link">
+          {{ section.settings.bio_link_text | escape }}
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .about-leader-spotlight {
+    margin-top: var(--als-margin-top, 0px);
+    margin-bottom: var(--als-margin-bottom, 0px);
+  }
+
+  .about-leader-spotlight__grid {
+    display: grid;
+    grid-template-columns: 45% 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+
+  .about-leader-spotlight--image-left .about-leader-spotlight__grid {
+    grid-template-columns: 45% 1fr;
+  }
+
+  .about-leader-spotlight:not(.about-leader-spotlight--image-left) .about-leader-spotlight__image-col {
+    order: 2;
+  }
+
+  .about-leader-spotlight:not(.about-leader-spotlight--image-left) .about-leader-spotlight__text-col {
+    order: 1;
+  }
+
+  .about-leader-spotlight__image-wrapper {
+    overflow: hidden;
+    border-radius: var(--als-radius-tl) var(--als-radius-tr) var(--als-radius-br) var(--als-radius-bl);
+    transform: rotate(var(--als-rotation, 0deg));
+  }
+
+  .about-leader-spotlight__image {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+
+  .about-leader-spotlight__placeholder {
+    width: 100%;
+    aspect-ratio: 606 / 809;
+    background-color: #f0f0f0;
+    border-radius: var(--als-radius-tl) var(--als-radius-tr) var(--als-radius-br) var(--als-radius-bl);
+    transform: rotate(var(--als-rotation, 0deg));
+  }
+
+  .about-leader-spotlight__placeholder .placeholder-svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .about-leader-spotlight__text-col {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .about-leader-spotlight__heading {
+    font-family: var(--font-heading--family);
+    font-size: 40px;
+    font-weight: 400;
+    line-height: 54px;
+    color: #141414;
+    margin: 0 0 16px;
+  }
+
+  .about-leader-spotlight__bio {
+    font-family: var(--font-body--family);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 26px;
+    letter-spacing: -0.44px;
+    color: #525252;
+  }
+
+  .about-leader-spotlight__bio p {
+    margin: 0;
+  }
+
+  .about-leader-spotlight__attribution {
+    font-family: var(--font-body--family);
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 29px;
+    letter-spacing: -0.44px;
+    color: #525252;
+    margin: 16px 0 0;
+  }
+
+  .about-leader-spotlight__signature {
+    margin-top: 16px;
+  }
+
+  .about-leader-spotlight__signature-img {
+    display: block;
+    max-width: 256px;
+    height: auto;
+  }
+
+  .about-leader-spotlight__bio-link {
+    font-family: var(--font-body--family);
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 27px;
+    color: #000000;
+    text-decoration: none;
+    margin-top: 8px;
+  }
+
+  .about-leader-spotlight__bio-link:hover {
+    text-decoration: underline;
+  }
+
+  .about-leader-spotlight__bio-link:focus-visible {
+    outline: 2px solid #171717;
+    outline-offset: 2px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .about-leader-spotlight__grid {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .about-leader-spotlight:not(.about-leader-spotlight--image-left) .about-leader-spotlight__image-col {
+      order: 1;
+    }
+
+    .about-leader-spotlight:not(.about-leader-spotlight--image-left) .about-leader-spotlight__text-col {
+      order: 2;
+    }
+
+    .about-leader-spotlight__heading {
+      font-size: 28px;
+      line-height: 36px;
+    }
+
+    .about-leader-spotlight__bio {
+      font-size: 15px;
+      line-height: 24px;
+    }
+
+    .about-leader-spotlight__attribution {
+      font-size: 15px;
+      line-height: 24px;
+    }
+
+    .about-leader-spotlight__signature-img {
+      max-width: 180px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .about-leader-spotlight__image-wrapper {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Leader spotlight",
+  "tag": "section",
+  "class": "about-leader-spotlight-wrapper section-wrapper",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Portrait image"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Our Founder, JR Ridinger"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading tag",
+      "options": [
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "richtext",
+      "id": "bio_text",
+      "label": "Bio text"
+    },
+    {
+      "type": "text",
+      "id": "attribution_text",
+      "label": "Attribution text"
+    },
+    {
+      "type": "header",
+      "content": "Signature"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_signature",
+      "label": "Show signature",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "signature_asset",
+      "label": "Signature filename",
+      "info": "Filename in assets/ folder (e.g. jr-signature-1-2.svg)"
+    },
+    {
+      "type": "header",
+      "content": "Bio link"
+    },
+    {
+      "type": "text",
+      "id": "bio_link_text",
+      "label": "Link text"
+    },
+    {
+      "type": "url",
+      "id": "bio_link_url",
+      "label": "Link URL"
+    },
+    {
+      "type": "header",
+      "content": "Image styling"
+    },
+    {
+      "type": "number",
+      "id": "image_rotation",
+      "label": "Image rotation (deg)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "image_radius_top_left",
+      "label": "Radius top-left",
+      "default": 20
+    },
+    {
+      "type": "number",
+      "id": "image_radius_top_right",
+      "label": "Radius top-right",
+      "default": 20
+    },
+    {
+      "type": "number",
+      "id": "image_radius_bottom_left",
+      "label": "Radius bottom-left",
+      "default": 20
+    },
+    {
+      "type": "number",
+      "id": "image_radius_bottom_right",
+      "label": "Radius bottom-right",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Padding top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Padding left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Padding right",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Margin"
+    },
+    {
+      "type": "range",
+      "id": "margin-block-start",
+      "label": "Margin top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin-block-end",
+      "label": "Margin bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Leader spotlight"
+    }
+  ]
+}
+{% endschema %}
