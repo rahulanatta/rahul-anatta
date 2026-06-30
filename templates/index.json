@@ -1376,6 +1376,24 @@
         "border_radius": 20,
         "section_width": "page-width"
       }
+    },
+    "beauty_carousel": {
+      "type": "beauty-carousel",
+      "settings": {
+        "image": "shopify://shop_images/frame-2147257907-desktop-677214473.jpg",
+        "mobile_image": "shopify://shop_images/frame-2147257907-mobile-63427163.jpg",
+        "max_products": 10,
+        "container_border_radius": 13,
+        "card_border_radius": 13,
+        "card_gap": 20,
+        "card_padding": 16,
+        "section_width": "page-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 0,
+        "padding-block-end": 0,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
+      }
     }
   },
   "order": [
@@ -1383,6 +1401,7 @@
     "hero_jVaWmY",
     "categories_carousel",
     "ticker_CcLaXA",
+    "beauty_carousel",
     "product_list_fa6P9H",
     "best_sellers_xK7mN2",
     "image_text_cta_EGXpPJ",
