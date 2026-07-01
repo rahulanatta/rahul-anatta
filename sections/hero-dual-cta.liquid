@@ -1,0 +1,371 @@
+{% liquid
+  assign heading_tag = section.settings.heading_tag
+  assign overlay_opacity = section.settings.overlay_opacity | times: 1.0 | divided_by: 100.0
+%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div
+  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }} spacing-style hero-dual-cta"
+  style="
+    {%- render 'spacing-style', settings: section.settings -%}
+    --hdc-overlay-opacity: {{ overlay_opacity }};
+    --hdc-button-radius: {{ section.settings.button_border_radius }}px;
+  "
+>
+  <div class="hdc__grid">
+    {%- comment -%} Panel 1 {%- endcomment -%}
+    <div class="hdc__panel">
+      <div class="hdc__media">
+        {% if section.settings.panel_1_image != blank %}
+          {%- assign sizes_val = '(min-width: 1025px) 50vw, 100vw' -%}
+          {{
+            section.settings.panel_1_image
+            | image_url: width: section.settings.panel_1_image.width
+            | image_tag:
+              sizes: sizes_val,
+              widths: '375,550,750,1100,1500,1780,2000',
+              loading: 'lazy',
+              class: 'hdc__image',
+              alt: section.settings.panel_1_image.alt
+          }}
+        {% else %}
+          {{ 'image' | placeholder_svg_tag: 'hdc__placeholder' }}
+        {% endif %}
+      </div>
+
+      <div class="hdc__content">
+        {% if section.settings.panel_1_heading != blank %}
+          <{{ heading_tag }} class="hdc__heading">
+            {{- section.settings.panel_1_heading | escape -}}
+          </{{ heading_tag }}>
+        {% endif %}
+
+        {% if section.settings.panel_1_button_text != blank %}
+          <a
+            {% if section.settings.panel_1_button_link != blank %}
+              href="{{ section.settings.panel_1_button_link }}"
+            {% else %}
+              role="link"
+              aria-disabled="true"
+            {% endif %}
+            class="hdc__button"
+          >
+            {{- section.settings.panel_1_button_text | escape -}}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+
+    {%- comment -%} Panel 2 {%- endcomment -%}
+    <div class="hdc__panel">
+      <div class="hdc__media">
+        {% if section.settings.panel_2_image != blank %}
+          {%- assign sizes_val = '(min-width: 1025px) 50vw, 100vw' -%}
+          {{
+            section.settings.panel_2_image
+            | image_url: width: section.settings.panel_2_image.width
+            | image_tag:
+              sizes: sizes_val,
+              widths: '375,550,750,1100,1500,1780,2000',
+              loading: 'lazy',
+              class: 'hdc__image',
+              alt: section.settings.panel_2_image.alt
+          }}
+        {% else %}
+          {{ 'image' | placeholder_svg_tag: 'hdc__placeholder' }}
+        {% endif %}
+      </div>
+
+      <div class="hdc__content">
+        {% if section.settings.panel_2_heading != blank %}
+          <{{ heading_tag }} class="hdc__heading">
+            {{- section.settings.panel_2_heading | escape -}}
+          </{{ heading_tag }}>
+        {% endif %}
+
+        {% if section.settings.panel_2_button_text != blank %}
+          <a
+            {% if section.settings.panel_2_button_link != blank %}
+              href="{{ section.settings.panel_2_button_link }}"
+            {% else %}
+              role="link"
+              aria-disabled="true"
+            {% endif %}
+            class="hdc__button"
+          >
+            {{- section.settings.panel_2_button_text | escape -}}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .hdc__grid {
+    display: flex;
+    flex-direction: row;
+    gap: 0;
+  }
+
+  .hdc__panel {
+    flex: 1 1 0;
+    min-width: 0;
+    position: relative;
+    aspect-ratio: 864 / 457;
+    overflow: hidden;
+  }
+
+  .hdc__panel::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, var(--hdc-overlay-opacity, 0.3));
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .hdc__media {
+    position: absolute;
+    inset: 0;
+  }
+
+  .hdc__image,
+  .hdc__placeholder {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hdc__content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 24px;
+    padding: 24px;
+    text-align: center;
+  }
+
+  .hdc__heading {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-size: 40px;
+    line-height: 48px;
+    font-weight: 500;
+    font-style: italic;
+    letter-spacing: -0.8px;
+    color: #FFFFFF;
+  }
+
+  .hdc__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #FFFFFF;
+    color: #000000;
+    border: none;
+    border-radius: var(--hdc-button-radius, 10px);
+    padding: 8.5px 40px 9.5px;
+    font-family: var(--font-body--family);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 30px;
+    text-decoration: none;
+    transition: opacity var(--animation-speed-slow, 0.2s) ease;
+    cursor: pointer;
+  }
+
+  .hdc__button:hover {
+    opacity: 0.85;
+  }
+
+  @media screen and (max-width: 1024px) {
+    .hdc__grid {
+      flex-direction: column;
+    }
+
+    .hdc__panel {
+      aspect-ratio: 391 / 210;
+    }
+
+    .hdc__heading {
+      font-size: 25px;
+      line-height: 33px;
+    }
+
+    .hdc__content {
+      gap: 16px;
+      padding: 16px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Hero dual CTA",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Panel 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "panel_1_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "panel_1_heading",
+      "label": "Heading",
+      "default": "No more guessing your shade. Try Our Custom Blend Foundation"
+    },
+    {
+      "type": "text",
+      "id": "panel_1_button_text",
+      "label": "Button text",
+      "default": "Learn More"
+    },
+    {
+      "type": "url",
+      "id": "panel_1_button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Panel 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "panel_2_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "panel_2_heading",
+      "label": "Heading",
+      "default": "Not sure what they want? Let us take care of it!"
+    },
+    {
+      "type": "text",
+      "id": "panel_2_button_text",
+      "label": "Button text",
+      "default": "Shop Motives® Gift Card"
+    },
+    {
+      "type": "url",
+      "id": "panel_2_button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading tag",
+      "options": [
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "h5", "label": "H5" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 30
+    },
+    {
+      "type": "number",
+      "id": "button_border_radius",
+      "label": "Button border radius",
+      "default": 10
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "full-width", "label": "Full width" }
+      ],
+      "default": "full-width"
+    },
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Left padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Right padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero dual CTA"
+    }
+  ]
+}
+{% endschema %}

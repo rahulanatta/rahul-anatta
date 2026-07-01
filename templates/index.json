@@ -1394,6 +1394,21 @@
         "padding-inline-start": 0,
         "padding-inline-end": 0
       }
+    },
+    "hero_dual_cta": {
+      "type": "hero-dual-cta",
+      "settings": {
+        "panel_1_image": "shopify://shop_images/container-desktop-I466130166172972.jpg",
+        "panel_1_heading": "No more guessing your shade. Try Our Custom Blend Foundation",
+        "panel_1_button_text": "Learn More",
+        "panel_2_image": "shopify://shop_images/container-mobile-I4661325493339250.jpg",
+        "panel_2_heading": "Not sure what they want? Let us take care of it!",
+        "panel_2_button_text": "Shop Motives® Gift Card",
+        "overlay_opacity": 30,
+        "section_width": "full-width",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
     }
   },
   "order": [
@@ -1416,6 +1431,7 @@
     "images_curated_reviews_8WW9wb",
     "two_panel_media",
     "pcp_faq_with_image_aCMFrH",
-    "dual_brand_bar"
+    "dual_brand_bar",
+    "hero_dual_cta"
   ]
 }
