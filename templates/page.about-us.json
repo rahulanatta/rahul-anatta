@@ -98,6 +98,7 @@
           "type": "timeline-entry",
           "settings": {
             "year": "1993",
+            "image": "shopify://shop_images/rectangle-15773310-mobile-708610935.png",
             "heading": "Early Growth",
             "description": "<p>Market America begins expanding its product lines and growing the UnFranchise Business model.</p>"
           }
@@ -106,6 +107,7 @@
           "type": "timeline-entry",
           "settings": {
             "year": "2005",
+            "image": "shopify://shop_images/rectangle-15773310-mobile-708610935.png",
             "heading": "Digital Evolution",
             "description": "<p>Launching SHOP.COM to create a revolutionary online shopping experience for customers worldwide.</p>"
           }
@@ -114,6 +116,7 @@
           "type": "timeline-entry",
           "settings": {
             "year": "2008",
+            "image": "shopify://shop_images/rectangle-15773310-mobile-708610935.png",
             "heading": "Global Expansion",
             "description": "<p>Expanding into new international markets and strengthening the global entrepreneur network.</p>"
           }
@@ -122,6 +125,7 @@
           "type": "timeline-entry",
           "settings": {
             "year": "2010",
+            "image": "shopify://shop_images/rectangle-15773310-mobile-708610935.png",
             "heading": "Innovation Era",
             "description": "<p>Introducing new product brands and advancing proprietary technology platforms.</p>"
           }
@@ -130,6 +134,7 @@
           "type": "timeline-entry",
           "settings": {
             "year": "2026",
+            "image": "shopify://shop_images/rectangle-15773310-mobile-708610935.png",
             "heading": "The Future",
             "description": "<p>Continuing to innovate and empower entrepreneurs around the world with cutting-edge products and technology.</p>"
           }
